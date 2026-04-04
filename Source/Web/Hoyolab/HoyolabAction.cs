@@ -2,6 +2,6 @@
 {
     public static class HoyolabAction
     {
-        public const string Sign = "e202304121516551";
+        public const string StarRailSign = "e202304121516551";
     }
 }

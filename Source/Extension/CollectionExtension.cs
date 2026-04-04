@@ -6,21 +6,21 @@ namespace StarRailDamage.Source.Extension
     public static class CollectionExtension
     {
         [DebuggerStepThrough]
-        public static T? Index<T>(this T[]? value, int index)
+        public static T? Index<T>(this T[] value, int index)
         {
             return value.IndexTry(index, out T? Result).Captured(Result);
         }
 
         [DebuggerStepThrough]
-        public static T? Index<T>(this IList<T>? value, int index)
+        public static T? Index<T>(this IList<T> value, int index)
         {
             return value.IndexTry(index, out T? Result).Captured(Result);
         }
 
         [DebuggerStepThrough]
-        public static bool IndexTry<T>(this T[]? value, int index, [NotNullWhen(true)] out T? result)
+        public static bool IndexTry<T>(this T[] value, int index, [NotNullWhen(true)] out T? result)
         {
-            if (value.IsNotNull() && index >= 0 && index < value.Length)
+            if (index >= 0 && index < value.Length)
             {
                 return true.Configure(result = value[index]);
             }
@@ -28,9 +28,9 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool IndexTry<T>(this IList<T>? value, int index, [NotNullWhen(true)] out T? result)
+        public static bool IndexTry<T>(this IList<T> value, int index, [NotNullWhen(true)] out T? result)
         {
-            if (value.IsNotNull() && index >= 0 && index < value.Count)
+            if (index >= 0 && index < value.Count)
             {
                 return true.Configure(result = value[index]);
             }
@@ -65,6 +65,18 @@ namespace StarRailDamage.Source.Extension
         public static int AllLength<T>(this IEnumerable<IEnumerable<T>> value)
         {
             return value.Sum(Arr => Arr.Count());
+        }
+
+        [DebuggerStepThrough]
+        public static int AutoIndex(int index, int sourceLength)
+        {
+            return Math.Max(0, Math.Min(index, sourceLength - 1));
+        }
+
+        [DebuggerStepThrough]
+        public static int AutoCount(int index, int count, int sourceLength)
+        {
+            return Math.Max(0, Math.Min(sourceLength - index, count));
         }
 
         [DebuggerStepThrough]

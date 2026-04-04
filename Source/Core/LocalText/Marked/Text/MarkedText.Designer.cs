@@ -61,11 +61,281 @@ namespace StarRailDamage.Source.Core.LocalText.Marked.Text {
         }
         
         /// <summary>
+        ///   查找类似 [{0}] 帖子点赞：{1} 的本地化字符串。
+        /// </summary>
+        public static string HoyolabForumPostUpvote {
+            get {
+                return ResourceManager.GetString("HoyolabForumPostUpvote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 社区签到：已签到 的本地化字符串。
+        /// </summary>
+        public static string HoyolabForumSign {
+            get {
+                return ResourceManager.GetString("HoyolabForumSign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 社区签到{0}{0}&lt;社区ID&gt;?{0}社区的 GID{0}1 - 崩坏3{0}2 - 原神{0}3 - 崩坏2{0}4 - 未定事件簿{0}5 - 大别墅{0}6 - 崩坏：星穹铁道{0}8 - 绝区零{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号 的本地化字符串。
+        /// </summary>
+        public static string HoyolabForumSignCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabForumSignCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 社区签到失败：请前往米游社完成人机验证 的本地化字符串。
+        /// </summary>
+        public static string HoyolabForumSignWrong1034 {
+            get {
+                return ResourceManager.GetString("HoyolabForumSignWrong1034", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 开拓力 {0} / {1} ( 回满 {2} 小时 {3} 分钟 ) 的本地化字符串。
         /// </summary>
         public static string HoyolabGameNoteStamina {
             get {
                 return ResourceManager.GetString("HoyolabGameNoteStamina", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 开拓力笔记{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号 的本地化字符串。
+        /// </summary>
+        public static string HoyolabGameNoteStaminaCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabGameNoteStaminaCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 签到福利 : 已签到 的本地化字符串。
+        /// </summary>
+        public static string HoyolabGameSign {
+            get {
+                return ResourceManager.GetString("HoyolabGameSign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 福利签到{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号 的本地化字符串。
+        /// </summary>
+        public static string HoyolabGameSignCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabGameSignCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [{0}] {1} × {2} 的本地化字符串。
+        /// </summary>
+        public static string HoyolabGameSignReward {
+            get {
+                return ResourceManager.GetString("HoyolabGameSignReward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 签到奖励{0}{0}&lt;起始天数&gt;?{0}显示本月指定天起始的奖励{0}{0}&lt;天数&gt;?{0}显示的天数，默认值 1 的本地化字符串。
+        /// </summary>
+        public static string HoyolabGameSignRewardCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabGameSignRewardCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到特定 AID 的账号：{0} 的本地化字符串。
+        /// </summary>
+        public static string HoyolabNotFindToken {
+            get {
+                return ResourceManager.GetString("HoyolabNotFindToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到特定的游戏账号：{0} 的本地化字符串。
+        /// </summary>
+        public static string HoyolabNotFindUserRole {
+            get {
+                return ResourceManager.GetString("HoyolabNotFindUserRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 浏览帖子作者{0}{0}&lt;帖子ID&gt;{0}帖子对应的ID{0}{0}&lt;登录&gt;?{0}是否登录账号来浏览 [ True / False ] ，默认值 False{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号 的本地化字符串。
+        /// </summary>
+        public static string HoyolabPostDetailCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabPostDetailCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最近帖子列表{0}{0}&lt;数量&gt;{0}需要的帖子数量{0}{0}&lt;分区ID&gt;{0}帖子所在分区的ID{0}{0}&lt;排序&gt;?{0}帖子排序类别 [ 1 - 回复时间，2 - 发布时间 ]，默认值 0 的本地化字符串。
+        /// </summary>
+        public static string HoyolabPostNewsCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabPostNewsCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帖子分享{0}{0}&lt;帖子ID&gt;{0}帖子对应的ID{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID 的本地化字符串。
+        /// </summary>
+        public static string HoyolabPostShareCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabPostShareCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帖子点赞{0}{0}&lt;帖子ID&gt;{0}帖子对应的ID{0}{0}&lt;取消点赞&gt;?{0}是否取消对帖子的点赞 [ True / False ] ，默认值 False{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号 的本地化字符串。
+        /// </summary>
+        public static string HoyolabPostUpvoteCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabPostUpvoteCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 米游币任务{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号 的本地化字符串。
+        /// </summary>
+        public static string HoyolabUserMissionPerformCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabUserMissionPerformCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 米游币：{1}{0}今日奖励：{2}{0}打卡：{3} / 1{0}浏览：{4} / 3{0}点赞：{5} / 5{0}分享：{6} / 1 的本地化字符串。
+        /// </summary>
+        public static string HoyolabUserMissionState {
+            get {
+                return ResourceManager.GetString("HoyolabUserMissionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 米游币任务状态{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号 的本地化字符串。
+        /// </summary>
+        public static string HoyolabUserMissionStateCommandHelp {
+            get {
+                return ResourceManager.GetString("HoyolabUserMissionStateCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 关闭控制台 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandCloseHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandCloseHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启动控制台 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandEnableHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandEnableHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退出控制台 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandExitedHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandExitedHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清空控制台 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandFlushHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandFlushHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 命令帮助{0}{0}&lt;命令名称&gt;?{0}显示指定命令的参数信息 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 执行命令文本{0}{0}&lt;命令文本&gt;{0}{0}将要执行命令的文本 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandParseHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandParseHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 按任意键继续...... 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandPause {
+            get {
+                return ResourceManager.GetString("TerminalCommandPause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待输入 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandPauseHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandPauseHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打印控制台文本{0}{0}&lt;文本&gt;?{0}将要打印到控制台的文本 的本地化字符串。
+        /// </summary>
+        public static string TerminalCommandPrintHelp {
+            get {
+                return ResourceManager.GetString("TerminalCommandPrintHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无效的命令参数：{0} 的本地化字符串。
+        /// </summary>
+        public static string TerminalInvalidParameter {
+            get {
+                return ResourceManager.GetString("TerminalInvalidParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 命令缺少参数，使用 &quot;Help &lt;命令名称&gt;&quot; 查看详情 的本地化字符串。
+        /// </summary>
+        public static string TerminalMissingParameter {
+            get {
+                return ResourceManager.GetString("TerminalMissingParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未知的命令：{0} 的本地化字符串。
+        /// </summary>
+        public static string TerminalUnknownCommand {
+            get {
+                return ResourceManager.GetString("TerminalUnknownCommand", resourceCulture);
             }
         }
     }

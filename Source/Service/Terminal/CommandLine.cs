@@ -6,7 +6,7 @@ namespace StarRailDamage.Source.Service.Terminal
     {
         public string Name { get; set; } = string.Empty;
 
-        public List<string> Expand { get; set; } = [];
+        public string[] Expand { get; set; } = [];
 
         public CommandLine() { }
 
@@ -15,7 +15,12 @@ namespace StarRailDamage.Source.Service.Terminal
             Name = name;
         }
 
-        public CommandLine(string name, List<string> arguments) : this(name)
+        public CommandLine(string[] arguments)
+        {
+            Expand = arguments;
+        }
+
+        public CommandLine(string name, string[] arguments) : this(name)
         {
             Expand = arguments;
         }

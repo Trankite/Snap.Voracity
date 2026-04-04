@@ -27,25 +27,30 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public static IEnumerable<CommandLine> AllParse(string line)
         {
-            return AllParse([.. TerminalCommandLineRegex().Matches(line).Select(Matche => Matche.Value)]);
+            return AllParse([.. TerminalCommandLineRegex().Matches(line).Select(Matche => Matche.Value.Replace("^\"", "\""))]);
         }
 
         public static IEnumerable<CommandLine> AllParse(string[] arguments)
         {
             for (int i = 0; i < arguments.Length; i++)
             {
-                yield return NextCommandLine(arguments, ref i, i != 0);
+                yield return NextCommandLine(arguments, ref i);
             }
         }
 
-        private static CommandLine NextCommandLine(string[] arguments, ref int index, bool trim)
+        private static CommandLine NextCommandLine(string[] arguments, ref int index)
         {
-            string CommandName = arguments[index];
-            CommandLine CommandLine = new(trim && CommandName.StartsWith('-') ? CommandName[1..] : CommandName);
-            while (++index < arguments.Length && !arguments[index].StartsWith('-'))
+            List<string> Parameter = [];
+            CommandLine CommandLine = new(arguments[index]);
+            while (++index < arguments.Length)
             {
-                CommandLine.Expand.Add(arguments[index]);
+                if (arguments[index] == "&")
+                {
+                    return CommandLine;
+                }
+                Parameter.Add(arguments[index]);
             }
+            CommandLine.Expand = [.. Parameter];
             return CommandLine.Configure(index--);
         }
 
@@ -57,7 +62,7 @@ namespace StarRailDamage.Source.Service.Terminal
                 {
                     Invoke(AllParse(Console.ReadLine() ?? string.Empty));
                 }
-                return Interlocked.Exchange(ref _MonitorMode, false);
+                return CloseMonitor();
             }
             return false;
         }
@@ -67,19 +72,27 @@ namespace StarRailDamage.Source.Service.Terminal
             return Interlocked.Exchange(ref _MonitorMode, false);
         }
 
+        public static void Invoke(string line) => Invoke(AllParse(line));
+
+        public static void Invoke(string[] arguments) => Invoke(AllParse(arguments));
+
         public static void Invoke(params IEnumerable<ITerminalCommandLine> commandLines)
         {
             foreach (ITerminalCommandLine CommandLine in commandLines)
             {
-                ITerminalResponse Response = CommandLine.Invoke();
-                if (ConsoleMode)
-                {
-                    Console.WriteLine(Response.Message);
-                }
+                WriteLine(CommandLine.Invoke());
             }
         }
 
-        [GeneratedRegex(@"(?<!\\)""(?:(\\""|[^""])*)""|[^ ]+")]
+        public static void WriteLine(ITerminalResponse response)
+        {
+            if (ConsoleMode && !string.IsNullOrEmpty(response.Message))
+            {
+                Console.WriteLine(response.Message);
+            }
+        }
+
+        [GeneratedRegex(@"(?<!\^)""(?:(\^""|[^""])*)""|[^ ]+")]
         private static partial Regex TerminalCommandLineRegex();
     }
 }

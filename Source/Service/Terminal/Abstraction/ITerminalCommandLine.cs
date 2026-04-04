@@ -4,6 +4,6 @@
     {
         string Name { get; set; }
 
-        List<string> Expand { get; set; }
+        string[] Expand { get; set; }
     }
 }

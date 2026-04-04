@@ -120,4 +120,94 @@
   <data name="HoyolabGameNoteStamina" xml:space="preserve">
     <value>Stamina {0} / {1} ( Wait {2} Hours {3} Minutes )</value>
   </data>
+  <data name="HoyolabGameNoteStaminaCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>
+  </data>
+  <data name="HoyolabGameSignReward" xml:space="preserve">
+    <value>[{0}] {1} × {2}</value>
+  </data>
+  <data name="HoyolabGameSignRewardCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;Index&gt;?{0}Start day number{0}{0}&lt;Count&gt;?{0}Total day number, default one</value>
+  </data>
+  <data name="HoyolabGameSign" xml:space="preserve">
+    <value>Signed : Success</value>
+  </data>
+  <data name="TerminalCommandCloseHelp" xml:space="preserve">
+    <value>Close console and open app</value>
+  </data>
+  <data name="TerminalCommandEnableHelp" xml:space="preserve">
+    <value>Open console</value>
+  </data>
+  <data name="TerminalCommandExitedHelp" xml:space="preserve">
+    <value>Close console and close app</value>
+  </data>
+  <data name="TerminalCommandFlushHelp" xml:space="preserve">
+    <value>Clear console</value>
+  </data>
+  <data name="TerminalCommandHelp" xml:space="preserve">
+    <value>All command help{0}{0}&lt;Command&gt;?{0}Command parameter help</value>
+  </data>
+  <data name="TerminalCommandPause" xml:space="preserve">
+    <value>Press any key to continue......</value>
+  </data>
+  <data name="TerminalCommandPauseHelp" xml:space="preserve">
+    <value>Pause until press any key</value>
+  </data>
+  <data name="HoyolabGameSignCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>
+  </data>
+  <data name="TerminalCommandParseHelp" xml:space="preserve">
+    <value>Invoke command text{0}{0}&lt;command&gt;{0}{0}command text</value>
+  </data>
+  <data name="HoyolabPostUpvoteCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;ID&gt;{0}Post ID{0}{0}&lt;Cancel&gt;?{0}Cancel upvote [ True / False ] ，default False{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>
+  </data>
+  <data name="TerminalCommandPrintHelp" xml:space="preserve">
+    <value>Print to console{0}{0}&lt;Text&gt;?{0}Text printed to the console</value>
+  </data>
+  <data name="HoyolabPostShareCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;ID&gt;{0}Post ID{0}{0}&lt;AID&gt;?{0}Hoyolab account identity</value>
+  </data>
+  <data name="HoyolabPostNewsCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server&lt;Count&gt;{0}Post count{0}{0}&lt;Zone&gt;{0}Forum ID{0}{0}&lt;Sort&gt;?{0}Sort type [ 1 - Reply time，2 - Post time ], default 0</value>
+  </data>
+  <data name="HoyolabPostDetailCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;ID&gt;{0}Post ID{0}{0}&lt;Login&gt;?{0}Login account [ True / False ] ，default False{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>
+  </data>
+  <data name="HoyolabForumSign" xml:space="preserve">
+    <value>Signed : Success</value>
+  </data>
+  <data name="HoyolabForumSignCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;GID&gt;{0}Forum Group ID{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>
+  </data>
+  <data name="HoyolabUserMissionStateCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>
+  </data>
+  <data name="HoyolabUserMissionState" xml:space="preserve">
+    <value>Coin : {1}{0}Today : {2}{0}Sign : {3} / 1{0}View : {4} / 3{0}Upvote : {5} / 5{0}Share : {6} / 1</value>
+  </data>
+  <data name="TerminalUnknownCommand" xml:space="preserve">
+    <value>Unknown command : {0}</value>
+  </data>
+  <data name="TerminalMissingParameter" xml:space="preserve">
+    <value>Missing Parameter, Use "Help &lt;Command&gt;" Access Details</value>
+  </data>
+  <data name="TerminalInvalidParameter" xml:space="preserve">
+    <value>Invalid Parameter : {0}</value>
+  </data>
+  <data name="HoyolabNotFindToken" xml:space="preserve">
+    <value>No account id found : {0}</value>
+  </data>
+  <data name="HoyolabNotFindUserRole" xml:space="preserve">
+    <value>No game account found : {0}</value>
+  </data>
+  <data name="HoyolabForumPostUpvote" xml:space="preserve">
+    <value>[{0}] Upvote：{1}</value>
+  </data>
+  <data name="HoyolabForumSignWrong1034" xml:space="preserve">
+    <value>Sign-in failed : Please complete the human verification process</value>
+  </data>
+  <data name="HoyolabUserMissionPerformCommandHelp" xml:space="preserve">
+    <value>Only supports chinese server{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>
+  </data>
 </root>

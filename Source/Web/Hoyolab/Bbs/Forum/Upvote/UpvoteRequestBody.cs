@@ -5,7 +5,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.Upvote
     public class UpvoteRequestBody
     {
         [JsonPropertyName("csm_source")]
-        public string CsmSource { get; set; } = string.Empty;
+        public string Source { get; set; } = string.Empty;
 
         [JsonPropertyName("is_cancel")]
         public bool IsCancel { get; set; }
@@ -20,7 +20,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.Upvote
 
         public UpvoteRequestBody(string source, bool isCancel, string postId, string upvoteType)
         {
-            CsmSource = source;
+            Source = source;
             IsCancel = isCancel;
             PostId = postId;
             UpvoteType = upvoteType;

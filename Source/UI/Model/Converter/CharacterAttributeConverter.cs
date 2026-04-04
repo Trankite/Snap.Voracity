@@ -9,7 +9,7 @@ namespace StarRailDamage.Source.UI.Model.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (Program.IsDesignMode)
+            if (Program.DesignMode)
             {
                 return Binding.DoNothing;
             }

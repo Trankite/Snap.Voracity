@@ -9,5 +9,8 @@ namespace StarRailDamage.Source.Extension
 
         [DebuggerStepThrough]
         public static string ToIntString(this bool value) => Convert.ToInt32(value).ToString();
+
+        [DebuggerStepThrough]
+        public static bool Parse(string? value) => bool.TryParse(value, out bool Flag) ? Flag : int.TryParse(value, out int Number) && Convert.ToBoolean(Number);
     }
 }

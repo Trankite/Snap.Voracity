@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using StarRailDamage.Source.Extension;
+using System.Diagnostics;
 using System.IO;
 
 namespace StarRailDamage.Source.Service.IO
@@ -19,7 +20,7 @@ namespace StarRailDamage.Source.Service.IO
         public static string BuildFilePath(string? path)
         {
             BuildPath(Path.GetDirectoryName(path));
-            return path ?? string.Empty;
+            return path.IsNotNull() ? path : string.Empty;
         }
     }
 }

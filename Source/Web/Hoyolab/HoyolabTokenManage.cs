@@ -4,12 +4,12 @@ using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Encode.Encrypt;
 using StarRailDamage.Source.Service.Encode.Hashing;
 using StarRailDamage.Source.Service.IO;
+using StarRailDamage.Source.Service.IO.FileOpen;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -21,38 +21,42 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         private const string Salt = "B9176A0A08605E7EE16428AB13199AC2";
 
-        public static ImmutableArray<HoyolabToken> Tokens => (field.IsDefault && TryLoad(out field)).Captured(field);
+        public static ImmutableArray<HoyolabToken> TokenCollection
+        {
+            get => field.IsDefault ? Load().Captured(field) : field;
+            private set;
+        }
 
         public static bool TryGetTokenOrFirst(string? aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
-            return string.IsNullOrEmpty(aid) ? Tokens.TryGetFirst(out hoyolabToken) : TryGetToken(aid, out hoyolabToken);
+            return string.IsNullOrEmpty(aid) ? TokenCollection.TryGetFirst(out hoyolabToken) : TryGetToken(aid, out hoyolabToken);
         }
 
         public static bool TryGetToken(string aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
-            return Tokens.TryGetFirst(Token => Token.Aid == aid, out hoyolabToken);
+            return TokenCollection.TryGetFirst(Token => Token.Aid == aid, out hoyolabToken);
         }
 
-        public static bool TryLoad([NotNullWhen(true)] out ImmutableArray<HoyolabToken> tokens)
+        public static bool Load()
         {
-            try
+            using FileOpenRead FileRead = new(GetFilePath());
+            if (FileRead.Success)
             {
-                return true.Configure(tokens = Load());
+                TokenCollection = JsonSerializer.Deserialize<ImmutableArray<HoyolabToken>>(FileRead.Stream, JsonOptions);
+                return true;
             }
-            catch
+            return false.Configure(TokenCollection = []);
+        }
+
+        public static bool Save(params HoyolabToken[] hoyolabTokens)
+        {
+            using FileOpenWrite FileWrite = new(FileManage.BuildFilePath(GetFilePath()));
+            if (FileWrite.Success)
             {
-                return false.Configure(tokens = default);
+                JsonSerializer.SerializeAsync(FileWrite.Stream, hoyolabTokens, JsonOptions).RunSynchronously();
+                return true.Configure(TokenCollection = [.. hoyolabTokens]);
             }
-        }
-
-        public static ImmutableArray<HoyolabToken> Load()
-        {
-            return JsonSerializer.Deserialize<ImmutableArray<HoyolabToken>>(File.ReadAllText(GetFilePath()), JsonOptions);
-        }
-
-        public static void Save(params HoyolabToken[] hoyolabTokens)
-        {
-            File.WriteAllText(FileManage.BuildFilePath(GetFilePath()), JsonSerializer.Serialize(hoyolabTokens, JsonOptions));
+            return false;
         }
 
         public static string GetFilePath()
@@ -67,17 +71,13 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         static HoyolabTokenManage()
         {
-            JsonOptions = new JsonSerializerOptions()
-            {
-                WriteIndented = true,
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            };
+            JsonOptions = JsonSerializerExtension.JsonOptions.Copy();
             JsonOptions.Converters.Add(new JsonHoyolabTokenConverter());
         }
 
         private class JsonHoyolabTokenConverter : JsonConverter<Dictionary<HoyolabTokenType, string>>, IEmployedEncoding
         {
-            public Encoding Encoding { get => Encoding.UTF8; }
+            public Encoding Encoding => Encoding.UTF8;
 
             public override Dictionary<HoyolabTokenType, string>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {

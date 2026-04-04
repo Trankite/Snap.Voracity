@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using StarRailDamage.Source.Extension;
+using System.Net.Http.Headers;
 using System.Runtime.ExceptionServices;
 
 namespace StarRailDamage.Source.Web.Response
@@ -30,7 +31,7 @@ namespace StarRailDamage.Source.Web.Response
 
         public override string ToString()
         {
-            return Exception?.SourceException.Message ?? string.Empty;
+            return Exception.IsNotNull() ? Exception.SourceException.Message : Body?.ToString() ?? string.Empty;
         }
     }
 }

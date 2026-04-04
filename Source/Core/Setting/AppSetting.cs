@@ -17,7 +17,7 @@ namespace StarRailDamage.Source.Core.Setting
         {
             SecurityIdentifier? User = WindowsIdentity.GetCurrent().User;
             UserSid = User.IsNotNull() ? User.ToString().LastSplit('-').Content.ToString() : Guid.NewGuid().ToString();
-            PixelsPerDip = !Program.IsDesignMode && Application.Current.IsNotNull() ? VisualTreeHelper.GetDpi(Application.Current.MainWindow).PixelsPerDip : 1;
+            PixelsPerDip = !Program.DesignMode && Application.Current.IsNotNull() ? VisualTreeHelper.GetDpi(Application.Current.MainWindow).PixelsPerDip : 1;
         }
     }
 }

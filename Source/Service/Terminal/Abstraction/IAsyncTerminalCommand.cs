@@ -2,6 +2,11 @@
 {
     public interface IAsyncTerminalCommand : ITerminalCommand
     {
-        ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine command);
+        ValueTask<ITerminalResponse> AsyncInvoke(params string[] parameter);
+    }
+
+    public interface IAsyncTerminalCommand<TContent> : IAsyncTerminalCommand, ITerminalCommand<TContent>
+    {
+        new ValueTask<ITerminalResponse<TContent>> AsyncInvoke(params string[] parameter);
     }
 }

@@ -14,9 +14,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Mission
 
         public override HttpRequestMessageBuilder Create()
         {
-            return new HoyolabHttpRequestMessageBuilder()
-                .SetRequestUri(URL)
-                .SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetLtuid().SetLtoken());
+            return new HoyolabHttpRequestMessageBuilder().SetRequestUri(URL).SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetLtuid().SetLtoken());
         }
     }
 }

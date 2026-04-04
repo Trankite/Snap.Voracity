@@ -59,5 +59,44 @@ namespace StarRailDamage.Source.Extension
                 return false.Configure(exceptionCapture?.Exception = ExceptionDispatchInfo.Capture(Exception)).Configure(streamWriter = null);
             }
         }
+
+        [DebuggerStepThrough]
+        public static bool TryOpenRead(string path, [NotNullWhen(true)] out FileStream? stream, IExceptionCapture? exceptionCapture = null)
+        {
+            try
+            {
+                return true.Configure(stream = File.OpenRead(path));
+            }
+            catch (Exception Exception)
+            {
+                return false.Configure(exceptionCapture?.Exception = ExceptionDispatchInfo.Capture(Exception)).Configure(stream = null);
+            }
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryOpenWrite(string path, [NotNullWhen(true)] out FileStream? stream, IExceptionCapture? exceptionCapture = null)
+        {
+            try
+            {
+                return true.Configure(stream = File.OpenWrite(path));
+            }
+            catch (Exception Exception)
+            {
+                return false.Configure(exceptionCapture?.Exception = ExceptionDispatchInfo.Capture(Exception)).Configure(stream = null);
+            }
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryOpen(string path, [NotNullWhen(true)] out FileStream? stream, FileMode fileMode = FileMode.Open, IExceptionCapture? exceptionCapture = null)
+        {
+            try
+            {
+                return true.Configure(stream = File.Open(path, fileMode));
+            }
+            catch (Exception Exception)
+            {
+                return false.Configure(exceptionCapture?.Exception = ExceptionDispatchInfo.Capture(Exception)).Configure(stream = null);
+            }
+        }
     }
 }

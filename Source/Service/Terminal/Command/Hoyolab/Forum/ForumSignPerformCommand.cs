@@ -1,0 +1,37 @@
+﻿using StarRailDamage.Source.Core.LocalText.Marked.Text;
+using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Service.Terminal.Abstraction;
+using StarRailDamage.Source.Web.Hoyolab;
+using StarRailDamage.Source.Web.Hoyolab.Bbs.Sign;
+using StarRailDamage.Source.Web.Request;
+using StarRailDamage.Source.Web.Response;
+
+namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
+{
+    public class ForumSignPerformCommand : AsyncTerminalCommand
+    {
+        public override string Name => "fsign";
+
+        public override string Help => StringExtension.Format(MarkedText.HoyolabForumSignCommandHelp, '\n');
+
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(params string[] parameter)
+        {
+            if (!Enum.TryParse(parameter.Index(0), out HoyolabGroup Group))
+            {
+                return TerminalManage.GetInvalidParameterResponse(Group);
+            }
+            string? AidText = parameter.Index(1);
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))
+            {
+                return HoyolabTerminalResponse.NotFindToken(AidText);
+            }
+            SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetGroup(Group);
+            FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient);
+            if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
+            {
+                return new TerminalResponse(true, MarkedText.HoyolabForumSign);
+            }
+            return new TerminalResponse<SignResponseWrapper>(false, Response.ToString());
+        }
+    }
+}

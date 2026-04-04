@@ -29,6 +29,11 @@ namespace StarRailDamage.Source.Service.Terminal
         {
             return new TerminalResponse<TContent>(success, message, content);
         }
+
+        public static TerminalResponse<TContent> Create<TContent>(ITerminalResponse response, TContent? content)
+        {
+            return new TerminalResponse<TContent>(response.Success, response.Message, content);
+        }
     }
 
     public class TerminalResponse<TContent> : TerminalResponse, ITerminalResponse<TContent>
@@ -40,6 +45,8 @@ namespace StarRailDamage.Source.Service.Terminal
         public TerminalResponse(bool success) : base(success) { }
 
         public TerminalResponse(bool success, string message) : base(success, message) { }
+
+        public TerminalResponse(ITerminalResponse response) : base(response.Success, response.Message) { }
 
         public TerminalResponse(bool success, TContent? content) : base(success)
         {

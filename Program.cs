@@ -7,7 +7,9 @@ namespace StarRailDamage
 {
     public class Program
     {
-        public static bool IsDesignMode { get; }
+        public static bool DesignMode { get; }
+
+        public static bool PlanInitiation { get; set; }
 
         public static HttpClient HttpClient { get; }
 
@@ -15,8 +17,9 @@ namespace StarRailDamage
         public static void Main(params string[] arguments)
         {
             DebugTest();
-            TerminalHelper.Invoke(TerminalHelper.AllParse(arguments));
-            if (!TerminalHelper.AllocMonitor().Result)
+            TerminalHelper.Invoke(arguments);
+            TerminalHelper.AllocMonitor().Wait();
+            if (PlanInitiation)
             {
                 App.Main();
             }
@@ -35,8 +38,9 @@ namespace StarRailDamage
 
         static Program()
         {
+            PlanInitiation = true;
             HttpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
-            IsDesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject());
+            DesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject());
         }
     }
 }
