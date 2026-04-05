@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HoyolabGameNoteStamina" xml:space="preserve">
-    <value>Stamina {0} / {1} ( Wait {2} Hours {3} Minutes )</value>
+    <value>Stamina {1} / {2}{0}Wait {3} Hours {4} Minutes</value>
   </data>
   <data name="HoyolabGameNoteStaminaCommandHelp" xml:space="preserve">
     <value>Only supports chinese server{0}{0}&lt;AID&gt;?{0}Hoyolab account identity, default first</value>

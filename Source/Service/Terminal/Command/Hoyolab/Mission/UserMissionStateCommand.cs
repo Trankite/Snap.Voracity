@@ -15,7 +15,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
 
         public override string Help => StringExtension.Format(MarkedText.HoyolabUserMissionStateCommandHelp, '\n');
 
-        protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(params string[] parameter)
+        protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(params IList<string> parameter)
         {
             string? AidText = parameter.FirstOrDefault();
             if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))

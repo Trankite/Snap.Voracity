@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => StringExtension.Format(MarkedText.HoyolabPostNewsCommandHelp, '\n');
 
-        protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(params string[] parameter)
+        protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(params IList<string> parameter)
         {
             int PageSize = Math.Max(1, IntExtension.Parse(parameter.Index(0)));
             ZoneType ZoneType = (ZoneType)IntExtension.Parse(parameter.Index(1));

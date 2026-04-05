@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string Help => StringExtension.Format(MarkedText.HoyolabGameSignCommandHelp, '\n');
 
-        protected override async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvokeOverride(params string[] parameter)
+        protected override async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvokeOverride(params IList<string> parameter)
         {
             string? AidText = parameter.FirstOrDefault();
             if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))

@@ -1,7 +1,7 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
+using System.Text;
 
 namespace StarRailDamage.Source.Service.Terminal
 {
@@ -27,30 +27,62 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public static IEnumerable<CommandLine> AllParse(string line)
         {
-            return AllParse([.. TerminalCommandLineRegex().Matches(line).Select(Matche => Matche.Value.Replace("^\"", "\""))]);
+            int Index = 0;
+            List<string> Arguments = [];
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] == 0x20)
+                {
+                    Arguments.Add(line[Index..i]);
+                    Index = i + 1;
+                }
+                else if (line[i] == '"')
+                {
+                    StringBuilder Builder = new();
+                    while (++i < line.Length && line[i] != '"')
+                    {
+                        if (line[i] == '\\')
+                        {
+                            if (++i < line.Length)
+                            {
+                                Builder.Append(line[i]);
+                            }
+                        }
+                        else
+                        {
+                            Builder.Append(line[i]);
+                        }
+                    }
+                    Arguments.Add(Builder.ToString());
+                    Index = ++i + 1;
+                }
+            }
+            if (Index < line.Length)
+            {
+                Arguments.Add(line[Index..]);
+            }
+            return AllParse(Arguments);
         }
 
-        public static IEnumerable<CommandLine> AllParse(string[] arguments)
+        public static IEnumerable<CommandLine> AllParse(IList<string> arguments)
         {
-            for (int i = 0; i < arguments.Length; i++)
+            for (int i = 0; i < arguments.Count; i++)
             {
                 yield return NextCommandLine(arguments, ref i);
             }
         }
 
-        private static CommandLine NextCommandLine(string[] arguments, ref int index)
+        private static CommandLine NextCommandLine(IList<string> arguments, ref int index)
         {
-            List<string> Parameter = [];
             CommandLine CommandLine = new(arguments[index]);
-            while (++index < arguments.Length)
+            while (++index < arguments.Count)
             {
                 if (arguments[index] == "&")
                 {
                     return CommandLine;
                 }
-                Parameter.Add(arguments[index]);
+                CommandLine.Expand.Add(arguments[index]);
             }
-            CommandLine.Expand = [.. Parameter];
             return CommandLine.Configure(index--);
         }
 
@@ -74,7 +106,7 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public static void Invoke(string line) => Invoke(AllParse(line));
 
-        public static void Invoke(string[] arguments) => Invoke(AllParse(arguments));
+        public static void Invoke(IList<string> arguments) => Invoke(AllParse(arguments));
 
         public static void Invoke(params IEnumerable<ITerminalCommandLine> commandLines)
         {
@@ -91,8 +123,5 @@ namespace StarRailDamage.Source.Service.Terminal
                 Console.WriteLine(response.Message);
             }
         }
-
-        [GeneratedRegex(@"(?<!\^)""(?:(\^""|[^""])*)""|[^ ]+")]
-        private static partial Regex TerminalCommandLineRegex();
     }
 }

@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => StringExtension.Format(MarkedText.HoyolabPostUpvoteCommandHelp, '\n');
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(params string[] parameter)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(params IList<string> parameter)
         {
             if (!parameter.TryGetFirst(out string? PostId))
             {

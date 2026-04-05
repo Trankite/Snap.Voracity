@@ -118,8 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HoyolabGameNoteStamina" xml:space="preserve">
-    <value>开拓力 {0} / {1} ( 回满 {2} 小时 {3} 分钟 )</value>
-    <comment>0-当前体力，1-体力上限，2-小时数，3-分钟数</comment>
+    <value>开拓力 {1} / {2}{0}回满 {3} 小时 {4} 分钟</value>
+    <comment>0-换行符，1-当前体力，2-体力上限，3-小时数，4-分钟数</comment>
   </data>
   <data name="HoyolabGameNoteStaminaCommandHelp" xml:space="preserve">
     <value>开拓力笔记{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>

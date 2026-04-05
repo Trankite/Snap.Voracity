@@ -4,6 +4,6 @@
     {
         string Name { get; set; }
 
-        string[] Expand { get; set; }
+        IList<string> Expand { get; set; }
     }
 }

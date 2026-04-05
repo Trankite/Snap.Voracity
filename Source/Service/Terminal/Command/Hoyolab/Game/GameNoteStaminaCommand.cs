@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string Help => StringExtension.Format(MarkedText.HoyolabGameNoteStaminaCommandHelp, '\n');
 
-        protected override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(params string[] parameter)
+        protected override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(params IList<string> parameter)
         {
             string? AidText = parameter.FirstOrDefault();
             if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))
@@ -30,7 +30,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NoteAnalyzedBody? Body))
             {
                 TimeSpan Offset = Body.FullTime.Subtract(DateTimeOffset.Now);
-                return TerminalResponse.Create(true, StringExtension.Format(MarkedText.HoyolabGameNoteStamina, Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);
+                return TerminalResponse.Create(true, StringExtension.Format(MarkedText.HoyolabGameNoteStamina, '\n', Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);
             }
             return new TerminalResponse<NoteAnalyzedBody>(false, Response.ToString());
         }

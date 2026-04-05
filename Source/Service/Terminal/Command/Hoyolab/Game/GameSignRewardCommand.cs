@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string Help => StringExtension.Format(MarkedText.HoyolabGameSignRewardCommandHelp, '\n');
 
-        protected override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(params string[] parameter)
+        protected override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(params IList<string> parameter)
         {
             SignHomeRequestBuilderFactory Factory = new SignHomeRequestBuilderFactory().SetLanguage(HoyolabLanguage.ZH_CN).SetActionId(HoyolabAction.StarRailSign);
             FinalizedResponse<SignHomeResponse> Response = await Factory.Create().SendAsync<SignHomeResponse>(Program.HttpClient);

@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => StringExtension.Format(MarkedText.HoyolabForumSignCommandHelp, '\n');
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(params string[] parameter)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(params IList<string> parameter)
         {
             if (!Enum.TryParse(parameter.Index(0), out HoyolabGroup Group))
             {

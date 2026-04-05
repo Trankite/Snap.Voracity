@@ -97,7 +97,7 @@ namespace StarRailDamage.Source.Core.LocalText.Marked.Text {
         }
         
         /// <summary>
-        ///   查找类似 开拓力 {0} / {1} ( 回满 {2} 小时 {3} 分钟 ) 的本地化字符串。
+        ///   查找类似 开拓力 {1} / {2}{0}回满 {3} 小时 {4} 分钟 的本地化字符串。
         /// </summary>
         public static string HoyolabGameNoteStamina {
             get {
