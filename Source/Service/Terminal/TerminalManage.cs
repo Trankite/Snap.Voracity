@@ -47,9 +47,9 @@ namespace StarRailDamage.Source.Service.Terminal
             return new TerminalResponse(false, MarkedText.TerminalMissingParameter);
         }
 
-        public static TerminalResponse GetInvalidParameterResponse(object parameter)
+        public static TerminalResponse GetInvalidParameterResponse()
         {
-            return new TerminalResponse(false, StringExtension.Format(MarkedText.TerminalInvalidParameter, parameter));
+            return new TerminalResponse(false, MarkedText.TerminalInvalidParameter);
         }
 
         static TerminalManage()

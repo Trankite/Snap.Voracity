@@ -12,13 +12,13 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "fsign";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabForumSignCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabForumSignCommandHelp;
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(params IList<string> parameter)
         {
             if (!Enum.TryParse(parameter.Index(0), out HoyolabGroup Group))
             {
-                return TerminalManage.GetInvalidParameterResponse(Group);
+                return TerminalManage.GetInvalidParameterResponse();
             }
             string? AidText = parameter.Index(1);
             if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))

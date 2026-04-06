@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
     {
         public string Name => "exit";
 
-        public string Help => StringExtension.Format(MarkedText.TerminalCommandExitedHelp, '\n');
+        public string Help => MarkedText.TerminalCommandExitedHelp;
 
         public ITerminalResponse Invoke(params IList<string> parameter)
         {

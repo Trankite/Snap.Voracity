@@ -9,7 +9,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
     {
         public string Name => "console";
 
-        public string Help => StringExtension.Format(MarkedText.TerminalCommandEnableHelp, '\n');
+        public string Help => MarkedText.TerminalCommandEnableHelp;
 
         public ITerminalResponse Invoke(params IList<string> parameter)
         {

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace StarRailDamage.Source.Extension
 {
@@ -64,14 +65,13 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static string Format(string value, params object?[] args)
         {
-            try
-            {
-                return string.Format(value, args);
-            }
-            catch
-            {
-                return value;
-            }
+            try { return string.Format(value, args); } catch { return value; }
+        }
+
+        [DebuggerStepThrough]
+        public static string Unescape(string value)
+        {
+            try { return Regex.Unescape(value); } catch { return value; }
         }
     }
 }

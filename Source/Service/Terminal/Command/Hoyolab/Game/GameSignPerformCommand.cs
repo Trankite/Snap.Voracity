@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
     {
         public override string Name => "sign";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabGameSignCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabGameSignCommandHelp;
 
         protected override async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvokeOverride(params IList<string> parameter)
         {

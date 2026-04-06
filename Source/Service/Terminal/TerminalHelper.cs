@@ -1,7 +1,6 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace StarRailDamage.Source.Service.Terminal
 {
@@ -38,22 +37,12 @@ namespace StarRailDamage.Source.Service.Terminal
                 }
                 else if (line[i] == '"')
                 {
-                    StringBuilder Builder = new();
+                    Index += 1;
                     while (++i < line.Length && line[i] != '"')
                     {
-                        if (line[i] == '\\')
-                        {
-                            if (++i < line.Length)
-                            {
-                                Builder.Append(line[i]);
-                            }
-                        }
-                        else
-                        {
-                            Builder.Append(line[i]);
-                        }
+                        if (line[i] == '\\') i++;
                     }
-                    Arguments.Add(Builder.ToString());
+                    Arguments.Add(StringExtension.Unescape(line[Index..i]));
                     Index = ++i + 1;
                 }
             }

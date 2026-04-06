@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
     {
         public string Name => "end";
 
-        public string Help => StringExtension.Format(MarkedText.TerminalCommandCloseHelp, '\n');
+        public string Help => MarkedText.TerminalCommandCloseHelp;
 
         public ITerminalResponse Invoke(params IList<string> parameter)
         {

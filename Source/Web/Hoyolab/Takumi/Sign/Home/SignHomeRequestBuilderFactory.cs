@@ -15,6 +15,12 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.Sign.Home
 
         public SignHomeRequestBuilderFactory() { }
 
+        public SignHomeRequestBuilderFactory(string language, string actionId)
+        {
+            Language = language;
+            ActionId = actionId;
+        }
+
         public HttpRequestMessageBuilder Create()
         {
             return new HoyolabHttpRequestMessageBuilder().SetRequestUri(new HoyolabHttpUriBuilder(URL).SetLanguage(Language).SetActionId(ActionId).Uri);

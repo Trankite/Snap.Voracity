@@ -13,7 +13,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
     {
         public override string Name => "mission";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabUserMissionStateCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabUserMissionStateCommandHelp;
 
         protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(params IList<string> parameter)
         {
@@ -28,7 +28,6 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
             {
                 object[] FormatArguments =
                 [
-                    '\n',
                     AnalyzedBody.TotalPoint,
                     AnalyzedBody.TodayPoint - AnalyzedBody.Surplus,
                     AnalyzedBody.Mission.GetValueOrDefault(MissionType.Sign),

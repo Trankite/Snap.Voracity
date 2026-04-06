@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
     {
         public string Name => "clear";
 
-        public string Help => StringExtension.Format(MarkedText.TerminalCommandFlushHelp, '\n');
+        public string Help => MarkedText.TerminalCommandFlushHelp;
 
         public ITerminalResponse Invoke(params IList<string> parameter)
         {

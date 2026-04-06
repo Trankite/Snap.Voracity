@@ -10,9 +10,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 {
     public class ForumPostNewsCommand : AsyncTerminalCommand<NewestAnalyzedBody[]>
     {
-        public override string Name => "post";
+        public override string Name => "newpost";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabPostNewsCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabPostNewsCommandHelp;
 
         protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(params IList<string> parameter)
         {
@@ -23,6 +23,10 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
             FinalizedResponse<NewestResponse> Response = await Factory.Create().SendAsync<NewestResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NewestAnalyzedBody[]? AnalyzedBody))
             {
+                if (AnalyzedBody.Length == 0)
+                {
+                    return new TerminalResponse<NewestAnalyzedBody[]>(TerminalManage.GetInvalidParameterResponse());
+                }
                 return TerminalResponse.Create(true, string.Join('\n', AnalyzedBody.Select(Body => $"[{Body.PostId}] {Body.Title}")), AnalyzedBody);
             }
             return new TerminalResponse<NewestAnalyzedBody[]>(false, Response.ToString());

@@ -118,115 +118,184 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HoyolabGameNoteStamina" xml:space="preserve">
-    <value>开拓力 {1} / {2}{0}回满 {3} 小时 {4} 分钟</value>
-    <comment>0-换行符，1-当前体力，2-体力上限，3-小时数，4-分钟数</comment>
+    <value>开拓力 {0} / {1}
+回满 {2} 小时 {3} 分钟</value>
+    <comment>0-当前体力，1-体力上限，2-小时数，3-分钟数</comment>
   </data>
   <data name="HoyolabGameNoteStaminaCommandHelp" xml:space="preserve">
-    <value>开拓力笔记{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>
-    <comment>0-换行符</comment>
+    <value>开拓力笔记
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
   </data>
   <data name="HoyolabGameSignReward" xml:space="preserve">
     <value>[{0}] {1} × {2}</value>
     <comment>0-天数，1-奖励名称，2-奖励数量</comment>
   </data>
   <data name="HoyolabGameSignRewardCommandHelp" xml:space="preserve">
-    <value>签到奖励{0}{0}&lt;起始天数&gt;?{0}显示本月指定天起始的奖励{0}{0}&lt;天数&gt;?{0}显示的天数，默认值 1</value>
-    <comment>0-换行符</comment>
+    <value>签到奖励
+
+&lt;起始天&gt; ( 可选 )
+从指定的起始天数开始
+
+&lt;总天数&gt; ( 可选 )
+最多显示的行上限</value>
   </data>
   <data name="HoyolabGameSign" xml:space="preserve">
-    <value>签到福利 : 已签到</value>
-    <comment>仅文本</comment>
+    <value>签到福利：已签到</value>
   </data>
   <data name="TerminalCommandCloseHelp" xml:space="preserve">
     <value>关闭控制台</value>
-    <comment>仅文本</comment>
   </data>
   <data name="TerminalCommandEnableHelp" xml:space="preserve">
     <value>启动控制台</value>
-    <comment>仅文本</comment>
   </data>
   <data name="TerminalCommandExitedHelp" xml:space="preserve">
     <value>退出控制台</value>
-    <comment>仅文本</comment>
   </data>
   <data name="TerminalCommandFlushHelp" xml:space="preserve">
     <value>清空控制台</value>
-    <comment>仅文本</comment>
   </data>
   <data name="TerminalCommandHelp" xml:space="preserve">
-    <value>命令帮助{0}{0}&lt;命令名称&gt;?{0}显示指定命令的参数信息</value>
-    <comment>0-换行符</comment>
+    <value>命令帮助
+
+&lt;命令名称&gt; ( 可选 )
+显示指定命令的参数信息</value>
   </data>
   <data name="TerminalCommandPause" xml:space="preserve">
     <value>按任意键继续......</value>
-    <comment>仅文本</comment>
   </data>
   <data name="TerminalCommandPauseHelp" xml:space="preserve">
     <value>等待输入</value>
-    <comment>仅文本</comment>
   </data>
   <data name="HoyolabGameSignCommandHelp" xml:space="preserve">
-    <value>福利签到{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>
-    <comment>0-换行符</comment>
+    <value>福利签到
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
   </data>
   <data name="TerminalCommandParseHelp" xml:space="preserve">
-    <value>执行命令文本{0}{0}&lt;命令文本&gt;{0}{0}将要执行命令的文本</value>
-    <comment>0-换行符</comment>
+    <value>执行命令文本
+
+&lt;命令文本&gt;
+将要执行命令的文本</value>
   </data>
   <data name="HoyolabPostUpvoteCommandHelp" xml:space="preserve">
-    <value>帖子点赞{0}{0}&lt;帖子ID&gt;{0}帖子对应的ID{0}{0}&lt;取消点赞&gt;?{0}是否取消对帖子的点赞 [ True / False ] ，默认值 False{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>
-    <comment>0-换行符</comment>
+    <value>帖子点赞
+
+帖子ID&gt;
+帖子对应的ID
+
+&lt;取消点赞&gt; ( 可选 )
+是否取消对帖子的点赞
+[ True / False ( 默认值 ) ]
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
   </data>
   <data name="TerminalCommandPrintHelp" xml:space="preserve">
-    <value>打印控制台文本{0}{0}&lt;文本&gt;?{0}将要打印到控制台的文本</value>
-    <comment>0-换行符</comment>
+    <value>打印控制台文本
+
+&lt;文本&gt;
+将要打印到控制台的文本</value>
   </data>
   <data name="HoyolabPostShareCommandHelp" xml:space="preserve">
-    <value>帖子分享{0}{0}&lt;帖子ID&gt;{0}帖子对应的ID{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID</value>
-    <comment>0-换行符</comment>
+    <value>帖子分享
+
+&lt;帖子ID&gt;
+帖子对应的ID
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
   </data>
   <data name="HoyolabPostNewsCommandHelp" xml:space="preserve">
-    <value>最近帖子列表{0}{0}&lt;数量&gt;{0}需要的帖子数量{0}{0}&lt;分区ID&gt;{0}帖子所在分区的ID{0}{0}&lt;排序&gt;?{0}帖子排序类别 [ 1 - 回复时间，2 - 发布时间 ]，默认值 0</value>
-    <comment>0-换行符</comment>
+    <value>最近帖子列表
+
+&lt;数量&gt;
+需要的帖子数量
+
+&lt;分区ID&gt;
+帖子所在分区的ID
+
+&lt;排序&gt; ( 可选 )
+帖子排序类别
+0 - 不指定 ( 默认值 )
+1 - 回复时间
+2 - 发布时间</value>
   </data>
   <data name="HoyolabPostDetailCommandHelp" xml:space="preserve">
-    <value>浏览帖子作者{0}{0}&lt;帖子ID&gt;{0}帖子对应的ID{0}{0}&lt;登录&gt;?{0}是否登录账号来浏览 [ True / False ] ，默认值 False{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>
-    <comment>0-换行符</comment>
+    <value>浏览帖子
+
+&lt;帖子ID&gt;
+帖子对应的ID
+
+&lt;登录&gt; ( 可选 )
+登录账号以保留浏览记录
+[ True / False ( 默认值 ) ]
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
   </data>
   <data name="HoyolabForumSign" xml:space="preserve">
     <value>社区签到：已签到</value>
-    <comment>0-换行符</comment>
   </data>
   <data name="HoyolabForumSignCommandHelp" xml:space="preserve">
-    <value>社区签到{0}{0}&lt;社区ID&gt;?{0}社区的 GID{0}1 - 崩坏3{0}2 - 原神{0}3 - 崩坏2{0}4 - 未定事件簿{0}5 - 大别墅{0}6 - 崩坏：星穹铁道{0}8 - 绝区零{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>
-    <comment>0-换行符</comment>
+    <value>社区签到
+
+&lt;社区ID&gt;
+社区的 GID
+1 - 崩坏3
+2 - 原神
+3 - 崩坏2
+4 - 未定事件簿
+5 - 大别墅
+6 - 崩坏：星穹铁道
+8 - 绝区零
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
   </data>
   <data name="HoyolabUserMissionStateCommandHelp" xml:space="preserve">
-    <value>米游币任务状态{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>
-    <comment>0-换行符</comment>
+    <value>米游币任务状态
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
   </data>
   <data name="HoyolabUserMissionState" xml:space="preserve">
-    <value>米游币：{1}{0}今日奖励：{2}{0}打卡：{3} / 1{0}浏览：{4} / 3{0}点赞：{5} / 5{0}分享：{6} / 1</value>
-    <comment>0-换行符，1-米游币总数，2-今日米游币，3-打卡进度，4-浏览进度，5-点赞进度，6-分享进度</comment>
+    <value>米游币：{0}
+今日奖励：{1}
+打卡：{2} / 1
+浏览：{3} / 3
+点赞：{4} / 5
+分享：{5} / 1</value>
+    <comment>0-米游币总数，1-今日米游币，2-打卡进度，3-浏览进度，4-点赞进度，5-分享进度</comment>
   </data>
   <data name="TerminalUnknownCommand" xml:space="preserve">
-    <value>未知的命令：{0}</value>
+    <value>未知的命令："{0}"
+使用 "Help" 查看帮助</value>
     <comment>0-命令名称</comment>
   </data>
   <data name="TerminalMissingParameter" xml:space="preserve">
-    <value>命令缺少参数，使用 "Help &lt;命令名称&gt;" 查看详情</value>
-    <comment>仅文本</comment>
+    <value>缺少必要参数
+使用 "Help &lt;命令名称&gt;" 查看帮助</value>
   </data>
   <data name="TerminalInvalidParameter" xml:space="preserve">
-    <value>无效的命令参数：{0}</value>
-    <comment>0-参数名称</comment>
+    <value>非法的参数
+使用 "Help &lt;命令名称&gt;" 查看帮助</value>
   </data>
   <data name="HoyolabNotFindToken" xml:space="preserve">
-    <value>未找到特定 AID 的账号：{0}</value>
+    <value>指定 AID 的账号不存在："{0}"</value>
     <comment>0-账号AID</comment>
   </data>
   <data name="HoyolabNotFindUserRole" xml:space="preserve">
-    <value>未找到特定的游戏账号：{0}</value>
+    <value>游戏账号未注册："{0}"</value>
     <comment>0-游戏类型</comment>
   </data>
   <data name="HoyolabForumPostUpvote" xml:space="preserve">
@@ -234,11 +303,12 @@
     <comment>0-帖子ID，1-状态</comment>
   </data>
   <data name="HoyolabForumSignWrong1034" xml:space="preserve">
-    <value>社区签到失败：请前往米游社完成人机验证</value>
-    <comment>仅文本</comment>
+    <value>请前往米游社完成人机验证</value>
   </data>
   <data name="HoyolabUserMissionPerformCommandHelp" xml:space="preserve">
-    <value>米游币任务{0}{0}&lt;账号AID&gt;?{0}米游社账号的 AID，默认使用首个账号</value>
-    <comment>0-换行符</comment>
+    <value>米游币任务
+
+&lt;账号AID&gt; ( 可选 )
+米游社账号的 AID，默认使用首个账号</value>
   </data>
 </root>

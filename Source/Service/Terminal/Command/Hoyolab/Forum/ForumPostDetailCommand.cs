@@ -10,9 +10,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 {
     public class ForumPostDetailCommand : AsyncTerminalCommand<FullPostResponseWrapper>
     {
-        public override string Name => "fullpost";
+        public override string Name => "post";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabPostDetailCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabPostDetailCommandHelp;
 
         protected override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(params IList<string> parameter)
         {
@@ -34,7 +34,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
             FinalizedResponse<FullPostResponse> Response = await Factory.Create().SendAsync<FullPostResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out FullPostResponseWrapper? AnalyedBody))
             {
-                return TerminalResponse.Create(true, $"[{AnalyedBody.User.Uid}] {AnalyedBody.User.Nickname}", AnalyedBody);
+                return TerminalResponse.Create(true, $"[{AnalyedBody.Post.PostId}] {AnalyedBody.Post.Subject}", AnalyedBody);
             }
             return new TerminalResponse<FullPostResponseWrapper>(false, Response.ToString());
         }

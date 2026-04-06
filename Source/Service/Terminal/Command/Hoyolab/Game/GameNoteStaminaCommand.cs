@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
     {
         public override string Name => "note";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabGameNoteStaminaCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabGameNoteStaminaCommandHelp;
 
         protected override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(params IList<string> parameter)
         {

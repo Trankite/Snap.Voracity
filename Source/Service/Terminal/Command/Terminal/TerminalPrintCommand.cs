@@ -1,5 +1,4 @@
 ﻿using StarRailDamage.Source.Core.LocalText.Marked.Text;
-using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
@@ -8,7 +7,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
     {
         public string Name => "echo";
 
-        public string Help => StringExtension.Format(MarkedText.TerminalCommandPrintHelp, '\n');
+        public string Help => MarkedText.TerminalCommandPrintHelp;
 
         public ITerminalResponse Invoke(params IList<string> parameter)
         {

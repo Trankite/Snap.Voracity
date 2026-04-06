@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "upvote";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabPostUpvoteCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabPostUpvoteCommandHelp;
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(params IList<string> parameter)
         {

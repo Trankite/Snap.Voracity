@@ -13,7 +13,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
     {
         public override string Name => "coin";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabUserMissionPerformCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabUserMissionPerformCommandHelp;
 
         protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(params IList<string> parameter)
         {
@@ -24,7 +24,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
             {
                 return MissionState;
             }
-            if (MissionState.Content.Mission.GetValueOrDefault(MissionType.Sign) < 1)
+            for (int i = 1 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Sign); i >= 0; i--)
             {
                 TerminalHelper.WriteLine(await new ForumSignPerformCommand().AsyncInvoke(HoyolabGroup.StarRail.ToIntString(), AidText));
             }

@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "share";
 
-        public override string Help => StringExtension.Format(MarkedText.HoyolabPostShareCommandHelp, '\n');
+        public override string Help => MarkedText.HoyolabPostShareCommandHelp;
 
         protected override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(params IList<string> parameter)
         {
@@ -29,7 +29,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
             FinalizedResponse<ShareResponse> Response = await Factory.Create().SendAsync<ShareResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out ShareResponseWrapper? AnalyedBody))
             {
-                return TerminalResponse.Create(true, AnalyedBody.Url, AnalyedBody);
+                return TerminalResponse.Create(true, $"{AnalyedBody.Title}\n{AnalyedBody.Url}", AnalyedBody);
             }
             return new TerminalResponse<ShareResponseWrapper>(false, Response.ToString());
         }
