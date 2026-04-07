@@ -4,20 +4,6 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 {
     public class CharacterAttributeModel : NotifyPropertyChangedFactory
     {
-        private double _CharacterLevel;
-
-        private double _EnemyLevel;
-
-        private double _EnemyAmount;
-
-        private double _ElementResistance;
-
-        private double _DamageDecrease;
-
-        private double _DamageIncrease;
-
-        private double _Toughness;
-
         private double _Attack;
 
         private double _AttackBase;
@@ -36,77 +22,49 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         private double _CriticalHitRate;
 
-        private double _CriticalDamage;
+        private double _CriticalHitDamage;
 
-        private double _DamageBoost;
+        private double _ElementIncrease;
 
         private double _DefenseDecrease;
 
-        private double _ResistanceDecrease;
+        private double _MagicalDecrease;
 
         private double _SuperBreakEqual;
 
         private double _BreakEffect;
 
-        private double _BreakDamageBoost;
+        private double _BreakIncrease;
 
         private double _BreakEfficiency;
 
-        private double _ToughnessReduced;
+        private double _ToughDecline;
 
         private double _EffectHitRate;
 
-        private double _EffectResistance;
+        private double _EffectMagical;
 
-        private double _OutgoingHealingBoost;
+        private double _HealingBoost;
 
-        private double _HealingAmount;
+        private double _HealingCount;
 
-        private double _EnergyRegeneratRate;
+        private double _ManaReplenish;
 
-        private double _MaxEnergy;
+        private double _MaximumEnergy;
 
-        public double CharacterLevel
-        {
-            get => _CharacterLevel;
-            set => SetField(ref _CharacterLevel, value);
-        }
+        private double _PersonaLevel;
 
-        public double EnemyLevel
-        {
-            get => _EnemyLevel;
-            set => SetField(ref _EnemyLevel, value);
-        }
+        private double _MonsterLevel;
 
-        public double EnemyAmount
-        {
-            get => _EnemyAmount;
-            set => SetField(ref _EnemyAmount, value);
-        }
+        private double _MonsterCount;
 
-        public double ElementResistance
-        {
-            get => _ElementResistance;
-            set => SetField(ref _ElementResistance, value);
-        }
+        private double _ElementMagical;
 
-        public double DamageDecrease
-        {
-            get => _DamageDecrease;
-            set => SetField(ref _DamageDecrease, value);
-        }
+        private double _DamageDecrease;
 
-        public double DamageIncrease
-        {
-            get => _DamageIncrease;
-            set => SetField(ref _DamageIncrease, value);
-        }
+        private double _DamageIncrease;
 
-        public double Toughness
-        {
-            get => _Toughness;
-            set => SetField(ref _Toughness, value);
-        }
+        private double _Toughness;
 
         public double Attack
         {
@@ -162,16 +120,16 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _CriticalHitRate, value);
         }
 
-        public double CriticalDamage
+        public double CriticalHitDamage
         {
-            get => _CriticalDamage;
-            set => SetField(ref _CriticalDamage, value);
+            get => _CriticalHitDamage;
+            set => SetField(ref _CriticalHitDamage, value);
         }
 
-        public double DamageBoost
+        public double ElementIncrease
         {
-            get => _DamageBoost;
-            set => SetField(ref _DamageBoost, value);
+            get => _ElementIncrease;
+            set => SetField(ref _ElementIncrease, value);
         }
 
         public double DefenseDecrease
@@ -180,10 +138,10 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _DefenseDecrease, value);
         }
 
-        public double ResistanceDecrease
+        public double MagicalDecrease
         {
-            get => _ResistanceDecrease;
-            set => SetField(ref _ResistanceDecrease, value);
+            get => _MagicalDecrease;
+            set => SetField(ref _MagicalDecrease, value);
         }
 
         public double SuperBreakEqual
@@ -198,10 +156,10 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _BreakEffect, value);
         }
 
-        public double BreakDamageBoost
+        public double BreakIncrease
         {
-            get => _BreakDamageBoost;
-            set => SetField(ref _BreakDamageBoost, value);
+            get => _BreakIncrease;
+            set => SetField(ref _BreakIncrease, value);
         }
 
         public double BreakEfficiency
@@ -210,10 +168,10 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _BreakEfficiency, value);
         }
 
-        public double ToughnessReduced
+        public double ToughDecline
         {
-            get => _ToughnessReduced;
-            set => SetField(ref _ToughnessReduced, value);
+            get => _ToughDecline;
+            set => SetField(ref _ToughDecline, value);
         }
 
         public double EffectHitRate
@@ -222,34 +180,76 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _EffectHitRate, value);
         }
 
-        public double EffectResistance
+        public double EffectMagical
         {
-            get => _EffectResistance;
-            set => SetField(ref _EffectResistance, value);
+            get => _EffectMagical;
+            set => SetField(ref _EffectMagical, value);
         }
 
-        public double OutgoingHealingBoost
+        public double HealingBoost
         {
-            get => _OutgoingHealingBoost;
-            set => SetField(ref _OutgoingHealingBoost, value);
+            get => _HealingBoost;
+            set => SetField(ref _HealingBoost, value);
         }
 
-        public double HealingAmount
+        public double HealingCount
         {
-            get => _HealingAmount;
-            set => SetField(ref _HealingAmount, value);
+            get => _HealingCount;
+            set => SetField(ref _HealingCount, value);
         }
 
-        public double EnergyRegeneratRate
+        public double ManaReplenish
         {
-            get => _EnergyRegeneratRate;
-            set => SetField(ref _EnergyRegeneratRate, value);
+            get => _ManaReplenish;
+            set => SetField(ref _ManaReplenish, value);
         }
 
-        public double MaxEnergy
+        public double MaximumEnergy
         {
-            get => _MaxEnergy;
-            set => SetField(ref _MaxEnergy, value);
+            get => _MaximumEnergy;
+            set => SetField(ref _MaximumEnergy, value);
+        }
+
+        public double PersonaLevel
+        {
+            get => _PersonaLevel;
+            set => SetField(ref _PersonaLevel, value);
+        }
+
+        public double MonsterLevel
+        {
+            get => _MonsterLevel;
+            set => SetField(ref _MonsterLevel, value);
+        }
+
+        public double MonsterCount
+        {
+            get => _MonsterCount;
+            set => SetField(ref _MonsterCount, value);
+        }
+
+        public double ElementMagical
+        {
+            get => _ElementMagical;
+            set => SetField(ref _ElementMagical, value);
+        }
+
+        public double DamageDecrease
+        {
+            get => _DamageDecrease;
+            set => SetField(ref _DamageDecrease, value);
+        }
+
+        public double DamageIncrease
+        {
+            get => _DamageIncrease;
+            set => SetField(ref _DamageIncrease, value);
+        }
+
+        public double Toughness
+        {
+            get => _Toughness;
+            set => SetField(ref _Toughness, value);
         }
     }
 }

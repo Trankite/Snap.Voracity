@@ -61,605 +61,506 @@ namespace StarRailDamage.Source.Core.LocalText.Fixed.Text {
         }
         
         /// <summary>
-        ///   查找类似 丰饶 的本地化字符串。
-        /// </summary>
-        public static string AbundanceOccupation {
-            get {
-                return ResourceManager.GetString("AbundanceOccupation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 攻击力 的本地化字符串。
         /// </summary>
-        public static string Attack {
+        public static string AttributeAttack {
             get {
-                return ResourceManager.GetString("Attack", resourceCulture);
+                return ResourceManager.GetString("AttributeAttack", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 基础攻击 的本地化字符串。
         /// </summary>
-        public static string AttackBase {
+        public static string AttributeAttackBase {
             get {
-                return ResourceManager.GetString("AttackBase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础攻击 的本地化字符串。
-        /// </summary>
-        public static string AttackBaseSimple {
-            get {
-                return ResourceManager.GetString("AttackBaseSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 攻击力 的本地化字符串。
-        /// </summary>
-        public static string AttackSimple {
-            get {
-                return ResourceManager.GetString("AttackSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 击破伤害 的本地化字符串。
-        /// </summary>
-        public static string BreakDamage {
-            get {
-                return ResourceManager.GetString("BreakDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 击破增伤 的本地化字符串。
-        /// </summary>
-        public static string BreakDamageBoost {
-            get {
-                return ResourceManager.GetString("BreakDamageBoost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 击破增伤 的本地化字符串。
-        /// </summary>
-        public static string BreakDamageBoostSimple {
-            get {
-                return ResourceManager.GetString("BreakDamageBoostSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 击破 的本地化字符串。
-        /// </summary>
-        public static string BreakDamageSimple {
-            get {
-                return ResourceManager.GetString("BreakDamageSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeAttackBase", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 击破特攻 的本地化字符串。
         /// </summary>
-        public static string BreakEffect {
+        public static string AttributeBreakEffect {
             get {
-                return ResourceManager.GetString("BreakEffect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 击破特攻 的本地化字符串。
-        /// </summary>
-        public static string BreakEffectSimple {
-            get {
-                return ResourceManager.GetString("BreakEffectSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeBreakEffect", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 击破效率 的本地化字符串。
         /// </summary>
-        public static string BreakEfficiency {
+        public static string AttributeBreakEfficiency {
             get {
-                return ResourceManager.GetString("BreakEfficiency", resourceCulture);
+                return ResourceManager.GetString("AttributeBreakEfficiency", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 击破效率 的本地化字符串。
+        ///   查找类似 击破增伤 的本地化字符串。
         /// </summary>
-        public static string BreakEfficiencySimple {
+        public static string AttributeBreakIncrease {
             get {
-                return ResourceManager.GetString("BreakEfficiencySimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 切换 的本地化字符串。
-        /// </summary>
-        public static string Change {
-            get {
-                return ResourceManager.GetString("Change", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 角色属性 的本地化字符串。
-        /// </summary>
-        public static string CharacterElement {
-            get {
-                return ResourceManager.GetString("CharacterElement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 角色等级 的本地化字符串。
-        /// </summary>
-        public static string CharacterLevel {
-            get {
-                return ResourceManager.GetString("CharacterLevel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 角色等级 的本地化字符串。
-        /// </summary>
-        public static string CharacterLevelSimple {
-            get {
-                return ResourceManager.GetString("CharacterLevelSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 角色命途 的本地化字符串。
-        /// </summary>
-        public static string CharacterOccupation {
-            get {
-                return ResourceManager.GetString("CharacterOccupation", resourceCulture);
+                return ResourceManager.GetString("AttributeBreakIncrease", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 暴击伤害 的本地化字符串。
         /// </summary>
-        public static string CriticalDamage {
+        public static string AttributeCriticalHitDamage {
             get {
-                return ResourceManager.GetString("CriticalDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 暴击伤害 的本地化字符串。
-        /// </summary>
-        public static string CriticalDamageSimple {
-            get {
-                return ResourceManager.GetString("CriticalDamageSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 全暴击伤害 的本地化字符串。
-        /// </summary>
-        public static string CriticalHitDamage {
-            get {
-                return ResourceManager.GetString("CriticalHitDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 暴击 的本地化字符串。
-        /// </summary>
-        public static string CriticalHitDamageSimple {
-            get {
-                return ResourceManager.GetString("CriticalHitDamageSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeCriticalHitDamage", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 暴击率 的本地化字符串。
         /// </summary>
-        public static string CriticalHitRate {
+        public static string AttributeCriticalHitRate {
             get {
-                return ResourceManager.GetString("CriticalHitRate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 暴击率 的本地化字符串。
-        /// </summary>
-        public static string CriticalHitRateSimple {
-            get {
-                return ResourceManager.GetString("CriticalHitRateSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 伤害提高 的本地化字符串。
-        /// </summary>
-        public static string DamageBoost {
-            get {
-                return ResourceManager.GetString("DamageBoost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 伤害提高 的本地化字符串。
-        /// </summary>
-        public static string DamageBoostSimple {
-            get {
-                return ResourceManager.GetString("DamageBoostSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeCriticalHitRate", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 免伤 的本地化字符串。
         /// </summary>
-        public static string DamageDecrease {
+        public static string AttributeDamageDecrease {
             get {
-                return ResourceManager.GetString("DamageDecrease", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 免伤 的本地化字符串。
-        /// </summary>
-        public static string DamageDecreaseSimple {
-            get {
-                return ResourceManager.GetString("DamageDecreaseSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeDamageDecrease", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 易伤 的本地化字符串。
         /// </summary>
-        public static string DamageIncrease {
+        public static string AttributeDamageIncrease {
             get {
-                return ResourceManager.GetString("DamageIncrease", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 易伤 的本地化字符串。
-        /// </summary>
-        public static string DamageIncreaseSimple {
-            get {
-                return ResourceManager.GetString("DamageIncreaseSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeDamageIncrease", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 防御力 的本地化字符串。
         /// </summary>
-        public static string Defense {
+        public static string AttributeDefense {
             get {
-                return ResourceManager.GetString("Defense", resourceCulture);
+                return ResourceManager.GetString("AttributeDefense", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 基础防御 的本地化字符串。
         /// </summary>
-        public static string DefenseBase {
+        public static string AttributeDefenseBase {
             get {
-                return ResourceManager.GetString("DefenseBase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础防御 的本地化字符串。
-        /// </summary>
-        public static string DefenseBaseSimple {
-            get {
-                return ResourceManager.GetString("DefenseBaseSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeDefenseBase", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 无视防御 的本地化字符串。
         /// </summary>
-        public static string DefenseDecrease {
+        public static string AttributeDefenseDecrease {
             get {
-                return ResourceManager.GetString("DefenseDecrease", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 无视防御 的本地化字符串。
-        /// </summary>
-        public static string DefenseDecreaseSimple {
-            get {
-                return ResourceManager.GetString("DefenseDecreaseSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 防御力 的本地化字符串。
-        /// </summary>
-        public static string DefenseSimple {
-            get {
-                return ResourceManager.GetString("DefenseSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 持续伤害 的本地化字符串。
-        /// </summary>
-        public static string DelayedDamage {
-            get {
-                return ResourceManager.GetString("DelayedDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 毁灭 的本地化字符串。
-        /// </summary>
-        public static string DestructionOccupation {
-            get {
-                return ResourceManager.GetString("DestructionOccupation", resourceCulture);
+                return ResourceManager.GetString("AttributeDefenseDecrease", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 效果命中 的本地化字符串。
         /// </summary>
-        public static string EffectHitRate {
+        public static string AttributeEffectHitRate {
             get {
-                return ResourceManager.GetString("EffectHitRate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 效果命中 的本地化字符串。
-        /// </summary>
-        public static string EffectHitRateSimple {
-            get {
-                return ResourceManager.GetString("EffectHitRateSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeEffectHitRate", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 效果抵抗 的本地化字符串。
         /// </summary>
-        public static string EffectResistance {
+        public static string AttributeEffectMagical {
             get {
-                return ResourceManager.GetString("EffectResistance", resourceCulture);
+                return ResourceManager.GetString("AttributeEffectMagical", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 效果抵抗 的本地化字符串。
+        ///   查找类似 伤害提高 的本地化字符串。
         /// </summary>
-        public static string EffectResistanceSimple {
+        public static string AttributeElementIncrease {
             get {
-                return ResourceManager.GetString("EffectResistanceSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 抗性 的本地化字符串。
-        /// </summary>
-        public static string ElementResistance {
-            get {
-                return ResourceManager.GetString("ElementResistance", resourceCulture);
+                return ResourceManager.GetString("AttributeElementIncrease", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 抗性 的本地化字符串。
         /// </summary>
-        public static string ElementResistanceSimple {
+        public static string AttributeElementMagical {
             get {
-                return ResourceManager.GetString("ElementResistanceSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeElementMagical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 治疗提高 的本地化字符串。
+        /// </summary>
+        public static string AttributeHealingBoost {
+            get {
+                return ResourceManager.GetString("AttributeHealingBoost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 特殊数值 的本地化字符串。
+        /// </summary>
+        public static string AttributeHealingCount {
+            get {
+                return ResourceManager.GetString("AttributeHealingCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 生命值 的本地化字符串。
+        /// </summary>
+        public static string AttributeHealth {
+            get {
+                return ResourceManager.GetString("AttributeHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 基础生命 的本地化字符串。
+        /// </summary>
+        public static string AttributeHealthBase {
+            get {
+                return ResourceManager.GetString("AttributeHealthBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 抗性穿透 的本地化字符串。
+        /// </summary>
+        public static string AttributeMagicalDecrease {
+            get {
+                return ResourceManager.GetString("AttributeMagicalDecrease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 充能效率 的本地化字符串。
+        /// </summary>
+        public static string AttributeManaReplenish {
+            get {
+                return ResourceManager.GetString("AttributeManaReplenish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 能量上限 的本地化字符串。
+        /// </summary>
+        public static string AttributeMaximumEnergy {
+            get {
+                return ResourceManager.GetString("AttributeMaximumEnergy", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 怪物数量 的本地化字符串。
         /// </summary>
-        public static string EnemyAmount {
+        public static string AttributeMonsterCount {
             get {
-                return ResourceManager.GetString("EnemyAmount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 怪物 的本地化字符串。
-        /// </summary>
-        public static string EnemyAmountSimple {
-            get {
-                return ResourceManager.GetString("EnemyAmountSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeMonsterCount", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 怪物等级 的本地化字符串。
         /// </summary>
-        public static string EnemyLevel {
+        public static string AttributeMonsterLevel {
             get {
-                return ResourceManager.GetString("EnemyLevel", resourceCulture);
+                return ResourceManager.GetString("AttributeMonsterLevel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 怪物等级 的本地化字符串。
+        ///   查找类似 角色等级 的本地化字符串。
         /// </summary>
-        public static string EnemyLevelSimple {
+        public static string AttributePersonaLevel {
             get {
-                return ResourceManager.GetString("EnemyLevelSimple", resourceCulture);
+                return ResourceManager.GetString("AttributePersonaLevel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 充能效率 的本地化字符串。
+        ///   查找类似 速度 的本地化字符串。
         /// </summary>
-        public static string EnergyRegeneratRate {
+        public static string AttributeSpeed {
             get {
-                return ResourceManager.GetString("EnergyRegeneratRate", resourceCulture);
+                return ResourceManager.GetString("AttributeSpeed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 充能效率 的本地化字符串。
+        ///   查找类似 基础速度 的本地化字符串。
         /// </summary>
-        public static string EnergyRegeneratRateSimple {
+        public static string AttributeSpeedBase {
             get {
-                return ResourceManager.GetString("EnergyRegeneratRateSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeSpeedBase", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 智识 的本地化字符串。
+        ///   查找类似 超击破 的本地化字符串。
         /// </summary>
-        public static string EruditionOccupation {
+        public static string AttributeSuperBreakEqual {
             get {
-                return ResourceManager.GetString("EruditionOccupation", resourceCulture);
+                return ResourceManager.GetString("AttributeSuperBreakEqual", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 期望伤害 的本地化字符串。
+        ///   查找类似 削韧值 的本地化字符串。
         /// </summary>
-        public static string ExpectedDamage {
+        public static string AttributeToughDecline {
             get {
-                return ResourceManager.GetString("ExpectedDamage", resourceCulture);
+                return ResourceManager.GetString("AttributeToughDecline", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 期望值 的本地化字符串。
+        ///   查找类似 韧性值 的本地化字符串。
         /// </summary>
-        public static string ExpectedDamageSimple {
+        public static string AttributeToughness {
             get {
-                return ResourceManager.GetString("ExpectedDamageSimple", resourceCulture);
+                return ResourceManager.GetString("AttributeToughness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换 的本地化字符串。
+        /// </summary>
+        public static string ButtonChange {
+            get {
+                return ResourceManager.GetString("ButtonChange", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 导出 的本地化字符串。
         /// </summary>
-        public static string Export {
+        public static string ButtonExport {
             get {
-                return ResourceManager.GetString("Export", resourceCulture);
+                return ResourceManager.GetString("ButtonExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存 的本地化字符串。
+        /// </summary>
+        public static string ButtonSave {
+            get {
+                return ResourceManager.GetString("ButtonSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设置 的本地化字符串。
+        /// </summary>
+        public static string ButtonSetting {
+            get {
+                return ResourceManager.GetString("ButtonSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 击破伤害 的本地化字符串。
+        /// </summary>
+        public static string DamageBreak {
+            get {
+                return ResourceManager.GetString("DamageBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 全暴击伤害 的本地化字符串。
+        /// </summary>
+        public static string DamageCritical {
+            get {
+                return ResourceManager.GetString("DamageCritical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 持续伤害 的本地化字符串。
+        /// </summary>
+        public static string DamageDelay {
+            get {
+                return ResourceManager.GetString("DamageDelay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 期望伤害 的本地化字符串。
+        /// </summary>
+        public static string DamageExpect {
+            get {
+                return ResourceManager.GetString("DamageExpect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 基础伤害 的本地化字符串。
+        /// </summary>
+        public static string DamageNormal {
+            get {
+                return ResourceManager.GetString("DamageNormal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 超击破伤害 的本地化字符串。
+        /// </summary>
+        public static string DamageSuperBreak {
+            get {
+                return ResourceManager.GetString("DamageSuperBreak", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 灼烧 的本地化字符串。
         /// </summary>
-        public static string FireDelayedDamage {
+        public static string DelayedFire {
             get {
-                return ResourceManager.GetString("FireDelayedDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 火 的本地化字符串。
-        /// </summary>
-        public static string FireElement {
-            get {
-                return ResourceManager.GetString("FireElement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 同协 的本地化字符串。
-        /// </summary>
-        public static string HarmonyOccupation {
-            get {
-                return ResourceManager.GetString("HarmonyOccupation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 特殊数值 的本地化字符串。
-        /// </summary>
-        public static string HealingAmount {
-            get {
-                return ResourceManager.GetString("HealingAmount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 特殊数值 的本地化字符串。
-        /// </summary>
-        public static string HealingAmountSimple {
-            get {
-                return ResourceManager.GetString("HealingAmountSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 生命值 的本地化字符串。
-        /// </summary>
-        public static string Health {
-            get {
-                return ResourceManager.GetString("Health", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础生命 的本地化字符串。
-        /// </summary>
-        public static string HealthBase {
-            get {
-                return ResourceManager.GetString("HealthBase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础生命 的本地化字符串。
-        /// </summary>
-        public static string HealthBaseSimple {
-            get {
-                return ResourceManager.GetString("HealthBaseSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 生命值 的本地化字符串。
-        /// </summary>
-        public static string HealthSimple {
-            get {
-                return ResourceManager.GetString("HealthSimple", resourceCulture);
+                return ResourceManager.GetString("DelayedFire", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 冻结 的本地化字符串。
         /// </summary>
-        public static string IceDelayedDamage {
+        public static string DelayedIce {
             get {
-                return ResourceManager.GetString("IceDelayedDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 冰 的本地化字符串。
-        /// </summary>
-        public static string IceElement {
-            get {
-                return ResourceManager.GetString("IceElement", resourceCulture);
+                return ResourceManager.GetString("DelayedIce", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 禁锢 的本地化字符串。
         /// </summary>
-        public static string ImaginaryDelayedDamage {
+        public static string DelayedImaginary {
             get {
-                return ResourceManager.GetString("ImaginaryDelayedDamage", resourceCulture);
+                return ResourceManager.GetString("DelayedImaginary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 触电 的本地化字符串。
+        /// </summary>
+        public static string DelayedLightning {
+            get {
+                return ResourceManager.GetString("DelayedLightning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 裂伤 的本地化字符串。
+        /// </summary>
+        public static string DelayedPhysical {
+            get {
+                return ResourceManager.GetString("DelayedPhysical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 纠缠 的本地化字符串。
+        /// </summary>
+        public static string DelayedQuantum {
+            get {
+                return ResourceManager.GetString("DelayedQuantum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 风化 的本地化字符串。
+        /// </summary>
+        public static string DelayedWind {
+            get {
+                return ResourceManager.GetString("DelayedWind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色属性 的本地化字符串。
+        /// </summary>
+        public static string ElementCharacter {
+            get {
+                return ResourceManager.GetString("ElementCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 火 的本地化字符串。
+        /// </summary>
+        public static string ElementFire {
+            get {
+                return ResourceManager.GetString("ElementFire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 冰 的本地化字符串。
+        /// </summary>
+        public static string ElementIce {
+            get {
+                return ResourceManager.GetString("ElementIce", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 虚数 的本地化字符串。
         /// </summary>
-        public static string ImaginaryElement {
+        public static string ElementImaginary {
             get {
-                return ResourceManager.GetString("ImaginaryElement", resourceCulture);
+                return ResourceManager.GetString("ElementImaginary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 雷 的本地化字符串。
+        /// </summary>
+        public static string ElementLightning {
+            get {
+                return ResourceManager.GetString("ElementLightning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 物理 的本地化字符串。
+        /// </summary>
+        public static string ElementPhysical {
+            get {
+                return ResourceManager.GetString("ElementPhysical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 量子 的本地化字符串。
+        /// </summary>
+        public static string ElementQuantum {
+            get {
+                return ResourceManager.GetString("ElementQuantum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 风 的本地化字符串。
+        /// </summary>
+        public static string ElementWind {
+            get {
+                return ResourceManager.GetString("ElementWind", resourceCulture);
             }
         }
         
@@ -673,87 +574,6 @@ namespace StarRailDamage.Source.Core.LocalText.Fixed.Text {
         }
         
         /// <summary>
-        ///   查找类似 级 的本地化字符串。
-        /// </summary>
-        public static string LevelUnit {
-            get {
-                return ResourceManager.GetString("LevelUnit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 触电 的本地化字符串。
-        /// </summary>
-        public static string LightningDelayedDamage {
-            get {
-                return ResourceManager.GetString("LightningDelayedDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 雷 的本地化字符串。
-        /// </summary>
-        public static string LightningElement {
-            get {
-                return ResourceManager.GetString("LightningElement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 能量上限 的本地化字符串。
-        /// </summary>
-        public static string MaxEnergy {
-            get {
-                return ResourceManager.GetString("MaxEnergy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 能量上限 的本地化字符串。
-        /// </summary>
-        public static string MaxEnergySimple {
-            get {
-                return ResourceManager.GetString("MaxEnergySimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 记忆 的本地化字符串。
-        /// </summary>
-        public static string MemoryOccupation {
-            get {
-                return ResourceManager.GetString("MemoryOccupation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 虚无 的本地化字符串。
-        /// </summary>
-        public static string NihilityOccupation {
-            get {
-                return ResourceManager.GetString("NihilityOccupation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础伤害 的本地化字符串。
-        /// </summary>
-        public static string NormalDamage {
-            get {
-                return ResourceManager.GetString("NormalDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础值 的本地化字符串。
-        /// </summary>
-        public static string NormalDamageSimple {
-            get {
-                return ResourceManager.GetString("NormalDamageSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 算式 的本地化字符串。
         /// </summary>
         public static string NumberTextBoxTitle {
@@ -763,245 +583,101 @@ namespace StarRailDamage.Source.Core.LocalText.Fixed.Text {
         }
         
         /// <summary>
-        ///   查找类似 治疗提高 的本地化字符串。
+        ///   查找类似 丰饶 的本地化字符串。
         /// </summary>
-        public static string OutgoingHealingBoost {
+        public static string OccupationAbundance {
             get {
-                return ResourceManager.GetString("OutgoingHealingBoost", resourceCulture);
+                return ResourceManager.GetString("OccupationAbundance", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 治疗提高 的本地化字符串。
+        ///   查找类似 毁灭 的本地化字符串。
         /// </summary>
-        public static string OutgoingHealingBoostSimple {
+        public static string OccupationDestruction {
             get {
-                return ResourceManager.GetString("OutgoingHealingBoostSimple", resourceCulture);
+                return ResourceManager.GetString("OccupationDestruction", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 % 的本地化字符串。
+        ///   查找类似 智识 的本地化字符串。
         /// </summary>
-        public static string PercentUnit {
+        public static string OccupationErudition {
             get {
-                return ResourceManager.GetString("PercentUnit", resourceCulture);
+                return ResourceManager.GetString("OccupationErudition", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 裂伤 的本地化字符串。
+        ///   查找类似 同协 的本地化字符串。
         /// </summary>
-        public static string PhysicalDelayedDamage {
+        public static string OccupationHarmony {
             get {
-                return ResourceManager.GetString("PhysicalDelayedDamage", resourceCulture);
+                return ResourceManager.GetString("OccupationHarmony", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 物理 的本地化字符串。
+        ///   查找类似 记忆 的本地化字符串。
         /// </summary>
-        public static string PhysicalElement {
+        public static string OccupationMemory {
             get {
-                return ResourceManager.GetString("PhysicalElement", resourceCulture);
+                return ResourceManager.GetString("OccupationMemory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 命途 的本地化字符串。
+        /// </summary>
+        public static string OccupationName {
+            get {
+                return ResourceManager.GetString("OccupationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 虚无 的本地化字符串。
+        /// </summary>
+        public static string OccupationNihility {
+            get {
+                return ResourceManager.GetString("OccupationNihility", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 存护 的本地化字符串。
         /// </summary>
-        public static string PreservationOccupation {
+        public static string OccupationPreservation {
             get {
-                return ResourceManager.GetString("PreservationOccupation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 纠缠 的本地化字符串。
-        /// </summary>
-        public static string QuantumDelayedDamage {
-            get {
-                return ResourceManager.GetString("QuantumDelayedDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 量子 的本地化字符串。
-        /// </summary>
-        public static string QuantumElement {
-            get {
-                return ResourceManager.GetString("QuantumElement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 抗性穿透 的本地化字符串。
-        /// </summary>
-        public static string ResistanceDecrease {
-            get {
-                return ResourceManager.GetString("ResistanceDecrease", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 抗性穿透 的本地化字符串。
-        /// </summary>
-        public static string ResistanceDecreaseSimple {
-            get {
-                return ResourceManager.GetString("ResistanceDecreaseSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 保存 的本地化字符串。
-        /// </summary>
-        public static string Save {
-            get {
-                return ResourceManager.GetString("Save", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 设置 的本地化字符串。
-        /// </summary>
-        public static string Setting {
-            get {
-                return ResourceManager.GetString("Setting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 速度 的本地化字符串。
-        /// </summary>
-        public static string Speed {
-            get {
-                return ResourceManager.GetString("Speed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础速度 的本地化字符串。
-        /// </summary>
-        public static string SpeedBase {
-            get {
-                return ResourceManager.GetString("SpeedBase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基础速度 的本地化字符串。
-        /// </summary>
-        public static string SpeedBaseSimple {
-            get {
-                return ResourceManager.GetString("SpeedBaseSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 速度 的本地化字符串。
-        /// </summary>
-        public static string SpeedSimple {
-            get {
-                return ResourceManager.GetString("SpeedSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 超击破伤害 的本地化字符串。
-        /// </summary>
-        public static string SuperBreakDamage {
-            get {
-                return ResourceManager.GetString("SuperBreakDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 超击破 的本地化字符串。
-        /// </summary>
-        public static string SuperBreakDamageSimple {
-            get {
-                return ResourceManager.GetString("SuperBreakDamageSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 超击破 的本地化字符串。
-        /// </summary>
-        public static string SuperBreakEqual {
-            get {
-                return ResourceManager.GetString("SuperBreakEqual", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 超击破 的本地化字符串。
-        /// </summary>
-        public static string SuperBreakEqualSimple {
-            get {
-                return ResourceManager.GetString("SuperBreakEqualSimple", resourceCulture);
+                return ResourceManager.GetString("OccupationPreservation", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 巡猎 的本地化字符串。
         /// </summary>
-        public static string TheHuntOccupation {
+        public static string OccupationTheHunt {
             get {
-                return ResourceManager.GetString("TheHuntOccupation", resourceCulture);
+                return ResourceManager.GetString("OccupationTheHunt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 韧性值 的本地化字符串。
+        ///   查找类似 级 的本地化字符串。
         /// </summary>
-        public static string Toughness {
+        public static string UnitLevel {
             get {
-                return ResourceManager.GetString("Toughness", resourceCulture);
+                return ResourceManager.GetString("UnitLevel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 削韧值 的本地化字符串。
+        ///   查找类似 % 的本地化字符串。
         /// </summary>
-        public static string ToughnessReduced {
+        public static string UnitPercent {
             get {
-                return ResourceManager.GetString("ToughnessReduced", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 削韧值 的本地化字符串。
-        /// </summary>
-        public static string ToughnessReducedSimple {
-            get {
-                return ResourceManager.GetString("ToughnessReducedSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 韧性值 的本地化字符串。
-        /// </summary>
-        public static string ToughnessSimple {
-            get {
-                return ResourceManager.GetString("ToughnessSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 风化 的本地化字符串。
-        /// </summary>
-        public static string WindDelayedDamage {
-            get {
-                return ResourceManager.GetString("WindDelayedDamage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 风 的本地化字符串。
-        /// </summary>
-        public static string WindElement {
-            get {
-                return ResourceManager.GetString("WindElement", resourceCulture);
+                return ResourceManager.GetString("UnitPercent", resourceCulture);
             }
         }
     }

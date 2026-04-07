@@ -18,47 +18,47 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             return AttributeMap.GetValueOrDefault(target).ThrowIfNull();
         }
 
-        private static KeyValuePair<string, CharacterAttributeInfo> GetAttribute(string attribute, BitmapImage icon, TextBinding unit, int digits)
+        private static KeyValuePair<string, CharacterAttributeInfo> GetAttribute(CharacterAttribute attribute, BitmapImage icon, TextBinding unit, int digits)
         {
-            return KeyValuePair.Create(attribute, CharacterAttributeInfo.Create(attribute, icon, unit, digits));
+            return KeyValuePair.Create(attribute.ToString(), CharacterAttributeInfo.Create(attribute.ToString(), icon, unit, digits));
         }
 
         static CharacterAttributeExtension()
         {
-            TextBinding LevelUnit = FixedTextManage.Binding(nameof(FixedText.LevelUnit));
-            TextBinding PercentUnit = FixedTextManage.Binding(nameof(FixedText.PercentUnit));
+            TextBinding LevelUnit = FixedTextManage.Binding(nameof(FixedText.UnitLevel));
+            TextBinding PercentUnit = FixedTextManage.Binding(nameof(FixedText.UnitPercent));
             AttributeMap = FrozenDictionary.Create([
-                GetAttribute(nameof(FixedText.CharacterLevel),          AttributeImage.Health,      LevelUnit,              0),
-                GetAttribute(nameof(FixedText.EnemyLevel),              AttributeImage.Health,      LevelUnit,              0),
-                GetAttribute(nameof(FixedText.EnemyAmount),             AttributeImage.Unknown,     TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.ElementResistance),       AttributeImage.Unknown,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.DamageDecrease),          AttributeImage.Defense,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.DamageIncrease),          AttributeImage.Unknown,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.Toughness),               AttributeImage.Battery,     TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.Attack),                  AttributeImage.Attack,      TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.AttackBase),              AttributeImage.Attack,      TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.Health),                  AttributeImage.Health,      TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.HealthBase),              AttributeImage.Health,      TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.Defense),                 AttributeImage.Defense,     TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.DefenseBase),             AttributeImage.Defense,     TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.Speed),                   AttributeImage.Speed,       TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.SpeedBase),               AttributeImage.Speed,       TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.CriticalHitRate),         AttributeImage.Augment,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.CriticalDamage),          AttributeImage.Offense,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.DamageBoost),             AttributeImage.Unknown,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.DefenseDecrease),         AttributeImage.Defense,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.ResistanceDecrease),      AttributeImage.Unknown,     PercentUnit,            1),
-                GetAttribute(nameof(FixedText.SuperBreakEqual),         AttributeImage.Break,       PercentUnit,            1),
-                GetAttribute(nameof(FixedText.BreakEffect),             AttributeImage.Break,       PercentUnit,            1),
-                GetAttribute(nameof(FixedText.BreakDamageBoost),        AttributeImage.Break,       PercentUnit,            1),
-                GetAttribute(nameof(FixedText.BreakEfficiency),         AttributeImage.Break,       PercentUnit,            1),
-                GetAttribute(nameof(FixedText.ToughnessReduced),        AttributeImage.Battery,     TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.EffectHitRate),           AttributeImage.Stroke,      PercentUnit,            1),
-                GetAttribute(nameof(FixedText.EffectResistance),        AttributeImage.Shielding,   PercentUnit,            1),
-                GetAttribute(nameof(FixedText.OutgoingHealingBoost),    AttributeImage.Treatment,   PercentUnit,            1),
-                GetAttribute(nameof(FixedText.HealingAmount),           AttributeImage.Battery,     TextBinding.Default,    0),
-                GetAttribute(nameof(FixedText.EnergyRegeneratRate),     AttributeImage.Charging,    PercentUnit,            1),
-                GetAttribute(nameof(FixedText.MaxEnergy),               AttributeImage.Battery,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.Attack,                 AttributeImage.Attack,      TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.AttackBase,             AttributeImage.Attack,      TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.Health,                 AttributeImage.Health,      TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.HealthBase,             AttributeImage.Health,      TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.Defense,                AttributeImage.Defense,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.DefenseBase,            AttributeImage.Defense,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.Speed,                  AttributeImage.Speed,       TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.SpeedBase,              AttributeImage.Speed,       TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.CriticalHitRate,        AttributeImage.Critical,    PercentUnit,            1),
+                GetAttribute(CharacterAttribute.CriticalHitDamage,      AttributeImage.Offense,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.ElementIncrease,        AttributeImage.Unknown,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.DefenseDecrease,        AttributeImage.Defense,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.MagicalDecrease,        AttributeImage.Unknown,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.SuperBreakEqual,        AttributeImage.Break,       PercentUnit,            1),
+                GetAttribute(CharacterAttribute.BreakEffect,            AttributeImage.Break,       PercentUnit,            1),
+                GetAttribute(CharacterAttribute.BreakIncrease,          AttributeImage.Break,       PercentUnit,            1),
+                GetAttribute(CharacterAttribute.BreakEfficiency,        AttributeImage.Break,       PercentUnit,            1),
+                GetAttribute(CharacterAttribute.ToughDecline,           AttributeImage.Maximum,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.EffectHitRate,          AttributeImage.HitRate,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.EffectMagical,          AttributeImage.Magical,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.HealingBoost,           AttributeImage.Healing,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.HealingCount,           AttributeImage.Maximum,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.ManaReplenish,          AttributeImage.Replenish,   PercentUnit,            1),
+                GetAttribute(CharacterAttribute.MaximumEnergy,          AttributeImage.Maximum,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.PersonaLevel,           AttributeImage.Health,      LevelUnit,              0),
+                GetAttribute(CharacterAttribute.MonsterLevel,           AttributeImage.Health,      LevelUnit,              0),
+                GetAttribute(CharacterAttribute.MonsterCount,           AttributeImage.Unknown,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.ElementMagical,         AttributeImage.Unknown,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.DamageDecrease,         AttributeImage.Defense,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.DamageIncrease,         AttributeImage.Unknown,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.Toughness,              AttributeImage.Maximum,     TextBinding.Default,    0),
                 ]);
         }
     }

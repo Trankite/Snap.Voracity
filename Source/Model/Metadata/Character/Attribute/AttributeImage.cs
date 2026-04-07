@@ -12,21 +12,21 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         public static readonly BitmapImage Speed = GetImage("Speed");
 
-        public static readonly BitmapImage Augment = GetImage("Augment");
+        public static readonly BitmapImage Critical = GetImage("Critical");
 
         public static readonly BitmapImage Offense = GetImage("Offense");
 
-        public static readonly BitmapImage Shielding = GetImage("Shielding");
+        public static readonly BitmapImage Magical = GetImage("Magical");
 
-        public static readonly BitmapImage Stroke = GetImage("Stroke");
+        public static readonly BitmapImage HitRate = GetImage("HitRate");
 
-        public static readonly BitmapImage Charging = GetImage("Charging");
+        public static readonly BitmapImage Replenish = GetImage("Replenish");
 
-        public static readonly BitmapImage Battery = GetImage("Battery");
+        public static readonly BitmapImage Maximum = GetImage("Maximum");
 
         public static readonly BitmapImage Break = GetImage("Break");
 
-        public static readonly BitmapImage Treatment = GetImage("Treatment");
+        public static readonly BitmapImage Healing = GetImage("Healing");
 
         public static readonly BitmapImage Unknown = GetImage("Unknown");
 

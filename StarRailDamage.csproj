@@ -33,16 +33,16 @@
   <ItemGroup>
     <Resource Include="Source\UI\Assets\Icon\Attribute\Attack.png" />
     <Resource Include="Source\UI\Assets\Icon\Attribute\Break.png" />
-    <Resource Include="Source\UI\Assets\Icon\Attribute\Charging.png" />
-    <Resource Include="Source\UI\Assets\Icon\Attribute\Battery.png" />
+    <Resource Include="Source\UI\Assets\Icon\Attribute\Replenish.png" />
+    <Resource Include="Source\UI\Assets\Icon\Attribute\Maximum.png" />
     <Resource Include="Source\UI\Assets\Icon\Attribute\Offense.png" />
-    <Resource Include="Source\UI\Assets\Icon\Attribute\Augment.png" />
+    <Resource Include="Source\UI\Assets\Icon\Attribute\Critical.png" />
     <Resource Include="Source\UI\Assets\Icon\Attribute\Defense.png" />
-    <Resource Include="Source\UI\Assets\Icon\Attribute\Stroke.png" />
-    <Resource Include="Source\UI\Assets\Icon\Attribute\Shielding.png" />
+    <Resource Include="Source\UI\Assets\Icon\Attribute\HitRate.png" />
+    <Resource Include="Source\UI\Assets\Icon\Attribute\Magical.png" />
     <Resource Include="Source\UI\Assets\Icon\Attribute\Health.png" />
     <Resource Include="Source\UI\Assets\Icon\Attribute\Speed.png" />
-    <Resource Include="Source\UI\Assets\Icon\Attribute\Treatment.png" />
+    <Resource Include="Source\UI\Assets\Icon\Attribute\Healing.png" />
     <Resource Include="Source\UI\Assets\Icon\Attribute\Unknown.png" />
     <Resource Include="Source\UI\Assets\Icon\Element\Offense\Fire.png" />
     <Resource Include="Source\UI\Assets\Icon\Element\Offense\Ice.png" />

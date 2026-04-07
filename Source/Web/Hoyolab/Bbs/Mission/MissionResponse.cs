@@ -10,7 +10,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Mission
         {
             if (TryGetAnalyzedBody(out MissionResponseWrapper? Content))
             {
-                analyedBody = new MissionAnalyzedBody(Content.TotalPoints, Content.TodayTotalPoints, Content.CanGetPoints);
+                analyedBody = new MissionAnalyzedBody(Content.TotalPoints, Content.AlreadyReceivedPoints, Content.CanGetPoints);
                 foreach (MissionResponseState State in Content.States)
                 {
                     analyedBody.Mission[(MissionType)State.MissionId] = State.HappenedTimes;

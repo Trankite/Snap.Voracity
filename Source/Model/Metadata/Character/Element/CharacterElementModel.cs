@@ -32,12 +32,12 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Element
 
         private static TextBinding GetNameBinding(string element)
         {
-            return FixedTextManage.Binding(element + "Element");
+            return FixedTextManage.Binding("Element" + element);
         }
 
         private static TextBinding GetBreakBinding(string element)
         {
-            return FixedTextManage.Binding(element + "DelayedDamage");
+            return FixedTextManage.Binding("Delayed" + element);
         }
 
         private static BitmapImage GetElementImage(string element)

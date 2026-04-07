@@ -23,7 +23,7 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Occupation
 
         private static TextBinding GetNameBinding(string occupation)
         {
-            return FixedTextManage.Binding(occupation + "Occupation");
+            return FixedTextManage.Binding("Occupation" + occupation);
         }
 
         private static BitmapImage GetOccupationImage(string occupation)

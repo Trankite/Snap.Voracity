@@ -4,52 +4,52 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Damage
 {
     public class CharacterDamageModel : NotifyPropertyChangedFactory
     {
-        private double _NormalDamage;
+        private double _Normal;
 
-        private double _CriticalHitDamage;
+        private double _Critical;
 
-        private double _ExpectedDamage;
+        private double _Expect;
 
-        private double _BreakDamage;
+        private double _Break;
 
-        private double _SuperBreakDamage;
+        private double _SuperBreak;
 
-        private double _DelayedDamage;
+        private double _Delay;
 
-        public double NormalDamage
+        public double Normal
         {
-            get => _NormalDamage;
-            set => SetField(ref _NormalDamage, value);
+            get => _Normal;
+            set => SetField(ref _Normal, value);
         }
 
-        public double CriticalHitDamage
+        public double Critical
         {
-            get => _CriticalHitDamage;
-            set => SetField(ref _CriticalHitDamage, value);
+            get => _Critical;
+            set => SetField(ref _Critical, value);
         }
 
-        public double ExpectedDamage
+        public double Expect
         {
-            get => _ExpectedDamage;
-            set => SetField(ref _ExpectedDamage, value);
+            get => _Expect;
+            set => SetField(ref _Expect, value);
         }
 
-        public double BreakDamage
+        public double Break
         {
-            get => _BreakDamage;
-            set => SetField(ref _BreakDamage, value);
+            get => _Break;
+            set => SetField(ref _Break, value);
         }
 
-        public double SuperBreakDamage
+        public double SuperBreak
         {
-            get => _SuperBreakDamage;
-            set => SetField(ref _SuperBreakDamage, value);
+            get => _SuperBreak;
+            set => SetField(ref _SuperBreak, value);
         }
 
-        public double DelayedDamage
+        public double Delay
         {
-            get => _DelayedDamage;
-            set => SetField(ref _DelayedDamage, value);
+            get => _Delay;
+            set => SetField(ref _Delay, value);
         }
     }
 }

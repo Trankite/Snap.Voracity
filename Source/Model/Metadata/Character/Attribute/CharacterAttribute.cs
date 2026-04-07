@@ -1,0 +1,37 @@
+﻿namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
+{
+    public enum CharacterAttribute
+    {
+        Attack,
+        AttackBase,
+        Health,
+        HealthBase,
+        Defense,
+        DefenseBase,
+        Speed,
+        SpeedBase,
+        CriticalHitRate,
+        CriticalHitDamage,
+        ElementIncrease,
+        DefenseDecrease,
+        MagicalDecrease,
+        SuperBreakEqual,
+        BreakEffect,
+        BreakIncrease,
+        BreakEfficiency,
+        ToughDecline,
+        EffectHitRate,
+        EffectMagical,
+        HealingBoost,
+        HealingCount,
+        ManaReplenish,
+        MaximumEnergy,
+        PersonaLevel,
+        MonsterLevel,
+        MonsterCount,
+        ElementMagical,
+        DamageDecrease,
+        DamageIncrease,
+        Toughness
+    }
+}

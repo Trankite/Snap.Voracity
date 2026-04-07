@@ -24,7 +24,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
             {
                 return MissionState;
             }
-            for (int i = 1 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Sign); i >= 0; i--)
+            for (int i = 1 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Sign) - 1; i >= 0; i--)
             {
                 TerminalHelper.WriteLine(await new ForumSignPerformCommand().AsyncInvoke(HoyolabGroup.StarRail.ToIntString(), AidText));
             }

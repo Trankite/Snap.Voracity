@@ -8,18 +8,15 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
     {
         public TextBinding Name { get; }
 
-        public TextBinding Simple { get; }
-
         public BitmapImage Icon { get; }
 
         public TextBinding Unit { get; }
 
         public int Digits { get; }
 
-        private CharacterAttributeInfo(TextBinding name, TextBinding simple, BitmapImage icon, TextBinding unit, int digits)
+        private CharacterAttributeInfo(TextBinding name, BitmapImage icon, TextBinding unit, int digits)
         {
             Name = name;
-            Simple = simple;
             Icon = icon;
             Unit = unit;
             Digits = digits;
@@ -27,17 +24,12 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         public static CharacterAttributeInfo Create(string attribute, BitmapImage icon, TextBinding unit, int digits)
         {
-            return new CharacterAttributeInfo(GetNameBinding(attribute), GetSimpleBinding(attribute), icon, unit, digits);
+            return new CharacterAttributeInfo(GetNameBinding(attribute), icon, unit, digits);
         }
 
         private static TextBinding GetNameBinding(string attribute)
         {
-            return FixedTextManage.Binding(attribute);
-        }
-
-        private static TextBinding GetSimpleBinding(string attribute)
-        {
-            return FixedTextManage.Binding(attribute + "Simple");
+            return FixedTextManage.Binding("Attribute" + attribute);
         }
     }
 }

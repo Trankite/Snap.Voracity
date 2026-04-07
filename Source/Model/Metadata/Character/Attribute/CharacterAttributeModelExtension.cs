@@ -10,15 +10,15 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
         public static CharacterDamageModel Damage(this CharacterAttributeModel model, CharacterElement element, CharacterDamageModel damage)
         {
             double Correction = (1 + model.DamageIncrease / 100) * (1 - model.DamageDecrease / 100);
-            double Resistance = 1 - Math.Min(90, Math.Max(model.ElementResistance - model.ResistanceDecrease, -100)) / 100;
-            double Defense = (model.CharacterLevel + 20) / (model.CharacterLevel + 20 + (model.EnemyLevel + 20) * Math.Max(0, 1 - model.DefenseDecrease / 100));
-            damage.DelayedDamage = damage.NormalDamage * Correction * Resistance * Defense * (1 + model.DamageBoost / 100);
-            damage.CriticalHitDamage = damage.NormalDamage * Correction * Resistance * Defense * (1 + model.CriticalDamage / 100);
-            damage.ExpectedDamage = damage.NormalDamage * Correction * Resistance * Defense * (1 + model.CriticalHitRate / 100 * model.CriticalHitRate / 100);
-            double NormalBreak = (1 + model.BreakEffect / 100) * (1 + model.BreakDamageBoost / 100) * GetNormalBreak(model.CharacterLevel);
-            double Toughness = model.ToughnessReduced * (1 + model.BreakEfficiency / 100) / 10;
-            damage.BreakDamage = NormalBreak * Correction * Resistance * Defense * (model.Toughness / 20 - 0.5) * GetBreakEqual(element);
-            damage.SuperBreakDamage = NormalBreak * Correction * Resistance * Defense * Toughness;
+            double Resistance = 1 - Math.Min(90, Math.Max(model.ElementMagical - model.MagicalDecrease, -100)) / 100;
+            double Defense = (model.PersonaLevel + 20) / (model.PersonaLevel + 20 + (model.MonsterLevel + 20) * Math.Max(0, 1 - model.DefenseDecrease / 100));
+            damage.Delay = damage.Normal * Correction * Resistance * Defense * (1 + model.ElementIncrease / 100);
+            damage.Critical = damage.Normal * Correction * Resistance * Defense * (1 + model.CriticalHitDamage / 100);
+            damage.Expect = damage.Normal * Correction * Resistance * Defense * (1 + model.CriticalHitRate / 100 * model.CriticalHitRate / 100);
+            double NormalBreak = (1 + model.BreakEffect / 100) * (1 + model.BreakIncrease / 100) * GetNormalBreak(model.PersonaLevel);
+            double Toughness = model.ToughDecline * (1 + model.BreakEfficiency / 100) / 10;
+            damage.Break = NormalBreak * Correction * Resistance * Defense * (model.Toughness / 20 - 0.5) * GetBreakEqual(element);
+            damage.SuperBreak = NormalBreak * Correction * Resistance * Defense * Toughness;
             return damage;
         }
 
