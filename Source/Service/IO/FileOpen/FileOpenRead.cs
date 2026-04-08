@@ -7,7 +7,7 @@ namespace StarRailDamage.Source.Service.IO.FileOpen
     {
         public FileOpenRead(string path)
         {
-            Success = StreamExtension.TryOpenRead(path, out FileStream? _FileStream, this) && true.Configure(Stream = _FileStream);
+            Success = StreamExtension.TryOpenRead(path, out FileStream? FileStream, this) && true.Configure(Stream = FileStream);
         }
 
         public FileOpenRead(Stream stream) : base(stream) { }

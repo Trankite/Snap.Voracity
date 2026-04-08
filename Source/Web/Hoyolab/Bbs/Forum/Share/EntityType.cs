@@ -2,7 +2,6 @@
 {
     public enum EntityType
     {
-        None,
         Post = 1
     }
 }

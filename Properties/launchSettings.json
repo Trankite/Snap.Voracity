@@ -2,6 +2,10 @@
   "profiles": {
     "StarRailDamage": {
       "commandName": "Project"
+    },
+    "StarRailConsole": {
+      "commandName": "Project",
+      "commandLineArgs": "console"
     }
   }
 }

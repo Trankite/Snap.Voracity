@@ -2,7 +2,6 @@
 {
     public enum ClientType
     {
-        None,
         Apple = 1,
         Android = 2,
         Web = 4,

@@ -2,7 +2,6 @@
 {
     public enum HoyolabTokenType
     {
-        None,
         SToken,
         LToken,
         Cookie

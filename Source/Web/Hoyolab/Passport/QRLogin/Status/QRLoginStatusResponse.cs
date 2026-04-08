@@ -7,7 +7,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Passport.QRLogin.Status
     {
         public QRLoginStatus GetStatus()
         {
-            return Content.IsNotNull() && Enum.TryParse(Content.Status, out QRLoginStatus Status) ? Status : default;
+            return Content.IsNotNull() && EnumExtension.TryParse(Content.Status, out QRLoginStatus Status) ? Status : default;
         }
     }
 }

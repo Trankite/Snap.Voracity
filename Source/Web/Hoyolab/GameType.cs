@@ -3,8 +3,6 @@
     [Flags]
     public enum GameType
     {
-        None,
-
         HoyolabChina = 0x01,
         HoyolabGlobal = 0x02,
         Hoyolab = HoyolabChina | HoyolabGlobal,

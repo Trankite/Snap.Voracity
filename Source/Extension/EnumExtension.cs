@@ -17,6 +17,12 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static bool TryParse<TEnum>(string? value, out TEnum result) where TEnum : struct, Enum
+        {
+            return Enum.TryParse(value, out result) && Enum.IsDefined(result);
+        }
+
+        [DebuggerStepThrough]
         public static int GetFlags<TEnum>(this IEnumerable<TEnum> values) where TEnum : Enum
         {
             int Flags = 0;

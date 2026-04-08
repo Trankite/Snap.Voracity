@@ -2,7 +2,6 @@
 {
     public enum SaltType
     {
-        None,
         K2,
         LK2,
         X4,

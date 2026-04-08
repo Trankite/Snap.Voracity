@@ -2,7 +2,6 @@
 {
     public enum ExchangeType
     {
-        None,
         SToken = 1,
         LToken = 2,
         Cookie = 4

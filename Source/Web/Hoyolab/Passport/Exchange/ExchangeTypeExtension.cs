@@ -9,7 +9,7 @@
 
         public static HoyolabTokenType GetTokenType(this ExchangeType exchangeType)
         {
-            return exchangeType switch { ExchangeType.SToken => HoyolabTokenType.SToken, ExchangeType.LToken => HoyolabTokenType.LToken, ExchangeType.Cookie => HoyolabTokenType.Cookie, _ => HoyolabTokenType.None };
+            return exchangeType switch { ExchangeType.SToken => HoyolabTokenType.SToken, ExchangeType.LToken => HoyolabTokenType.LToken, ExchangeType.Cookie => HoyolabTokenType.Cookie, _ => default };
         }
     }
 }

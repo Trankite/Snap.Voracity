@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Source\UI\Assets\Logo\Logo.ico</ApplicationIcon>
+    <ApplicationIcon>Source\UI\Assets\Icon\Icon.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
     <LangVersion>preview</LangVersion>
     <StartupObject>StarRailDamage.Program</StartupObject>
@@ -14,20 +14,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Source\UI\Assets\Logo\Image.png" />
-    <None Remove="Source\UI\Assets\Logo\Logo.ico" />
     <None Remove="Source\UI\Assets\Wall\Backgroup.png" />
     <None Remove="Source\UI\Assets\Wall\GoldenItem.png" />
     <None Remove="Source\UI\Assets\Wall\Monster.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Source\UI\Assets\Logo\Logo.ico" />
+    <Content Include="Source\UI\Assets\Icon\Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Source\UI\Assets\Logo\Image.png" />
-    <Resource Include="Source\UI\Assets\Logo\Logo.ico" />
+    <Resource Include="Source\UI\Assets\Icon\Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

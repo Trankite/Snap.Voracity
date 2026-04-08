@@ -2,7 +2,6 @@
 {
     public enum MissionType
     {
-        None,
         Sign = 58,
         View = 59,
         Upvote = 60,

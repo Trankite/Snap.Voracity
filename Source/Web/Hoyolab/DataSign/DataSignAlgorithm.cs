@@ -2,7 +2,6 @@
 {
     public enum DataSignAlgorithm
     {
-        None,
         Gen1,
         Gen2
     }

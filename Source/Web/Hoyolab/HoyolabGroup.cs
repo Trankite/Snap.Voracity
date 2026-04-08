@@ -2,7 +2,6 @@
 {
     public enum HoyolabGroup
     {
-        None,
         Honkai3 = 1,
         Genshin = 2,
         Honkai2 = 3,

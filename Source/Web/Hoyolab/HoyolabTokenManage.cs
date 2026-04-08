@@ -3,7 +3,6 @@ using StarRailDamage.Source.Core.Setting;
 using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Encode.Encrypt;
 using StarRailDamage.Source.Service.Encode.Hashing;
-using StarRailDamage.Source.Service.IO;
 using StarRailDamage.Source.Service.IO.FileOpen;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
@@ -50,7 +49,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         public static bool Save(params HoyolabToken[] hoyolabTokens)
         {
-            using FileOpenWrite FileWrite = new(FileManage.BuildFilePath(GetFilePath()));
+            using FileOpenWrite FileWrite = FileOpenWrite.Create(GetFilePath());
             if (FileWrite.Success)
             {
                 JsonSerializer.SerializeAsync(FileWrite.Stream, hoyolabTokens, JsonOptions).RunSynchronously();
@@ -85,8 +84,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
                 Dictionary<HoyolabTokenType, string> HoyolabTokens = [];
                 while (reader.Read() && reader.TokenType == JsonTokenType.PropertyName)
                 {
-                    string? TokenName = reader.GetString();
-                    if (Enum.TryParse(TokenName, out HoyolabTokenType TokenType) && reader.Read())
+                    if (EnumExtension.TryParse(reader.GetString(), out HoyolabTokenType TokenType) && reader.Read())
                     {
                         string? Token = reader.GetString();
                         if (string.IsNullOrEmpty(Token)) continue;

@@ -2,7 +2,6 @@
 {
     public enum QRLoginStatus
     {
-        None,
         Created,
         Scanned,
         Confirmed
