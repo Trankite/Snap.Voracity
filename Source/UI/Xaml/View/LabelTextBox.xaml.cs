@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Model.Text;
+﻿using StarRailDamage.Source.Model.Text;
 using StarRailDamage.Source.UI.Factory.PropertyBinding;
 using StarRailDamage.Source.UI.Model.View;
 using System.Windows;
@@ -17,7 +16,6 @@ namespace StarRailDamage.Source.UI.Xaml.View
         public LabelTextBox()
         {
             InitializeComponent();
-            this.SetFocusable();
         }
 
         private void TextBoxGotFocus(object sender, RoutedEventArgs e)

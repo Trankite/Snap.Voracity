@@ -1,4 +1,4 @@
-﻿using StarRailDamage.Source.Core.LocalText.Fixed;
+﻿using StarRailDamage.Source.Core.LocalText;
 using StarRailDamage.Source.Model.Text;
 using System.Windows.Media.Imaging;
 

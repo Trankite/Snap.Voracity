@@ -35,10 +35,7 @@ namespace StarRailDamage.Source.Model.DataStruct.PrefixedTree
             return TryGetNode(key, out PrefixedTreeNode<TKey, TValue>? TreeNode) ? true.Configure(lastNode = TreeNode) : false.Configure(lastNode = this);
         }
 
-        public bool TryGetValue([NotNullWhen(true)] out TValue? value)
-        {
-            return !Equals(value = Value, null);
-        }
+        public bool TryGetValue([NotNullWhen(true)] out TValue? value) => ObjectExtension.IsNotNull(value = Value);
 
         public TValue? GetValueOrDefault() => Value;
     }

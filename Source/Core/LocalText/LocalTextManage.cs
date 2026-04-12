@@ -1,6 +1,4 @@
-﻿using StarRailDamage.Source.Core.LocalText.Fixed;
-using StarRailDamage.Source.Core.LocalText.Marked;
-using StarRailDamage.Source.Model.Text;
+﻿using StarRailDamage.Source.Model.Text;
 using System.Diagnostics;
 using System.Globalization;
 using System.Resources;

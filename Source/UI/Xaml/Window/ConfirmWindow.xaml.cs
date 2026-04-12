@@ -1,4 +1,4 @@
-﻿using StarRailDamage.Source.UI.Control.Panel;
+﻿using StarRailDamage.Source.UI.Xaml.Control.Panel;
 using System.Windows;
 
 namespace StarRailDamage.Source.UI.Xaml.Window

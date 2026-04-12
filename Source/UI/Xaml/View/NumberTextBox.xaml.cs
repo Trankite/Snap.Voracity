@@ -1,8 +1,7 @@
 ﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Control;
 using StarRailDamage.Source.UI.Factory.PropertyBinding;
 using StarRailDamage.Source.UI.Model.View;
+using StarRailDamage.Source.UI.Xaml.Control;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +19,6 @@ namespace StarRailDamage.Source.UI.Xaml.View
         public NumberTextBox()
         {
             InitializeComponent();
-            this.SetFocusable();
             Unloaded += (sender, e) =>
             {
                 BindingFactory.ClearModelBinding(Model);

@@ -6,7 +6,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Factory
 {
     public abstract class FormulaFactory : IFormulaFactory
     {
-        protected abstract IFormulaSymbolManager SymbolManager { get; }
+        protected abstract IFormulaSymbolManage SymbolManager { get; }
 
         protected abstract bool IsBeginSymbol(IFormulaSymbol formulaSymbol);
 
@@ -18,10 +18,10 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Factory
 
         protected virtual void OnPopBeginSymbol(IFormulaSymbol formulaSymbol, Stack<Formula?> formulaStack, Stack<IFormulaSymbol> formulaSymbolStack) { }
 
-        public Formula? Parse(string? formula)
+        public Formula? Parse(string formula)
         {
-            if (string.IsNullOrEmpty(formula)) return null;
-            int Index = 0, RepeatedSymbol = 1;
+            int Index = 0;
+            int RepeatedSymbol = 1;
             Stack<Formula?> FormulaStack = new();
             Stack<IFormulaSymbol> FormulaSymbolStack = new();
             while (Index < formula.Length)

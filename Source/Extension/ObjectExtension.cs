@@ -25,6 +25,12 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static T Middle<T>([NotNullWhen(true)] this T value, T minimum, T maximum) where T : IComparable<T>
+        {
+            return value.CompareTo(minimum) < 0 ? minimum : value.CompareTo(maximum) > 0 ? value : maximum;
+        }
+
+        [DebuggerStepThrough]
         public static bool IsDefault<T>(this T? value)
         {
             return EqualityComparer<T>.Default.Equals(value, default);

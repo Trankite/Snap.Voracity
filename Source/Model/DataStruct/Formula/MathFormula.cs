@@ -7,17 +7,9 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
     {
         public MathFormula() { }
 
-        public MathFormula(string value)
-        {
-            Value = value;
-        }
+        public MathFormula(string value) : base(value) { }
 
-        public MathFormula(Formula? leftFormula, IFormulaSymbol formulaSymbol, Formula? rightFormula)
-        {
-            Left = leftFormula;
-            Symbol = formulaSymbol;
-            Right = rightFormula;
-        }
+        public MathFormula(Formula? leftFormula, IFormulaSymbol formulaSymbol, Formula? rightFormula) : base(leftFormula, formulaSymbol, rightFormula) { }
 
         public override string ToString()
         {

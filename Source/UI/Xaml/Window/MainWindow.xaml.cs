@@ -1,6 +1,6 @@
-﻿using StarRailDamage.Source.UI.Control;
-using StarRailDamage.Source.UI.Control.Panel;
-using StarRailDamage.Source.UI.Model.Control;
+﻿using StarRailDamage.Source.UI.Model.Control;
+using StarRailDamage.Source.UI.Xaml.Control;
+using StarRailDamage.Source.UI.Xaml.Control.Panel;
 using StarRailDamage.Source.UI.Xaml.Page;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.UI.Xaml.Window
         public MainWindow()
         {
             InitializeComponent();
-            TabItems = [new("首页", new CombatPage()), new("白厄"), new("丹恒•腾荒"), new("刻律德菈"), new("星期日"),];
+            TabItems = [new("首页", new PortalHomePage()), new("测试角色", new MockBattlePage())];
         }
 
         private void TabItemClose(object sender, RoutedEventArgs e)

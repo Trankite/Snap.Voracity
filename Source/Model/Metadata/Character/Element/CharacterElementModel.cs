@@ -1,4 +1,4 @@
-﻿using StarRailDamage.Source.Core.LocalText.Fixed;
+﻿using StarRailDamage.Source.Core.LocalText;
 using StarRailDamage.Source.Model.Text;
 using System.Windows.Media.Imaging;
 
@@ -42,17 +42,17 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Element
 
         private static BitmapImage GetElementImage(string element)
         {
-            return new BitmapImage(new Uri($"/Source/UI/Assets/Icon/Element/{element}.png", UriKind.Relative));
+            return new BitmapImage(new Uri($"/Source/Resource/Icon/Element/{element}.png", UriKind.Relative));
         }
 
         private static BitmapImage GetOffenseImage(string element)
         {
-            return new BitmapImage(new Uri($"/Source/UI/Assets/Icon/Element/Offense/{element}.png", UriKind.Relative));
+            return new BitmapImage(new Uri($"/Source/Resource/Icon/Element/Offense/{element}.png", UriKind.Relative));
         }
 
         private static BitmapImage GetDefenseImage(string element)
         {
-            return new BitmapImage(new Uri($"/Source/UI/Assets/Icon/Element/Defense/{element}.png", UriKind.Relative));
+            return new BitmapImage(new Uri($"/Source/Resource/Icon/Element/Defense/{element}.png", UriKind.Relative));
         }
     }
 }

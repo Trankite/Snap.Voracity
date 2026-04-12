@@ -1,4 +1,4 @@
-﻿using StarRailDamage.Source.Core.LocalText.Marked.Text;
+﻿using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Sign

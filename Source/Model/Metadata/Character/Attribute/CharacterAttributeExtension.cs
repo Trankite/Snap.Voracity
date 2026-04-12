@@ -1,7 +1,7 @@
-﻿using StarRailDamage.Source.Core.LocalText.Fixed;
-using StarRailDamage.Source.Core.LocalText.Fixed.Text;
+﻿using StarRailDamage.Source.Core.LocalText;
 using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Model.Text;
+using StarRailDamage.Source.Resource.Localization;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using System.Windows.Media.Imaging;
@@ -49,13 +49,13 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
                 GetAttribute(CharacterAttribute.EffectHitRate,          AttributeImage.HitRate,     PercentUnit,            1),
                 GetAttribute(CharacterAttribute.EffectMagical,          AttributeImage.Magical,     PercentUnit,            1),
                 GetAttribute(CharacterAttribute.HealingBoost,           AttributeImage.Healing,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.HealingCount,           AttributeImage.Maximum,     TextBinding.Default,    0),
+                GetAttribute(CharacterAttribute.ElationBonus,           AttributeImage.Punchline,   TextBinding.Default,    0),
                 GetAttribute(CharacterAttribute.ManaReplenish,          AttributeImage.Replenish,   PercentUnit,            1),
                 GetAttribute(CharacterAttribute.MaximumEnergy,          AttributeImage.Maximum,     TextBinding.Default,    0),
-                GetAttribute(CharacterAttribute.PersonaLevel,           AttributeImage.Health,      LevelUnit,              0),
+                GetAttribute(CharacterAttribute.WonsterLevel,           AttributeImage.Health,      LevelUnit,              0),
                 GetAttribute(CharacterAttribute.MonsterLevel,           AttributeImage.Health,      LevelUnit,              0),
                 GetAttribute(CharacterAttribute.MonsterCount,           AttributeImage.Unknown,     TextBinding.Default,    0),
-                GetAttribute(CharacterAttribute.ElementMagical,         AttributeImage.Unknown,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.MagicalIncrease,         AttributeImage.Unknown,     PercentUnit,            1),
                 GetAttribute(CharacterAttribute.DamageDecrease,         AttributeImage.Defense,     PercentUnit,            1),
                 GetAttribute(CharacterAttribute.DamageIncrease,         AttributeImage.Unknown,     PercentUnit,            1),
                 GetAttribute(CharacterAttribute.Toughness,              AttributeImage.Maximum,     TextBinding.Default,    0),

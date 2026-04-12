@@ -20,6 +20,8 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         public static readonly BitmapImage HitRate = GetImage("HitRate");
 
+        public static readonly BitmapImage Punchline = GetImage("Punchline");
+
         public static readonly BitmapImage Replenish = GetImage("Replenish");
 
         public static readonly BitmapImage Maximum = GetImage("Maximum");
@@ -32,7 +34,7 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         private static BitmapImage GetImage(string attribute)
         {
-            return new BitmapImage(new Uri($"/Source/UI/Assets/Icon/Attribute/{attribute}.png", UriKind.Relative));
+            return new BitmapImage(new Uri($"/Source/Resource/Icon/Attribute/{attribute}.png", UriKind.Relative));
         }
     }
 }

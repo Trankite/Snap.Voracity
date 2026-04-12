@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AttributeAttack" xml:space="preserve">
+    <value>攻击力</value>
+  </data>
+  <data name="AttributeAttackBase" xml:space="preserve">
+    <value>基础攻击</value>
+  </data>
+  <data name="DamageNormal" xml:space="preserve">
+    <value>基础伤害</value>
+  </data>
+  <data name="AttributeBreakIncrease" xml:space="preserve">
+    <value>击破增伤</value>
+  </data>
+  <data name="AttributeBreakEfficiency" xml:space="preserve">
+    <value>击破效率</value>
+  </data>
+  <data name="AttributeBreakEffect" xml:space="preserve">
+    <value>击破特攻</value>
+  </data>
+  <data name="DamageBreak" xml:space="preserve">
+    <value>击破伤害</value>
+  </data>
+  <data name="ButtonChange" xml:space="preserve">
+    <value>切换</value>
+  </data>
+  <data name="ElementCharacter" xml:space="preserve">
+    <value>角色属性</value>
+  </data>
+  <data name="AttributeWonsterLevel" xml:space="preserve">
+    <value>角色等级</value>
+  </data>
+  <data name="OccupationName" xml:space="preserve">
+    <value>命途</value>
+  </data>
+  <data name="AttributeMaximumEnergy" xml:space="preserve">
+    <value>能量上限</value>
+  </data>
+  <data name="AttributeCriticalHitDamage" xml:space="preserve">
+    <value>暴击伤害</value>
+  </data>
+  <data name="AttributeCriticalHitRate" xml:space="preserve">
+    <value>暴击率</value>
+  </data>
+  <data name="DamageCritical" xml:space="preserve">
+    <value>全暴击伤害</value>
+  </data>
+  <data name="AttributeElementIncrease" xml:space="preserve">
+    <value>伤害提高</value>
+  </data>
+  <data name="AttributeDamageIncrease" xml:space="preserve">
+    <value>易伤</value>
+  </data>
+  <data name="AttributeDefense" xml:space="preserve">
+    <value>防御力</value>
+  </data>
+  <data name="AttributeDefenseBase" xml:space="preserve">
+    <value>基础防御</value>
+  </data>
+  <data name="AttributeDefenseDecrease" xml:space="preserve">
+    <value>无视防御</value>
+  </data>
+  <data name="DamageDelay" xml:space="preserve">
+    <value>持续伤害</value>
+  </data>
+  <data name="AttributeEffectHitRate" xml:space="preserve">
+    <value>效果命中</value>
+  </data>
+  <data name="AttributeEffectMagical" xml:space="preserve">
+    <value>效果抵抗</value>
+  </data>
+  <data name="AttributeMagicalIncrease" xml:space="preserve">
+    <value>抗性</value>
+  </data>
+  <data name="DamageElation" xml:space="preserve">
+    <value>欢愉伤害</value>
+  </data>
+  <data name="ButtonExport" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="DelayedFire" xml:space="preserve">
+    <value>灼烧</value>
+  </data>
+  <data name="ElementFire" xml:space="preserve">
+    <value>火</value>
+  </data>
+  <data name="AttributeHealth" xml:space="preserve">
+    <value>生命值</value>
+  </data>
+  <data name="AttributeHealthBase" xml:space="preserve">
+    <value>基础生命</value>
+  </data>
+  <data name="DelayedIce" xml:space="preserve">
+    <value>冻结</value>
+  </data>
+  <data name="ElementIce" xml:space="preserve">
+    <value>冰</value>
+  </data>
+  <data name="DelayedImaginary" xml:space="preserve">
+    <value>禁锢</value>
+  </data>
+  <data name="ElementImaginary" xml:space="preserve">
+    <value>虚数</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="UnitLevel" xml:space="preserve">
+    <value>级</value>
+  </data>
+  <data name="DelayedLightning" xml:space="preserve">
+    <value>触电</value>
+  </data>
+  <data name="ElementLightning" xml:space="preserve">
+    <value>雷</value>
+  </data>
+  <data name="AttributeMonsterCount" xml:space="preserve">
+    <value>怪物数量</value>
+  </data>
+  <data name="AttributeMonsterLevel" xml:space="preserve">
+    <value>怪物等级</value>
+  </data>
+  <data name="NumberTextBoxTitle" xml:space="preserve">
+    <value>算式</value>
+  </data>
+  <data name="UnitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="DelayedPhysical" xml:space="preserve">
+    <value>裂伤</value>
+  </data>
+  <data name="ElementPhysical" xml:space="preserve">
+    <value>物理</value>
+  </data>
+  <data name="DelayedQuantum" xml:space="preserve">
+    <value>纠缠</value>
+  </data>
+  <data name="ElementQuantum" xml:space="preserve">
+    <value>量子</value>
+  </data>
+  <data name="AttributeMagicalDecrease" xml:space="preserve">
+    <value>抗性穿透</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="ButtonSetting" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="AttributeElationBonus" xml:space="preserve">
+    <value>好活当赏</value>
+  </data>
+  <data name="AttributeSpeed" xml:space="preserve">
+    <value>速度</value>
+  </data>
+  <data name="AttributeSpeedBase" xml:space="preserve">
+    <value>基础速度</value>
+  </data>
+  <data name="AttributeSuperBreakEqual" xml:space="preserve">
+    <value>超击破</value>
+  </data>
+  <data name="DamageSuperBreak" xml:space="preserve">
+    <value>超击破伤害</value>
+  </data>
+  <data name="AttributeToughness" xml:space="preserve">
+    <value>韧性值</value>
+  </data>
+  <data name="AttributeToughDecline" xml:space="preserve">
+    <value>削韧值</value>
+  </data>
+  <data name="AttributeHealingBoost" xml:space="preserve">
+    <value>治疗提高</value>
+  </data>
+  <data name="DelayedWind" xml:space="preserve">
+    <value>风化</value>
+  </data>
+  <data name="ElementWind" xml:space="preserve">
+    <value>风</value>
+  </data>
+  <data name="AttributeDamageDecrease" xml:space="preserve">
+    <value>免伤</value>
+  </data>
+  <data name="AttributeManaReplenish" xml:space="preserve">
+    <value>充能效率</value>
+  </data>
+  <data name="OccupationAbundance" xml:space="preserve">
+    <value>丰饶</value>
+  </data>
+  <data name="OccupationDestruction" xml:space="preserve">
+    <value>毁灭</value>
+  </data>
+  <data name="OccupationErudition" xml:space="preserve">
+    <value>智识</value>
+  </data>
+  <data name="OccupationHarmony" xml:space="preserve">
+    <value>同协</value>
+  </data>
+  <data name="OccupationMemory" xml:space="preserve">
+    <value>记忆</value>
+  </data>
+  <data name="OccupationElation" xml:space="preserve">
+    <value>欢愉</value>
+  </data>
+  <data name="OccupationNihility" xml:space="preserve">
+    <value>虚无</value>
+  </data>
+  <data name="OccupationPreservation" xml:space="preserve">
+    <value>存护</value>
+  </data>
+  <data name="OccupationTheHunt" xml:space="preserve">
+    <value>巡猎</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ButtonConfirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+</root>

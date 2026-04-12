@@ -1,37 +1,50 @@
-﻿using StarRailDamage.Source.Model.Metadata.Character.Damage;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Model.Metadata.Character.Damage;
 using StarRailDamage.Source.Model.Metadata.Character.Element;
 
 namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 {
     public static class CharacterAttributeModelExtension
     {
-        private static readonly int[] BreakTable;
+        private static readonly int[] NormalTable;
 
         public static CharacterDamageModel Damage(this CharacterAttributeModel model, CharacterElement element, CharacterDamageModel damage)
         {
-            double Correction = (1 + model.DamageIncrease / 100) * (1 - model.DamageDecrease / 100);
-            double Resistance = 1 - Math.Min(90, Math.Max(model.ElementMagical - model.MagicalDecrease, -100)) / 100;
-            double Defense = (model.PersonaLevel + 20) / (model.PersonaLevel + 20 + (model.MonsterLevel + 20) * Math.Max(0, 1 - model.DefenseDecrease / 100));
-            damage.Delay = damage.Normal * Correction * Resistance * Defense * (1 + model.ElementIncrease / 100);
-            damage.Critical = damage.Normal * Correction * Resistance * Defense * (1 + model.CriticalHitDamage / 100);
-            damage.Expect = damage.Normal * Correction * Resistance * Defense * (1 + model.CriticalHitRate / 100 * model.CriticalHitRate / 100);
-            double NormalBreak = (1 + model.BreakEffect / 100) * (1 + model.BreakIncrease / 100) * GetNormalBreak(model.PersonaLevel);
-            double Toughness = model.ToughDecline * (1 + model.BreakEfficiency / 100) / 10;
-            damage.Break = NormalBreak * Correction * Resistance * Defense * (model.Toughness / 20 - 0.5) * GetBreakEqual(element);
-            damage.SuperBreak = NormalBreak * Correction * Resistance * Defense * Toughness;
+            double WonsterDefense = GetDefense(model.WonsterLevel);
+            double MonsterDefense = GetDefense(model.MonsterLevel) * GetOffense(-model.DefenseDecrease);
+            double Defense = WonsterDefense / (WonsterDefense + MonsterDefense);
+            double Magical = GetOffense((model.MagicalIncrease - model.MagicalDecrease).Middle(-90, 100));
+            double Creased = GetOffense(model.DamageIncrease) * GetOffense(-model.DamageDecrease) * Magical * Defense;
+            double NormalDamage = damage.Delay = damage.Normal * Creased;
+            double Critical = GetOffense(model.CriticalHitDamage);
+            damage.Critical = NormalDamage * Critical * GetOffense(model.ElementIncrease);
+            double EqualDamage = GetOffense(model.SuperBreakEqual) - 1;
+            double Elation = 1 + model.ToughDecline * 5 / (model.ToughDecline + 240);
+            NormalDamage = GetNormalDamage(model.WonsterLevel) * Creased * GetOffense(model.BreakIncrease);
+            damage.Elation = NormalDamage * 2 * EqualDamage * Elation * Critical;
+            NormalDamage *= GetOffense(model.BreakEffect);
+            double Toughness = model.ToughDecline * GetOffense(model.BreakEfficiency) / 10;
+            damage.Break = NormalDamage * (model.Toughness / 20 - 0.5) * GetBreakEqual(element);
+            damage.SuperBreak = NormalDamage * EqualDamage * Toughness;
             return damage;
         }
 
-        public static double GetNormalBreak(double level) => BreakTable[Math.Max(1, Math.Min(Convert.ToInt32(level), 80)) - 1];
+        public static double GetNormalDamage(double level) => NormalTable[GetLevelIndex(level)];
 
         public static double GetBreakEqual(CharacterElement element)
         {
             return element switch { CharacterElement.Quantum or CharacterElement.Imaginary => 0.5, CharacterElement.Ice or CharacterElement.Lightning => 1, CharacterElement.Wind => 1.5, CharacterElement.Fire or CharacterElement.Physical => 2, _ => double.NaN };
         }
 
+        public static int GetLevelIndex(double level) => Convert.ToInt32(level).Middle(1, 80) - 1;
+
+        public static double GetOffense(double value) => value / 100 + 1;
+
+        public static double GetDefense(double level) => level + 20;
+
         static CharacterAttributeModelExtension()
         {
-            BreakTable =
+            NormalTable =
             [
                 54,     58,     62,     68,     71,     74,     77,     80,     83,     86,
                 91,     97,     103,    108,    113,    119,    124,    129,    135,    140,

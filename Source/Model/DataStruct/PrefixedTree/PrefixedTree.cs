@@ -5,7 +5,9 @@ namespace StarRailDamage.Source.Model.DataStruct.PrefixedTree
 {
     public class PrefixedTree<TKey, TValue> where TKey : notnull
     {
-        private PrefixedTreeNode<TKey, TValue> Node { get; } = new();
+        private readonly PrefixedTreeNode<TKey, TValue> Node = new();
+
+        public PrefixedTreeNode<TKey, TValue> GetNode() => Node;
 
         public void Add(IEnumerable<TKey> keys, TValue value)
         {
@@ -16,8 +18,6 @@ namespace StarRailDamage.Source.Model.DataStruct.PrefixedTree
             }
             currentNode.Value = value;
         }
-
-        public PrefixedTreeNode<TKey, TValue> GetNode() => Node;
 
         public bool TryGetValue(IEnumerable<TKey> keys, [NotNullWhen(true)] out TValue? value)
         {

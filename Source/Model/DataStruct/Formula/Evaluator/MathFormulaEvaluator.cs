@@ -6,9 +6,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Evaluator
 {
     public class MathFormulaEvaluator : IFormulaEvaluator
     {
-        double IFormulaEvaluator.GetValue(Formula? formula) => GetValue(formula);
-
-        public static double GetValue(Formula? formula)
+        public double GetValue(Formula? formula)
         {
             if (formula.IsNull()) return double.NaN;
             if (string.IsNullOrEmpty(formula.Symbol.Text))

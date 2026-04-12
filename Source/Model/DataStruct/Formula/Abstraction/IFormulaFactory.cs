@@ -2,6 +2,6 @@
 {
     public interface IFormulaFactory
     {
-        Formula? Parse(string? formula);
+        Formula? Parse(string formula);
     }
 }

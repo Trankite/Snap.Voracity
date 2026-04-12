@@ -5,9 +5,9 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Factory
 {
     public class MathFormulaFactory : FormulaFactory
     {
-        private static readonly MathFormulaSymbolManager FormulaSymbolManager = new();
+        private static readonly MathFormulaSymbolManage FormulaSymbolManager = new();
 
-        protected override IFormulaSymbolManager SymbolManager => FormulaSymbolManager;
+        protected override IFormulaSymbolManage SymbolManager => FormulaSymbolManager;
 
         protected override Formula GetFormula(string value) => new MathFormula(value);
 

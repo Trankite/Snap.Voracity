@@ -4,7 +4,7 @@
     {
         Normal,
         Critical,
-        Expect,
+        Elation,
         Break,
         SuperBreak,
         Delay

@@ -10,7 +10,10 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Symbol
 
         public override string Text => SymbolMethod.Symbol;
 
-        public MathFormulaSymbol(int symbolRank) : this(symbolRank, DefaultMethod) { }
+        public MathFormulaSymbol(int symbolRank) : base(symbolRank)
+        {
+            SymbolMethod = DefaultMethod;
+        }
 
         public MathFormulaSymbol(int symbolRank, IMathFormulaMethod symbolMethod) : base(symbolRank)
         {

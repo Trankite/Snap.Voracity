@@ -3,7 +3,7 @@ using StarRailDamage.Source.Core.Setting;
 using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Encode.Encrypt;
 using StarRailDamage.Source.Service.Encode.Hashing;
-using StarRailDamage.Source.Service.IO.FileOpen;
+using StarRailDamage.Source.Service.FileOpen;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;

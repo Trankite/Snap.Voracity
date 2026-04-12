@@ -1,7 +1,0 @@
-﻿<TextBlock
-    x:Class="StarRailDamage.Source.UI.Control.ScopedTextBlock"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:StarRailDamage.Source.UI.Control">
-
-</TextBlock>

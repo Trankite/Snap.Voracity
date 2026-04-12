@@ -30,6 +30,8 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         private double _MagicalDecrease;
 
+        private double _MagicalIncrease;
+
         private double _SuperBreakEqual;
 
         private double _BreakEffect;
@@ -46,19 +48,17 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         private double _HealingBoost;
 
-        private double _HealingCount;
+        private double _ElationBonus;
 
         private double _ManaReplenish;
 
         private double _MaximumEnergy;
 
-        private double _PersonaLevel;
+        private double _WonsterLevel;
 
         private double _MonsterLevel;
 
         private double _MonsterCount;
-
-        private double _ElementMagical;
 
         private double _DamageDecrease;
 
@@ -144,6 +144,12 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _MagicalDecrease, value);
         }
 
+        public double MagicalIncrease
+        {
+            get => _MagicalIncrease;
+            set => SetField(ref _MagicalIncrease, value);
+        }
+
         public double SuperBreakEqual
         {
             get => _SuperBreakEqual;
@@ -192,10 +198,10 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _HealingBoost, value);
         }
 
-        public double HealingCount
+        public double ElationBonus
         {
-            get => _HealingCount;
-            set => SetField(ref _HealingCount, value);
+            get => _ElationBonus;
+            set => SetField(ref _ElationBonus, value);
         }
 
         public double ManaReplenish
@@ -210,10 +216,10 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _MaximumEnergy, value);
         }
 
-        public double PersonaLevel
+        public double WonsterLevel
         {
-            get => _PersonaLevel;
-            set => SetField(ref _PersonaLevel, value);
+            get => _WonsterLevel;
+            set => SetField(ref _WonsterLevel, value);
         }
 
         public double MonsterLevel
@@ -226,12 +232,6 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
         {
             get => _MonsterCount;
             set => SetField(ref _MonsterCount, value);
-        }
-
-        public double ElementMagical
-        {
-            get => _ElementMagical;
-            set => SetField(ref _ElementMagical, value);
         }
 
         public double DamageDecrease

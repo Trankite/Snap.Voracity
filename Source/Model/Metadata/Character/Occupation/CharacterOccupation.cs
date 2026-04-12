@@ -40,6 +40,11 @@
         /// <summary>
         /// 记忆
         /// </summary>
-        Memory
+        Memory,
+
+        /// <summary>
+        /// 欢愉
+        /// </summary>
+        Elation
     }
 }

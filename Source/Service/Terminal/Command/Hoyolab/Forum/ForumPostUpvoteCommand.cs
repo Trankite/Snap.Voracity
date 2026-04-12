@@ -1,5 +1,5 @@
-﻿using StarRailDamage.Source.Core.LocalText.Marked.Text;
-using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 using StarRailDamage.Source.Web.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.Upvote;
@@ -30,7 +30,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
             FinalizedResponse<UpvoteResponse> Response = await Factory.Create().SendAsync<UpvoteResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
-                return new TerminalResponse(true, StringExtension.Format(MarkedText.HoyolabForumPostUpvote, PostId, !IsCancel));
+                return new TerminalResponse(true, StringExtension.Format(IsCancel ? MarkedText.HoyolabForumPostUpvoteCancel : MarkedText.HoyolabForumPostUpvote, PostId));
             }
             return new TerminalResponse(false, Response.ToString());
         }

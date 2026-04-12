@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Damage
 
         private double _Critical;
 
-        private double _Expect;
+        private double _Elation;
 
         private double _Break;
 
@@ -28,10 +28,10 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Damage
             set => SetField(ref _Critical, value);
         }
 
-        public double Expect
+        public double Elation
         {
-            get => _Expect;
-            set => SetField(ref _Expect, value);
+            get => _Elation;
+            set => SetField(ref _Elation, value);
         }
 
         public double Break

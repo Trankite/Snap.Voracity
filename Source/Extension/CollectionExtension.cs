@@ -54,13 +54,13 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static int AutoIndex(int index, int sourceLength)
         {
-            return Math.Max(0, Math.Min(index, sourceLength - 1));
+            return index.Middle(0, sourceLength - 1);
         }
 
         [DebuggerStepThrough]
         public static int AutoCount(int index, int count, int sourceLength)
         {
-            return Math.Max(0, Math.Min(sourceLength - index, count));
+            return (sourceLength - index).Middle(0, count);
         }
 
         [DebuggerStepThrough]

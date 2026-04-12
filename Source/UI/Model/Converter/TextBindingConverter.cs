@@ -1,4 +1,4 @@
-﻿using StarRailDamage.Source.Core.LocalText.Fixed;
+﻿using StarRailDamage.Source.Core.LocalText;
 using System.Globalization;
 using System.Windows.Data;
 

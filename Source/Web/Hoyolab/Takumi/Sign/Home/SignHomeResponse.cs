@@ -1,5 +1,5 @@
-﻿using StarRailDamage.Source.Core.LocalText.Marked.Text;
-using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Web.Response;
 using System.Diagnostics.CodeAnalysis;
 

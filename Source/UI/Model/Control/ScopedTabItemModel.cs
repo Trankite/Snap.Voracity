@@ -1,5 +1,5 @@
-﻿using StarRailDamage.Source.UI.Control.Panel;
-using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
+﻿using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
+using StarRailDamage.Source.UI.Xaml.Control.Panel;
 
 namespace StarRailDamage.Source.UI.Model.Control
 {

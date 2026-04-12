@@ -1,4 +1,4 @@
-﻿using StarRailDamage.Source.Core.LocalText.Fixed;
+﻿using StarRailDamage.Source.Core.LocalText;
 using StarRailDamage.Source.Model.Text;
 using System.Windows.Media.Imaging;
 
@@ -28,7 +28,7 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Occupation
 
         private static BitmapImage GetOccupationImage(string occupation)
         {
-            return new BitmapImage(new Uri($"/Source/UI/Assets/Icon/Occupation/{occupation}.png", UriKind.Relative));
+            return new BitmapImage(new Uri($"/Source/Resource/Icon/Occupation/{occupation}.png", UriKind.Relative));
         }
     }
 }
