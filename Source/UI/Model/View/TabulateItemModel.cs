@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace StarRailDamage.Source.UI.Model.View
 {
-    public class GainItemModel : NotifyPropertyChangedFactory
+    public class TabulateItemModel : NotifyPropertyChangedFactory
     {
         private ImageSource? _Icon;
 

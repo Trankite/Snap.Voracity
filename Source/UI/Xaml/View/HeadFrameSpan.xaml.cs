@@ -5,9 +5,9 @@ using System.Windows.Media;
 
 namespace StarRailDamage.Source.UI.Xaml.View
 {
-    public partial class HeadSculpture : UserControl
+    public partial class HeadFrameSpan : UserControl
     {
-        public HeadSculpture()
+        public HeadFrameSpan()
         {
             InitializeComponent();
         }
@@ -18,7 +18,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(HeadImageProperty, value);
         }
 
-        public static readonly DependencyProperty HeadImageProperty = DependencyProperty.Register(nameof(HeadImage), typeof(ImageSource), typeof(HeadSculpture));
+        public static readonly DependencyProperty HeadImageProperty = DependencyProperty.Register(nameof(HeadImage), typeof(ImageSource), typeof(HeadFrameSpan));
 
         public ImageSource DefaultHeadImage
         {
@@ -26,7 +26,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(DefaultHeadImageProperty, value);
         }
 
-        public static readonly DependencyProperty DefaultHeadImageProperty = DependencyProperty.Register(nameof(DefaultHeadImage), typeof(ImageSource), typeof(HeadSculpture));
+        public static readonly DependencyProperty DefaultHeadImageProperty = DependencyProperty.Register(nameof(DefaultHeadImage), typeof(ImageSource), typeof(HeadFrameSpan));
 
         public ObservableCollection<ImageSource> MarkItems
         {
@@ -34,7 +34,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(MarkItemsProperty, value);
         }
 
-        public static readonly DependencyProperty MarkItemsProperty = DependencyProperty.Register(nameof(MarkItems), typeof(ObservableCollection<ImageSource>), typeof(HeadSculpture));
+        public static readonly DependencyProperty MarkItemsProperty = DependencyProperty.Register(nameof(MarkItems), typeof(ObservableCollection<ImageSource>), typeof(HeadFrameSpan));
 
         public string Text
         {
@@ -42,6 +42,6 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(TextProperty, value);
         }
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(HeadSculpture));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(HeadFrameSpan));
     }
 }

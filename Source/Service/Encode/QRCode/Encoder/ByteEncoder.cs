@@ -17,11 +17,9 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
             return length * 8;
         }
 
-        protected override BitSet BinaryEncode(byte[] content)
+        protected override BitSet BinaryEncode(ReadOnlySpan<byte> content)
         {
-            byte[] Bytes = new byte[content.Length];
-            Array.Copy(content, 0, Bytes, 0, content.Length);
-            return BitSet.FromBitBytes(Bytes);
+            return BitSet.FromBitBytes(content.ToArray());
         }
 
         static ByteEncoder()

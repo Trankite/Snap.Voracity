@@ -51,8 +51,10 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 return new TerminalResponse(false, Write.ToString());
             }
             QRCode Qrcode = QRCode.Create(Encoding.UTF8.GetBytes(ContentText), Level, MaskType);
-            using Bitmap Bitmap = Qrcode.GetBitmap(Black, White);
-            Bitmap.Save(Write.Stream, ImageFormat.Png);
+            using (Bitmap Bitmap = Qrcode.GetBitmap(Black, White))
+            {
+                Bitmap.Save(Write.Stream, ImageFormat.Png);
+            }
             return new TerminalResponse(true, PathOpen ? FileHelper.PathOpen(FilePath) : FilePath);
         }
     }

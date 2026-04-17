@@ -19,26 +19,27 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
             return length / 3 * 10 + SurplusTable[length % 3];
         }
 
-        protected override BitSet BinaryEncode(byte[] content)
+        protected override BitSet BinaryEncode(ReadOnlySpan<byte> content)
         {
             int Count = content.Length;
             int BitCount = Count / 3;
             BitSet Result = BitSet.FromBitCount(GetValidBitCount(Count));
-            int GetValue(int index) => content[index] - '0';
             for (int i = 0; i < BitCount; i++)
             {
-                Result.Write(i * 10, GetValue(i * 3) * 100 + GetValue(i * 3 + 1) * 10 + GetValue(i * 3 + 2), 10);
+                Result.Write(i * 10, Encode(content[i * 3]) * 100 + Encode(content[i * 3 + 1]) * 10 + Encode(content[i * 3 + 2]), 10);
             }
             if (Count % 3 == 1)
             {
-                Result.Write(BitCount * 10, GetValue(BitCount * 3), 4);
+                Result.Write(BitCount * 10, Encode(content[BitCount * 3]), 4);
             }
             else if (Count % 3 == 2)
             {
-                Result.Write(BitCount * 10, GetValue(BitCount * 3) * 10 + GetValue(BitCount * 3 + 1), 7);
+                Result.Write(BitCount * 10, Encode(content[BitCount * 3]) * 10 + Encode(content[BitCount * 3 + 1]), 7);
             }
             return Result;
         }
+
+        private static int Encode(byte value) => value - '0';
 
         static NumericEncoder()
         {

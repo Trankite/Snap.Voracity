@@ -2,7 +2,7 @@
 
 namespace StarRailDamage.Source.UI.Model.View
 {
-    public class GainViewModel : NotifyPropertyChangedFactory
+    public class TabulateSpanModel : NotifyPropertyChangedFactory
     {
 
     }

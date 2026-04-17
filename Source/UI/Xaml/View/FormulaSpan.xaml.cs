@@ -10,13 +10,13 @@ using System.Windows.Media;
 
 namespace StarRailDamage.Source.UI.Xaml.View
 {
-    public partial class NumberTextBox : UserControl
+    public partial class FormulaSpan : UserControl
     {
-        private static readonly PropertyBindingFactory<NumberTextBox> BindingFactory = new();
+        private static readonly PropertyBindingFactory<FormulaSpan> BindingFactory = new();
 
         private ScopedTextBox InnerTextBox => field.IsNotNull() ? field : field = (ScopedTextBox)Template.FindName("PART_TextBox", this);
 
-        public NumberTextBox()
+        public FormulaSpan()
         {
             InitializeComponent();
             Unloaded += (sender, e) =>
@@ -53,9 +53,9 @@ namespace StarRailDamage.Source.UI.Xaml.View
             Dropdown = false;
         }
 
-        public NumberTextBoxModel Model
+        public FormulaSpanModel Model
         {
-            get => (NumberTextBoxModel)GetValue(ModelProperty);
+            get => (FormulaSpanModel)GetValue(ModelProperty);
             set => SetValue(ModelProperty, value);
         }
 

@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="StarRailDamage.Source.UI.Xaml.View.NumberTextBox"
+    x:Class="StarRailDamage.Source.UI.Xaml.View.FormulaSpan"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:StarRailDamage.Source.UI.Xaml.View"
@@ -11,9 +11,10 @@
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="{x:Type Control:ScopedTextBlock}">
-                        <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}}}"/>
-                        <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}}}"/>
-                        <Setter Property="FontWeight" Value="{Binding FontWeight,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}}}"/>
+                        <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}"/>
+                        <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}"/>
+                        <Setter Property="FontWeight" Value="{Binding FontWeight,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
                     </Style>
                 </Grid.Resources>
 
@@ -26,17 +27,17 @@
                 </Grid.ColumnDefinitions>
 
                 <Panel:ScopedViewBox Grid.Column="0" MaxWidth="50">
-                    <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='NumberTextBoxTitle'}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
+                    <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='MagicalFormulaSpanTitle'}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
                 </Panel:ScopedViewBox>
 
-                <Control:ScopedTextBox x:Name="PART_TextBox" Grid.Column="2" CornerRadius="10" Text="{Binding Text,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}},Mode=TwoWay}" Background="{TemplateBinding Background}" FocusBrush="{Binding FocusBrush,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}}}" FontWeight="Normal" PreviewKeyDown="TextBoxPreviewKeyDown" LostFocus="TextBoxLostFocus"/>
+                <Control:ScopedTextBox x:Name="PART_TextBox" Grid.Column="2" CornerRadius="10" Text="{Binding Text,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},Mode=TwoWay}" Background="{TemplateBinding Background}" FocusBrush="{Binding FocusBrush,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}" FontWeight="Normal" PreviewKeyDown="TextBoxPreviewKeyDown" LostFocus="TextBoxLostFocus"/>
 
-                <Control:ScopedTextBlock Grid.Column="4" Text="{Binding Value,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}},StringFormat={}{0:0.#####}}"/>
+                <Control:ScopedTextBlock Grid.Column="4" Text="{Binding Value,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},StringFormat={}{0:0.#####}}"/>
 
-                <Popup IsOpen="{Binding Dropdown,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}},Mode=TwoWay}" AllowsTransparency="True" StaysOpen="False" Placement="Top" PopupAnimation="Fade" VerticalOffset="-10">
+                <Popup IsOpen="{Binding Dropdown,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},Mode=TwoWay}" AllowsTransparency="True" StaysOpen="False" Placement="Top" PopupAnimation="Fade" VerticalOffset="-10">
                     <Border CornerRadius="10" Background="{TemplateBinding Background}">
                         <Panel:ScopedScrollViewer MaxHeight="200" Margin="10" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
-                            <ItemsControl ItemsSource="{Binding Items,RelativeSource={RelativeSource AncestorType={x:Type local:NumberTextBox}}}">
+                            <ItemsControl ItemsSource="{Binding Items,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <Panel:ScopedStackPanel Orientation="Vertical"/>

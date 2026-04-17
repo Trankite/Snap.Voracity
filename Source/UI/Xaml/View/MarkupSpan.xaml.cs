@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace StarRailDamage.Source.UI.Xaml.View
 {
-    public partial class HorizontalMarker : UserControl
+    public partial class MarkupSpan : UserControl
     {
-        public HorizontalMarker()
+        public MarkupSpan()
         {
             InitializeComponent();
         }
@@ -17,7 +17,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set { SetValue(ItemsProperty, value); }
         }
 
-        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(nameof(Items), typeof(ObservableCollection<string>), typeof(HorizontalMarker));
+        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(nameof(Items), typeof(ObservableCollection<string>), typeof(MarkupSpan));
 
         public double Spacing
         {
@@ -25,6 +25,6 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set { SetValue(SpacingProperty, value); }
         }
 
-        public static readonly DependencyProperty SpacingProperty = DependencyProperty.Register(nameof(Spacing), typeof(double), typeof(HorizontalMarker));
+        public static readonly DependencyProperty SpacingProperty = DependencyProperty.Register(nameof(Spacing), typeof(double), typeof(MarkupSpan));
     }
 }

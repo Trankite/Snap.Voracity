@@ -17,8 +17,6 @@ namespace StarRailDamage.Source.Core.LocalText
             set => MarkedText.Culture = OnUICultureChanged(value);
         }
 
-        public new static TextBinding Binding(string target) => TextManage.Binding(target);
-
-        public new static string GetString(string target) => TextManage.GetString(target);
+        public static TextBinding Binding(string target) => TextManage.GetBinding(target);
     }
 }

@@ -1,7 +1,7 @@
 ## 📦 StarRailDamage
 星穹铁道伤害计算器 | Star Rail Damage Calculator
 
-<P><img src="https://raw.githubusercontent.com/Trankite/SR-DMG/refs/heads/master/Assets/Image.jpg" width="300"><p>
+<P><img src="https://raw.githubusercontent.com/Trankite/SR-DMG/refs/heads/master/Readme/Capture.jpg" width="300"><p>
 
 ## 📖 简介 Introduction
 SR-DMG 是一款《崩坏：星穹铁道》伤害计算器，旨在为伤害计算提供便利。使用角色、光锥、遗器、敌人的模板，快速构建实战面板。

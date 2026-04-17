@@ -32,13 +32,13 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         private double _MagicalIncrease;
 
-        private double _SuperBreakEqual;
-
         private double _BreakEffect;
+
+        private double _BreakEfficiency;
 
         private double _BreakIncrease;
 
-        private double _BreakEfficiency;
+        private double _ElationIncrease;
 
         private double _ToughDecline;
 
@@ -150,16 +150,16 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _MagicalIncrease, value);
         }
 
-        public double SuperBreakEqual
-        {
-            get => _SuperBreakEqual;
-            set => SetField(ref _SuperBreakEqual, value);
-        }
-
         public double BreakEffect
         {
             get => _BreakEffect;
             set => SetField(ref _BreakEffect, value);
+        }
+
+        public double BreakEfficiency
+        {
+            get => _BreakEfficiency;
+            set => SetField(ref _BreakEfficiency, value);
         }
 
         public double BreakIncrease
@@ -168,10 +168,10 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             set => SetField(ref _BreakIncrease, value);
         }
 
-        public double BreakEfficiency
+        public double ElationIncrease
         {
-            get => _BreakEfficiency;
-            set => SetField(ref _BreakEfficiency, value);
+            get => _ElationIncrease;
+            set => SetField(ref _ElationIncrease, value);
         }
 
         public double ToughDecline

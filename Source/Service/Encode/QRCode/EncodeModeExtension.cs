@@ -6,22 +6,22 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
     {
         public static EncodeMode GetAutoMode(byte[] data)
         {
-            EncodeMode Current = EncodeMode.Numeric;
-            foreach (byte Byte in data)
+            for (int i = 0; i < data.Length; i++)
             {
-                if (AlphanumericEncoder.IsAlphanumeric(Byte))
+                byte Current = data[i];
+                if (Current < '0' || Current > '9')
                 {
-                    if (Byte < '0' || Byte > '9')
+                    while (++i < data.Length)
                     {
-                        Current = EncodeMode.Alphanumeric;
+                        if (!AlphaEncoder.IsValid(data[i]))
+                        {
+                            return EncodeMode.Byte;
+                        }
                     }
-                }
-                else
-                {
-                    return EncodeMode.Byte;
+                    return EncodeMode.Alphanumeric;
                 }
             }
-            return Current;
+            return EncodeMode.Numeric;
         }
 
         public static QRCodeEncoder CreateEncoder(this EncodeMode mode)
@@ -29,7 +29,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             return mode switch
             {
                 EncodeMode.Numeric => new NumericEncoder(),
-                EncodeMode.Alphanumeric => new AlphanumericEncoder(),
+                EncodeMode.Alphanumeric => new AlphaEncoder(),
                 EncodeMode.Byte => new ByteEncoder(),
                 _ => throw new NotSupportedException($"Unkonw EncodeMode:{mode}")
             };

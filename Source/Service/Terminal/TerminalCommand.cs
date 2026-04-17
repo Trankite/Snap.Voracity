@@ -1,14 +1,16 @@
 ﻿using StarRailDamage.Source.Service.Terminal.Abstraction;
+using System.Diagnostics.CodeAnalysis;
 
 namespace StarRailDamage.Source.Service.Terminal
 {
     public class TerminalCommand : IAsyncTerminalCommand
     {
+        [MemberNotNullWhen(true, nameof(AsyncCommand))]
         public bool IsAsync { get; }
 
         public ITerminalCommand Command { get; }
 
-        public IAsyncTerminalCommand AsyncCommand => (IAsyncTerminalCommand)Command;
+        public IAsyncTerminalCommand? AsyncCommand { get; }
 
         public string Name => Command.Name;
 
@@ -20,14 +22,14 @@ namespace StarRailDamage.Source.Service.Terminal
             Command = command;
         }
 
-        public static TerminalCommand Create(ITerminalCommand command)
+        public TerminalCommand(IAsyncTerminalCommand asyncCommand) : this(true, asyncCommand)
         {
-            return new TerminalCommand(command is IAsyncTerminalCommand, command);
+            AsyncCommand = asyncCommand;
         }
 
-        public static TerminalCommand Create(IAsyncTerminalCommand command)
+        public static TerminalCommand Create(ITerminalCommand command)
         {
-            return new TerminalCommand(true, command);
+            return command is IAsyncTerminalCommand AsyncCommand ? new TerminalCommand(AsyncCommand) : new TerminalCommand(false, command);
         }
 
         public ITerminalResponse Invoke(params IList<string> parameter)

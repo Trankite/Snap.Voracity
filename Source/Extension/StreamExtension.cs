@@ -87,11 +87,11 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool TryOpen(string path, [NotNullWhen(true)] out FileStream? stream, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, IExceptionCapture? exceptionCapture = null)
+        public static bool TryOpen(string path, [NotNullWhen(true)] out FileStream? stream, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None, IExceptionCapture? exceptionCapture = null)
         {
             try
             {
-                return true.Configure(stream = File.Open(path, fileMode, fileAccess));
+                return true.Configure(stream = File.Open(path, fileMode, fileAccess, fileShare));
             }
             catch (Exception Exception)
             {

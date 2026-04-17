@@ -17,9 +17,9 @@ namespace StarRailDamage.Source.Service.FileOpen
 
         public FileOpenStream() { }
 
-        public FileOpenStream(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite)
+        public FileOpenStream(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
         {
-            Success = StreamExtension.TryOpen(path, out FileStream? FileStream, fileMode, fileAccess, this) && true.Configure(Stream = FileStream);
+            Success = StreamExtension.TryOpen(path, out FileStream? FileStream, fileMode, fileAccess, fileShare, this) && true.Configure(Stream = FileStream);
         }
 
         public FileOpenStream(Stream stream)
@@ -27,9 +27,9 @@ namespace StarRailDamage.Source.Service.FileOpen
             Success = ObjectExtension.IsNotNull(Stream = stream);
         }
 
-        public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite)
+        public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
         {
-            return new FileOpenStream(FileHelper.BuildFilePath(path), fileMode, fileAccess);
+            return new FileOpenStream(FileHelper.BuildFilePath(path), fileMode, fileAccess, fileShare);
         }
 
         public void Dispose()

@@ -29,7 +29,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
                 object[] FormatArguments =
                 [
                     AnalyzedBody.TotalPoint,
-                    AnalyzedBody.TodayPoint - AnalyzedBody.Surplus,
+                    AnalyzedBody.TodayPoint,
                     AnalyzedBody.Mission.GetValueOrDefault(MissionType.Sign),
                     AnalyzedBody.Mission.GetValueOrDefault(MissionType.View),
                     AnalyzedBody.Mission.GetValueOrDefault(MissionType.Upvote),

@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace StarRailDamage.Source.UI.Model.View
 {
-    public class LabelTextBoxModel : NotifyPropertyChangedFactory
+    public class FieldEntrySpanModel : NotifyPropertyChangedFactory
     {
         private BitmapImage? _Icon;
 
@@ -16,9 +16,9 @@ namespace StarRailDamage.Source.UI.Model.View
 
         private int _Digits;
 
-        public LabelTextBoxModel() { }
+        public FieldEntrySpanModel() { }
 
-        public LabelTextBoxModel(BitmapImage? icon, TextBinding title, string text, TextBinding unit, int digits)
+        public FieldEntrySpanModel(BitmapImage? icon, TextBinding title, string text, TextBinding unit, int digits)
         {
             _Icon = icon;
             _Title = title;

@@ -8,11 +8,11 @@ using System.Windows.Media;
 
 namespace StarRailDamage.Source.UI.Xaml.View
 {
-    public partial class GainItem : UserControl
+    public partial class TabulateItem : UserControl
     {
-        private static readonly PropertyBindingFactory<GainItem> BindingFactory = new();
+        private static readonly PropertyBindingFactory<TabulateItem> BindingFactory = new();
 
-        public GainItem()
+        public TabulateItem()
         {
             InitializeComponent();
             Unloaded += (sender, e) =>
@@ -31,7 +31,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             RaiseEvent(new RoutedEventArgs(DeleteEvent, this));
         }
 
-        public static readonly RoutedEvent DeleteEvent = EventManager.RegisterRoutedEvent(nameof(DeleteEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GainItem));
+        public static readonly RoutedEvent DeleteEvent = EventManager.RegisterRoutedEvent(nameof(DeleteEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabulateItem));
 
         public event RoutedEventHandler DeleteClick
         {
@@ -39,9 +39,9 @@ namespace StarRailDamage.Source.UI.Xaml.View
             remove => RemoveHandler(DeleteEvent, value);
         }
 
-        public GainItemModel Model
+        public TabulateItemModel Model
         {
-            get => (GainItemModel)GetValue(ModelProperty);
+            get => (TabulateItemModel)GetValue(ModelProperty);
             set => SetValue(ModelProperty, value);
         }
 

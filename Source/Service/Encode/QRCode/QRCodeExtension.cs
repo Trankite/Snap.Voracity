@@ -1,5 +1,6 @@
 ﻿using StarRailDamage.Source.Extension;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 namespace StarRailDamage.Source.Service.Encode.QRCode
@@ -14,11 +15,12 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
         public static Bitmap GetBitmap(this QRCode qrcode, Color black, Color white, int pixelSize = 5, int padding = 20)
         {
             int Size = padding * 2 + qrcode.Size * pixelSize;
-            Bitmap Bitmap = new(Size, Size, PixelFormat.Format24bppRgb);
+            Bitmap Bitmap = new(Size, Size, PixelFormat.Format32bppArgb);
             try
             {
                 using Brush Brush = new SolidBrush(black);
                 using Graphics Graphic = Graphics.FromImage(Bitmap);
+                Graphic.CompositingMode = CompositingMode.SourceCopy;
                 Graphic.Clear(white);
                 for (int x = 0; x < qrcode.Size; x++)
                 {

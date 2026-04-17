@@ -29,18 +29,18 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
                 TerminalHelper.WriteLine(await new ForumSignPerformCommand().AsyncInvoke(HoyolabGroup.StarRail.ToIntString(), AidText));
             }
             IAsyncTerminalCommand<NewestAnalyzedBody[]> PostNewsCommand = new ForumPostNewsCommand();
-            ITerminalResponse<NewestAnalyzedBody[]> PostNews = await PostNewsCommand.AsyncInvoke(5.ToString(), ZoneType.StarRailWaitingRoom.ToIntString());
+            ITerminalResponse<NewestAnalyzedBody[]> PostNews = await PostNewsCommand.AsyncInvoke("5", ZoneType.StarRailWaitingRoom.ToIntString());
             if (PostNews.Content.IsNotNull() && PostNews.Content.Length >= 5)
             {
-                for (int i = 3 - MissionState.Content.Mission.GetValueOrDefault(MissionType.View) - 1; i >= 0; i--)
+                for (int i = 3 - MissionState.Content.Mission.GetValueOrDefault(MissionType.View, 0xff) - 1; i >= 0; i--)
                 {
                     TerminalHelper.WriteLine(await new ForumPostDetailCommand().AsyncInvoke(PostNews.Content[i].PostId, true.ToString(), AidText));
                 }
-                for (int i = 5 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Upvote) - 1; i >= 0; i--)
+                for (int i = 5 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Upvote, 0xff) - 1; i >= 0; i--)
                 {
                     TerminalHelper.WriteLine(await new ForumPostUpvoteCommand().AsyncInvoke(PostNews.Content[i].PostId, false.ToString(), AidText));
                 }
-                for (int i = 1 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Share) - 1; i >= 0; i--)
+                for (int i = 1 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Share, 0xff) - 1; i >= 0; i--)
                 {
                     TerminalHelper.WriteLine(await new ForumPostShareCommand().AsyncInvoke(PostNews.Content[i].PostId, AidText));
                 }

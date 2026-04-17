@@ -2,7 +2,7 @@
 
 namespace StarRailDamage.Source.UI.Model.View
 {
-    public class NumberTextBoxModel : NotifyPropertyChangedFactory
+    public class FormulaSpanModel : NotifyPropertyChangedFactory
     {
         private string _Text = string.Empty;
 

@@ -222,9 +222,6 @@
   <data name="Language" xml:space="preserve">
     <value>简体中文</value>
   </data>
-  <data name="UnitLevel" xml:space="preserve">
-    <value>级</value>
-  </data>
   <data name="DelayedLightning" xml:space="preserve">
     <value>触电</value>
   </data>
@@ -237,11 +234,8 @@
   <data name="AttributeMonsterLevel" xml:space="preserve">
     <value>怪物等级</value>
   </data>
-  <data name="NumberTextBoxTitle" xml:space="preserve">
+  <data name="MagicalFormulaSpanTitle" xml:space="preserve">
     <value>算式</value>
-  </data>
-  <data name="UnitPercent" xml:space="preserve">
-    <value>%</value>
   </data>
   <data name="DelayedPhysical" xml:space="preserve">
     <value>裂伤</value>
@@ -273,8 +267,8 @@
   <data name="AttributeSpeedBase" xml:space="preserve">
     <value>基础速度</value>
   </data>
-  <data name="AttributeSuperBreakEqual" xml:space="preserve">
-    <value>超击破</value>
+  <data name="AttributeElationIncrease" xml:space="preserve">
+    <value>欢愉增笑</value>
   </data>
   <data name="DamageSuperBreak" xml:space="preserve">
     <value>超击破伤害</value>

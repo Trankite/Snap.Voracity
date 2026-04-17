@@ -25,8 +25,8 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 
         static CharacterAttributeExtension()
         {
-            TextBinding LevelUnit = FixedTextManage.Binding(nameof(FixedText.UnitLevel));
-            TextBinding PercentUnit = FixedTextManage.Binding(nameof(FixedText.UnitPercent));
+            TextBinding LevelUnit = MarkedTextManage.Binding(nameof(MarkedText.UnitLevel));
+            TextBinding ModuloUnit = MarkedTextManage.Binding(nameof(MarkedText.UnitModulo));
             AttributeMap = FrozenDictionary.Create([
                 GetAttribute(CharacterAttribute.Attack,                 AttributeImage.Attack,      TextBinding.Default,    0),
                 GetAttribute(CharacterAttribute.AttackBase,             AttributeImage.Attack,      TextBinding.Default,    0),
@@ -36,28 +36,28 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
                 GetAttribute(CharacterAttribute.DefenseBase,            AttributeImage.Defense,     TextBinding.Default,    0),
                 GetAttribute(CharacterAttribute.Speed,                  AttributeImage.Speed,       TextBinding.Default,    0),
                 GetAttribute(CharacterAttribute.SpeedBase,              AttributeImage.Speed,       TextBinding.Default,    0),
-                GetAttribute(CharacterAttribute.CriticalHitRate,        AttributeImage.Critical,    PercentUnit,            1),
-                GetAttribute(CharacterAttribute.CriticalHitDamage,      AttributeImage.Offense,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.ElementIncrease,        AttributeImage.Unknown,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.DefenseDecrease,        AttributeImage.Defense,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.MagicalDecrease,        AttributeImage.Unknown,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.SuperBreakEqual,        AttributeImage.Break,       PercentUnit,            1),
-                GetAttribute(CharacterAttribute.BreakEffect,            AttributeImage.Break,       PercentUnit,            1),
-                GetAttribute(CharacterAttribute.BreakIncrease,          AttributeImage.Break,       PercentUnit,            1),
-                GetAttribute(CharacterAttribute.BreakEfficiency,        AttributeImage.Break,       PercentUnit,            1),
+                GetAttribute(CharacterAttribute.CriticalHitRate,        AttributeImage.Critical,    ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.CriticalHitDamage,      AttributeImage.Offense,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.ElementIncrease,        AttributeImage.Unknown,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.DefenseDecrease,        AttributeImage.Defense,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.MagicalDecrease,        AttributeImage.Unknown,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.BreakEffect,            AttributeImage.Break,       ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.BreakEfficiency,        AttributeImage.Break,       ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.BreakIncrease,          AttributeImage.Break,       ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.ElationIncrease,        AttributeImage.Punchline,   ModuloUnit,             1),
                 GetAttribute(CharacterAttribute.ToughDecline,           AttributeImage.Maximum,     TextBinding.Default,    0),
-                GetAttribute(CharacterAttribute.EffectHitRate,          AttributeImage.HitRate,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.EffectMagical,          AttributeImage.Magical,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.HealingBoost,           AttributeImage.Healing,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.EffectHitRate,          AttributeImage.HitRate,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.EffectMagical,          AttributeImage.Magical,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.HealingBoost,           AttributeImage.Healing,     ModuloUnit,             1),
                 GetAttribute(CharacterAttribute.ElationBonus,           AttributeImage.Punchline,   TextBinding.Default,    0),
-                GetAttribute(CharacterAttribute.ManaReplenish,          AttributeImage.Replenish,   PercentUnit,            1),
+                GetAttribute(CharacterAttribute.ManaReplenish,          AttributeImage.Replenish,   ModuloUnit,             1),
                 GetAttribute(CharacterAttribute.MaximumEnergy,          AttributeImage.Maximum,     TextBinding.Default,    0),
                 GetAttribute(CharacterAttribute.WonsterLevel,           AttributeImage.Health,      LevelUnit,              0),
                 GetAttribute(CharacterAttribute.MonsterLevel,           AttributeImage.Health,      LevelUnit,              0),
                 GetAttribute(CharacterAttribute.MonsterCount,           AttributeImage.Unknown,     TextBinding.Default,    0),
-                GetAttribute(CharacterAttribute.MagicalIncrease,         AttributeImage.Unknown,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.DamageDecrease,         AttributeImage.Defense,     PercentUnit,            1),
-                GetAttribute(CharacterAttribute.DamageIncrease,         AttributeImage.Unknown,     PercentUnit,            1),
+                GetAttribute(CharacterAttribute.MagicalIncrease,        AttributeImage.Unknown,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.DamageDecrease,         AttributeImage.Defense,     ModuloUnit,             1),
+                GetAttribute(CharacterAttribute.DamageIncrease,         AttributeImage.Unknown,     ModuloUnit,             1),
                 GetAttribute(CharacterAttribute.Toughness,              AttributeImage.Maximum,     TextBinding.Default,    0),
                 ]);
         }

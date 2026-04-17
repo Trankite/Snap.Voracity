@@ -9,11 +9,11 @@ using System.Windows.Media.Imaging;
 
 namespace StarRailDamage.Source.UI.Xaml.View
 {
-    public partial class LabelTextBox : UserControl
+    public partial class FieldEntrySpan : UserControl
     {
-        private static readonly PropertyBindingFactory<LabelTextBox> BindingFactory = new();
+        private static readonly PropertyBindingFactory<FieldEntrySpan> BindingFactory = new();
 
-        public LabelTextBox()
+        public FieldEntrySpan()
         {
             InitializeComponent();
         }
@@ -31,9 +31,9 @@ namespace StarRailDamage.Source.UI.Xaml.View
             if (e.Key == Key.Enter) Focus();
         }
 
-        public LabelTextBoxModel Model
+        public FieldEntrySpanModel Model
         {
-            get => (LabelTextBoxModel)GetValue(ModelProperty);
+            get => (FieldEntrySpanModel)GetValue(ModelProperty);
             set => SetValue(ModelProperty, value);
         }
 
@@ -65,7 +65,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
 
         private static object TextCoerceValueCallback(DependencyObject d, object baseValue)
         {
-            return (double.TryParse((string)baseValue, out double result) ? Math.Round(result, ((LabelTextBox)d).Digits) : 0).ToString();
+            return (double.TryParse((string)baseValue, out double result) ? Math.Round(result, ((FieldEntrySpan)d).Digits) : 0).ToString();
         }
 
         public TextBinding Unit

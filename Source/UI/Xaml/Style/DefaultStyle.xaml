@@ -50,7 +50,7 @@
         <Setter Property="FocusBrush" Value="{DynamicResource HighBackBrush}"/>
         <Setter Property="FontSize" Value="{DynamicResource MainFontSize}"/>
         <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Padding" Value="5,0,5,0"/>
+        <Setter Property="Padding" Value="5,1,5,1"/>
     </Style>
 
     <Style TargetType="{x:Type Control:ScopedToolTip}">
@@ -61,7 +61,7 @@
         <Setter Property="CornerRadius" Value="5"/>
     </Style>
 
-    <Style TargetType="{x:Type UI:GainItem}">
+    <Style TargetType="{x:Type UI:TabulateItem}">
         <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
         <Setter Property="Background" Value="{DynamicResource MainBackBrush}"/>
         <Setter Property="FocusBrush" Value="{DynamicResource HighBackBrush}"/>
@@ -70,25 +70,25 @@
         <Setter Property="FontSize" Value="{DynamicResource DropFontSize}"/>
     </Style>
 
-    <Style TargetType="{x:Type UI:GainView}">
+    <Style TargetType="{x:Type UI:TabulateSpan}">
         <Setter Property="Background" Value="{DynamicResource DropBackBrush}"/>
     </Style>
 
-    <Style TargetType="{x:Type UI:HeadSculpture}">
+    <Style TargetType="{x:Type UI:HeadFrameSpan}">
         <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
         <Setter Property="Background" Value="{DynamicResource MainBackBrush}"/>
         <Setter Property="FontSize" Value="{DynamicResource DropFontSize}"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
-    <Style TargetType="{x:Type UI:HorizontalMarker}">
+    <Style TargetType="{x:Type UI:MarkupSpan}">
         <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
         <Setter Property="Background" Value="{DynamicResource DropBackBrush}"/>
         <Setter Property="FontSize" Value="{DynamicResource DropFontSize}"/>
         <Setter Property="Spacing" Value="5"/>
     </Style>
 
-    <Style TargetType="{x:Type UI:LabelTextBox}">
+    <Style TargetType="{x:Type UI:FieldEntrySpan}">
         <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
         <Setter Property="Background" Value="{DynamicResource MainBackBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource DropBackBrush}"/>
@@ -97,7 +97,7 @@
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
-    <Style TargetType="{x:Type UI:NumberTextBox}">
+    <Style TargetType="{x:Type UI:FormulaSpan}">
         <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
         <Setter Property="Background" Value="{DynamicResource DropBackBrush}"/>
         <Setter Property="FocusBrush" Value="{DynamicResource HighBackBrush}"/>
@@ -105,7 +105,7 @@
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
-    <Style TargetType="{x:Type UI:PercentSpan}">
+    <Style TargetType="{x:Type UI:ScoreboardSpan}">
         <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
         <Setter Property="Background" Value="{DynamicResource MainBackBrush}"/>
         <Setter Property="PlusBrush" Value="{DynamicResource PlusBrush}"/>

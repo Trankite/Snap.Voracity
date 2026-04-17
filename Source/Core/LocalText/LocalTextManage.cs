@@ -28,7 +28,7 @@ namespace StarRailDamage.Source.Core.LocalText
         }
 
         [DebuggerStepThrough]
-        public TextBinding Binding(string target)
+        public TextBinding GetBinding(string target)
         {
             return TextBindingTable.TryGetValue(target, out TextBinding? TextBinding) ? TextBinding : TextBindingTable[target] = new TextBinding(GetString(target));
         }

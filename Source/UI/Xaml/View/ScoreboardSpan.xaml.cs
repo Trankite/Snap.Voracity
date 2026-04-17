@@ -7,11 +7,11 @@ using System.Windows.Media;
 
 namespace StarRailDamage.Source.UI.Xaml.View
 {
-    public partial class PercentSpan : UserControl
+    public partial class ScoreboardSpan : UserControl
     {
-        private static readonly PropertyBindingFactory<PercentSpan> BindingFactory = new();
+        private static readonly PropertyBindingFactory<ScoreboardSpan> BindingFactory = new();
 
-        public PercentSpan()
+        public ScoreboardSpan()
         {
             InitializeComponent();
             Unloaded += (sender, e) =>
@@ -22,7 +22,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
 
         private static void ValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PercentSpan PercentSpan)
+            if (d is ScoreboardSpan PercentSpan)
             {
                 PercentSpan.Percent = PercentSpan.Value / PercentSpan.TempValue - 1;
             }
@@ -30,15 +30,15 @@ namespace StarRailDamage.Source.UI.Xaml.View
 
         private static void PercentChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PercentSpan PercentSpan)
+            if (d is ScoreboardSpan PercentSpan)
             {
                 PercentSpan.TempBrush = PercentSpan.Percent >= 0 ? PercentSpan.PlusBrush : PercentSpan.MinuBrush;
             }
         }
 
-        public PercentSpanModel Model
+        public ScoreboardSpanModel Model
         {
-            get => (PercentSpanModel)GetValue(ModelProperty);
+            get => (ScoreboardSpanModel)GetValue(ModelProperty);
             set => SetValue(ModelProperty, value);
         }
 

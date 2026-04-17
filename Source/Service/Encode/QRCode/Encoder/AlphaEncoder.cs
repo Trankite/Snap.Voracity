@@ -2,7 +2,7 @@
 
 namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
 {
-    public sealed class AlphanumericEncoder : QRCodeEncoder
+    public sealed class AlphaEncoder : QRCodeEncoder
     {
         private static readonly int[,] CapacityTable;
 
@@ -19,29 +19,30 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
             return length / 2 * 11 + length % 2 * 6;
         }
 
-        protected override BitSet BinaryEncode(byte[] content)
+        protected override BitSet BinaryEncode(ReadOnlySpan<byte> content)
         {
             int Count = content.Length;
             int DoubleCount = Count / 2;
             BitSet Result = BitSet.FromBitCount(GetValidBitCount(Count));
-            int GetCode(int i) => AlphanumericTable[content[i] - 0x20];
             for (int i = 0; i < DoubleCount; i++)
             {
-                Result.Write(i * 11, GetCode(2 * i) * 45 + GetCode(2 * i + 1), 11);
+                Result.Write(i * 11, Encode(content[2 * i]) * 45 + Encode(content[2 * i + 1]), 11);
             }
             if (Count % 2 != 0)
             {
-                Result.Write(DoubleCount * 11, GetCode(2 * DoubleCount), 6);
+                Result.Write(DoubleCount * 11, Encode(content[2 * DoubleCount]), 6);
             }
             return Result;
         }
 
-        public static bool IsAlphanumeric(byte value)
+        private static int Encode(byte value) => AlphanumericTable[value - 0x20];
+
+        public static bool IsValid(byte value)
         {
             return value >= 0x20 && value <= 'Z' && AlphanumericTable[value - 0x20] >= 0;
         }
 
-        static AlphanumericEncoder()
+        static AlphaEncoder()
         {
             int Index = 0;
             AlphanumericTable = [.. Enumerable.Repeat(-1, 'Z' - 0x20 + 1)];

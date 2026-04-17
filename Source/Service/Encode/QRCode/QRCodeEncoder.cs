@@ -17,23 +17,28 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         protected abstract int BitsOfDataLength { get; }
 
-        protected abstract BitSet BinaryEncode(byte[] content);
+        protected abstract BitSet BinaryEncode(ReadOnlySpan<byte> content);
 
         protected abstract int GetValidBitCount(int length);
 
         protected abstract int[,] GetCapacityTable();
 
+        public int GetCapacity()
+        {
+            return GetCapacityTable()[Version - 1, ECCodeLevel.ToInt()];
+        }
+
         public QRCodeEncoder SetAutoSize(int length)
         {
             int[,] CapacityTable = GetCapacityTable();
-            for (int i = CapacityTable.GetLength(0); i > 0; i--)
+            int Level = ECCodeLevel.ToInt();
+            int Count = CapacityTable.GetLength(0);
+            int GetValue(int[,] array, int index)
             {
-                if (CapacityTable[i - 1, ECCodeLevel.ToInt()] < length)
-                {
-                    return this.Configure(Version = i + 1);
-                }
+                return CapacityTable[index, Level];
             }
-            return this.Configure(Version = 1);
+            int Nearly = CapacityTable.BinaryFind(0, Count, GetValue, length);
+            return this.Configure(Version = Math.Abs(Nearly) + 1);
         }
 
         public QRCodeEncoder Complete()
@@ -41,7 +46,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             return this.Configure(Capacity = QRCodeInfo.GetCapacity(Version, ECCodeLevel)).Configure(ECCodeGroup = ECCodeInfo.GetECCodeInfo(Version, ECCodeLevel));
         }
 
-        public byte[] Encode(byte[] content, bool fill = true)
+        public byte[] Encode(ReadOnlySpan<byte> content, bool fill = true)
         {
             int Offset = 0;
             BitSet EncodedData = ContentEncode(content, fill);
@@ -58,14 +63,14 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             {
                 ECCode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup1);
             }
-            for (int i = ECCodeGroup.BlocksInGroup1 + 1; i < TotalBlockCount; i++, Offset += ECCodeGroup.CodewordsInGroup2)
+            for (int i = ECCodeGroup.BlocksInGroup1; i < TotalBlockCount; i++, Offset += ECCodeGroup.CodewordsInGroup2)
             {
                 ECCode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup2);
             }
             return Interlock(Content, ECCode);
         }
 
-        public BitSet ContentEncode(byte[] content, bool fill = true)
+        public BitSet ContentEncode(ReadOnlySpan<byte> content, bool fill = true)
         {
             BitSet Binary = BinaryEncode(content);
             BitSet Result = BitSet.FromBitCount(Capacity * 8);

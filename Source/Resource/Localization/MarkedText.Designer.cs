@@ -22,7 +22,7 @@ namespace StarRailDamage.Source.Resource.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class MarkedText {
+    internal class MarkedText {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///   返回此类使用的缓存的 ResourceManager 实例。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StarRailDamage.Source.Resource.Localization.MarkedText", typeof(MarkedText).Assembly);
@@ -51,7 +51,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -87,13 +87,13 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///
         ///&lt;主体颜色&gt; ( 可选 )
         ///二维码的主体颜色 ( 黑 )
-        ///[ #000000 - #FFFFFF ( 默认值 ) ]
+        ///[ #000000 ( 默认值 ) - #FFFFFF ]
         ///
         ///&lt;背景颜色&gt; ( 可选 )
         ///二维码的背景颜色 ( 白 )
-        ///[ #000000 ( 默认值 ) - #FFFFFF ] 的本地化字符串。
+        ///[ #000000 - #FFFFFF ( 默认值 ) ] 的本地化字符串。
         /// </summary>
-        public static string CommandHelpQRCodeProduce {
+        internal static string CommandHelpQRCodeProduce {
             get {
                 return ResourceManager.GetString("CommandHelpQRCodeProduce", resourceCulture);
             }
@@ -102,7 +102,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 [{0}] 已点赞 的本地化字符串。
         /// </summary>
-        public static string HoyolabForumPostUpvote {
+        internal static string HoyolabForumPostUpvote {
             get {
                 return ResourceManager.GetString("HoyolabForumPostUpvote", resourceCulture);
             }
@@ -111,7 +111,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 [{0}] 取消点赞 的本地化字符串。
         /// </summary>
-        public static string HoyolabForumPostUpvoteCancel {
+        internal static string HoyolabForumPostUpvoteCancel {
             get {
                 return ResourceManager.GetString("HoyolabForumPostUpvoteCancel", resourceCulture);
             }
@@ -120,7 +120,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 社区签到：已签到 的本地化字符串。
         /// </summary>
-        public static string HoyolabForumSign {
+        internal static string HoyolabForumSign {
             get {
                 return ResourceManager.GetString("HoyolabForumSign", resourceCulture);
             }
@@ -143,7 +143,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///米游社账号的 AID
         ///默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabForumSignCommandHelp {
+        internal static string HoyolabForumSignCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabForumSignCommandHelp", resourceCulture);
             }
@@ -152,7 +152,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 请前往米游社完成人机验证 的本地化字符串。
         /// </summary>
-        public static string HoyolabForumSignWrong1034 {
+        internal static string HoyolabForumSignWrong1034 {
             get {
                 return ResourceManager.GetString("HoyolabForumSignWrong1034", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///   查找类似 开拓力 {0} / {1}
         ///回满 {2} 小时 {3} 分钟 的本地化字符串。
         /// </summary>
-        public static string HoyolabGameNoteStamina {
+        internal static string HoyolabGameNoteStamina {
             get {
                 return ResourceManager.GetString("HoyolabGameNoteStamina", resourceCulture);
             }
@@ -175,7 +175,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///米游社账号的 AID
         ///默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabGameNoteStaminaCommandHelp {
+        internal static string HoyolabGameNoteStaminaCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabGameNoteStaminaCommandHelp", resourceCulture);
             }
@@ -184,7 +184,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 签到福利：已签到 的本地化字符串。
         /// </summary>
-        public static string HoyolabGameSign {
+        internal static string HoyolabGameSign {
             get {
                 return ResourceManager.GetString("HoyolabGameSign", resourceCulture);
             }
@@ -197,7 +197,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///米游社账号的 AID
         ///默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabGameSignCommandHelp {
+        internal static string HoyolabGameSignCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabGameSignCommandHelp", resourceCulture);
             }
@@ -206,7 +206,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 [{0}] {1} × {2} 的本地化字符串。
         /// </summary>
-        public static string HoyolabGameSignReward {
+        internal static string HoyolabGameSignReward {
             get {
                 return ResourceManager.GetString("HoyolabGameSignReward", resourceCulture);
             }
@@ -221,7 +221,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///&lt;总天数&gt; ( 可选 )
         ///最多显示的行上限 的本地化字符串。
         /// </summary>
-        public static string HoyolabGameSignRewardCommandHelp {
+        internal static string HoyolabGameSignRewardCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabGameSignRewardCommandHelp", resourceCulture);
             }
@@ -231,7 +231,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///   查找类似 无可用的账号
         ///登录米游社账号后重试 的本地化字符串。
         /// </summary>
-        public static string HoyolabNotFindDefaultToken {
+        internal static string HoyolabNotFindDefaultToken {
             get {
                 return ResourceManager.GetString("HoyolabNotFindDefaultToken", resourceCulture);
             }
@@ -240,7 +240,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 指定 AID 的账号不存在：&quot;{0}&quot; 的本地化字符串。
         /// </summary>
-        public static string HoyolabNotFindToken {
+        internal static string HoyolabNotFindToken {
             get {
                 return ResourceManager.GetString("HoyolabNotFindToken", resourceCulture);
             }
@@ -249,7 +249,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 游戏账号未注册：&quot;{0}&quot; 的本地化字符串。
         /// </summary>
-        public static string HoyolabNotFindUserRole {
+        internal static string HoyolabNotFindUserRole {
             get {
                 return ResourceManager.GetString("HoyolabNotFindUserRole", resourceCulture);
             }
@@ -269,7 +269,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///米游社账号的 AID
         ///默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabPostDetailCommandHelp {
+        internal static string HoyolabPostDetailCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabPostDetailCommandHelp", resourceCulture);
             }
@@ -290,7 +290,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///1 - 回复时间
         ///2 - 发布时间 的本地化字符串。
         /// </summary>
-        public static string HoyolabPostNewsCommandHelp {
+        internal static string HoyolabPostNewsCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabPostNewsCommandHelp", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///米游社账号的 AID
         ///默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabPostShareCommandHelp {
+        internal static string HoyolabPostShareCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabPostShareCommandHelp", resourceCulture);
             }
@@ -326,7 +326,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///米游社账号的 AID
         ///默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabPostUpvoteCommandHelp {
+        internal static string HoyolabPostUpvoteCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabPostUpvoteCommandHelp", resourceCulture);
             }
@@ -338,7 +338,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///&lt;账号AID&gt; ( 可选 )
         ///米游社账号的 AID，默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabUserMissionPerformCommandHelp {
+        internal static string HoyolabUserMissionPerformCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabUserMissionPerformCommandHelp", resourceCulture);
             }
@@ -352,7 +352,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///点赞：{4} / 5
         ///分享：{5} / 1 的本地化字符串。
         /// </summary>
-        public static string HoyolabUserMissionState {
+        internal static string HoyolabUserMissionState {
             get {
                 return ResourceManager.GetString("HoyolabUserMissionState", resourceCulture);
             }
@@ -365,7 +365,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///米游社账号的 AID
         ///默认使用首个账号 的本地化字符串。
         /// </summary>
-        public static string HoyolabUserMissionStateCommandHelp {
+        internal static string HoyolabUserMissionStateCommandHelp {
             get {
                 return ResourceManager.GetString("HoyolabUserMissionStateCommandHelp", resourceCulture);
             }
@@ -374,7 +374,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 关闭控制台 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandCloseHelp {
+        internal static string TerminalCommandCloseHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandCloseHelp", resourceCulture);
             }
@@ -383,7 +383,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 启动控制台 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandEnableHelp {
+        internal static string TerminalCommandEnableHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandEnableHelp", resourceCulture);
             }
@@ -392,7 +392,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 退出控制台 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandExitedHelp {
+        internal static string TerminalCommandExitedHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandExitedHelp", resourceCulture);
             }
@@ -401,7 +401,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 清空控制台 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandFlushHelp {
+        internal static string TerminalCommandFlushHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandFlushHelp", resourceCulture);
             }
@@ -413,7 +413,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///&lt;命令名称&gt; ( 可选 )
         ///显示指定命令的参数信息 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandHelp {
+        internal static string TerminalCommandHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandHelp", resourceCulture);
             }
@@ -425,7 +425,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///&lt;命令文本&gt;
         ///将要执行命令的文本 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandParseHelp {
+        internal static string TerminalCommandParseHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandParseHelp", resourceCulture);
             }
@@ -434,7 +434,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 按任意键继续...... 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandPause {
+        internal static string TerminalCommandPause {
             get {
                 return ResourceManager.GetString("TerminalCommandPause", resourceCulture);
             }
@@ -443,7 +443,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         /// <summary>
         ///   查找类似 等待输入 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandPauseHelp {
+        internal static string TerminalCommandPauseHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandPauseHelp", resourceCulture);
             }
@@ -455,7 +455,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///&lt;文本&gt;
         ///将要打印到控制台的文本 的本地化字符串。
         /// </summary>
-        public static string TerminalCommandPrintHelp {
+        internal static string TerminalCommandPrintHelp {
             get {
                 return ResourceManager.GetString("TerminalCommandPrintHelp", resourceCulture);
             }
@@ -465,7 +465,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///   查找类似 非法的参数
         ///使用 &quot;Help &lt;命令名称&gt;&quot; 查看帮助 的本地化字符串。
         /// </summary>
-        public static string TerminalInvalidParameter {
+        internal static string TerminalInvalidParameter {
             get {
                 return ResourceManager.GetString("TerminalInvalidParameter", resourceCulture);
             }
@@ -475,7 +475,7 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///   查找类似 缺少必要参数
         ///使用 &quot;Help &lt;命令名称&gt;&quot; 查看帮助 的本地化字符串。
         /// </summary>
-        public static string TerminalMissingParameter {
+        internal static string TerminalMissingParameter {
             get {
                 return ResourceManager.GetString("TerminalMissingParameter", resourceCulture);
             }
@@ -485,9 +485,27 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///   查找类似 未知的命令：&quot;{0}&quot;
         ///使用 &quot;Help&quot; 查看帮助 的本地化字符串。
         /// </summary>
-        public static string TerminalUnknownCommand {
+        internal static string TerminalUnknownCommand {
             get {
                 return ResourceManager.GetString("TerminalUnknownCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 级 的本地化字符串。
+        /// </summary>
+        internal static string UnitLevel {
+            get {
+                return ResourceManager.GetString("UnitLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 % 的本地化字符串。
+        /// </summary>
+        internal static string UnitModulo {
+            get {
+                return ResourceManager.GetString("UnitModulo", resourceCulture);
             }
         }
     }

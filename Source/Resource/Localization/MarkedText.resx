@@ -346,10 +346,16 @@
 
 &lt;主体颜色&gt; ( 可选 )
 二维码的主体颜色 ( 黑 )
-[ #000000 - #FFFFFF ( 默认值 ) ]
+[ #000000 ( 默认值 ) - #FFFFFF ]
 
 &lt;背景颜色&gt; ( 可选 )
 二维码的背景颜色 ( 白 )
-[ #000000 ( 默认值 ) - #FFFFFF ]</value>
+[ #000000 - #FFFFFF ( 默认值 ) ]</value>
+  </data>
+  <data name="UnitLevel" xml:space="preserve">
+    <value>级</value>
+  </data>
+  <data name="UnitModulo" xml:space="preserve">
+    <value>%</value>
   </data>
 </root>

@@ -1,5 +1,4 @@
 ﻿using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.Resource.Localization;
 using System.Globalization;
 using System.Resources;
 
@@ -7,18 +6,26 @@ namespace StarRailDamage.Source.Core.LocalText
 {
     public class FixedTextManage : LocalTextManage
     {
+        private static CultureInfo ResourceCulture;
+
+        private static readonly ResourceManager ResourceManager;
+
         public static readonly LocalTextManage TextManage = new FixedTextManage();
 
-        protected override ResourceManager Manager => FixedText.ResourceManager;
+        protected override ResourceManager Manager => ResourceManager;
 
         public override CultureInfo Culture
         {
-            get => FixedText.Culture;
-            set => FixedText.Culture = OnUICultureChanged(value);
+            get => ResourceCulture;
+            set => ResourceCulture = OnUICultureChanged(value);
         }
 
-        public new static TextBinding Binding(string target) => TextManage.Binding(target);
+        public static TextBinding Binding(string target) => TextManage.GetBinding(target);
 
-        public new static string GetString(string target) => TextManage.GetString(target);
+        static FixedTextManage()
+        {
+            ResourceCulture = CultureInfo.CurrentCulture;
+            ResourceManager = new ResourceManager("StarRailDamage.Source.Resource.Localization.FixedText", typeof(Program).Assembly);
+        }
     }
 }

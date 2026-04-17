@@ -30,51 +30,56 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public int Size { get; }
 
-        public QRCode(MaskType maskType, QRCodeEncoder encoder, int size, QRCodeBit[,] content)
-        {
-            MaskType = maskType;
-            Encoder = encoder;
-            Size = size;
-            Content = content;
-        }
-
-        private static QRCode Create(QRCodeEncoder encoder, MaskType mask)
+        private QRCode(QRCodeEncoder encoder, MaskType mask)
         {
             int BlockSize = encoder.Version * 4 + 17;
-            return new QRCode(mask, encoder, BlockSize, new QRCodeBit[BlockSize, BlockSize]);
+            MaskType = mask;
+            Encoder = encoder;
+            Size = BlockSize;
+            Content = new QRCodeBit[BlockSize, BlockSize];
         }
 
-        public static QRCode Create(byte[] data, ECCodeLevel level = default, MaskType mask = default)
+        public static QRCode Create(byte[] content, ECCodeLevel level = default, MaskType mask = default)
         {
-            return Create(EncodeModeExtension.GetAutoMode(data).CreateEncoder().SetECCodeLevel(level).SetAutoSize(data.Length).Complete(), mask).Initialize(data);
+            return new QRCode(EncodeModeExtension.GetAutoMode(content).CreateEncoder().SetECCodeLevel(level).SetAutoSize(content.Length).Complete(), mask).Complete(content);
         }
 
-        public static QRCode Create(byte[] data, EncodeMode mode, ECCodeLevel level = default, MaskType mask = default)
+        public static QRCode Create(byte[] content, EncodeMode mode, ECCodeLevel level = default, MaskType mask = default)
         {
-            return Create(mode.CreateEncoder().SetECCodeLevel(level).SetAutoSize(data.Length).Complete(), mask).Initialize(data);
+            return new QRCode(mode.CreateEncoder().SetECCodeLevel(level).SetAutoSize(content.Length).Complete(), mask).Complete(content);
         }
 
-        public static QRCode Create(byte[] data, int version, ECCodeLevel level = default, MaskType mask = default)
+        public static QRCode Create(byte[] content, int version, ECCodeLevel level = default, MaskType mask = default)
         {
-            return Create(EncodeModeExtension.GetAutoMode(data).CreateEncoder().SetECCodeLevel(level).SetVersion(version).Complete(), mask).Initialize(data);
+            return new QRCode(EncodeModeExtension.GetAutoMode(content).CreateEncoder().SetECCodeLevel(level).SetVersion(version).Complete(), mask).Complete(content);
         }
 
-        public static QRCode Create(byte[] data, EncodeMode mode, int version, ECCodeLevel level = default, MaskType mask = default)
+        public static QRCode Create(byte[] content, EncodeMode mode, int version, ECCodeLevel level = default, MaskType mask = default)
         {
-            return Create(mode.CreateEncoder().SetECCodeLevel(level).SetVersion(version).Complete(), mask).Initialize(data);
+            return new QRCode(mode.CreateEncoder().SetECCodeLevel(level).SetVersion(version).Complete(), mask).Complete(content);
         }
 
-        private QRCode Initialize(byte[] data)
+        private QRCode Complete(ReadOnlySpan<byte> content)
+        {
+            int MaxCapacity = Encoder.GetCapacity();
+            if (content.Length > MaxCapacity)
+            {
+                content = content[..MaxCapacity];
+            }
+            Initialize(content);
+            return this;
+        }
+
+        private void Initialize(ReadOnlySpan<byte> content)
         {
             SetPositionPattern();
             SetAlignmentPattern();
             SetTimingPattern();
             SetFormatInformation();
             SetVersionInformation();
-            SetFlags(data.Length);
-            SetData(data);
-            SetMask();
-            return this;
+            SetFlags(content.Length);
+            SetContent(content);
+            SetMaskInformation();
         }
 
         private void SetPositionPattern()
@@ -230,7 +235,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             Content[point.X, point.Y].SetValue(hasBit, type);
         }
 
-        private void SetData(byte[] data)
+        private void SetContent(ReadOnlySpan<byte> data)
         {
             BitSet Bits = BitSet.FromBitBytes(Encoder.Encode(data));
             QRCodeBitType[] Types = [QRCodeBitType.Unused, QRCodeBitType.Content, QRCodeBitType.ContentPadding, QRCodeBitType.ECCode];
@@ -260,7 +265,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             }
         }
 
-        private void SetMask()
+        private void SetMaskInformation()
         {
             Func<int, int, bool> Method = MaskType.GetMethod();
             QRCodeBitType[] Types = [QRCodeBitType.Unused, QRCodeBitType.Content, QRCodeBitType.ContentPadding, QRCodeBitType.ECCode, QRCodeBitType.Padding];

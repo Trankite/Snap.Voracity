@@ -64,6 +64,33 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static int BinaryFind<TArray, TValue>(this TArray array, int start, int length, Func<TArray, int, TValue> predicate, TValue value) where TValue : IComparable<TValue>
+        {
+            int Middle = 0;
+            int Left = start;
+            int Right = length - 1;
+            while (Left <= Right)
+            {
+                Middle = Left + (Right - Left) / 2;
+                TValue Current = predicate(array, Middle);
+                int Compare = Current.CompareTo(value);
+                if (Compare == 0)
+                {
+                    return Middle;
+                }
+                if (Compare < 0)
+                {
+                    Left = Middle + 1;
+                }
+                else
+                {
+                    Right = Middle - 1;
+                }
+            }
+            return -Middle;
+        }
+
+        [DebuggerStepThrough]
         public static void Foreach<T>(this T[] values, Action<T> action)
         {
             foreach (T Item in values)

@@ -18,14 +18,13 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             double NormalDamage = damage.Delay = damage.Normal * Creased;
             double Critical = GetOffense(model.CriticalHitDamage);
             damage.Critical = NormalDamage * Critical * GetOffense(model.ElementIncrease);
-            double EqualDamage = GetOffense(model.SuperBreakEqual) - 1;
-            double Elation = 1 + model.ToughDecline * 5 / (model.ToughDecline + 240);
+            double Elation = 1 + model.ElationBonus * 5 / (model.ElationBonus + 240);
             NormalDamage = GetNormalDamage(model.WonsterLevel) * Creased * GetOffense(model.BreakIncrease);
-            damage.Elation = NormalDamage * 2 * EqualDamage * Elation * Critical;
+            damage.Elation = NormalDamage * 2 * Elation * Critical;
             NormalDamage *= GetOffense(model.BreakEffect);
-            double Toughness = model.ToughDecline * GetOffense(model.BreakEfficiency) / 10;
             damage.Break = NormalDamage * (model.Toughness / 20 - 0.5) * GetBreakEqual(element);
-            damage.SuperBreak = NormalDamage * EqualDamage * Toughness;
+            double Toughness = model.ToughDecline * GetOffense(model.BreakEfficiency) / 10;
+            damage.SuperBreak = NormalDamage * Toughness;
             return damage;
         }
 

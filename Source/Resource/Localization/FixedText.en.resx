@@ -222,9 +222,6 @@
   <data name="Language" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="UnitLevel" xml:space="preserve">
-    <value>Lv</value>
-  </data>
   <data name="DelayedLightning" xml:space="preserve">
     <value>Shock</value>
   </data>
@@ -237,11 +234,8 @@
   <data name="AttributeMonsterLevel" xml:space="preserve">
     <value>MOST LV</value>
   </data>
-  <data name="NumberTextBoxTitle" xml:space="preserve">
+  <data name="MagicalFormulaSpanTitle" xml:space="preserve">
     <value>Formula</value>
-  </data>
-  <data name="UnitPercent" xml:space="preserve">
-    <value>%</value>
   </data>
   <data name="DelayedPhysical" xml:space="preserve">
     <value>Bleed</value>
@@ -273,8 +267,8 @@
   <data name="AttributeSpeedBase" xml:space="preserve">
     <value>BASE SPD</value>
   </data>
-  <data name="AttributeSuperBreakEqual" xml:space="preserve">
-    <value>SP BREK</value>
+  <data name="AttributeElationIncrease" xml:space="preserve">
+    <value>ELAT INC</value>
   </data>
   <data name="DamageSuperBreak" xml:space="preserve">
     <value>Super Break Damage</value>

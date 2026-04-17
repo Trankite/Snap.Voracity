@@ -339,10 +339,16 @@ Open the path in explorer
 
 &lt;Fore&gt; ( Optional )
 Quick response code fore color ( Black )
-[ #000000 - #FFFFFF ( Default ) ]
+[ #000000 ( Default ) - #FFFFFF ]
 
 &lt;Backgroup&gt; ( Optional )
 Quick response code background color ( White )
-[ #000000 ( Default ) - #FFFFFF ]</value>
+[ #000000 - #FFFFFF ( Default ) ]</value>
+  </data>
+  <data name="UnitLevel" xml:space="preserve">
+    <value>Lv</value>
+  </data>
+  <data name="UnitModulo" xml:space="preserve">
+    <value>%</value>
   </data>
 </root>

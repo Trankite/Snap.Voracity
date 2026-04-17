@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.UI.Model.Converter
                 return Binding.DoNothing;
             }
             CharacterAttributeInfo Attribute = CharacterAttributeExtension.GetModel((string)parameter);
-            return new LabelTextBoxModel(Attribute.Icon, Attribute.Name, string.Empty, Attribute.Unit, Attribute.Digits);
+            return new FieldEntrySpanModel(Attribute.Icon, Attribute.Name, string.Empty, Attribute.Unit, Attribute.Digits);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
