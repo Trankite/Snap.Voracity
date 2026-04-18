@@ -27,7 +27,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Panel:ScopedViewBox Grid.Column="0" MaxWidth="50">
-                    <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='MagicalFormulaSpanTitle'}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
+                    <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='FormulaSpanTitle'}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
                 </Panel:ScopedViewBox>
 
                 <Control:ScopedTextBox x:Name="PART_TextBox" Grid.Column="2" CornerRadius="10" Text="{Binding Text,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},Mode=TwoWay}" Background="{TemplateBinding Background}" FocusBrush="{Binding FocusBrush,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}" FontWeight="Normal" PreviewKeyDown="TextBoxPreviewKeyDown" LostFocus="TextBoxLostFocus"/>

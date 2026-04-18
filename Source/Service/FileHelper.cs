@@ -19,8 +19,7 @@ namespace StarRailDamage.Source.Service
         [DebuggerStepThrough]
         public static string BuildFilePath(string? path)
         {
-            BuildPath(Path.GetDirectoryName(path));
-            return path ?? string.Empty;
+            return BuildPath(Path.GetDirectoryName(path)).Captured(path ?? string.Empty);
         }
 
         [DebuggerStepThrough]

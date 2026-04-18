@@ -9,28 +9,38 @@ namespace StarRailDamage.Source.Service.FileOpen
     public class FileOpenStream : IExceptionCapture, IDisposable
     {
         [MemberNotNullWhen(true, nameof(Stream))]
-        public bool Success { get; init; }
+        [MemberNotNullWhen(true, nameof(FileInfo))]
+        public bool Success { get; }
 
-        public Stream? Stream { get; init; }
+        public Stream? Stream { get; }
 
-        public ExceptionDispatchInfo? Exception { get; set; }
+        public FileInfo? FileInfo { get; }
+
+        public string FullPath => FileInfo?.FullName ?? string.Empty;
+
+        public ExceptionDispatchInfo? Exception { get; }
 
         public FileOpenStream() { }
 
-        public FileOpenStream(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
+        public FileOpenStream(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None, bool create = false)
         {
-            Success = StreamExtension.TryOpen(path, out FileStream? FileStream, fileMode, fileAccess, fileShare, this) && true.Configure(Stream = FileStream);
+            try
+            {
+                FileInfo = new FileInfo(path);
+                if (create)
+                {
+                    FileHelper.BuildFilePath(FullPath);
+                }
+                Stream = FileInfo.Open(fileMode, fileAccess, fileShare);
+                Success = true;
+            }
+            catch (Exception Exception)
+            {
+                this.Exception = ExceptionDispatchInfo.Capture(Exception);
+            }
         }
 
-        public FileOpenStream(Stream stream)
-        {
-            Success = ObjectExtension.IsNotNull(Stream = stream);
-        }
-
-        public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None)
-        {
-            return new FileOpenStream(FileHelper.BuildFilePath(path), fileMode, fileAccess, fileShare);
-        }
+        public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None) => new(path, fileMode, fileAccess, fileShare, true);
 
         public void Dispose()
         {

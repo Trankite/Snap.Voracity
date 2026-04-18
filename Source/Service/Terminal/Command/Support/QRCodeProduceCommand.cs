@@ -55,7 +55,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
             {
                 Bitmap.Save(Write.Stream, ImageFormat.Png);
             }
-            return new TerminalResponse(true, PathOpen ? FileHelper.PathOpen(FilePath) : FilePath);
+            return new TerminalResponse(true, PathOpen ? FileHelper.PathOpen(Write.FullPath) : Write.FullPath);
         }
     }
 }

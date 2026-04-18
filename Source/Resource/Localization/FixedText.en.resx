@@ -219,9 +219,6 @@
   <data name="ElementImaginary" xml:space="preserve">
     <value>Imaginary</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>English</value>
-  </data>
   <data name="DelayedLightning" xml:space="preserve">
     <value>Shock</value>
   </data>
@@ -234,7 +231,7 @@
   <data name="AttributeMonsterLevel" xml:space="preserve">
     <value>MOST LV</value>
   </data>
-  <data name="MagicalFormulaSpanTitle" xml:space="preserve">
+  <data name="FormulaSpanTitle" xml:space="preserve">
     <value>Formula</value>
   </data>
   <data name="DelayedPhysical" xml:space="preserve">
