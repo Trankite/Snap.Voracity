@@ -5,19 +5,13 @@ namespace StarRailDamage.Source.UI.Model.Control
 {
     public class ScopedSliderModel : NotifyPropertyChangedFactory
     {
-        private TextBinding _Title = TextBinding.Default;
-
         private double _Value;
 
         private double _Maximum;
 
         private double _Minimum;
 
-        public TextBinding Title
-        {
-            get => _Title;
-            set => SetField(ref _Title, value);
-        }
+        private TextBinding _Title = TextBinding.Default;
 
         public double Value
         {
@@ -35,6 +29,12 @@ namespace StarRailDamage.Source.UI.Model.Control
         {
             get => _Minimum;
             set => SetField(ref _Minimum, value);
+        }
+
+        public TextBinding Title
+        {
+            get => _Title;
+            set => SetField(ref _Title, value);
         }
     }
 }

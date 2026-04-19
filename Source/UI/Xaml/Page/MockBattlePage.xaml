@@ -106,7 +106,7 @@
             </Grid.RowDefinitions>
 
             <Border Grid.Column="0" Grid.Row="0" CornerRadius="10" Background="{StaticResource DropBackBrush}">
-                <Grid Margin="10">
+                <Grid Height="150" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="10"/>

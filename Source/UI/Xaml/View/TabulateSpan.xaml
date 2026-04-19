@@ -9,12 +9,12 @@
         <ControlTemplate TargetType="{x:Type UserControl}">
             <Grid>
                 <Panel:ScopedScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-                    <local:TabulateItem Model="{Binding Select,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateSpan}}}" MouseLeftButtonUp="GainItemDropdown"/>
+                    <local:TabulateItem Model="{Binding Select,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateSpan}}}" MouseLeftButtonUp="ItemDropdown"/>
                 </Panel:ScopedScrollViewer>
 
                 <Popup IsOpen="{Binding Dropdown,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateSpan}},Mode=TwoWay}" AllowsTransparency="True" StaysOpen="False" Placement="Center" PopupAnimation="Fade">
                     <Border CornerRadius="20" Background="{Binding Background,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateSpan}}}">
-                        <Panel:ScopedScrollViewer Height="300" Margin="5" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                        <Panel:ScopedScrollViewer Margin="5" Width="{TemplateBinding Width}" Height="{Binding DropdownHeight,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateSpan}}}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
                             <ItemsControl Margin="10" ItemsSource="{Binding Items,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateSpan}}}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -24,7 +24,7 @@
 
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <local:TabulateItem Model="{Binding}" MouseLeftButtonUp="GainItemSelected" DeleteClick="DeleteItemClick"/>
+                                        <local:TabulateItem Model="{Binding}" MouseLeftButtonUp="ItemSelected" CheckCharged="CheckBoxClick" ModifyClick="ModifyItemClick" DeleteClick="DeleteItemClick"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

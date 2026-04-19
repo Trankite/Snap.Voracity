@@ -5,7 +5,7 @@ namespace StarRailDamage.Source.UI.Factory.NotifyPropertyChanged
 {
     public interface INotifyPropertyChangedFactory : INotifyPropertyChanged
     {
-        bool OnPropertyChanged([CallerMemberName] string? propertyName = null);
+        void OnPropertyChanged([CallerMemberName] string? propertyName = null);
 
         bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null);
 

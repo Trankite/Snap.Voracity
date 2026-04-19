@@ -27,12 +27,7 @@ namespace StarRailDamage.Source.UI.Factory.PropertyBinding
             {
                 if (ModelExpression.TryGetValue(sender, out TProperty? value)) DependExpression.TrySetValue(sender, value);
             }
-            PropertyBinding<TSender> PropertyBinding = new()
-            {
-                BindingMode = bindingMode,
-                DependHanlder = DependToModel,
-                ModelHanlder = ModelToDepend
-            };
+            PropertyBinding<TSender> PropertyBinding = new(bindingMode, ModelToDepend, DependToModel);
             ModelHandlers[modelProperty.FullName().FirstSplit('.').Extend.ToString()] = PropertyBinding;
             return dependProperty.FullName().Configure(x => DependHandlers[x] = PropertyBinding);
         }

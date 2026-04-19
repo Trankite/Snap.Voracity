@@ -26,6 +26,12 @@
         <Setter Property="Height" Value="20"/>
     </Style>
 
+    <Style TargetType="{x:Type Control:ScopedExpander}">
+        <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
+        <Setter Property="PanelHeight" Value="100"/>
+        <Setter Property="Padding" Value="5,5,5,0"/>
+    </Style>
+
     <Style TargetType="{x:Type Control:ScopedSlider}">
         <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
         <Setter Property="Background" Value="{DynamicResource DropBackBrush}"/>
@@ -72,6 +78,7 @@
 
     <Style TargetType="{x:Type UI:TabulateSpan}">
         <Setter Property="Background" Value="{DynamicResource DropBackBrush}"/>
+        <Setter Property="DropdownHeight" Value="400"/>
     </Style>
 
     <Style TargetType="{x:Type UI:HeadFrameSpan}">

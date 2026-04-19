@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using StarRailDamage.Source.Extension;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace StarRailDamage.Source.UI.Xaml.Control
@@ -10,7 +11,15 @@ namespace StarRailDamage.Source.UI.Xaml.Control
             InitializeComponent();
         }
 
-        private void CheckedCharge(object sender, RoutedEventArgs e) => Flag = !Flag;
+        private void CheckBoxClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CheckChargedEvent, this).Configure(Flag = !Flag));
+
+        public static readonly RoutedEvent CheckChargedEvent = EventManager.RegisterRoutedEvent(nameof(CheckChargedEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ScopedCheckBox));
+
+        public event RoutedEventHandler CheckCharged
+        {
+            add => AddHandler(CheckChargedEvent, value);
+            remove => RemoveHandler(CheckChargedEvent, value);
+        }
 
         public bool Flag
         {

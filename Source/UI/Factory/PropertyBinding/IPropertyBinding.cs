@@ -2,9 +2,9 @@
 {
     public interface IPropertyBinding<TSender>
     {
-        Action<TSender> ModelHanlder { get; set; }
+        Action<TSender> ModelHanlder { get; }
 
-        Action<TSender> DependHanlder { get; set; }
+        Action<TSender> DependHanlder { get; }
 
         bool ModelToDepend(TSender sender);
 

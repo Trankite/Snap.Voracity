@@ -1,5 +1,4 @@
 ﻿using StarRailDamage.Source.UI.Factory.PropertyBinding;
-using StarRailDamage.Source.UI.Model.Control;
 using StarRailDamage.Source.UI.Model.View;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -15,21 +14,35 @@ namespace StarRailDamage.Source.UI.Xaml.View
         public TabulateItem()
         {
             InitializeComponent();
-            Unloaded += (sender, e) =>
-            {
-                BindingFactory.ClearModelBinding(Model);
-            };
+            Unloaded += OnUnloaded;
         }
 
-        private void ModifyItemClick(object sender, RoutedEventArgs e)
+        private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-
+            BindingFactory.ClearModelBinding(Model);
         }
 
-        private void DeleteItemClick(object sender, RoutedEventArgs e)
+        private void CheckBoxClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CheckChargedEvent, this));
+
+        public static readonly RoutedEvent CheckChargedEvent = EventManager.RegisterRoutedEvent(nameof(CheckChargedEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabulateItem));
+
+        public event RoutedEventHandler CheckCharged
         {
-            RaiseEvent(new RoutedEventArgs(DeleteEvent, this));
+            add => AddHandler(CheckChargedEvent, value);
+            remove => RemoveHandler(CheckChargedEvent, value);
         }
+
+        private void ModifyItemClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(ModifyEvent, this));
+
+        public static readonly RoutedEvent ModifyEvent = EventManager.RegisterRoutedEvent(nameof(ModifyEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabulateItem));
+
+        public event RoutedEventHandler ModifyClick
+        {
+            add => AddHandler(ModifyEvent, value);
+            remove => RemoveHandler(ModifyEvent, value);
+        }
+
+        private void DeleteItemClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(DeleteEvent, this));
 
         public static readonly RoutedEvent DeleteEvent = EventManager.RegisterRoutedEvent(nameof(DeleteEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabulateItem));
 
@@ -47,6 +60,14 @@ namespace StarRailDamage.Source.UI.Xaml.View
 
         public static readonly DependencyProperty ModelProperty = BindingFactory.ModelBinding(x => x.Model);
 
+        public bool Flag
+        {
+            get => (bool)GetValue(FlagProperty);
+            set => SetValue(FlagProperty, value);
+        }
+
+        public static readonly DependencyProperty FlagProperty = BindingFactory.DependBinding(x => x.Model.Flag, x => x.Flag, PropertyBindingMode.TwoWay);
+
         public ImageSource Icon
         {
             get => (ImageSource)GetValue(IconProperty);
@@ -54,14 +75,6 @@ namespace StarRailDamage.Source.UI.Xaml.View
         }
 
         public static readonly DependencyProperty IconProperty = BindingFactory.DependBinding(x => x.Model.Icon, x => x.Icon);
-
-        public string Title
-        {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
-        }
-
-        public static readonly DependencyProperty TitleProperty = BindingFactory.DependBinding(x => x.Model.Title, x => x.Title);
 
         public string Text
         {
@@ -71,13 +84,13 @@ namespace StarRailDamage.Source.UI.Xaml.View
 
         public static readonly DependencyProperty TextProperty = BindingFactory.DependBinding(x => x.Model.Text, x => x.Text);
 
-        public bool Flag
+        public string Title
         {
-            get => (bool)GetValue(FlagProperty);
-            set => SetValue(FlagProperty, value);
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
-        public static readonly DependencyProperty FlagProperty = BindingFactory.DependBinding(x => x.Model.Flag, x => x.Flag, PropertyBindingMode.TwoWay);
+        public static readonly DependencyProperty TitleProperty = BindingFactory.DependBinding(x => x.Model.Title, x => x.Title);
 
         public ObservableCollection<string> MarkItems
         {
@@ -86,22 +99,6 @@ namespace StarRailDamage.Source.UI.Xaml.View
         }
 
         public static readonly DependencyProperty MarkItemsProperty = BindingFactory.DependBinding(x => x.Model.MarkItems, x => x.MarkItems);
-
-        public ObservableCollection<string> TempItems
-        {
-            get => (ObservableCollection<string>)GetValue(TempItemsProperty);
-            set => SetValue(TempItemsProperty, value);
-        }
-
-        public static readonly DependencyProperty TempItemsProperty = BindingFactory.DependBinding(x => x.Model.TempItems, x => x.TempItems);
-
-        public ObservableCollection<ScopedSliderModel> SliderItems
-        {
-            get => (ObservableCollection<ScopedSliderModel>)GetValue(SliderItemsProperty);
-            set => SetValue(SliderItemsProperty, value);
-        }
-
-        public static readonly DependencyProperty SliderItemsProperty = BindingFactory.DependBinding(x => x.Model.SliderItems, x => x.SliderItems);
 
         public double TitleFontSize
         {

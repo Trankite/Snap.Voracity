@@ -4,11 +4,18 @@ namespace StarRailDamage.Source.UI.Factory.PropertyBinding
 {
     public class PropertyBinding<TSender> : IPropertyBinding<TSender>
     {
-        public required Action<TSender> ModelHanlder { get; set; }
+        public Action<TSender> ModelHanlder { get; }
 
-        public required Action<TSender> DependHanlder { get; set; }
+        public Action<TSender> DependHanlder { get; }
 
-        public PropertyBindingMode BindingMode { get; set; }
+        public PropertyBindingMode BindingMode { get; }
+
+        public PropertyBinding(PropertyBindingMode bindingMode, Action<TSender> modelHanlder, Action<TSender> dependHanlder)
+        {
+            ModelHanlder = modelHanlder;
+            DependHanlder = dependHanlder;
+            BindingMode = bindingMode;
+        }
 
         public bool IsModelToDepend => BindingMode.HasFlag(PropertyBindingMode.OneWay);
 

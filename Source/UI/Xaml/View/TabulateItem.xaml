@@ -20,7 +20,6 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Width="50" Height="50" Margin="0,0,5,0" Source="{Binding Icon,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
@@ -56,33 +55,29 @@
                     <Panel:ScopedScrollViewer Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
                         <Panel:ScopedStackPanel Orientation="Horizontal" Spacing="5">
                             <local:MarkupSpan Items="{Binding MarkItems,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" Spacing="5"/>
-                            <local:MarkupSpan Items="{Binding TempItems,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" Spacing="5"/>
                         </Panel:ScopedStackPanel>
                     </Panel:ScopedScrollViewer>
 
-                    <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="5" Text="{Binding Text,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" TextWrapping="Wrap">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
-                                <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
-                                <Setter Property="FontWeight" Value="{Binding FontWeight,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                    <Control:ScopedExpander Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Margin="5" Text="{Binding Text,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
+                                        <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
+                                        <Setter Property="FontWeight" Value="{Binding FontWeight,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
 
-                    <ItemsControl Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Margin="5,0,5,0" ItemsSource="{Binding SliderItems,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Panel:ScopedStackPanel Orientation="Vertical" Spacing="5"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-
-                        <ItemsControl.ItemTemplate>
-                            <ItemContainerTemplate>
-                                <Control:ScopedSlider Title="{Binding Title}" Value="{Binding Value,Mode=TwoWay}" Minimum="{Binding Minimun}" Maximum="{Binding Maximum}"/>
-                            </ItemContainerTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                            <ContentControl Grid.Row="1" Margin="5,0,5,0"/>
+                        </Grid>
+                    </Control:ScopedExpander>
                 </Grid>
             </Border>
         </ControlTemplate>

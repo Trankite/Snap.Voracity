@@ -9,10 +9,7 @@ namespace StarRailDamage.Source.UI.Model.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (Program.DesignMode)
-            {
-                return Binding.DoNothing;
-            }
+            if (Program.DesignMode) return Binding.DoNothing;
             CharacterAttributeInfo Attribute = CharacterAttributeExtension.GetModel((string)parameter);
             return new FieldEntrySpanModel(Attribute.Icon, Attribute.Name, string.Empty, Attribute.Unit, Attribute.Digits);
         }

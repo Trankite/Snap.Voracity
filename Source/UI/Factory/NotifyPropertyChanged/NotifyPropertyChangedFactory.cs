@@ -10,18 +10,14 @@ namespace StarRailDamage.Source.UI.Factory.NotifyPropertyChanged
 
         private readonly Dictionary<string, PropertyChangedEventHandler> Handlers = [];
 
-        public bool OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            if (PropertyChanged.IsNull()) return false;
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            return true;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
-            if (Equals(field, value)) return false;
-            field = value;
-            return OnPropertyChanged(propertyName);
+            return !Equals(field, value) && true.Configure(OnPropertyChanged, propertyName.Configure(field = value));
         }
 
         public bool SetField<T>(ref T field, T value, Predicate<T> predicate, [CallerMemberName] string? propertyName = null)

@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <local:ScopedButton Grid.Column="0" Width="{TemplateBinding Height}" Height="{TemplateBinding Height}" CornerRadius="5" Click="CheckedCharge">
+                <local:ScopedButton Grid.Column="0" Width="{TemplateBinding Height}" Height="{TemplateBinding Height}" CornerRadius="5" Click="CheckBoxClick">
                     <Image>
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">

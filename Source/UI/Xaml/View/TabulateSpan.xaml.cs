@@ -1,4 +1,5 @@
-﻿using StarRailDamage.Source.UI.Model.View;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.UI.Model.View;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,21 +14,34 @@ namespace StarRailDamage.Source.UI.Xaml.View
             InitializeComponent();
         }
 
-        private void GainItemDropdown(object sender, MouseButtonEventArgs e)
+        private void ItemDropdown(object sender, MouseButtonEventArgs e) => Dropdown = true;
+
+        private void ItemSelected(object sender, MouseButtonEventArgs e)
         {
-            if (Items?.Count > 0) Dropdown = true;
+            Select = ((TabulateItem)sender).Model.Configure(Dropdown = false);
         }
 
-        private void GainItemSelected(object sender, MouseButtonEventArgs e)
+        private void CheckBoxClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CheckChargedEvent, sender));
+
+        public static readonly RoutedEvent CheckChargedEvent = EventManager.RegisterRoutedEvent(nameof(CheckChargedEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabulateSpan));
+
+        public event RoutedEventHandler CheckCharged
         {
-            Dropdown = false;
-            Select = ((TabulateItem)sender).Model;
+            add => AddHandler(CheckChargedEvent, value);
+            remove => RemoveHandler(CheckChargedEvent, value);
         }
 
-        private void DeleteItemClick(object sender, RoutedEventArgs e)
+        private void ModifyItemClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(ModifyEvent, sender));
+
+        public static readonly RoutedEvent ModifyEvent = EventManager.RegisterRoutedEvent(nameof(ModifyEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabulateSpan));
+
+        public event RoutedEventHandler ModifyClick
         {
-            RaiseEvent(new RoutedEventArgs(DeleteEvent, sender));
+            add => AddHandler(ModifyEvent, value);
+            remove => RemoveHandler(ModifyEvent, value);
         }
+
+        private void DeleteItemClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(DeleteEvent, sender));
 
         public static readonly RoutedEvent DeleteEvent = EventManager.RegisterRoutedEvent(nameof(DeleteEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabulateSpan));
 
@@ -36,14 +50,6 @@ namespace StarRailDamage.Source.UI.Xaml.View
             add => AddHandler(DeleteEvent, value);
             remove => RemoveHandler(DeleteEvent, value);
         }
-
-        public TabulateSpanModel Model
-        {
-            get => (TabulateSpanModel)GetValue(ModelProperty);
-            set => SetValue(ModelProperty, value);
-        }
-
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(TabulateSpanModel), typeof(TabulateSpan));
 
         public ObservableCollection<TabulateItemModel> Items
         {
@@ -68,5 +74,13 @@ namespace StarRailDamage.Source.UI.Xaml.View
         }
 
         public static readonly DependencyProperty DropdownProperty = DependencyProperty.Register(nameof(Dropdown), typeof(bool), typeof(TabulateSpan));
+
+        public double DropdownHeight
+        {
+            get => (double)GetValue(DropdownHeightProperty);
+            set => SetValue(DropdownHeightProperty, value);
+        }
+
+        public static readonly DependencyProperty DropdownHeightProperty = DependencyProperty.Register(nameof(DropdownHeight), typeof(double), typeof(TabulateSpan));
     }
 }

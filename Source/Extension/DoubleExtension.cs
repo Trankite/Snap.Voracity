@@ -5,6 +5,12 @@ namespace StarRailDamage.Source.Extension
     public static class DoubleExtension
     {
         [DebuggerStepThrough]
+        public static double Parse(ReadOnlySpan<char> value)
+        {
+            return double.TryParse(value, out double Result) ? Result : 0;
+        }
+
+        [DebuggerStepThrough]
         public static double Ceiling(this double value, int digits = 0)
         {
             double Factor = Math.Pow(10, digits);

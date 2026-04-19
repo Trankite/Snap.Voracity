@@ -1,5 +1,4 @@
 ﻿using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
-using StarRailDamage.Source.UI.Model.Control;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 
@@ -7,30 +6,26 @@ namespace StarRailDamage.Source.UI.Model.View
 {
     public class TabulateItemModel : NotifyPropertyChangedFactory
     {
-        private ImageSource? _Icon;
+        private bool _Flag;
 
-        private string _Title = string.Empty;
+        private ImageSource? _Icon;
 
         private string _Text = string.Empty;
 
-        private bool _Flag;
+        private string _Title = string.Empty;
 
         private ObservableCollection<string> _MarkItems = [];
 
-        private ObservableCollection<string> _TempItems = [];
-
-        private ObservableCollection<ScopedSliderModel> _SliderItems = [];
+        public bool Flag
+        {
+            get => _Flag;
+            set => SetField(ref _Flag, value);
+        }
 
         public ImageSource? Icon
         {
             get => _Icon;
             set => SetField(ref _Icon, value);
-        }
-
-        public string Title
-        {
-            get => _Title;
-            set => SetField(ref _Title, value);
         }
 
         public string Text
@@ -39,28 +34,16 @@ namespace StarRailDamage.Source.UI.Model.View
             set => SetField(ref _Text, value);
         }
 
-        public bool Flag
+        public string Title
         {
-            get => _Flag;
-            set => SetField(ref _Flag, value);
+            get => _Title;
+            set => SetField(ref _Title, value);
         }
 
         public ObservableCollection<string> MarkItems
         {
             get => _MarkItems;
             set => SetField(ref _MarkItems, value);
-        }
-
-        public ObservableCollection<string> TempItems
-        {
-            get => _TempItems;
-            set => SetField(ref _TempItems, value);
-        }
-
-        public ObservableCollection<ScopedSliderModel> SliderItems
-        {
-            get => _SliderItems;
-            set => SetField(ref _SliderItems, value);
         }
     }
 }
