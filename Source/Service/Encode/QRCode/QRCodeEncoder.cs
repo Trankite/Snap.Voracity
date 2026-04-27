@@ -23,7 +23,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         protected abstract int[,] GetCapacityTable();
 
-        public int GetCapacity()
+        public int GetContentCapacity()
         {
             return GetCapacityTable()[Version - 1, ECCodeLevel.ToInt()];
         }

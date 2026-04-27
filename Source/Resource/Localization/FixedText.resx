@@ -265,7 +265,7 @@
     <value>基础速度</value>
   </data>
   <data name="AttributeElationIncrease" xml:space="preserve">
-    <value>欢愉增笑</value>
+    <value>欢愉度</value>
   </data>
   <data name="DamageSuperBreak" xml:space="preserve">
     <value>超击破伤害</value>

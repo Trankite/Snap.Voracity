@@ -51,20 +51,15 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static TSelf Configure<TSelf, TArgument>(this TSelf value, Action<TArgument> action, TArgument argument)
-        {
-            action.Invoke(argument);
-            return value;
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TSelf Configure<TSelf, TNone>(this TSelf value, TNone _) => value;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TSelf Configure<TSelf, TNone>(this TSelf value, TNone? _) => value;
-
-        [DebuggerStepThrough]
         public static bool OutTemp<TSelf>(this TSelf value, out TSelf self) => true.Configure(self = value);
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TSelf OutSelf<TSelf>(this TSelf value, out TSelf self) => self = value;
     }
 }

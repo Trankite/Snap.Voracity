@@ -1,6 +1,4 @@
-﻿using StarRailDamage.Source.Extension;
-
-namespace StarRailDamage.Source.UI.Factory.PropertyBinding
+﻿namespace StarRailDamage.Source.UI.Factory.PropertyBinding
 {
     public class PropertyBinding<TSender> : IPropertyBinding<TSender>
     {
@@ -33,7 +31,12 @@ namespace StarRailDamage.Source.UI.Factory.PropertyBinding
 
         private static bool PropertyChange(TSender sender, bool hasFlag, Action<TSender> handler)
         {
-            return hasFlag && true.Configure(handler, sender);
+            if (hasFlag)
+            {
+                handler(sender);
+                return true;
+            }
+            return false;
         }
     }
 }

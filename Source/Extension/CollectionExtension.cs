@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace StarRailDamage.Source.Extension
@@ -64,14 +65,13 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int BinaryFind<TArray, TValue>(this TArray array, int start, int length, Func<TArray, int, TValue> predicate, TValue value) where TValue : IComparable<TValue>
+        public static int BinaryFind<TArray, TValue>(this TArray array, int start, int length, Func<TArray, int, TValue> predicate, TValue value) where TArray : IEnumerable where TValue : IComparable<TValue>
         {
-            int Middle = 0;
             int Left = start;
             int Right = length - 1;
             while (Left <= Right)
             {
-                Middle = Left + (Right - Left) / 2;
+                int Middle = Left + (Right - Left) / 2;
                 TValue Current = predicate(array, Middle);
                 int Compare = Current.CompareTo(value);
                 if (Compare == 0)
@@ -87,7 +87,7 @@ namespace StarRailDamage.Source.Extension
                     Right = Middle - 1;
                 }
             }
-            return -Middle;
+            return -Left;
         }
 
         [DebuggerStepThrough]

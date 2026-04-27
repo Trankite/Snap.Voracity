@@ -17,7 +17,12 @@ namespace StarRailDamage.Source.UI.Factory.NotifyPropertyChanged
 
         public bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
-            return !Equals(field, value) && true.Configure(OnPropertyChanged, propertyName.Configure(field = value));
+            if (!EqualityComparer<T>.Default.Equals(field, value))
+            {
+                OnPropertyChanged(propertyName.Configure(field = value));
+                return true;
+            }
+            return false;
         }
 
         public bool SetField<T>(ref T field, T value, Predicate<T> predicate, [CallerMemberName] string? propertyName = null)

@@ -22,7 +22,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public ECCodeGroup ECCodeGroup => Encoder.ECCodeGroup;
 
-        public int Capacity => Encoder.Capacity;
+        public int Capacity => Encoder.GetContentCapacity();
 
         public MaskType MaskType { get; }
 
@@ -32,11 +32,10 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private QRCode(QRCodeEncoder encoder, MaskType mask)
         {
-            int BlockSize = encoder.Version * 4 + 17;
             MaskType = mask;
             Encoder = encoder;
-            Size = BlockSize;
-            Content = new QRCodeBit[BlockSize, BlockSize];
+            Size = encoder.Version * 4 + 17;
+            Content = new QRCodeBit[Size, Size];
         }
 
         public static QRCode Create(byte[] content, ECCodeLevel level = default, MaskType mask = default)
@@ -61,12 +60,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private QRCode Complete(ReadOnlySpan<byte> content)
         {
-            int MaxCapacity = Encoder.GetCapacity();
-            if (content.Length > MaxCapacity)
-            {
-                content = content[..MaxCapacity];
-            }
-            Initialize(content);
+            Initialize(content.Ceiling(Capacity));
             return this;
         }
 
@@ -197,7 +191,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
         private void SetFlags(int length)
         {
             int ContentTotalBits = Encoder.GetBitCount(length);
-            int ContentPaddingTotalBits = Capacity * 8 - ContentTotalBits;
+            int ContentPaddingTotalBits = Encoder.Capacity * 8 - ContentTotalBits;
             int ECCodeTotalBits = (ECCodeGroup.BlocksInGroup1 + ECCodeGroup.BlocksInGroup2) * ECCodeGroup.ECCodePerBytes * 8;
             IEnumerator<SpacePoint> PointArray = GetPoints(QRCodeBitType.Unused).GetEnumerator();
             void SetBitTypeFlag(int length, QRCodeBitType type)
