@@ -322,28 +322,9 @@ Quick response code content
 The saving path of the quick response code
 Default temp path
 
-&lt;ECCLevel&gt; ( Optional )
-Quick response code fault tolerance level
-0 - Low
-1 - Medium ( Default )
-2 - Quartile
-3 - High
-
-&lt;Mask&gt; ( Optional )
-Quick response code mask pattern
-[ 0 ( Default ) - 7 ]
-
 &lt;Open&gt; ( Optional )
 Open the path in explorer
-[ True / False ( Default ) ]
-
-&lt;Fore&gt; ( Optional )
-Quick response code fore color ( Black )
-[ #000000 ( Default ) - #FFFFFF ]
-
-&lt;Backgroup&gt; ( Optional )
-Quick response code background color ( White )
-[ #000000 - #FFFFFF ( Default ) ]</value>
+[ True / False ( Default ) ]</value>
   </data>
   <data name="UnitLevel" xml:space="preserve">
     <value>Lv</value>

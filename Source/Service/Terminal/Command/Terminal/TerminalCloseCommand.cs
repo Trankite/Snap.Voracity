@@ -10,7 +10,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
 
         public string Help => MarkedText.TerminalCommandCloseHelp;
 
-        public ITerminalResponse Invoke(params IList<string> parameter)
+        public ITerminalResponse Invoke(IList<string> parameter)
         {
             return new TerminalResponse(TerminalHelper.Close().Configure(Program.PlanInitiation = true));
         }

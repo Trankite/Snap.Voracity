@@ -37,8 +37,8 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             {
                 return CapacityTable[index, Level];
             }
-            int Nearly = CapacityTable.BinaryFind(0, Count, GetValue, length);
-            return this.Configure(Version = Math.Abs(Nearly) + 1);
+            int Nearly = CapacityTable.BinarySearch(0, Count, GetValue, length);
+            return this.Configure(Version = Math.Min(Math.Abs(Nearly) + 1, 40));
         }
 
         public QRCodeEncoder Complete()
@@ -46,10 +46,10 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             return this.Configure(Capacity = QRCodeInfo.GetCapacity(Version, ECCodeLevel)).Configure(ECCodeGroup = ECCodeInfo.GetECCodeInfo(Version, ECCodeLevel));
         }
 
-        public byte[] Encode(ReadOnlySpan<byte> content, bool fill = true)
+        public byte[] Encode(ReadOnlySpan<byte> content)
         {
             int Offset = 0;
-            BitSet EncodedData = ContentEncode(content, fill);
+            BitSet EncodedData = ContentEncode(content);
             int TotalBlockCount = ECCodeGroup.BlocksInGroup1 + ECCodeGroup.BlocksInGroup2;
             byte[][] Content = new byte[TotalBlockCount][];
             byte[] RSEncode(int index, int length)
@@ -70,24 +70,21 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             return Interlock(Content, ECCode);
         }
 
-        public BitSet ContentEncode(ReadOnlySpan<byte> content, bool fill = true)
+        public BitSet ContentEncode(ReadOnlySpan<byte> content)
         {
             BitSet Binary = BinaryEncode(content);
             BitSet Result = BitSet.FromBitCount(Capacity * 8);
             Result.Write(0, EncodeMode.ToInt(), 4);
             Result.Write(4, content.Length, BitsOfDataLength);
             Result.Write(4 + BitsOfDataLength, Binary, 0, Binary.Count);
-            if (fill)
+            int Index = (GetBitCount(content.Length) + 7) & ~7;
+            while (Index < Result.Count)
             {
-                int Index = (GetBitCount(content.Length) + 7) & ~7;
-                while (Index < Result.Count)
+                Result.Write(Index, 0b11101100, 8);
+                if ((Index += 8) < Result.Count)
                 {
-                    Result.Write(Index, 0b11101100, 8);
-                    if ((Index += 8) < Result.Count)
-                    {
-                        Result.Write(Index, 0b00010001, 8);
-                        Index += 8;
-                    }
+                    Result.Write(Index, 0b00010001, 8);
+                    Index += 8;
                 }
             }
             return Result;

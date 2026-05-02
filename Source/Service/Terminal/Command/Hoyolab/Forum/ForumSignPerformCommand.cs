@@ -14,18 +14,22 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabForumSignCommandHelp;
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(params IList<string> parameter)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter)
         {
             if (!EnumExtension.TryParse(parameter.Index(0), out HoyolabGroup Group))
             {
                 return TerminalManage.GetInvalidParameterResponse();
             }
-            string? AidText = parameter.Index(1);
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))
+            return await AsyncInvoke(Group, parameter.Index(1));
+        }
+
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabGroup group, string? aid = null)
+        {
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
-                return HoyolabTerminalResponse.NotFindToken(AidText);
+                return HoyolabTerminalResponse.NotFindToken(aid);
             }
-            SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetGroup(Group);
+            SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetGroup(group);
             FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {

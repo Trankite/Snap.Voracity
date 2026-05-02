@@ -14,12 +14,16 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string Help => MarkedText.HoyolabGameSignCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvokeOverride(params IList<string> parameter)
+        protected override async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvokeOverride(IList<string> parameter)
         {
-            string? AidText = parameter.FirstOrDefault();
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))
+            return await AsyncInvoke(parameter.FirstOrDefault());
+        }
+
+        public static async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvoke(string? aid = null)
+        {
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
-                return new TerminalResponse<SignResponseWrapper>(HoyolabTerminalResponse.NotFindToken(AidText));
+                return new TerminalResponse<SignResponseWrapper>(HoyolabTerminalResponse.NotFindToken(aid));
             }
             if (!Token.TryGetUserRole(GameType.StarRailChina.OutSelf(out GameType Game), out HoyolabUserRole? UserRole))
             {

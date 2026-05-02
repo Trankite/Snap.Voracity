@@ -32,12 +32,12 @@ namespace StarRailDamage.Source.Service.Terminal
             return command is IAsyncTerminalCommand AsyncCommand ? new TerminalCommand(AsyncCommand) : new TerminalCommand(false, command);
         }
 
-        public ITerminalResponse Invoke(params IList<string> parameter)
+        public ITerminalResponse Invoke(IList<string> parameter)
         {
             return Command.Invoke(parameter);
         }
 
-        public async ValueTask<ITerminalResponse> AsyncInvoke(params IList<string> parameter)
+        public async ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter)
         {
             return IsAsync ? await AsyncCommand.AsyncInvoke(parameter) : Invoke(parameter);
         }

@@ -9,7 +9,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
 
         public string Help => MarkedText.TerminalCommandPauseHelp;
 
-        public ITerminalResponse Invoke(params IList<string> parameter)
+        public ITerminalResponse Invoke(IList<string> parameter)
         {
             if (TerminalHelper.ConsoleMode)
             {

@@ -14,23 +14,26 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabPostUpvoteCommandHelp;
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(params IList<string> parameter)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter)
         {
             if (!parameter.TryGetFirst(out string? PostId))
             {
                 return TerminalManage.GetMissingParameterResponse();
             }
-            bool IsCancel = BoolExtension.Parse(parameter.Index(1));
-            string? AidText = parameter.Index(2);
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))
+            return await AsyncInvoke(PostId, BoolExtension.Parse(parameter.Index(1)), parameter.Index(2));
+        }
+
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(string postId, bool isCancel = false, string? aid = null)
+        {
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
-                return HoyolabTerminalResponse.NotFindToken(AidText);
+                return HoyolabTerminalResponse.NotFindToken(aid);
             }
-            UpvoteRequestBuilderFactory Factory = new UpvoteRequestBuilderFactory(Token).SetPostId(PostId).SetIsCancel(IsCancel);
+            UpvoteRequestBuilderFactory Factory = new UpvoteRequestBuilderFactory(Token).SetPostId(postId).SetIsCancel(isCancel);
             FinalizedResponse<UpvoteResponse> Response = await Factory.Create().SendAsync<UpvoteResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
-                return new TerminalResponse(true, StringExtension.Format(IsCancel ? MarkedText.HoyolabForumPostUpvoteCancel : MarkedText.HoyolabForumPostUpvote, PostId));
+                return new TerminalResponse(true, StringExtension.Format(isCancel ? MarkedText.HoyolabForumPostUpvoteCancel : MarkedText.HoyolabForumPostUpvote, postId));
             }
             return new TerminalResponse(false, Response.ToString());
         }

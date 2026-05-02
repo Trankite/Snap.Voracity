@@ -4,13 +4,13 @@
     {
         string Name { get; }
 
-        ITerminalResponse Invoke(params IList<string> parameter);
+        ITerminalResponse Invoke(IList<string> parameter);
 
         string Help { get; }
     }
 
     public interface ITerminalCommand<TContent> : ITerminalCommand
     {
-        new ITerminalResponse<TContent> Invoke(params IList<string> parameter);
+        new ITerminalResponse<TContent> Invoke(IList<string> parameter);
     }
 }

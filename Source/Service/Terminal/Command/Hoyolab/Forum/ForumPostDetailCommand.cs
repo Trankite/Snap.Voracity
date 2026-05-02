@@ -14,23 +14,27 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabPostDetailCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(params IList<string> parameter)
+        protected override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(IList<string> parameter)
         {
             if (!parameter.TryGetFirst(out string? PostId))
             {
                 return new TerminalResponse<FullPostResponseWrapper>(TerminalManage.GetMissingParameterResponse());
             }
+            return await AsyncInvoke(PostId, BoolExtension.Parse(parameter.Index(1)), parameter.Index(2));
+        }
+
+        public static async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvoke(string postId, bool needSign = false, string? aid = null)
+        {
             HoyolabToken? Token = null;
-            string? AidText = parameter.Index(2);
-            if (BoolExtension.Parse(parameter.Index(1)) && !HoyolabTokenManage.TryGetTokenOrFirst(AidText, out Token))
+            if (needSign && !HoyolabTokenManage.TryGetTokenOrFirst(aid, out Token))
             {
-                return new TerminalResponse<FullPostResponseWrapper>(HoyolabTerminalResponse.NotFindToken(AidText));
+                return new TerminalResponse<FullPostResponseWrapper>(HoyolabTerminalResponse.NotFindToken(aid));
             }
             if (Token.IsNull())
             {
                 Token = new HoyolabToken();
             }
-            FullPostRequestBuilderFactory Factory = new FullPostRequestBuilderFactory(Token).SetPostId(PostId);
+            FullPostRequestBuilderFactory Factory = new FullPostRequestBuilderFactory(Token).SetPostId(postId);
             FinalizedResponse<FullPostResponse> Response = await Factory.Create().SendAsync<FullPostResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out FullPostResponseWrapper? AnalyedBody))
             {

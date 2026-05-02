@@ -25,6 +25,24 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static T NotNull<T>(this T? value) where T : new()
+        {
+            return value ?? new T();
+        }
+
+        [DebuggerStepThrough]
+        public static string NotNull(this string? value)
+        {
+            return value ?? string.Empty;
+        }
+
+        [DebuggerStepThrough]
+        public static T[] NotNull<T>(this T[]? value)
+        {
+            return value ?? [];
+        }
+
+        [DebuggerStepThrough]
         public static T Middle<T>([NotNullWhen(true)] this T value, T minimum, T maximum) where T : IComparable<T>
         {
             return value.CompareTo(minimum) < 0 ? minimum : value.CompareTo(maximum) < 0 ? value : maximum;

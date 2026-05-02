@@ -11,7 +11,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
 
         public string Help => MarkedText.TerminalCommandParseHelp;
 
-        public ITerminalResponse Invoke(params IList<string> parameter)
+        public ITerminalResponse Invoke(IList<string> parameter)
         {
             return new TerminalResponse(parameter.TryGetFirst(out string? CommandText) && CommandText.Configure(TerminalHelper.Invoke).Captured(true));
         }

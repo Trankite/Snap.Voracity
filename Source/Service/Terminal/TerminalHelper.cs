@@ -81,7 +81,7 @@ namespace StarRailDamage.Source.Service.Terminal
             {
                 while (ConsoleMode && MonitorMode)
                 {
-                    Invoke(AllParse(Console.ReadLine() ?? string.Empty));
+                    Invoke(AllParse(Console.ReadLine().NotNull()));
                 }
                 return CloseMonitor();
             }

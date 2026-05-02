@@ -20,5 +20,7 @@
         {
             Bits = (byte)(((int)type << 1) | (hasBit ? 1 : 0));
         }
+
+        public static implicit operator byte(QRCodeBit value) => value.Bits;
     }
 }

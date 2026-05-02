@@ -15,12 +15,16 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
 
         public override string Help => MarkedText.HoyolabUserMissionStateCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(params IList<string> parameter)
+        protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(IList<string> parameter)
         {
-            string? AidText = parameter.FirstOrDefault();
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))
+            return await AsyncInvoke(parameter.FirstOrDefault());
+        }
+
+        public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = null)
+        {
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
-                return new TerminalResponse<MissionAnalyzedBody>(HoyolabTerminalResponse.NotFindToken(AidText));
+                return new TerminalResponse<MissionAnalyzedBody>(HoyolabTerminalResponse.NotFindToken(aid));
             }
             MissionRequestBuilderFactory Factory = new MissionRequestBuilderFactory().SetHoyolabToken(Token);
             FinalizedResponse<MissionResponse> Response = await Factory.Create().SendAsync<MissionResponse>(Program.HttpClient);

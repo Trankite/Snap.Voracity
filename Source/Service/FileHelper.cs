@@ -13,19 +13,25 @@ namespace StarRailDamage.Source.Service
             {
                 try { Directory.CreateDirectory(path); } catch { }
             }
-            return path ?? string.Empty;
+            return path.NotNull();
         }
 
         [DebuggerStepThrough]
         public static string BuildFilePath(string? path)
         {
-            return BuildPath(Path.GetDirectoryName(path)).Captured(path ?? string.Empty);
+            return BuildPath(Path.GetDirectoryName(path)).Captured(path.NotNull());
         }
 
         [DebuggerStepThrough]
         public static string PathOpen(string? path)
         {
             return path.Configure(Process.Start("explorer", $"{(File.Exists(path) ? "/select," : string.Empty)}\"{path}\"")) ?? string.Empty;
+        }
+
+        [DebuggerStepThrough]
+        public static string PathOpen(string? path, bool flag)
+        {
+            return flag ? PathOpen(path) : ObjectExtension.NotNull(path);
         }
     }
 }

@@ -17,9 +17,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         public string Help => MarkedText.CommandHelpQRCodeProduce;
 
-        public ITerminalResponse Invoke(params IList<string> parameter)
+        public ITerminalResponse Invoke(IList<string> parameter)
         {
-            if (!parameter.TryGetFirst(out string? ContentText))
+            if (!parameter.TryGetFirst(out string? Content))
             {
                 return TerminalManage.GetMissingParameterResponse();
             }
@@ -28,34 +28,23 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
             {
                 FilePath = Path.Combine(LocalSetting.GetTempPath(), "QRCode.png");
             }
-            if (!EnumExtension.TryParse(parameter.Index(2), out ECCodeLevel Level))
-            {
-                Level = ECCodeLevel.M;
-            }
-            if (!EnumExtension.TryParse(parameter.Index(3), out MaskType MaskType))
-            {
-                MaskType = MaskType.Mask000;
-            }
-            bool PathOpen = BoolExtension.Parse(parameter.Index(4));
-            if (!ColorExtension.TryFromHtml(parameter.Index(5), out Color Black))
-            {
-                Black = Color.Black;
-            }
-            if (!ColorExtension.TryFromHtml(parameter.Index(6), out Color White))
-            {
-                White = Color.White;
-            }
-            using FileOpenWrite Write = FileOpenWrite.Create(FilePath);
+            bool PathOpen = BoolExtension.Parse(parameter.Index(2));
+            return Invoke(Content, FilePath, PathOpen);
+        }
+
+        public static ITerminalResponse Invoke(string content, string filePath, bool pathOpen = false)
+        {
+            using FileOpenWrite Write = FileOpenWrite.Create(filePath);
             if (!Write.Success)
             {
                 return new TerminalResponse(false, Write.ToString());
             }
-            QRCode Qrcode = QRCode.Create(Encoding.UTF8.GetBytes(ContentText), Level, MaskType);
-            using (Bitmap Bitmap = Qrcode.GetBitmap(Black, White))
+            QRCode Qrcode = QRCode.Create(Encoding.UTF8.GetBytes(content), ECCodeLevel.M);
+            using (Bitmap Bitmap = Qrcode.GetBitmap())
             {
                 Bitmap.Save(Write.Stream, ImageFormat.Png);
             }
-            return new TerminalResponse(true, PathOpen ? FileHelper.PathOpen(Write.FullPath) : Write.FullPath);
+            return new TerminalResponse(true, FileHelper.PathOpen(Write.FullPath, pathOpen));
         }
     }
 }

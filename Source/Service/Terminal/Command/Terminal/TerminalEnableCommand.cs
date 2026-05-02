@@ -11,7 +11,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
 
         public string Help => MarkedText.TerminalCommandEnableHelp;
 
-        public ITerminalResponse Invoke(params IList<string> parameter)
+        public ITerminalResponse Invoke(IList<string> parameter)
         {
             return new TerminalResponse(TerminalHelper.Alloc() && true.Configure(Console.Title = AppSetting.AppName));
         }

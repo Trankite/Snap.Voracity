@@ -14,18 +14,22 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabPostShareCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(params IList<string> parameter)
+        protected override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(IList<string> parameter)
         {
             if (!parameter.TryGetFirst(out string? PostId))
             {
                 return new TerminalResponse<ShareResponseWrapper>(TerminalManage.GetMissingParameterResponse());
             }
-            string? AidText = parameter.Index(1);
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(AidText, out HoyolabToken? Token))
+            return await AsyncInvoke(PostId, parameter.Index(1));
+        }
+
+        public static async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvoke(string postId, string? aid = null)
+        {
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
-                return new TerminalResponse<ShareResponseWrapper>(HoyolabTerminalResponse.NotFindToken(AidText));
+                return new TerminalResponse<ShareResponseWrapper>(HoyolabTerminalResponse.NotFindToken(aid));
             }
-            ShareRequestBuilderFactory Factory = new ShareRequestBuilderFactory(Token).SetEntityType(EntityType.Post).SetEntityId(PostId);
+            ShareRequestBuilderFactory Factory = new ShareRequestBuilderFactory(Token).SetEntityType(EntityType.Post).SetEntityId(postId);
             FinalizedResponse<ShareResponse> Response = await Factory.Create().SendAsync<ShareResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out ShareResponseWrapper? AnalyedBody))
             {

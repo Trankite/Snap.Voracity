@@ -10,7 +10,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
 
         public string Help => MarkedText.TerminalCommandFlushHelp;
 
-        public ITerminalResponse Invoke(params IList<string> parameter)
+        public ITerminalResponse Invoke(IList<string> parameter)
         {
             return new TerminalResponse(TerminalHelper.ConsoleMode && true.Configure(Console.Clear));
         }

@@ -10,7 +10,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private static readonly LocalPoint[,] FormatPointTable;
 
-        private readonly QRCodeBit[,] Content;
+        private QRCodeBit[,] Content;
 
         private readonly QRCodeEncoder Encoder;
 
@@ -24,9 +24,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public int Capacity => Encoder.GetContentCapacity();
 
-        public MaskType MaskType { get; }
-
-        private int FormatBinary;
+        public MaskType MaskType { get; private set; }
 
         public int Size { get; }
 
@@ -45,7 +43,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public static QRCode Create(byte[] content, EncodeMode mode, ECCodeLevel level = default, MaskType mask = default)
         {
-            return new QRCode(mode.CreateEncoder().SetECCodeLevel(level).SetAutoSize(content.Length).Complete(), mask).Complete(content);
+            return new QRCode(EncodeModeExtension.CreateEncoder(mode).SetECCodeLevel(level).SetAutoSize(content.Length).Complete(), mask).Complete(content);
         }
 
         public static QRCode Create(byte[] content, int version, ECCodeLevel level = default, MaskType mask = default)
@@ -55,7 +53,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public static QRCode Create(byte[] content, EncodeMode mode, int version, ECCodeLevel level = default, MaskType mask = default)
         {
-            return new QRCode(mode.CreateEncoder().SetECCodeLevel(level).SetVersion(version).Complete(), mask).Complete(content);
+            return new QRCode(EncodeModeExtension.CreateEncoder(mode).SetECCodeLevel(level).SetVersion(version).Complete(), mask).Complete(content);
         }
 
         private QRCode Complete(ReadOnlySpan<byte> content)
@@ -73,7 +71,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             SetVersionInformation();
             SetFlags(content.Length);
             SetContent(content);
-            SetMaskInformation();
+            SetOptimalMaskType();
         }
 
         private void SetPositionPattern()
@@ -161,7 +159,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private void SetFormatInformation()
         {
-            FormatBinary = ((ECCodeLevel.ToInt() ^ 1) << 13) | (MaskType.ToInt() << 10);
+            int FormatBinary = ((ECCodeLevel.ToInt() ^ 1) << 13) | ((MaskType.ToInt() - 1) << 10);
             FormatBinary = (FormatBinary | GaloisField.PolynomMod(FormatBinary, 0b10100110111)) ^ 0b101010000010010;
             WriteFormatInformation(FormatBinary);
             SetBitType(GetAbsolutePoint(8, -8), true, QRCodeBitType.FixedPoint);
@@ -187,6 +185,8 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
         {
             return new LocalPoint(x < 0 ? x + Size : x, y < 0 ? y + Size : y);
         }
+
+        private LocalPoint GetAbsolutePoint(LocalPoint point) => GetAbsolutePoint(point.X, point.Y);
 
         private void SetFlags(int length)
         {
@@ -217,14 +217,12 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
                 bool HasBit = (formatBinary & (1 << i)) != 0;
                 for (int k = 0; k < 2; k++)
                 {
-                    LocalPoint Point = FormatPointTable[k, i];
-                    Point = GetAbsolutePoint(Point.X, Point.Y);
-                    SetBitType(Point, HasBit, QRCodeBitType.Format);
+                    SetBitType(GetAbsolutePoint(FormatPointTable[k, i]), HasBit, QRCodeBitType.Format);
                 }
             }
         }
 
-        private void SetBitType(LocalPoint point, bool hasBit, QRCodeBitType type)
+        private void SetBitType(in LocalPoint point, bool hasBit, QRCodeBitType type)
         {
             Content[point.X, point.Y].SetValue(hasBit, type);
         }
@@ -259,14 +257,46 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             }
         }
 
+        private void SetOptimalMaskType()
+        {
+            if (MaskType == MaskType.Optimal)
+            {
+                int Minimum = int.MaxValue;
+                QRCodeBit[,] Original = Content;
+                QRCodeBit[,] Solution = Content;
+                for (int i = 1; i <= 8; i++)
+                {
+                    MaskType = (MaskType)i;
+                    Content = (QRCodeBit[,])Original.Clone();
+                    SetFormatInformation();
+                    SetMaskInformation();
+                    int Penalty = GetMaskPenalty();
+                    if (Penalty <= Minimum)
+                    {
+                        Minimum = Penalty;
+                        Solution = Content;
+                    }
+                    else
+                    {
+                        Content = Solution;
+                    }
+                }
+            }
+            else
+            {
+                SetMaskInformation();
+            }
+        }
+
         private void SetMaskInformation()
         {
+            int Count = Content.GetLength(0);
             Func<int, int, bool> Method = MaskType.GetMethod();
             QRCodeBitType[] Types = [QRCodeBitType.Unused, QRCodeBitType.Content, QRCodeBitType.ContentPadding, QRCodeBitType.ECCode, QRCodeBitType.Padding];
             int Pending = Types.GetFlags();
-            for (int x = 0; x < Size; x++)
+            for (int x = 0; x < Count; x++)
             {
-                for (int y = 0; y < Size; y++)
+                for (int y = 0; y < Count; y++)
                 {
                     if (((1 << (int)Content[x, y].Type) & Pending) != 0)
                     {
@@ -274,6 +304,133 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
                     }
                 }
             }
+        }
+
+        private int GetMaskPenalty()
+        {
+            int Penalty = 0;
+            Penalty += GetSameColorPenalty();
+            Penalty += GetSameBlockPenalty();
+            Penalty += GetAsPatternPenalty();
+            Penalty += GetUnbalancePenalty();
+            return Penalty;
+        }
+
+        private int GetSameColorPenalty()
+        {
+            int Penalty = 0;
+            for (int x = 0; x < Size; x++)
+            {
+                int Total = 1;
+                bool Current = Content[x, 0].HasBit;
+                for (int y = 1; y < Size; y++)
+                {
+                    if (Content[x, y].HasBit == Current)
+                    {
+                        Total++;
+                    }
+                    else
+                    {
+                        if (Total >= 5)
+                        {
+                            Penalty += 3 + (Total - 5);
+                        }
+                        Current = Content[x, y].HasBit;
+                        Total = 1;
+                    }
+                }
+                if (Total >= 5)
+                {
+                    Penalty += 3 + (Total - 5);
+                }
+            }
+            for (int y = 0; y < Size; y++)
+            {
+                int Total = 1;
+                bool Current = Content[0, y].HasBit;
+                for (int x = 1; x < Size; x++)
+                {
+                    if (Content[x, y].HasBit == Current)
+                    {
+                        Total++;
+                    }
+                    else
+                    {
+                        if (Total >= 5)
+                        {
+                            Penalty += 3 + (Total - 5);
+                        }
+                        Current = Content[x, y].HasBit;
+                        Total = 1;
+                    }
+                }
+                if (Total >= 5)
+                {
+                    Penalty += 3 + (Total - 5);
+                }
+            }
+            return Penalty;
+        }
+
+        private int GetSameBlockPenalty()
+        {
+            int Penalty = 0;
+            for (int x = Size - 1; x > 0; x--)
+            {
+                for (int y = Size - 1; y > 0; y--)
+                {
+                    bool Current = Content[x, y].HasBit;
+                    if (Current == Content[x - 1, y].HasBit && Current == Content[x, y - 1].HasBit && Current == Content[x - 1, y - 1].HasBit)
+                    {
+                        Penalty += 3;
+                    }
+                }
+            }
+            return Penalty;
+        }
+
+        private int GetAsPatternPenalty()
+        {
+            int Penalty = 0;
+            uint Pattern1 = 0b1011101;
+            uint Pattern2 = Pattern1 << 4;
+            for (int x = 0; x < Size; x++)
+            {
+                uint Flag = uint.MaxValue;
+                for (int y = 0; y < Size; y++)
+                {
+                    Flag = (Content[x, y] & 1u) | (Flag << 1);
+                    uint Current = Flag & 0x7ff;
+                    if (Current == Pattern1 || Current == Pattern2 && (Flag & (0xf << 11)) != 0)
+                    {
+                        Penalty += 40;
+                    }
+                }
+            }
+            for (int y = 0; y < Size; y++)
+            {
+                uint Flag = uint.MaxValue;
+                for (int x = 0; x < Size; x++)
+                {
+                    Flag = (Content[y, x] & 1u) | (Flag << 1);
+                    uint Current = Flag & 0x7ff;
+                    if (Current == Pattern1 || Current == Pattern2 && (Flag & (0xf << 11)) != 0)
+                    {
+                        Penalty += 40;
+                    }
+                }
+            }
+            return Penalty;
+        }
+
+        private int GetUnbalancePenalty()
+        {
+            int Penalty = 0;
+            foreach (QRCodeBit Current in Content)
+            {
+                Penalty += Current & 1;
+            }
+            return Penalty * 100 / Content.Length - 50;
         }
 
         public ref QRCodeBit this[int x, int y] => ref Content[x, y];

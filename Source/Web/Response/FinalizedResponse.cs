@@ -31,7 +31,7 @@ namespace StarRailDamage.Source.Web.Response
 
         public override string ToString()
         {
-            return Exception.IsNotNull() ? Exception.SourceException.Message : Body?.ToString() ?? string.Empty;
+            return Exception.IsNotNull() ? Exception.SourceException.Message : (Body?.ToString()).NotNull();
         }
     }
 }

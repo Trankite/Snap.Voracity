@@ -14,15 +14,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string Help => MarkedText.HoyolabGameSignRewardCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(params IList<string> parameter)
+        protected override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(IList<string> parameter)
+        {
+            return await AsyncInvoke(IntExtension.Parse(parameter.Index(0)), IntExtension.Parse(parameter.Index(1)));
+        }
+
+        public static async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvoke(int start = 0, int total = 0)
         {
             SignHomeRequestBuilderFactory Factory = new(HoyolabLanguage.ZH_CN, HoyolabAction.StarRailSign);
             FinalizedResponse<SignHomeResponse> Response = await Factory.Create().SendAsync<SignHomeResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out SignHomeAnalyzedBody[]? Body))
             {
-                int InputCount = IntExtension.Parse(parameter.Index(1));
-                int Index = CollectionExtension.AutoIndex(IntExtension.Parse(parameter.Index(0)) - 1, Body.Length);
-                int Count = CollectionExtension.AutoCount(Index, InputCount > 0 ? InputCount : Body.Length, Body.Length);
+                int Index = CollectionExtension.AutoIndex(start - 1, Body.Length);
+                int Count = CollectionExtension.AutoCount(Index, total > 0 ? total : Body.Length, Body.Length);
                 SignHomeAnalyzedBody[] FindArray = new SignHomeAnalyzedBody[Count].Configure(Self => Array.Copy(Body, Index, Self, 0, Count));
                 return TerminalResponse.Create(true, string.Join('\n', FindArray.Select(SignHomeResponse.GetAwardString)), FindArray);
             }

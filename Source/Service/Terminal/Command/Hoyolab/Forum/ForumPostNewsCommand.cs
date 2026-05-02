@@ -14,12 +14,17 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabPostNewsCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(params IList<string> parameter)
+        protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(IList<string> parameter)
         {
             int PageSize = IntExtension.Parse(parameter.FirstOrDefault());
             ZoneType ZoneType = (ZoneType)IntExtension.Parse(parameter.Index(1));
             SortType SortType = (SortType)IntExtension.Parse(parameter.Index(2));
-            NewestRequestBuilderFactory Factory = new NewestRequestBuilderFactory().SetPageSize(PageSize).SetZoneType(ZoneType).SetSortType(SortType);
+            return await AsyncInvoke(PageSize, ZoneType, SortType);
+        }
+
+        public static async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvoke(int pageSize, ZoneType zoneType, SortType sortType = default)
+        {
+            NewestRequestBuilderFactory Factory = new NewestRequestBuilderFactory().SetPageSize(pageSize).SetZoneType(zoneType).SetSortType(sortType);
             FinalizedResponse<NewestResponse> Response = await Factory.Create().SendAsync<NewestResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NewestAnalyzedBody[]? AnalyzedBody))
             {

@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public static Func<int, int, bool> GetMethod(this MaskType mask)
         {
-            return MaskMethod[mask.ToInt()];
+            return MaskMethod[mask.ToInt() - 1];
         }
 
         private static bool Mask000(int x, int y) => (x + y) % 2 == 0;

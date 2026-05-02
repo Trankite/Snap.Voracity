@@ -1,10 +1,12 @@
-﻿namespace StarRailDamage.Source.Web.Hoyolab.Passport.Exchange
+﻿using StarRailDamage.Source.Extension;
+
+namespace StarRailDamage.Source.Web.Hoyolab.Passport.Exchange
 {
     public static class ExchangeTypeExtension
     {
         public static string GetToken(this ExchangeType exchangeType, HoyolabToken hoyolabToken)
         {
-            return hoyolabToken.Tokens.GetValueOrDefault(exchangeType.GetTokenType()) ?? string.Empty;
+            return hoyolabToken.Tokens.GetValueOrDefault(exchangeType.GetTokenType()).NotNull();
         }
 
         public static HoyolabTokenType GetTokenType(this ExchangeType exchangeType)

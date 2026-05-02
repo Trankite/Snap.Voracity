@@ -4,7 +4,6 @@ using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Encode.Encrypt;
 using StarRailDamage.Source.Service.Encode.Hashing;
 using StarRailDamage.Source.Service.FileOpen;
-using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security.Cryptography;
@@ -16,35 +15,37 @@ namespace StarRailDamage.Source.Web.Hoyolab
 {
     public static class HoyolabTokenManage
     {
+        private static HoyolabToken[]? _HoyolabTokens;
+
         private static readonly JsonSerializerOptions JsonOptions;
 
         private const string Salt = "B9176A0A08605E7EE16428AB13199AC2";
 
-        public static ImmutableArray<HoyolabToken> TokenCollection
+        public static HoyolabToken[] HoyolabTokens
         {
-            get => field.IsDefault ? Load().Captured(field) : field;
-            private set;
+            get => _HoyolabTokens ?? Load().Captured(_HoyolabTokens);
+            private set => _HoyolabTokens = value;
         }
 
         public static bool TryGetTokenOrFirst(string? aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
-            return string.IsNullOrEmpty(aid) ? TokenCollection.TryGetFirst(out hoyolabToken) : TryGetToken(aid, out hoyolabToken);
+            return string.IsNullOrEmpty(aid) ? HoyolabTokens.TryGetFirst(out hoyolabToken) : TryGetToken(aid, out hoyolabToken);
         }
 
         public static bool TryGetToken(string aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
-            return TokenCollection.TryGetFirst(Token => Token.Aid == aid, out hoyolabToken);
+            return HoyolabTokens.TryGetFirst(Token => Token.Aid == aid, out hoyolabToken);
         }
 
+        [MemberNotNull(nameof(_HoyolabTokens))]
         public static bool Load()
         {
             using FileOpenRead FileRead = new(GetFilePath());
             if (FileRead.Success)
             {
-                TokenCollection = JsonSerializer.Deserialize<ImmutableArray<HoyolabToken>>(FileRead.Stream, JsonOptions);
-                return true;
+                return true.Configure(_HoyolabTokens = JsonSerializer.Deserialize<HoyolabToken[]>(FileRead.Stream, JsonOptions).NotNull());
             }
-            return false.Configure(TokenCollection = []);
+            return false.Configure(_HoyolabTokens = []);
         }
 
         public static bool Save(params HoyolabToken[] hoyolabTokens)
@@ -53,7 +54,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
             if (FileWrite.Success)
             {
                 JsonSerializer.SerializeAsync(FileWrite.Stream, hoyolabTokens, JsonOptions).RunSynchronously();
-                return true.Configure(TokenCollection = [.. hoyolabTokens]);
+                return true.Configure(_HoyolabTokens = hoyolabTokens);
             }
             return false;
         }

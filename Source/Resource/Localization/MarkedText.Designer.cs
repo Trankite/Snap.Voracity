@@ -70,28 +70,9 @@ namespace StarRailDamage.Source.Resource.Localization {
         ///二维码的保存路径
         ///默认在临时文件夹
         ///
-        ///&lt;纠错级别&gt; ( 可选 )
-        ///二维码的扫描容错
-        ///0 - 最低
-        ///1 - 中等 ( 默认值 )
-        ///2 - 较高
-        ///3 - 最高
-        ///
-        ///&lt;掩码&gt; ( 可选 )
-        ///二维码的掩码图案
-        ///[ 0 ( 默认值 ) - 7 ]
-        ///
         ///&lt;转到路径&gt; ( 可选 )
         ///是否转到资源管理器
-        ///[ True / False ( 默认值 ) ]
-        ///
-        ///&lt;主体颜色&gt; ( 可选 )
-        ///二维码的主体颜色 ( 黑 )
-        ///[ #000000 ( 默认值 ) - #FFFFFF ]
-        ///
-        ///&lt;背景颜色&gt; ( 可选 )
-        ///二维码的背景颜色 ( 白 )
-        ///[ #000000 - #FFFFFF ( 默认值 ) ] 的本地化字符串。
+        ///[ True / False ( 默认值 ) ] 的本地化字符串。
         /// </summary>
         internal static string CommandHelpQRCodeProduce {
             get {

@@ -65,7 +65,7 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int BinaryFind<TArray, TValue>(this TArray array, int start, int length, Func<TArray, int, TValue> predicate, TValue value) where TArray : IEnumerable where TValue : IComparable<TValue>
+        public static int BinarySearch<TArray, TValue>(this TArray array, int start, int length, Func<TArray, int, TValue> predicate, TValue value) where TArray : IEnumerable where TValue : IComparable<TValue>
         {
             int Left = start;
             int Right = length - 1;
