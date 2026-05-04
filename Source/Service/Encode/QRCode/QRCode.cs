@@ -290,13 +290,12 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private void SetMaskInformation()
         {
-            int Count = Content.GetLength(0);
             Func<int, int, bool> Method = MaskType.GetMethod();
             QRCodeBitType[] Types = [QRCodeBitType.Unused, QRCodeBitType.Content, QRCodeBitType.ContentPadding, QRCodeBitType.ECCode, QRCodeBitType.Padding];
             int Pending = Types.GetFlags();
-            for (int x = 0; x < Count; x++)
+            for (int x = 0; x < Size; x++)
             {
-                for (int y = 0; y < Count; y++)
+                for (int y = 0; y < Size; y++)
                 {
                     if (((1 << (int)Content[x, y].Type) & Pending) != 0)
                     {
@@ -396,8 +395,12 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             uint Pattern2 = Pattern1 << 4;
             for (int x = 0; x < Size; x++)
             {
-                uint Flag = uint.MaxValue;
-                for (int y = 0; y < Size; y++)
+                uint Flag = 0;
+                for (int y = 0; y < 15; y++)
+                {
+                    Flag = (Content[x, y] & 1u) | (Flag << 1);
+                }
+                for (int y = 15; y < Size; y++)
                 {
                     Flag = (Content[x, y] & 1u) | (Flag << 1);
                     uint Current = Flag & 0x7ff;
@@ -409,10 +412,14 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             }
             for (int y = 0; y < Size; y++)
             {
-                uint Flag = uint.MaxValue;
-                for (int x = 0; x < Size; x++)
+                uint Flag = 0;
+                for (int x = 0; x < 15; x++)
                 {
-                    Flag = (Content[y, x] & 1u) | (Flag << 1);
+                    Flag = (Content[x, y] & 1u) | (Flag << 1);
+                }
+                for (int x = 15; x < Size; x++)
+                {
+                    Flag = (Content[x, y] & 1u) | (Flag << 1);
                     uint Current = Flag & 0x7ff;
                     if (Current == Pattern1 || Current == Pattern2 && (Flag & (0xf << 11)) != 0)
                     {

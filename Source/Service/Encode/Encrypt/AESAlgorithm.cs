@@ -1,72 +1,79 @@
 ﻿using StarRailDamage.Source.Extension;
-using System.IO;
 using System.Security.Cryptography;
 
 namespace StarRailDamage.Source.Service.Encode.Encrypt
 {
     public sealed class AESAlgorithm : IDisposable
     {
-        private readonly Aes Algorithm = Aes.Create();
+        private readonly AesGcm Algorithm;
 
-        public byte[] Key
-        {
-            get => Algorithm.Key;
-            set => Algorithm.Key = value;
-        }
+        public byte[] Key { get; }
 
-        public byte[] IV
-        {
-            get => Algorithm.IV;
-            set => Algorithm.IV = value;
-        }
+        public byte[] Nonce { get; }
 
-        public CipherMode Mode
-        {
-            get => Algorithm.Mode;
-            set => Algorithm.Mode = value;
-        }
+        public byte[] Tag { get; }
 
-        public AESAlgorithm() { }
-
-        public AESAlgorithm(byte[] key, CipherMode mode)
+        public AESAlgorithm(byte[] key, int nonceLength = 12, int tagLength = 16)
         {
             Key = key;
-            Mode = mode;
+            Nonce = new byte[nonceLength];
+            Algorithm = new AesGcm(key, tagLength);
+            Tag = new byte[tagLength];
         }
 
-        public AESAlgorithm(byte[] key, byte[] iv, CipherMode mode)
+        public byte[] GetEncrypt(ReadOnlySpan<byte> plaintext, ReadOnlySpan<byte> associatedData = default)
         {
-            Key = key;
-            IV = iv;
-            Mode = mode;
+            return GetEncrypt(Nonce, plaintext, Tag, associatedData);
         }
 
-        public byte[] Encrypt(byte[] input)
+        public byte[] GetEncrypt(ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> plaintext, Span<byte> tag, ReadOnlySpan<byte> associatedData = default)
         {
-            ICryptoTransform Encryptor = Algorithm.CreateEncryptor();
-            using MemoryStream MemoryStream = new();
-            using (CryptoStream CryptoStream = new(MemoryStream, Encryptor, CryptoStreamMode.Write))
-            {
-                CryptoStream.Write(input, 0, input.Length);
-            }
-            return MemoryStream.ToArray();
+            byte[] Ciphertext = new byte[plaintext.Length];
+            Encrypt(nonce, plaintext, Ciphertext, tag, associatedData);
+            return Ciphertext;
         }
 
-        public byte[] Decrypt(byte[] input)
+        public void Encrypt(ReadOnlySpan<byte> plaintext, Span<byte> ciphertext, ReadOnlySpan<byte> associatedData = default)
         {
-            ICryptoTransform Decryptor = Algorithm.CreateDecryptor();
-            using MemoryStream OutMemoryStream = new();
-            using MemoryStream MemoryStream = new(input);
-            using (CryptoStream CryptoStream = new(MemoryStream, Decryptor, CryptoStreamMode.Read))
-            {
-                CryptoStream.CopyTo(OutMemoryStream);
-            }
-            return OutMemoryStream.ToArray();
+            Encrypt(Nonce, plaintext, ciphertext, Tag, associatedData);
         }
 
-        public AESAlgorithm Initialize()
+        public void Encrypt(ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> plaintext, Span<byte> ciphertext, Span<byte> tag, ReadOnlySpan<byte> associatedData = default)
         {
-            return this.Configure(Algorithm.GenerateIV);
+            RandomNumberGenerator.Fill(Nonce);
+            Algorithm.Encrypt(nonce, plaintext, ciphertext, tag, associatedData);
+        }
+
+        public byte[] GetDecrypt(ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> associatedData = default)
+        {
+            return GetDecrypt(Nonce, ciphertext, Tag, associatedData);
+        }
+
+        public byte[] GetDecrypt(ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> tag, ReadOnlySpan<byte> associatedData = default)
+        {
+            byte[] Plaintext = new byte[ciphertext.Length];
+            Decrypt(nonce, ciphertext, tag, Plaintext, associatedData);
+            return Plaintext;
+        }
+
+        public void Decrypt(ReadOnlySpan<byte> ciphertext, Span<byte> plaintext, ReadOnlySpan<byte> associatedData = default)
+        {
+            Decrypt(Nonce, ciphertext, Tag, plaintext, associatedData);
+        }
+
+        public void Decrypt(ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> ciphertext, ReadOnlySpan<byte> tag, Span<byte> plaintext, ReadOnlySpan<byte> associatedData = default)
+        {
+            Algorithm.Decrypt(nonce, ciphertext, tag, plaintext, associatedData);
+        }
+
+        public AESAlgorithm SetNonce(byte[] value)
+        {
+            return this.Configure(Self => value.FillTo(Self.Nonce));
+        }
+
+        public AESAlgorithm SetTag(byte[] value)
+        {
+            return this.Configure(Self => value.FillTo(Self.Tag));
         }
 
         public void Dispose()

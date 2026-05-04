@@ -66,7 +66,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         private static AESAlgorithm GetAlgorithm()
         {
-            return new AESAlgorithm(HashMethod.HashData(HashAlgorithmName.SHA256, AppSetting.UserSid + Salt), CipherMode.CBC);
+            return new AESAlgorithm(HashMethod.HashData(HashAlgorithmName.SHA256, AppSetting.UserSid + Salt));
         }
 
         static HoyolabTokenManage()
@@ -108,7 +108,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
                 using AESAlgorithm Algorithm = GetAlgorithm();
                 foreach (KeyValuePair<HoyolabTokenType, string> Token in value)
                 {
-                    writer.WriteString(Token.Key.ToString(), Algorithm.Initialize().EncryptToBase64String(Encoding.GetBytes(Token.Value)));
+                    writer.WriteString(Token.Key.ToString(), Algorithm.EncryptToBase64String(Encoding.GetBytes(Token.Value)));
                 }
                 writer.WriteEndObject();
             }

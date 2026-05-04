@@ -47,9 +47,11 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int AllLength<T>(this IEnumerable<IEnumerable<T>> value)
+        public static int AllLength<T>(this ReadOnlySpan<IEnumerable<T>> value)
         {
-            return value.Sum(Arr => Arr.Count());
+            int Count = 0;
+            value.Foreach(Item => Count += Item.Count());
+            return Count;
         }
 
         [DebuggerStepThrough]
@@ -62,6 +64,26 @@ namespace StarRailDamage.Source.Extension
         public static int AutoCount(int index, int count, int sourceLength)
         {
             return (sourceLength - index).Middle(0, count);
+        }
+
+        [DebuggerStepThrough]
+        public static void FillTo(this Array soure, Array destination, int soureIndex = 0, int destinationIndex = 0, int length = int.MaxValue)
+        {
+            Array.Copy(soure, soureIndex, destination, destinationIndex, Math.Min(Math.Min(soure.Length - soureIndex, destination.Length - destinationIndex), length));
+        }
+
+        [DebuggerStepThrough]
+        public static void FillFrom(this Array soure, params Array[] destinations) => FillFrom(soure, 0, destinations);
+
+        [DebuggerStepThrough]
+        public static void FillFrom(this Array soure, int soureIndex, params Array[] destinations)
+        {
+            int Offset = soureIndex;
+            foreach (Array Item in destinations)
+            {
+                Item.FillTo(soure, 0, Offset);
+                Offset += Item.Length;
+            }
         }
 
         [DebuggerStepThrough]
@@ -91,7 +113,7 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static void Foreach<T>(this T[] values, Action<T> action)
+        public static void Foreach<T>(this ReadOnlySpan<T> values, Action<T> action)
         {
             foreach (T Item in values)
             {
