@@ -396,11 +396,11 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             for (int x = 0; x < Size; x++)
             {
                 uint Flag = 0;
-                for (int y = 0; y < 15; y++)
+                for (int y = 0; y < 11; y++)
                 {
                     Flag = (Content[x, y] & 1u) | (Flag << 1);
                 }
-                for (int y = 15; y < Size; y++)
+                for (int y = 11; y < Size; y++)
                 {
                     Flag = (Content[x, y] & 1u) | (Flag << 1);
                     uint Current = Flag & 0x7ff;
@@ -413,11 +413,11 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             for (int y = 0; y < Size; y++)
             {
                 uint Flag = 0;
-                for (int x = 0; x < 15; x++)
+                for (int x = 0; x < 11; x++)
                 {
                     Flag = (Content[x, y] & 1u) | (Flag << 1);
                 }
-                for (int x = 15; x < Size; x++)
+                for (int x = 11; x < Size; x++)
                 {
                     Flag = (Content[x, y] & 1u) | (Flag << 1);
                     uint Current = Flag & 0x7ff;
@@ -432,12 +432,13 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private int GetUnbalancePenalty()
         {
-            int Penalty = 0;
+            int Count = 0;
             foreach (QRCodeBit Current in Content)
             {
-                Penalty += Current & 1;
+                Count += Current & 1;
             }
-            return Penalty * 100 / Content.Length - 50;
+            int Penalty = Count * 100 / Content.Length - 50;
+            return Math.Abs(Penalty / 5 * 10);
         }
 
         public ref QRCodeBit this[int x, int y] => ref Content[x, y];

@@ -20,7 +20,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         public static HoyolabToken Create()
         {
-            return new HoyolabToken().Configure(HoyolabToken => HoyolabToken.Guid = System.Guid.NewGuid().ToString());
+            return new HoyolabToken().Configure(Self => Self.Guid = System.Guid.NewGuid().ToString());
         }
     }
 }

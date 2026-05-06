@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
 
         public static HoyolabCookieBuilder SetStoken(this HoyolabCookieBuilder builder)
         {
-            return builder.Configure(builder.SetCookie("stoken", builder.HoyolabToken.Tokens.GetValueOrDefault(HoyolabTokenType.SToken)));
+            return builder.Configure(builder.SetCookie("stoken", builder.HoyolabToken.GetToken(HoyolabTokenType.SToken)));
         }
 
         public static HoyolabCookieBuilder SetLtuid(this HoyolabCookieBuilder builder)
@@ -22,7 +22,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
 
         public static HoyolabCookieBuilder SetLtoken(this HoyolabCookieBuilder builder)
         {
-            return builder.Configure(builder.SetCookie("ltoken", builder.HoyolabToken.Tokens.GetValueOrDefault(HoyolabTokenType.LToken)));
+            return builder.Configure(builder.SetCookie("ltoken", builder.HoyolabToken.GetToken(HoyolabTokenType.LToken)));
         }
 
         public static HoyolabCookieBuilder SetAccountMid(this HoyolabCookieBuilder builder)
@@ -32,7 +32,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
 
         public static HoyolabCookieBuilder SetCookieToken(this HoyolabCookieBuilder builder)
         {
-            return builder.Configure(builder.SetCookie("cookie_token_v2", builder.HoyolabToken.Tokens.GetValueOrDefault(HoyolabTokenType.Cookie)));
+            return builder.Configure(builder.SetCookie("cookie_token_v2", builder.HoyolabToken.GetToken(HoyolabTokenType.Cookie)));
         }
     }
 }

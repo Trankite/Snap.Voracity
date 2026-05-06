@@ -1,4 +1,5 @@
-﻿using StarRailDamage.Source.Web.Hoyolab.Builder;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Web.Hoyolab.Builder;
 using StarRailDamage.Source.Web.Request;
 using StarRailDamage.Source.Web.Request.Builder;
 using System.Net.Http;
@@ -20,11 +21,11 @@ namespace StarRailDamage.Source.Web.Hoyolab.Passport.Exchange
 
         public override HttpRequestMessageBuilder Create()
         {
-            ExchangeRequestBodySrcToken SrcToken = new(Origin.GetToken(HoyolabToken), (int)Origin);
+            ExchangeRequestBodySrcToken SrcToken = new(Origin.GetToken(HoyolabToken), Origin.ToInt());
             return new HoyolabHttpRequestMessageBuilder()
                 .SetRequestUri(URL)
                 .SetMethod(HttpMethod.Post)
-                .SetStringContent(JsonSerializer.Serialize(new ExchangeRequestBody(SrcToken, HoyolabToken.Mid, (int)Destin)))
+                .SetStringContent(JsonSerializer.Serialize(new ExchangeRequestBody(SrcToken, HoyolabToken.Mid, Destin.ToInt())))
                 .SetXrpcAppId(HoyolabOptions.HoyolabId);
         }
     }
