@@ -19,7 +19,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         protected abstract BitSet BinaryEncode(ReadOnlySpan<byte> content);
 
-        protected abstract int GetValidBitCount(int length);
+        protected abstract int GetUsedBitCount(int length);
 
         protected abstract int[,] GetCapacityTable();
 
@@ -73,48 +73,57 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
         public BitSet ContentEncode(ReadOnlySpan<byte> content)
         {
             BitSet Binary = BinaryEncode(content);
-            BitSet Result = BitSet.FromBitCount(Capacity * 8);
-            Result.Write(0, EncodeMode.ToInt(), 4);
-            Result.Write(4, content.Length, BitsOfDataLength);
-            Result.Write(4 + BitsOfDataLength, Binary, 0, Binary.Count);
-            int Index = (GetBitCount(content.Length) + 7) & ~7;
-            while (Index < Result.Count)
+            BitSet FinalData = BitSet.FromBitCount(Capacity * 8);
+            FinalData.Write(0, EncodeMode.ToInt(), 4);
+            FinalData.Write(4, content.Length, BitsOfDataLength);
+            FinalData.Write(4 + BitsOfDataLength, Binary, 0, Binary.Count);
+            int Index = (GetTotalBitCount(content.Length) + 7) & ~7;
+            while (Index < FinalData.Count)
             {
-                Result.Write(Index, 0b11101100, 8);
-                if ((Index += 8) < Result.Count)
+                FinalData.Write(Index, 0b11101100, 8);
+                if ((Index += 8) < FinalData.Count)
                 {
-                    Result.Write(Index, 0b00010001, 8);
+                    FinalData.Write(Index, 0b00010001, 8);
                     Index += 8;
                 }
             }
-            return Result;
+            return FinalData;
         }
 
-        public int GetBitCount(int length)
+        public int GetTotalBitCount(int length)
         {
-            int ValidBitCount = 4 + BitsOfDataLength + GetValidBitCount(length);
-            return ValidBitCount + Math.Min(4, Capacity * 8 - ValidBitCount);
+            int UsedBitCount = 4 + BitsOfDataLength + GetUsedBitCount(length);
+            return UsedBitCount + Math.Min(4, Capacity * 8 - UsedBitCount);
         }
 
-        public static byte[] Interlock(byte[][] content, byte[][] eccode)
+        public byte[] Interlock(byte[][] content, byte[][] eccode)
         {
-            int ECCodeCount = eccode.AllLength();
-            int ContentCount = content.AllLength();
-            byte[] Result = new byte[ContentCount + ECCodeCount];
-            void AppendData(byte[][] data, int index)
+            int Offset = -1;
+            int ECCodeCount = ECCodeGroup.ECCodePerBytes * eccode.Length;
+            int ContentCount = ECCodeGroup.BlocksInGroup1 * ECCodeGroup.CodewordsInGroup1 + ECCodeGroup.BlocksInGroup2 * ECCodeGroup.CodewordsInGroup2;
+            byte[] FinalData = new byte[ContentCount + ECCodeCount];
+            for (int x = 0; x < ECCodeGroup.CodewordsInGroup1; x++)
             {
-                int Count = data.First().Length;
-                for (int i = Count - 1; i >= 0; i--)
+                for (int y = 0; y < content.Length; y++)
                 {
-                    for (int k = data.Length - 1; k >= 0; k--)
-                    {
-                        Result[index--] = data[k][i];
-                    }
+                    FinalData[++Offset] = content[y][x];
                 }
             }
-            AppendData(content, ContentCount - 1);
-            AppendData(eccode, ContentCount + ECCodeCount - 1);
-            return Result;
+            for (int x = ECCodeGroup.CodewordsInGroup1; x < ECCodeGroup.CodewordsInGroup2; x++)
+            {
+                for (int y = ECCodeGroup.BlocksInGroup1; y < content.Length; y++)
+                {
+                    FinalData[++Offset] = content[y][x];
+                }
+            }
+            for (int x = 0; x < ECCodeGroup.ECCodePerBytes; x++)
+            {
+                for (int y = 0; y < eccode.Length; y++)
+                {
+                    FinalData[++Offset] = eccode[y][x];
+                }
+            }
+            return FinalData;
         }
     }
 }

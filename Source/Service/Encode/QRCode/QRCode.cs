@@ -190,7 +190,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private void SetFlags(int length)
         {
-            int ContentTotalBits = Encoder.GetBitCount(length);
+            int ContentTotalBits = Encoder.GetTotalBitCount(length);
             int ContentPaddingTotalBits = Encoder.Capacity * 8 - ContentTotalBits;
             int ECCodeTotalBits = (ECCodeGroup.BlocksInGroup1 + ECCodeGroup.BlocksInGroup2) * ECCodeGroup.ECCodePerBytes * 8;
             IEnumerator<SpacePoint> PointArray = GetPoints(QRCodeBitType.Unused).GetEnumerator();

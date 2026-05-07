@@ -10,8 +10,6 @@ namespace StarRailDamage.Source.Web.Hoyolab
 {
     public static class HoyolabTokenExtension
     {
-        private static readonly AESAlgorithm Algorithm;
-
         private const string Salt = "B9176A0A08605E7EE16428AB13199AC2";
 
         public static bool TryGetUserRole(this HoyolabToken hoyolabToken, GameType value, [NotNullWhen(true)] out HoyolabUserRole? userRole)
@@ -29,6 +27,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         public static string GetToken(this HoyolabToken hoyolabToken, HoyolabTokenType tokenType)
         {
+            using AESAlgorithm Algorithm = GetAlgorithm();
             if (hoyolabToken.Tokens.TryGetValue(tokenType, out string? Ciphertext))
             {
                 try
@@ -45,12 +44,13 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         public static void SetToken(this HoyolabToken hoyolabToken, HoyolabTokenType tokenType, string token)
         {
+            using AESAlgorithm Algorithm = GetAlgorithm();
             hoyolabToken.Tokens[tokenType] = Algorithm.EncryptToBase64String(Encoding.UTF8.GetBytes(token));
         }
 
-        static HoyolabTokenExtension()
+        private static AESAlgorithm GetAlgorithm()
         {
-            Algorithm = new AESAlgorithm(HashMethod.HashData(HashAlgorithmName.SHA256, AppSetting.UserSid + Salt));
+            return new AESAlgorithm(HashMethod.HashData(HashAlgorithmName.SHA256, AppSetting.GetUserSid() + Salt));
         }
     }
 }

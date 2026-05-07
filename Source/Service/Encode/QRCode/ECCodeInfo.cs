@@ -76,10 +76,10 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
                     new ECCodeGroup(28,     6,      15,     2,      16)
                 },
                 {
-                    new ECCodeGroup(20,     4,     81,      0,      0),
-                    new ECCodeGroup(30,     1,     50,      4,      51),
-                    new ECCodeGroup(28,     4,     22,      4,      23),
-                    new ECCodeGroup(24,     3,     12,      8,      13)
+                    new ECCodeGroup(20,     4,      81,     0,      0),
+                    new ECCodeGroup(30,     1,      50,     4,      51),
+                    new ECCodeGroup(28,     4,      22,     4,      23),
+                    new ECCodeGroup(24,     3,      12,     8,      13)
                 },
                 {
                     new ECCodeGroup(24,     2,      92,     2,      93),

@@ -9,14 +9,16 @@ namespace StarRailDamage.Source.Core.Setting
     {
         public const string AppName = "StarRailDamage";
 
-        public static readonly string UserSid;
-
         public static readonly double PixelsPerDip;
+
+        public static string GetUserSid()
+        {
+            SecurityIdentifier? User = WindowsIdentity.GetCurrent().User;
+            return User.IsNotNull() ? User.ToString().LastSplit('-').Content.ToString() : Guid.NewGuid().ToString();
+        }
 
         static AppSetting()
         {
-            SecurityIdentifier? User = WindowsIdentity.GetCurrent().User;
-            UserSid = User.IsNotNull() ? User.ToString().LastSplit('-').Content.ToString() : Guid.NewGuid().ToString();
             PixelsPerDip = !Program.DesignMode && Application.Current.IsNotNull() ? VisualTreeHelper.GetDpi(Application.Current.MainWindow).PixelsPerDip : 1;
         }
     }

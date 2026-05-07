@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
 
         protected override int BitsOfDataLength => Version >= 10 ? Version >= 27 ? 13 : 11 : 9;
 
-        protected override int GetValidBitCount(int length)
+        protected override int GetUsedBitCount(int length)
         {
             return length / 2 * 11 + length % 2 * 6;
         }
@@ -23,7 +23,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
         {
             int Count = content.Length;
             int DoubleCount = Count / 2;
-            BitSet Result = BitSet.FromBitCount(GetValidBitCount(Count));
+            BitSet Result = BitSet.FromBitCount(GetUsedBitCount(Count));
             for (int i = 0; i < DoubleCount; i++)
             {
                 Result.Write(i * 11, Encode(content[2 * i]) * 45 + Encode(content[2 * i + 1]), 11);

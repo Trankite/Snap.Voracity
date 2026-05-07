@@ -7,15 +7,12 @@ namespace StarRailDamage.Source.Service.Encode.Encrypt
     {
         private readonly AesGcm Algorithm;
 
-        public byte[] Key { get; }
-
         public byte[] Nonce { get; }
 
         public byte[] Tag { get; }
 
         public AESAlgorithm(byte[] key, int nonceLength = 12, int tagLength = 16)
         {
-            Key = key;
             Nonce = new byte[nonceLength];
             Algorithm = new AesGcm(key, tagLength);
             Tag = new byte[tagLength];
