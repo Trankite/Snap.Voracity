@@ -31,7 +31,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Panel:ScopedViewBox Grid.Column="0" MaxWidth="50">
-                    <local:ScopedTextBlock Text="{Binding Title.Text,RelativeSource={RelativeSource AncestorType={x:Type local:ScopedSlider}}}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
+                    <local:ScopedTextBlock Text="{Binding Model.Title.Text,RelativeSource={RelativeSource AncestorType={x:Type local:ScopedSlider}}}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
                 </Panel:ScopedViewBox>
 
                 <Border Grid.Column="2" Height="5" CornerRadius="5" Background="{TemplateBinding Background}"/>

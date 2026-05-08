@@ -1,7 +1,6 @@
 using StarRailDamage.Source.Model.Metadata.Character.Attribute;
 using StarRailDamage.Source.Model.Metadata.Character.Damage;
 using StarRailDamage.Source.Model.Metadata.Character.Element;
-using StarRailDamage.Source.UI.Factory.PropertyBinding;
 using StarRailDamage.Source.UI.Model.Page.Combat;
 using StarRailDamage.Source.UI.Xaml.Control.Panel;
 using System.Windows;
@@ -10,8 +9,6 @@ namespace StarRailDamage.Source.UI.Xaml.Page
 {
     public sealed partial class MockBattlePage : ScopedPage
     {
-        private static readonly PropertyBindingFactory<MockBattlePage> BindingFactory = new();
-
         public MockBattlePage()
         {
             InitializeComponent();
@@ -23,7 +20,7 @@ namespace StarRailDamage.Source.UI.Xaml.Page
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = BindingFactory.ModelBinding(x => x.Model);
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(CombatPageModel), typeof(MockBattlePage), new PropertyMetadata(new CombatPageModel()));
 
         public CharacterElement CharacterElement
         {
@@ -31,13 +28,13 @@ namespace StarRailDamage.Source.UI.Xaml.Page
             set => SetValue(CharacterElementProperty, value);
         }
 
-        public static readonly DependencyProperty CharacterElementProperty = BindingFactory.DependBinding(x => x.Model.CharacterElement, x => x.CharacterElement, PropertyBindingMode.TwoWay, default, CharacterElementChangedCallback);
+        public static readonly DependencyProperty CharacterElementProperty = DependencyProperty.Register(nameof(CharacterElement), typeof(CharacterElement), typeof(MockBattlePage), new PropertyMetadata(default(CharacterElement), CharacterElementChangedCallback));
 
         private static void CharacterElementChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is CharacterElement CharacterElement)
+            if (d is MockBattlePage MockBattlePage)
             {
-                ((MockBattlePage)d).CharacterElementModel = CharacterElement.GetModel();
+                MockBattlePage.CharacterElementModel = (MockBattlePage.Model.CharacterElement = MockBattlePage.CharacterElement).GetModel();
             }
         }
 
@@ -47,7 +44,15 @@ namespace StarRailDamage.Source.UI.Xaml.Page
             set => SetValue(CharacterAttributeModelProperty, value);
         }
 
-        public static readonly DependencyProperty CharacterAttributeModelProperty = BindingFactory.DependBinding(x => x.Model.CharacterAttributeModel, x => x.CharacterAttributeModel, PropertyBindingMode.TwoWay, new CharacterAttributeModel());
+        public static readonly DependencyProperty CharacterAttributeModelProperty = DependencyProperty.Register(nameof(CharacterAttributeModel), typeof(CharacterAttributeModel), typeof(MockBattlePage), new PropertyMetadata(default(CharacterAttributeModel), CharacterAttributeModelChangedCallback));
+
+        private static void CharacterAttributeModelChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is MockBattlePage MockBattlePage)
+            {
+                MockBattlePage.Model.CharacterAttributeModel = MockBattlePage.CharacterAttributeModel;
+            }
+        }
 
         public CharacterElementModel CharacterElementModel
         {
@@ -55,7 +60,7 @@ namespace StarRailDamage.Source.UI.Xaml.Page
             set => SetValue(CharacterElementModelProperty, value);
         }
 
-        public static readonly DependencyProperty CharacterElementModelProperty = BindingFactory.DependProperty(x => x.CharacterElementModel, CharacterElement.Physical.GetModel());
+        public static readonly DependencyProperty CharacterElementModelProperty = DependencyProperty.Register(nameof(CharacterElementModel), typeof(CharacterElementModel), typeof(MockBattlePage), new PropertyMetadata(default(CharacterElement).GetModel()));
 
         public CharacterDamageModel CharacterDamageModel
         {
@@ -63,7 +68,7 @@ namespace StarRailDamage.Source.UI.Xaml.Page
             set => SetValue(CharacterDamageModelProperty, value);
         }
 
-        public static readonly DependencyProperty CharacterDamageModelProperty = BindingFactory.DependProperty(x => x.CharacterDamageModel, new CharacterDamageModel());
+        public static readonly DependencyProperty CharacterDamageModelProperty = DependencyProperty.Register(nameof(CharacterDamageModel), typeof(CharacterDamageModel), typeof(MockBattlePage));
 
         public CharacterDamageModel ComparedDamageModel
         {
@@ -71,6 +76,6 @@ namespace StarRailDamage.Source.UI.Xaml.Page
             set => SetValue(ComparedDamageModelProperty, value);
         }
 
-        public static readonly DependencyProperty ComparedDamageModelProperty = BindingFactory.DependProperty(x => x.ComparedDamageModel, new CharacterDamageModel());
+        public static readonly DependencyProperty ComparedDamageModelProperty = DependencyProperty.Register(nameof(ComparedDamageModel), typeof(CharacterDamageModel), typeof(MockBattlePage));
     }
 }

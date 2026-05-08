@@ -24,9 +24,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Control:ScopedTextBlock Grid.Row="0" Text="{Binding Title.Text,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}" TipText="{Binding Title,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis" FontWeight="Bold"/>
-                    <Control:ScopedTextBlock Grid.Row="2" Text="{Binding Value,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}},StringFormat={}{0:F0}}"/>
-                    <Control:ScopedTextBlock Grid.Row="4" Text="{Binding Percent,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}},StringFormat={}{0:+0.#%;-0.#%;0;}}" Foreground="{Binding TempBrush,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}" FontSize="{Binding DropFontSize,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}">
+                    <Control:ScopedTextBlock Grid.Row="0" Text="{Binding Model.Title.Text,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis" FontWeight="Bold"/>
+                    <Control:ScopedTextBlock Grid.Row="2" Text="{Binding Model.Value,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}},StringFormat={}{0:F0}}"/>
+                    <Control:ScopedTextBlock Grid.Row="4" Text="{Binding Model.Percent,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}},StringFormat={}{0:+0.#%;-0.#%;0;}}" Foreground="{Binding TempBrush,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}" FontSize="{Binding DropFontSize,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}">
                         <Control:ScopedTextBlock.Style>
                             <Style TargetType="{x:Type Control:ScopedTextBlock}" BasedOn="{StaticResource {x:Type Control:ScopedTextBlock}}">
                                 <Style.Triggers>

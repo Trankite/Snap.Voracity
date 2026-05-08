@@ -16,7 +16,6 @@ namespace StarRailDamage
         [STAThread]
         public static void Main(params string[] arguments)
         {
-            DebugTest();
             TerminalHelper.Invoke(arguments);
             TerminalHelper.AllocMonitor().Wait();
             if (PlanInitiation)
@@ -24,11 +23,6 @@ namespace StarRailDamage
                 App.Main();
             }
             ApplicationDispose();
-        }
-
-        private static async void DebugTest()
-        {
-
         }
 
         public static void ApplicationDispose()

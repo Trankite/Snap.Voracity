@@ -22,9 +22,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Width="50" Height="50" Margin="0,0,5,0" Source="{Binding Icon,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
+                    <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Width="50" Height="50" Margin="0,0,5,0" Source="{Binding Model.Icon,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
 
-                    <Control:ScopedTextBlock Grid.Column="1" Grid.Row="0" Margin="5,0,5,0" Text="{Binding Title,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" TipText="{Binding Title,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Center">
+                    <Control:ScopedTextBlock Grid.Column="1" Grid.Row="0" Margin="5,0,5,0" Text="{Binding Model.Title,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis" FontWeight="Bold" VerticalAlignment="Center">
                         <Control:ScopedTextBlock.Style>
                             <Style TargetType="{x:Type Control:ScopedTextBlock}">
                                 <Setter Property="Foreground" Value="{Binding TitleBrush,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>
@@ -49,12 +49,12 @@
                         <Control:ScopedButton Click="DeleteItemClick">
                             <Image Source="{StaticResource Image_Delete}"/>
                         </Control:ScopedButton>
-                        <Control:ScopedCheckBox Flag="{Binding Flag,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}},Mode=TwoWay}"/>
+                        <Control:ScopedCheckBox Flag="{Binding Model.Flag,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}},Mode=TwoWay}"/>
                     </StackPanel>
 
                     <Panel:ScopedScrollViewer Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
                         <Panel:ScopedStackPanel Orientation="Horizontal" Spacing="5">
-                            <local:MarkupSpan Items="{Binding MarkItems,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" Spacing="5"/>
+                            <local:MarkupSpan Items="{Binding Model.MarkItems,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" Spacing="5"/>
                         </Panel:ScopedStackPanel>
                     </Panel:ScopedScrollViewer>
 
@@ -65,7 +65,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             
-                            <TextBlock Grid.Row="0" Margin="5" Text="{Binding Text,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" TextWrapping="Wrap">
+                            <TextBlock Grid.Row="0" Margin="5" Text="{Binding Model.Text,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}" TextWrapping="Wrap">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:TabulateItem}}}"/>

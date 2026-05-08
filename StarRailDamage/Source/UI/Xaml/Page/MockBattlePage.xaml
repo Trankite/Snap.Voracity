@@ -65,35 +65,35 @@
                 </local:ScopedStackPanel>
             </Border>
 
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Attack'}" Text="{Binding CharacterAttributeModel.Attack,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="3" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Health'}" Text="{Binding CharacterAttributeModel.Health,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="4" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Defense'}" Text="{Binding CharacterAttributeModel.Defense,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="5" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Speed'}" Text="{Binding CharacterAttributeModel.Speed,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Attack'}" Text="{Binding Model.CharacterAttributeModel.Attack,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="3" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Health'}" Text="{Binding Model.CharacterAttributeModel.Health,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="4" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Defense'}" Text="{Binding Model.CharacterAttributeModel.Defense,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="5" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Speed'}" Text="{Binding Model.CharacterAttributeModel.Speed,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="7" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='CriticalHitRate'}" Text="{Binding CharacterAttributeModel.CriticalHitRate,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="8" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='CriticalHitDamage'}" Text="{Binding CharacterAttributeModel.CriticalHitDamage,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="9" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElementIncrease'}" Text="{Binding CharacterAttributeModel.ElementIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="10" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DefenseDecrease'}" Text="{Binding CharacterAttributeModel.DefenseDecrease,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="11" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MagicalDecrease'}" Text="{Binding CharacterAttributeModel.MagicalDecrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="7" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='CriticalHitRate'}" Text="{Binding Model.CharacterAttributeModel.CriticalHitRate,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="8" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='CriticalHitDamage'}" Text="{Binding Model.CharacterAttributeModel.CriticalHitDamage,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="9" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElementIncrease'}" Text="{Binding Model.CharacterAttributeModel.ElementIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="10" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DefenseDecrease'}" Text="{Binding Model.CharacterAttributeModel.DefenseDecrease,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="11" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MagicalDecrease'}" Text="{Binding Model.CharacterAttributeModel.MagicalDecrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
 
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="13" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='EffectHitRate'}" Text="{Binding CharacterAttributeModel.EffectHitRate,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="14" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='HealingBoost'}" Text="{Binding CharacterAttributeModel.HealingBoost,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="15" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ManaReplenish'}" Text="{Binding CharacterAttributeModel.ManaReplenish,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="13" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='EffectHitRate'}" Text="{Binding Model.CharacterAttributeModel.EffectHitRate,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="14" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='HealingBoost'}" Text="{Binding Model.CharacterAttributeModel.HealingBoost,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="15" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ManaReplenish'}" Text="{Binding Model.CharacterAttributeModel.ManaReplenish,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='AttackBase'}" Text="{Binding CharacterAttributeModel.AttackBase,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="3" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='HealthBase'}" Text="{Binding CharacterAttributeModel.HealthBase,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="4" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DefenseBase'}" Text="{Binding CharacterAttributeModel.DefenseBase,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="5" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='SpeedBase'}" Text="{Binding CharacterAttributeModel.SpeedBase,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='AttackBase'}" Text="{Binding Model.CharacterAttributeModel.AttackBase,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="3" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='HealthBase'}" Text="{Binding Model.CharacterAttributeModel.HealthBase,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="4" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DefenseBase'}" Text="{Binding Model.CharacterAttributeModel.DefenseBase,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="5" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='SpeedBase'}" Text="{Binding Model.CharacterAttributeModel.SpeedBase,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="7" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakEffect'}" Text="{Binding CharacterAttributeModel.BreakEffect,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="8" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakEfficiency'}" Text="{Binding CharacterAttributeModel.BreakEfficiency,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="9" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakIncrease'}" Text="{Binding CharacterAttributeModel.BreakIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="10" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElationIncrease'}" Text="{Binding CharacterAttributeModel.ElationIncrease,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="11" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ToughDecline'}" Text="{Binding CharacterAttributeModel.ToughDecline,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="7" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakEffect'}" Text="{Binding Model.CharacterAttributeModel.BreakEffect,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="8" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakEfficiency'}" Text="{Binding Model.CharacterAttributeModel.BreakEfficiency,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="9" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakIncrease'}" Text="{Binding Model.CharacterAttributeModel.BreakIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="10" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElationIncrease'}" Text="{Binding Model.CharacterAttributeModel.ElationIncrease,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="11" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ToughDecline'}" Text="{Binding Model.CharacterAttributeModel.ToughDecline,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="13" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='EffectMagical'}" Text="{Binding CharacterAttributeModel.EffectMagical,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="14" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElationBonus'}" Text="{Binding CharacterAttributeModel.ElationBonus,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="15" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MaximumEnergy'}" Text="{Binding CharacterAttributeModel.MaximumEnergy,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="13" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='EffectMagical'}" Text="{Binding Model.CharacterAttributeModel.EffectMagical,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="14" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElationBonus'}" Text="{Binding Model.CharacterAttributeModel.ElationBonus,Mode=TwoWay}"/>
+            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="15" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MaximumEnergy'}" Text="{Binding Model.CharacterAttributeModel.MaximumEnergy,Mode=TwoWay}"/>
         </Grid>
 
         <Grid Grid.Column="3" Width="560">
@@ -204,16 +204,16 @@
 
                     <UI:HeadFrameSpan Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"/>
 
-                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="0" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='WonsterLevel'}" Text="{Binding CharacterAttributeModel.WonsterLevel,Mode=TwoWay}"/>
-                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="1" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MagicalIncrease'}" Text="{Binding CharacterAttributeModel.MagicalIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
-                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DamageIncrease'}" Text="{Binding CharacterAttributeModel.DamageIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="0" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='WonsterLevel'}" Text="{Binding Model.CharacterAttributeModel.WonsterLevel,Mode=TwoWay}"/>
+                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="1" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MagicalIncrease'}" Text="{Binding Model.CharacterAttributeModel.MagicalIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
+                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DamageIncrease'}" Text="{Binding Model.CharacterAttributeModel.DamageIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
 
-                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="0" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MonsterLevel'}" Text="{Binding CharacterAttributeModel.MonsterLevel,Mode=TwoWay}"/>
-                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="1" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DamageDecrease'}" Text="{Binding CharacterAttributeModel.DamageDecrease,Mode=TwoWay}"/>
-                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Toughness'}" Text="{Binding CharacterAttributeModel.Toughness,Mode=TwoWay}"/>
+                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="0" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MonsterLevel'}" Text="{Binding Model.CharacterAttributeModel.MonsterLevel,Mode=TwoWay}"/>
+                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="1" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DamageDecrease'}" Text="{Binding Model.CharacterAttributeModel.DamageDecrease,Mode=TwoWay}"/>
+                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Toughness'}" Text="{Binding Model.CharacterAttributeModel.Toughness,Mode=TwoWay}"/>
 
                     <Border Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="3" Height="30" CornerRadius="15" Background="{StaticResource MainBackBrush}">
-                        <Control:ScopedSlider Minimum="1" Maximum="5" Margin="15,0,15,0" Value="{Binding CharacterAttributeModel.MonsterCount,Mode=TwoWay}" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='AttributeMonsterCount'}"/>
+                        <Control:ScopedSlider Minimum="1" Maximum="5" Margin="15,0,15,0" Value="{Binding Model.CharacterAttributeModel.MonsterCount,Mode=TwoWay}" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='AttributeMonsterCount'}"/>
                     </Border>
                 </Grid>
             </Border>

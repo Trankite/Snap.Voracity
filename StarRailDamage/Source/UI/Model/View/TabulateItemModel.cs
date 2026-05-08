@@ -1,6 +1,7 @@
-﻿using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StarRailDamage.Source.UI.Model.View
 {
@@ -8,7 +9,7 @@ namespace StarRailDamage.Source.UI.Model.View
     {
         private bool _Flag;
 
-        private ImageSource? _Icon;
+        private BitmapImage _Icon = BitmapImageExtension.DefaultImage;
 
         private string _Text = string.Empty;
 
@@ -22,7 +23,7 @@ namespace StarRailDamage.Source.UI.Model.View
             set => SetField(ref _Flag, value);
         }
 
-        public ImageSource? Icon
+        public BitmapImage Icon
         {
             get => _Icon;
             set => SetField(ref _Icon, value);

@@ -1,6 +1,4 @@
-﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Factory.PropertyBinding;
+﻿using StarRailDamage.Source.Model.Text;
 using StarRailDamage.Source.UI.Model.Control;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,8 +11,6 @@ namespace StarRailDamage.Source.UI.Xaml.Control
     public partial class ScopedSlider : Slider
     {
         private static readonly Duration ThumbDuration = new(TimeSpan.FromMilliseconds(500));
-
-        private static readonly PropertyBindingFactory<ScopedSlider> BindingFactory = new();
 
         public ScopedSlider()
         {
@@ -35,7 +31,6 @@ namespace StarRailDamage.Source.UI.Xaml.Control
 
         protected override void OnValueChanged(double oldValue, double newValue)
         {
-            if (Model.IsNull()) return;
             if (Math.Abs(Model.Value - newValue) >= SmallChange)
             {
                 Model.Value = GetTickValue(newValue);
@@ -49,12 +44,12 @@ namespace StarRailDamage.Source.UI.Xaml.Control
 
         protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
         {
-            Model?.Minimun = newMinimum;
+            Model.Minimun = newMinimum;
         }
 
         protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
         {
-            Model?.Maximum = newMaximum;
+            Model.Maximum = newMaximum;
         }
 
         public ScopedSliderModel Model
@@ -63,7 +58,7 @@ namespace StarRailDamage.Source.UI.Xaml.Control
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = BindingFactory.ModelBinding(x => x.Model).Configure(BindingFactory.AddBinding(x => x.Model.Minimun, x => x.Minimum)).Configure(BindingFactory.AddBinding(x => x.Model.Maximum, x => x.Maximum));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(ScopedSliderModel), typeof(ScopedSlider), new PropertyMetadata(new ScopedSliderModel()));
 
         public TextBinding Title
         {
@@ -71,7 +66,15 @@ namespace StarRailDamage.Source.UI.Xaml.Control
             set => SetValue(TitleProperty, value);
         }
 
-        public static readonly DependencyProperty TitleProperty = BindingFactory.DependBinding(x => x.Model.Title, x => x.Title);
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(TextBinding), typeof(ScopedSlider), new PropertyMetadata(default(TextBinding), TitleChangedCallback));
+
+        private static void TitleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ScopedSlider ScopedSlider)
+            {
+                ScopedSlider.Model.Title = ScopedSlider.Title;
+            }
+        }
 
         public SolidColorBrush FocusBrush
         {
@@ -79,6 +82,6 @@ namespace StarRailDamage.Source.UI.Xaml.Control
             set => SetValue(FocusBrushProperty, value);
         }
 
-        public static readonly DependencyProperty FocusBrushProperty = BindingFactory.DependProperty(x => x.FocusBrush);
+        public static readonly DependencyProperty FocusBrushProperty = DependencyProperty.Register(nameof(FocusBrush), typeof(SolidColorBrush), typeof(ScopedSlider));
     }
 }
