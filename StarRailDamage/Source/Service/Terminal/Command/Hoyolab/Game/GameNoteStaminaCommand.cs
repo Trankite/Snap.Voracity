@@ -14,9 +14,13 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string Help => MarkedText.HoyolabGameNoteStaminaCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(IList<string> parameter)
+        public override string[] Parameters => [AID];
+
+        private const string AID = "aid";
+
+        protected override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
-            return await AsyncInvoke(parameter.FirstOrDefault());
+            return await AsyncInvoke(commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvoke(string? aid = null)

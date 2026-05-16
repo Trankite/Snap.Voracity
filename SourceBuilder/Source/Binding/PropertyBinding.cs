@@ -1,15 +1,7 @@
 namespace SourceBuilder.Source.Binding
 {
-    [TestClass]
-    public sealed class PropertyBinding
+    public class PropertyBinding
     {
-        [TestMethod]
-        public void BuildCode()
-        {
-            using CodeBuilder Builder = new();
-            //BuildCode(Builder, "", "", "", "", false);
-        }
-
         public static void BuildCode(CodeBuilder builder, string name, string propertyType, string ownerType, string? defaultValue = null, bool callback = false)
         {
             builder.WriteLine($"public {propertyType} {name}");

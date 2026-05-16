@@ -15,9 +15,13 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
 
         public override string Help => MarkedText.HoyolabUserMissionStateCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(IList<string> parameter)
+        public override string[] Parameters => [AID];
+
+        private const string AID = "aid";
+
+        protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
-            return await AsyncInvoke(parameter.FirstOrDefault());
+            return await AsyncInvoke(commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = null)

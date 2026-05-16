@@ -17,19 +17,22 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         public string Help => MarkedText.CommandHelpQRCodeProduce;
 
-        public ITerminalResponse Invoke(IList<string> parameter)
+        public string[] Parameters => [CONTENT, FILEPATH, PATHOPEN];
+
+        private const string CONTENT = "text";
+
+        private const string FILEPATH = "path";
+
+        private const string PATHOPEN = "open";
+
+        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
-            if (!parameter.TryGetFirst(out string? Content))
+            if (!commandLine.TryGetParameter(CONTENT, out string? Content))
             {
                 return TerminalManage.GetMissingParameterResponse();
             }
-            string? FilePath = parameter.Index(1);
-            if (string.IsNullOrEmpty(FilePath))
-            {
-                FilePath = Path.Combine(LocalSetting.GetTempPath(), "QRCode.png");
-            }
-            bool PathOpen = BoolExtension.Parse(parameter.Index(2));
-            return Invoke(Content, FilePath, PathOpen);
+            string FilePath = Path.Combine(LocalSetting.GetTempPath(), commandLine.GetParameter(FILEPATH).NotEmpty("QRCode.png"));
+            return Invoke(Content, FilePath, commandLine.GetBoolParameter(PATHOPEN));
         }
 
         public static ITerminalResponse Invoke(string content, string filePath, bool pathOpen = false)

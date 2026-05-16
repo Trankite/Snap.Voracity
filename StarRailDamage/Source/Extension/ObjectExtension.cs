@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
 namespace StarRailDamage.Source.Extension
 {
@@ -43,6 +42,18 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static T NotNull<T>(this T? value, T defaultValue)
+        {
+            return value ?? defaultValue;
+        }
+
+        [DebuggerStepThrough]
+        public static string NotNull(this string? value, object defaultValue)
+        {
+            return value ?? defaultValue.ToString().NotNull();
+        }
+
+        [DebuggerStepThrough]
         public static T Middle<T>([NotNullWhen(true)] this T value, T minimum, T maximum) where T : IComparable<T>
         {
             return value.CompareTo(minimum) < 0 ? minimum : value.CompareTo(maximum) < 0 ? value : maximum;
@@ -69,15 +80,12 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TSelf Configure<TSelf, TNone>(this TSelf value, TNone _) => value;
 
         [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OutTemp<TSelf>(this TSelf value, out TSelf self) => true.Configure(self = value);
 
         [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TSelf OutSelf<TSelf>(this TSelf value, out TSelf self) => self = value;
     }
 }

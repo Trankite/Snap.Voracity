@@ -1,4 +1,5 @@
-﻿using StarRailDamage.Source.Service.Terminal.Abstraction;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal
 {
@@ -6,7 +7,7 @@ namespace StarRailDamage.Source.Service.Terminal
     {
         public string Name { get; set; } = string.Empty;
 
-        public IList<string> Expand { get; set; } = [];
+        public Dictionary<string, string> Expand { get; } = [with(StringComparer.OrdinalIgnoreCase)];
 
         public CommandLine() { }
 
@@ -15,19 +16,19 @@ namespace StarRailDamage.Source.Service.Terminal
             Name = name;
         }
 
-        public CommandLine(IList<string> arguments)
+        public CommandLine(string name, Dictionary<string, string> expand) : this(name)
         {
-            Expand = arguments;
+            Expand = expand;
         }
 
-        public CommandLine(string name, IList<string> arguments) : this(name)
+        public string GetParameter(string name)
         {
-            Expand = arguments;
+            return Expand.GetValueOrDefault(name).NotNull();
         }
 
         public override string ToString()
         {
-            return $"-{Name} {string.Join((char)0x20, Expand)}";
+            return $"{Name} {string.Join((char)0x20, Expand.Select(Item => $"-{Item.Key} {Item.Value}"))}";
         }
     }
 }

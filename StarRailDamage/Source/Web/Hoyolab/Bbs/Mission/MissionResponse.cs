@@ -19,5 +19,10 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Mission
             }
             return false.Configure(analyedBody = default);
         }
+
+        public bool TryGetAnalyzedBody(out object analyzedBody)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

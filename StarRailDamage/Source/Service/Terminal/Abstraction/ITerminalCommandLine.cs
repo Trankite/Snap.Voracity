@@ -4,6 +4,6 @@
     {
         string Name { get; set; }
 
-        IList<string> Expand { get; set; }
+        string GetParameter(string name);
     }
 }

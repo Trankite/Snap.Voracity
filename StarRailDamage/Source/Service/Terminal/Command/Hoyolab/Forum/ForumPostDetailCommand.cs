@@ -14,13 +14,21 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabPostDetailCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(IList<string> parameter)
+        public override string[] Parameters => [POSTID, NEEDSIGN, AID];
+
+        private const string POSTID = "id";
+
+        private const string NEEDSIGN = "sign";
+
+        private const string AID = "aid";
+
+        protected override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
-            if (!parameter.TryGetFirst(out string? PostId))
+            if (!commandLine.TryGetParameter(POSTID, out string PostId))
             {
                 return new TerminalResponse<FullPostResponseWrapper>(TerminalManage.GetMissingParameterResponse());
             }
-            return await AsyncInvoke(PostId, BoolExtension.Parse(parameter.Index(1)), parameter.Index(2));
+            return await AsyncInvoke(PostId, commandLine.GetBoolParameter(NEEDSIGN), commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvoke(string postId, bool needSign = false, string? aid = null)

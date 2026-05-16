@@ -1,7 +1,7 @@
 ﻿using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
+namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
     public class TerminalPauseCommand : ITerminalCommand
     {
@@ -9,14 +9,16 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
 
         public string Help => MarkedText.TerminalCommandPauseHelp;
 
-        public ITerminalResponse Invoke(IList<string> parameter)
+        public string[] Parameters => [];
+
+        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
-            if (TerminalHelper.ConsoleMode)
+            if (Program.OnTerminal)
             {
                 Console.WriteLine(MarkedText.TerminalCommandPause);
                 Console.ReadKey(false);
             }
-            return new TerminalResponse(TerminalHelper.ConsoleMode);
+            return new TerminalResponse(Program.OnTerminal);
         }
     }
 }

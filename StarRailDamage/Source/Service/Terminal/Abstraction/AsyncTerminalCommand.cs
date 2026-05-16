@@ -6,31 +6,33 @@
 
         public abstract string Help { get; }
 
-        public virtual ITerminalResponse Invoke(IList<string> parameter)
+        public abstract string[] Parameters { get; }
+
+        public virtual ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
-            return AsyncInvoke(parameter).AsTask().Result;
+            return AsyncInvoke(commandLine).AsTask().Result;
         }
 
-        public abstract ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter);
+        public abstract ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine);
     }
 
     public abstract class AsyncTerminalCommand<TContent> : AsyncTerminalCommand, IAsyncTerminalCommand<TContent>
     {
-        protected abstract ValueTask<ITerminalResponse<TContent>> AsyncInvokeOverride(IList<string> parameter);
+        protected abstract ValueTask<ITerminalResponse<TContent>> AsyncInvokeOverride(ITerminalCommandLine commandLine);
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            return await AsyncInvokeOverride(parameter);
+            return await AsyncInvokeOverride(commandLine);
         }
 
-        ITerminalResponse<TContent> ITerminalCommand<TContent>.Invoke(IList<string> parameter)
+        ITerminalResponse<TContent> ITerminalCommand<TContent>.Invoke(ITerminalCommandLine commandLine)
         {
-            return AsyncInvokeOverride(parameter).AsTask().Result;
+            return AsyncInvokeOverride(commandLine).AsTask().Result;
         }
 
-        ValueTask<ITerminalResponse<TContent>> IAsyncTerminalCommand<TContent>.AsyncInvoke(IList<string> parameter)
+        ValueTask<ITerminalResponse<TContent>> IAsyncTerminalCommand<TContent>.AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            return AsyncInvokeOverride(parameter);
+            return AsyncInvokeOverride(commandLine);
         }
     }
 }

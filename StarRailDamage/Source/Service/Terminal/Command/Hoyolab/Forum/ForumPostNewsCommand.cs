@@ -14,11 +14,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabPostNewsCommandHelp;
 
-        protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(IList<string> parameter)
+        public override string[] Parameters => [PAGESIZE, ZONETYPE, SORTTYPE];
+
+        private const string PAGESIZE = "size";
+
+        private const string ZONETYPE = "zone";
+
+        private const string SORTTYPE = "sort";
+
+        protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
-            int PageSize = IntExtension.Parse(parameter.FirstOrDefault());
-            ZoneType ZoneType = (ZoneType)IntExtension.Parse(parameter.Index(1));
-            SortType SortType = (SortType)IntExtension.Parse(parameter.Index(2));
+            int PageSize = commandLine.GetIntParameter(PAGESIZE);
+            ZoneType ZoneType = (ZoneType)commandLine.GetIntParameter(ZONETYPE);
+            SortType SortType = (SortType)commandLine.GetIntParameter(SORTTYPE);
             return await AsyncInvoke(PageSize, ZoneType, SortType);
         }
 

@@ -333,7 +333,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Method
 
             public double Method(IList<Formula> parameters, Dictionary<string, IPropertyExpression<double>>? source, bool readOnly)
             {
-                return parameters.TryGetFirst(out Formula? Formula) && parameters.IndexTry((int)GetValue(Formula, source, readOnly), out Formula) ? GetValue(Formula, source, readOnly) : MagicalFormulaSymbol.DefaultMethod.Method(parameters, source, readOnly);
+                return parameters.TryGetFirst(out Formula? Formula) && parameters.TryGetIndexValue((int)GetValue(Formula, source, readOnly), out Formula) ? GetValue(Formula, source, readOnly) : MagicalFormulaSymbol.DefaultMethod.Method(parameters, source, readOnly);
             }
         }
     }

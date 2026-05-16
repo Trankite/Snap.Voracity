@@ -16,6 +16,8 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public string Help => Command.Help;
 
+        public string[] Parameters => Command.Parameters;
+
         private TerminalCommand(bool isAsync, ITerminalCommand command)
         {
             IsAsync = isAsync;
@@ -32,14 +34,11 @@ namespace StarRailDamage.Source.Service.Terminal
             return command is IAsyncTerminalCommand AsyncCommand ? new TerminalCommand(AsyncCommand) : new TerminalCommand(false, command);
         }
 
-        public ITerminalResponse Invoke(IList<string> parameter)
-        {
-            return Command.Invoke(parameter);
-        }
+        public ITerminalResponse Invoke(ITerminalCommandLine commandLine) => Command.Invoke(commandLine);
 
-        public async ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter)
+        public async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            return IsAsync ? await AsyncCommand.AsyncInvoke(parameter) : Invoke(parameter);
+            return IsAsync ? await AsyncCommand.AsyncInvoke(commandLine) : Invoke(commandLine);
         }
     }
 }

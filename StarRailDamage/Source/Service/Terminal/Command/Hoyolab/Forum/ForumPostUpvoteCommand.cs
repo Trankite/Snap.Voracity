@@ -14,13 +14,21 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabPostUpvoteCommandHelp;
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter)
+        public override string[] Parameters => [POSTID, ISCANCEL, AID];
+
+        private const string POSTID = "id";
+
+        private const string ISCANCEL = "cancel";
+
+        private const string AID = "aid";
+
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            if (!parameter.TryGetFirst(out string? PostId))
+            if (!commandLine.TryGetParameter(POSTID, out string? PostId))
             {
                 return TerminalManage.GetMissingParameterResponse();
             }
-            return await AsyncInvoke(PostId, BoolExtension.Parse(parameter.Index(1)), parameter.Index(2));
+            return await AsyncInvoke(PostId, commandLine.GetBoolParameter(ISCANCEL), commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(string postId, bool isCancel = false, string? aid = null)

@@ -7,13 +7,13 @@ namespace StarRailDamage.Source.Extension
     public static class CollectionExtension
     {
         [DebuggerStepThrough]
-        public static T? Index<T>(this IList<T> value, int index)
+        public static T? GetIndexValue<T>(this IList<T> value, int index)
         {
-            return value.IndexTry(index, out T? Result).Captured(Result);
+            return value.TryGetIndexValue(index, out T? Result).Captured(Result);
         }
 
         [DebuggerStepThrough]
-        public static bool IndexTry<T>(this IList<T> value, int index, [NotNullWhen(true)] out T? result)
+        public static bool TryGetIndexValue<T>(this IList<T> value, int index, [NotNullWhen(true)] out T? result)
         {
             if (index >= 0 && index < value.Count)
             {
@@ -44,14 +44,6 @@ namespace StarRailDamage.Source.Extension
         public static bool TryGetLast<T>(this IEnumerable<T> value, Func<T, bool> predicate, [NotNullWhen(true)] out T? result)
         {
             return ObjectExtension.IsNotNull(result = value.LastOrDefault(predicate)) || false.Configure(result = default);
-        }
-
-        [DebuggerStepThrough]
-        public static int AllLength<T>(this ReadOnlySpan<IEnumerable<T>> value)
-        {
-            int Count = 0;
-            value.Foreach(Item => Count += Item.Count());
-            return Count;
         }
 
         [DebuggerStepThrough]

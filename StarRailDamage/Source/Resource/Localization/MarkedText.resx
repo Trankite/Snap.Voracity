@@ -125,9 +125,10 @@
   <data name="HoyolabGameNoteStaminaCommandHelp" xml:space="preserve">
     <value>开拓力笔记
 
-&lt;账号AID&gt; ( 可选 )
+{0} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID
 默认使用首个账号</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabGameSignReward" xml:space="preserve">
     <value>[{0}] {1} × {2}</value>
@@ -136,20 +137,15 @@
   <data name="HoyolabGameSignRewardCommandHelp" xml:space="preserve">
     <value>签到奖励
 
-&lt;起始天&gt; ( 可选 )
+{0} &lt;起始天&gt; ( 可选 )
 从指定的起始天数开始
 
-&lt;总天数&gt; ( 可选 )
+{1} &lt;总天数&gt; ( 可选 )
 最多显示的行上限</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabGameSign" xml:space="preserve">
     <value>签到福利：已签到</value>
-  </data>
-  <data name="TerminalCommandCloseHelp" xml:space="preserve">
-    <value>关闭控制台</value>
-  </data>
-  <data name="TerminalCommandEnableHelp" xml:space="preserve">
-    <value>启动控制台</value>
   </data>
   <data name="TerminalCommandExitedHelp" xml:space="preserve">
     <value>退出控制台</value>
@@ -160,8 +156,9 @@
   <data name="TerminalCommandHelp" xml:space="preserve">
     <value>命令帮助
 
-&lt;命令名称&gt; ( 可选 )
+{0} &lt;命令名称&gt; ( 可选 )
 显示指定命令的参数信息</value>
+    <comment>n-选项</comment>
   </data>
   <data name="TerminalCommandPause" xml:space="preserve">
     <value>按任意键继续......</value>
@@ -172,74 +169,74 @@
   <data name="HoyolabGameSignCommandHelp" xml:space="preserve">
     <value>福利签到
 
-&lt;账号AID&gt; ( 可选 )
+{0} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID
 默认使用首个账号</value>
-  </data>
-  <data name="TerminalCommandParseHelp" xml:space="preserve">
-    <value>执行命令文本
-
-&lt;命令文本&gt;
-将要执行命令的文本</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabPostUpvoteCommandHelp" xml:space="preserve">
     <value>帖子点赞
 
-帖子ID&gt;
+{0} &lt;帖子ID&gt;
 帖子对应的ID
 
-&lt;取消点赞&gt; ( 可选 )
+{1} &lt;取消点赞&gt; ( 可选 )
 是否取消对帖子的点赞
 [ True / False ( 默认值 ) ]
 
-&lt;账号AID&gt; ( 可选 )
+{2} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID
 默认使用首个账号</value>
+    <comment>n-选项</comment>
   </data>
   <data name="TerminalCommandPrintHelp" xml:space="preserve">
     <value>打印控制台文本
 
-&lt;文本&gt;
+{0} &lt;文本&gt;
 将要打印到控制台的文本</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabPostShareCommandHelp" xml:space="preserve">
     <value>帖子分享
 
-&lt;帖子ID&gt;
+{0} &lt;帖子ID&gt;
 帖子对应的ID
 
-&lt;账号AID&gt; ( 可选 )
+{1} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID
 默认使用首个账号</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabPostNewsCommandHelp" xml:space="preserve">
     <value>最近帖子列表
 
-&lt;数量&gt;
+{0} &lt;数量&gt;
 需要的帖子数量
 
-&lt;分区ID&gt;
+{1} &lt;分区ID&gt;
 帖子所在分区的ID
 
-&lt;排序&gt; ( 可选 )
+{2} &lt;排序&gt; ( 可选 )
 帖子排序类别
 0 - 不指定 ( 默认值 )
 1 - 回复时间
 2 - 发布时间</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabPostDetailCommandHelp" xml:space="preserve">
     <value>浏览帖子
 
-&lt;帖子ID&gt;
+{0} &lt;帖子ID&gt;
 帖子对应的ID
 
-&lt;登录&gt; ( 可选 )
+{1} &lt;登录&gt; ( 可选 )
 登录账号以保留浏览记录
 [ True / False ( 默认值 ) ]
 
-&lt;账号AID&gt; ( 可选 )
+{2} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID
 默认使用首个账号</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabForumSign" xml:space="preserve">
     <value>社区签到：已签到</value>
@@ -247,7 +244,7 @@
   <data name="HoyolabForumSignCommandHelp" xml:space="preserve">
     <value>社区签到
 
-&lt;社区ID&gt;
+{0} &lt;社区ID&gt;
 社区的 GID
 1 - 崩坏3
 2 - 原神
@@ -257,16 +254,18 @@
 6 - 崩坏：星穹铁道
 8 - 绝区零
 
-&lt;账号AID&gt; ( 可选 )
+{1} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID
 默认使用首个账号</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabUserMissionStateCommandHelp" xml:space="preserve">
     <value>米游币任务状态
 
-&lt;账号AID&gt; ( 可选 )
+{0} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID
 默认使用首个账号</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabUserMissionState" xml:space="preserve">
     <value>米游币：{0}
@@ -312,8 +311,9 @@
   <data name="HoyolabUserMissionPerformCommandHelp" xml:space="preserve">
     <value>米游币任务
 
-&lt;账号AID&gt; ( 可选 )
+{0} &lt;账号AID&gt; ( 可选 )
 米游社账号的 AID，默认使用首个账号</value>
+    <comment>n-选项</comment>
   </data>
   <data name="HoyolabNotFindDefaultToken" xml:space="preserve">
     <value>无可用的账号
@@ -322,16 +322,17 @@
   <data name="CommandHelpQRCodeProduce" xml:space="preserve">
     <value>二维码生成
 
-&lt;内容&gt;
+{0} &lt;内容&gt;
 二维码的内容文本
 
-&lt;路径&gt; ( 可选 )
+{1} &lt;路径&gt; ( 可选 )
 二维码的保存路径
 默认在临时文件夹
 
-&lt;转到路径&gt; ( 可选 )
+{2} &lt;转到路径&gt; ( 可选 )
 是否转到资源管理器
 [ True / False ( 默认值 ) ]</value>
+    <comment>n-选项</comment>
   </data>
   <data name="UnitLevel" xml:space="preserve">
     <value>级</value>

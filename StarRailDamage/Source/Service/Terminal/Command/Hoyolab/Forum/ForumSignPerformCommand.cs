@@ -14,13 +14,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => MarkedText.HoyolabForumSignCommandHelp;
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(IList<string> parameter)
+        public override string[] Parameters => [GROUP, AID];
+
+        private const string GROUP = "group";
+
+        private const string AID = "aid";
+
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            if (!EnumExtension.TryParse(parameter.Index(0), out HoyolabGroup Group))
+            if (!commandLine.TryGetEnumParameter(GROUP, out HoyolabGroup Group))
             {
                 return TerminalManage.GetInvalidParameterResponse();
             }
-            return await AsyncInvoke(Group, parameter.Index(1));
+            return await AsyncInvoke(Group, commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabGroup group, string? aid = null)

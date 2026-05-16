@@ -2,7 +2,7 @@
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
+namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
     public class TerminalFlushCommand : ITerminalCommand
     {
@@ -10,9 +10,11 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Terminal
 
         public string Help => MarkedText.TerminalCommandFlushHelp;
 
-        public ITerminalResponse Invoke(IList<string> parameter)
+        public string[] Parameters => [];
+
+        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
-            return new TerminalResponse(TerminalHelper.ConsoleMode && true.Configure(Console.Clear));
+            return new TerminalResponse(Program.OnTerminal && true.Configure(Console.Clear));
         }
     }
 }
