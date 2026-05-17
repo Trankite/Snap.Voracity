@@ -2,7 +2,7 @@
 using StarRailDamage.Source.Model.Metadata.Character.Element;
 using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
 
-namespace StarRailDamage.Source.UI.Model.Page.Combat
+namespace StarRailDamage.Source.UI.Model.Page
 {
     public class CombatPageModel : NotifyPropertyChangedFactory
     {

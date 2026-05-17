@@ -1,14 +1,14 @@
-﻿using StarRailDamage.Source.Core.LocalText;
-using StarRailDamage.Source.Model.Text;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Resource.Localization;
 using System.Windows.Media.Imaging;
 
 namespace StarRailDamage.Source.Model.Metadata.Character.Element
 {
     public class CharacterElementModel
     {
-        public TextBinding Name { get; }
+        public string Name { get; }
 
-        public TextBinding Break { get; }
+        public string Break { get; }
 
         public BitmapImage Element { get; }
 
@@ -16,7 +16,7 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Element
 
         public BitmapImage Defense { get; }
 
-        private CharacterElementModel(TextBinding name, TextBinding @break, BitmapImage element, BitmapImage offense, BitmapImage defense)
+        private CharacterElementModel(string name, string @break, BitmapImage element, BitmapImage offense, BitmapImage defense)
         {
             Name = name;
             Break = @break;
@@ -30,14 +30,14 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Element
             return new CharacterElementModel(GetNameBinding(element), GetBreakBinding(element), GetElementImage(element), GetOffenseImage(element), GetDefenseImage(element));
         }
 
-        private static TextBinding GetNameBinding(string element)
+        private static string GetNameBinding(string element)
         {
-            return FixedTextManage.Binding("Element" + element);
+            return LocalString.ResourceManager.GetString("CharacterElement" + element, LocalString.Culture).NotNull();
         }
 
-        private static TextBinding GetBreakBinding(string element)
+        private static string GetBreakBinding(string element)
         {
-            return FixedTextManage.Binding("Delayed" + element);
+            return LocalString.ResourceManager.GetString("CharacterDelayedDamage" + element, LocalString.Culture).NotNull();
         }
 
         private static BitmapImage GetElementImage(string element)

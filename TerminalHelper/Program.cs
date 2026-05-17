@@ -1,4 +1,5 @@
-﻿using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Core.Setting;
+using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Terminal;
 
 namespace TerminalHelper
@@ -9,6 +10,7 @@ namespace TerminalHelper
 
         public static void Main(string[] arguments)
         {
+            Console.Title = AppSetting.AppName;
             TerminalManage.Invoke(new CommandParser(arguments));
             while (TerminalFlag)
             {

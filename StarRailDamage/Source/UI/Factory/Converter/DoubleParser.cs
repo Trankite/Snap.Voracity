@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StarRailDamage.Source.UI.Model.Converter
+namespace StarRailDamage.Source.UI.Factory.Converter
 {
-    public class DoubleParseConverter : IValueConverter
+    public class DoubleParser : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

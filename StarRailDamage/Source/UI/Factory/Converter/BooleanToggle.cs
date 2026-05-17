@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace StarRailDamage.Source.UI.Model.Converter
+namespace StarRailDamage.Source.UI.Factory.Converter
 {
-    public class BooleanInversionConvert : IValueConverter
+    public class BooleanToggle : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

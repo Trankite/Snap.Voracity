@@ -4,11 +4,11 @@ using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class TerminalHelpCommand : ITerminalCommand
+    public class TerminalExample : ITerminalCommand
     {
         public string Name => "help";
 
-        public string Help => MarkedText.TerminalCommandHelp;
+        public string Help => LocalString.ServiceTerminalSupportConsoleExampleHelp;
 
         public string[] Parameters => [COMMANDNAME];
 
@@ -23,10 +23,10 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 {
                     if (TerminalManage.TryGetCommand(CommandName, out TerminalCommand? Command))
                     {
-                        TerminalManage.WriteLine(StringExtension.Format(Command.Help, Command.Parameters));
+                        TerminalManage.WriteLine(Command.Help.Format(Command.Parameters));
                         return new TerminalResponse(true);
                     }
-                    return TerminalManage.GetUnknownCommandResponse(CommandName);
+                    return TerminalManage.GetUnknownOperationResponse(CommandName);
                 }
                 foreach (TerminalCommand Command in TerminalManage.CommandTable.GetValues())
                 {

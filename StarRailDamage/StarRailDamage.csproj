@@ -83,28 +83,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Source\Resource\Localization\MarkedText.Designer.cs">
+    <Compile Update="Source\Resource\Localization\LocalString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>MarkedText.resx</DependentUpon>
+      <DependentUpon>LocalString.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Source\Resource\Localization\FixedText.en.resx">
+    <EmbeddedResource Update="Source\Resource\Localization\LocalString.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FixedText.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Source\Resource\Localization\FixedText.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Source\Resource\Localization\MarkedText.en.resx">
+    <EmbeddedResource Update="Source\Resource\Localization\LocalString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Source\Resource\Localization\MarkedText.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>MarkedText.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Source\UI\Xaml\Dialog\" />
   </ItemGroup>
 
 </Project>

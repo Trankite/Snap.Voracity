@@ -12,6 +12,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
         public TabulateItem()
         {
             InitializeComponent();
+            Model = new TabulateItemModel();
         }
 
         private void CheckBoxClick(object sender, RoutedEventArgs e)
@@ -56,7 +57,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(TabulateItemModel), typeof(TabulateItem), new PropertyMetadata(new TabulateItemModel()));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(TabulateItemModel), typeof(TabulateItem));
 
         public bool Flag
         {

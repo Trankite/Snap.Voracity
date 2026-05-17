@@ -3,11 +3,11 @@ using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class TerminalPauseCommand : ITerminalCommand
+    public class TerminalPause : ITerminalCommand
     {
         public string Name => "pause";
 
-        public string Help => MarkedText.TerminalCommandPauseHelp;
+        public string Help => LocalString.ServiceTerminalSupportConsolePauseHelp;
 
         public string[] Parameters => [];
 
@@ -15,7 +15,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
         {
             if (Program.OnTerminal)
             {
-                Console.WriteLine(MarkedText.TerminalCommandPause);
+                Console.WriteLine(LocalString.ServiceTerminalSupportConsolePause);
                 Console.ReadKey(false);
             }
             return new TerminalResponse(Program.OnTerminal);

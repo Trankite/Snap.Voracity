@@ -11,11 +11,11 @@ using System.Text;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class QRCodeProduceCommand : ITerminalCommand
+    public class QRCodeProduce : ITerminalCommand
     {
         public string Name => "qrcode";
 
-        public string Help => MarkedText.CommandHelpQRCodeProduce;
+        public string Help => LocalString.ServiceTerminalSupportQRCodeProduceHelp;
 
         public string[] Parameters => [CONTENT, FILEPATH, PATHOPEN];
 

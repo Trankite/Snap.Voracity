@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 {
-    public class GameSignRewardCommand : AsyncTerminalCommand<SignHomeAnalyzedBody[]>
+    public class GameSignReward : AsyncTerminalCommand<SignHomeAnalyzedBody[]>
     {
         public override string Name => "signer";
 
-        public override string Help => MarkedText.HoyolabGameSignRewardCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabGameSignRewardHelp;
 
         public override string[] Parameters => [START, TOTAL];
 

@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 {
-    public class ForumPostDetailCommand : AsyncTerminalCommand<FullPostResponseWrapper>
+    public class ForumDetail : AsyncTerminalCommand<FullPostResponseWrapper>
     {
         public override string Name => "post";
 
-        public override string Help => MarkedText.HoyolabPostDetailCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabForumDetailHelp;
 
         public override string[] Parameters => [POSTID, NEEDSIGN, AID];
 

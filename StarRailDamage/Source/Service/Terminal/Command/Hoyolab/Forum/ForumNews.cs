@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 {
-    public class ForumPostNewsCommand : AsyncTerminalCommand<NewestAnalyzedBody[]>
+    public class ForumNews : AsyncTerminalCommand<NewestAnalyzedBody[]>
     {
         public override string Name => "newpost";
 
-        public override string Help => MarkedText.HoyolabPostNewsCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabForumNewsHelp;
 
         public override string[] Parameters => [PAGESIZE, ZONETYPE, SORTTYPE];
 
@@ -38,7 +38,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
             {
                 if (AnalyzedBody.Length == 0)
                 {
-                    return new TerminalResponse<NewestAnalyzedBody[]>(TerminalManage.GetInvalidParameterResponse());
+                    return new TerminalResponse<NewestAnalyzedBody[]>(TerminalManage.GetUnlawfulParameterResponse());
                 }
                 return TerminalResponse.Create(true, string.Join('\n', AnalyzedBody.Select(Body => $"[{Body.PostId}] {Body.Title}")), AnalyzedBody);
             }

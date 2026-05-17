@@ -4,17 +4,17 @@ using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class TerminalExitedCommand : ITerminalCommand
+    public class TerminalClear : ITerminalCommand
     {
-        public string Name => "exit";
+        public string Name => "clear";
 
-        public string Help => MarkedText.TerminalCommandExitedHelp;
+        public string Help => LocalString.ServiceTerminalSupportConsoleClearHelp;
 
         public string[] Parameters => [];
 
         public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
-            return new TerminalResponse(Program.OnTerminal.Configure(Program.OnTerminal = false));
+            return new TerminalResponse(Program.OnTerminal && true.Configure(Console.Clear));
         }
     }
 }

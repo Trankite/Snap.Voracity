@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Model.Control;
+﻿using StarRailDamage.Source.UI.Model.Control;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -15,6 +14,7 @@ namespace StarRailDamage.Source.UI.Xaml.Control
         public ScopedSlider()
         {
             InitializeComponent();
+            Model = new ScopedSliderModel();
         }
 
         protected override void OnThumbDragCompleted(DragCompletedEventArgs e)
@@ -58,15 +58,15 @@ namespace StarRailDamage.Source.UI.Xaml.Control
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(ScopedSliderModel), typeof(ScopedSlider), new PropertyMetadata(new ScopedSliderModel()));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(ScopedSliderModel), typeof(ScopedSlider));
 
-        public TextBinding Title
+        public string Title
         {
-            get => (TextBinding)GetValue(TitleProperty);
+            get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(TextBinding), typeof(ScopedSlider), new PropertyMetadata(default(TextBinding), TitleChangedCallback));
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(ScopedSlider), new PropertyMetadata(default(string), TitleChangedCallback));
 
         private static void TitleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

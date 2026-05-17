@@ -75,13 +75,13 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static string Format(string value, params object?[] args)
+        public static string Format(this string value, params object?[] arguments)
         {
-            try { return string.Format(value, args); } catch { return value; }
+            try { return string.Format(value, arguments); } catch { return value; }
         }
 
         [DebuggerStepThrough]
-        public static string Unescape(string value)
+        public static string Unescape(this string value)
         {
             try { return Regex.Unescape(value); } catch { return value; }
         }

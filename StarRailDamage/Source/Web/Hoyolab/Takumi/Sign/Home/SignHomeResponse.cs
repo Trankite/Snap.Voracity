@@ -24,7 +24,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.Sign.Home
 
         public static string GetAwardString(SignHomeAnalyzedBody award)
         {
-            return StringExtension.Format(MarkedText.HoyolabGameSignReward, award.Today.ToString("D2"), award.Name, award.Count);
+            return LocalString.WebHoyolabGameSignRewardItem.Format(award.Today.ToString("D2"), award.Name, award.Count);
         }
     }
 }

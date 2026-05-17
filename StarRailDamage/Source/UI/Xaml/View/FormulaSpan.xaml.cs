@@ -14,6 +14,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
         public FormulaSpan()
         {
             InitializeComponent();
+            Model = new FormulaSpanModel();
         }
 
         private void TextBoxPreviewKeyDown(object sender, KeyEventArgs e)
@@ -51,7 +52,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(FormulaSpanModel), typeof(FormulaSpan), new PropertyMetadata(new FormulaSpanModel()));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(FormulaSpanModel), typeof(FormulaSpan));
 
         public string Text
         {

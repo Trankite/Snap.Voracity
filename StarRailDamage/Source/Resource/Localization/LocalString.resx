@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CharacterAttributeAttack" xml:space="preserve">
+    <value>攻击力</value>
+  </data>
+  <data name="CharacterAttributeAttackBase" xml:space="preserve">
+    <value>基础攻击</value>
+  </data>
+  <data name="CharacterFinalizeDamageNormal" xml:space="preserve">
+    <value>基础伤害</value>
+  </data>
+  <data name="CharacterAttributeBreakIncrease" xml:space="preserve">
+    <value>击破增伤</value>
+  </data>
+  <data name="CharacterAttributeBreakEfficiency" xml:space="preserve">
+    <value>击破效率</value>
+  </data>
+  <data name="CharacterAttributeBreakEffect" xml:space="preserve">
+    <value>击破特攻</value>
+  </data>
+  <data name="CharacterFinalizeDamageBreak" xml:space="preserve">
+    <value>击破伤害</value>
+  </data>
+  <data name="ViewPageMockBattleActionChange" xml:space="preserve">
+    <value>切换</value>
+  </data>
+  <data name="CharacterAttributeWonsterLevel" xml:space="preserve">
+    <value>角色等级</value>
+  </data>
+  <data name="CharacterOccupationName" xml:space="preserve">
+    <value>命途</value>
+  </data>
+  <data name="CharacterAttributeMaximumEnergy" xml:space="preserve">
+    <value>能量上限</value>
+  </data>
+  <data name="CharacterAttributeCriticalHitDamage" xml:space="preserve">
+    <value>暴击伤害</value>
+  </data>
+  <data name="CharacterAttributeCriticalHitRate" xml:space="preserve">
+    <value>暴击率</value>
+  </data>
+  <data name="CharacterFinalizeDamageCritical" xml:space="preserve">
+    <value>全暴击伤害</value>
+  </data>
+  <data name="CharacterAttributeElementIncrease" xml:space="preserve">
+    <value>伤害提高</value>
+  </data>
+  <data name="CharacterAttributeDamageIncrease" xml:space="preserve">
+    <value>易伤</value>
+  </data>
+  <data name="CharacterAttributeDefense" xml:space="preserve">
+    <value>防御力</value>
+  </data>
+  <data name="CharacterAttributeDefenseBase" xml:space="preserve">
+    <value>基础防御</value>
+  </data>
+  <data name="CharacterAttributeDefenseDecrease" xml:space="preserve">
+    <value>无视防御</value>
+  </data>
+  <data name="CharacterFinalizeDamageDelay" xml:space="preserve">
+    <value>持续伤害</value>
+  </data>
+  <data name="CharacterAttributeEffectHitRate" xml:space="preserve">
+    <value>效果命中</value>
+  </data>
+  <data name="CharacterAttributeEffectMagical" xml:space="preserve">
+    <value>效果抵抗</value>
+  </data>
+  <data name="CharacterAttributeMagicalIncrease" xml:space="preserve">
+    <value>抗性</value>
+  </data>
+  <data name="CharacterFinalizeDamageElation" xml:space="preserve">
+    <value>欢愉伤害</value>
+  </data>
+  <data name="ViewPageMockBattleActionExport" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="CharacterDelayedDamageFire" xml:space="preserve">
+    <value>灼烧</value>
+  </data>
+  <data name="CharacterElementFire" xml:space="preserve">
+    <value>火</value>
+  </data>
+  <data name="CharacterAttributeHealth" xml:space="preserve">
+    <value>生命值</value>
+  </data>
+  <data name="CharacterAttributeHealthBase" xml:space="preserve">
+    <value>基础生命</value>
+  </data>
+  <data name="CharacterDelayedDamageIce" xml:space="preserve">
+    <value>冻结</value>
+  </data>
+  <data name="CharacterElementIce" xml:space="preserve">
+    <value>冰</value>
+  </data>
+  <data name="CharacterDelayedDamageImaginary" xml:space="preserve">
+    <value>禁锢</value>
+  </data>
+  <data name="CharacterElementImaginary" xml:space="preserve">
+    <value>虚数</value>
+  </data>
+  <data name="CharacterDelayedDamageLightning" xml:space="preserve">
+    <value>触电</value>
+  </data>
+  <data name="CharacterElementLightning" xml:space="preserve">
+    <value>雷</value>
+  </data>
+  <data name="CharacterAttributeMonsterCount" xml:space="preserve">
+    <value>怪物数量</value>
+  </data>
+  <data name="CharacterAttributeMonsterLevel" xml:space="preserve">
+    <value>怪物等级</value>
+  </data>
+  <data name="ViewControlFormulaSpanTitle" xml:space="preserve">
+    <value>算式</value>
+  </data>
+  <data name="CharacterDelayedDamagePhysical" xml:space="preserve">
+    <value>裂伤</value>
+  </data>
+  <data name="CharacterElementPhysical" xml:space="preserve">
+    <value>物理</value>
+  </data>
+  <data name="CharacterDelayedDamageQuantum" xml:space="preserve">
+    <value>纠缠</value>
+  </data>
+  <data name="CharacterElementQuantum" xml:space="preserve">
+    <value>量子</value>
+  </data>
+  <data name="CharacterAttributeMagicalDecrease" xml:space="preserve">
+    <value>抗性穿透</value>
+  </data>
+  <data name="ViewPageMockBattleActionSave" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="ViewPageMockBattleActionSetting" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="CharacterAttributeElationBonus" xml:space="preserve">
+    <value>好活当赏</value>
+  </data>
+  <data name="CharacterAttributeSpeed" xml:space="preserve">
+    <value>速度</value>
+  </data>
+  <data name="CharacterAttributeSpeedBase" xml:space="preserve">
+    <value>基础速度</value>
+  </data>
+  <data name="CharacterAttributeElationIncrease" xml:space="preserve">
+    <value>欢愉度</value>
+  </data>
+  <data name="CharacterFinalizeDamageSuperBreak" xml:space="preserve">
+    <value>超击破伤害</value>
+  </data>
+  <data name="CharacterAttributeToughness" xml:space="preserve">
+    <value>韧性值</value>
+  </data>
+  <data name="CharacterAttributeToughDecline" xml:space="preserve">
+    <value>削韧值</value>
+  </data>
+  <data name="CharacterAttributeHealingBoost" xml:space="preserve">
+    <value>治疗提高</value>
+  </data>
+  <data name="CharacterDelayedDamageWind" xml:space="preserve">
+    <value>风化</value>
+  </data>
+  <data name="CharacterElementWind" xml:space="preserve">
+    <value>风</value>
+  </data>
+  <data name="CharacterAttributeDamageDecrease" xml:space="preserve">
+    <value>免伤</value>
+  </data>
+  <data name="CharacterAttributeManaReplenish" xml:space="preserve">
+    <value>充能效率</value>
+  </data>
+  <data name="CharacterOccupationAbundance" xml:space="preserve">
+    <value>丰饶</value>
+  </data>
+  <data name="CharacterOccupationDestruction" xml:space="preserve">
+    <value>毁灭</value>
+  </data>
+  <data name="CharacterOccupationErudition" xml:space="preserve">
+    <value>智识</value>
+  </data>
+  <data name="CharacterOccupationHarmony" xml:space="preserve">
+    <value>同协</value>
+  </data>
+  <data name="CharacterOccupationMemory" xml:space="preserve">
+    <value>记忆</value>
+  </data>
+  <data name="CharacterOccupationElation" xml:space="preserve">
+    <value>欢愉</value>
+  </data>
+  <data name="CharacterOccupationNihility" xml:space="preserve">
+    <value>虚无</value>
+  </data>
+  <data name="CharacterOccupationPreservation" xml:space="preserve">
+    <value>存护</value>
+  </data>
+  <data name="CharacterOccupationTheHunt" xml:space="preserve">
+    <value>巡猎</value>
+  </data>
+  <data name="ViewPageMockBattleActionCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ViewPageMockBattleUnitLevel" xml:space="preserve">
+    <value>级</value>
+  </data>
+  <data name="ViewPageMockBattleUnitModulo" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="ViewPageMockBattleActionConfirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
+    <value>二维码生成
+
+{0} &lt;内容&gt;
+二维码的内容文本
+
+{1} &lt;路径&gt; ( 可选 )
+二维码的保存路径
+默认在临时文件夹
+
+{2} &lt;转到路径&gt; ( 可选 )
+是否转到资源管理器
+[ True / False ( 默认值 ) ]</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleExiteHelp" xml:space="preserve">
+    <value>退出控制台</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePauseHelp" xml:space="preserve">
+    <value>等待输入</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePause" xml:space="preserve">
+    <value>按任意键继续......</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
+    <value>打印控制台文本
+
+{0} &lt;文本&gt;
+将要打印到控制台的文本</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
+    <value>命令帮助
+
+{0} &lt;命令名称&gt; ( 可选 )
+显示指定命令的参数信息
+
+以下是一些命令的示例
+
+1、指定必要的参数
+例如：help name
+将 name 作为 help 命令的参数
+
+2、使用 "&amp;" 来分隔命令
+例如：help &amp; help
+按顺序执行 2 次 help 命令
+
+3、使用 "-" 来指定选项
+例如：help -{0} name
+将 name 作为 help 命令的 {0} 参数
+
+4、使用 """ 来拼接内容
+例如：help "help name"
+将 "help name" 视为同一部分
+
+5、使用 "\" 来转义符号
+例如：help "换\n行"
+将 n 转义为换行符</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleClearHelp" xml:space="preserve">
+    <value>清空控制台</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
+    <value>[{0}] 已点赞</value>
+  </data>
+  <data name="WebHoyolabForumSignSuccess" xml:space="preserve">
+    <value>社区签到：已签到</value>
+  </data>
+  <data name="WebHoyolabGameSignSuccess" xml:space="preserve">
+    <value>签到福利：已签到</value>
+  </data>
+  <data name="WebHoyolabGameSignRewardItem" xml:space="preserve">
+    <value>[{0}] {1} × {2}</value>
+  </data>
+  <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
+    <value>请前往米游社完成人机验证</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
+    <value>[{0}] 取消点赞</value>
+  </data>
+  <data name="WebHoyolabGameStaminaContent" xml:space="preserve">
+    <value>开拓力 {0} / {1}
+回满 {2} 小时 {3} 分钟</value>
+  </data>
+  <data name="WebHoyolabUserMissionInfoContent" xml:space="preserve">
+    <value>米游币：{0}
+今日奖励：{1}
+打卡：{2} / 1
+浏览：{3} / 3
+点赞：{4} / 5
+分享：{5} / 1</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnlawfulParameter" xml:space="preserve">
+    <value>非法的参数
+使用 "Help &lt;命令名称&gt;" 查看帮助</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindDefaultToken" xml:space="preserve">
+    <value>无可用的账号
+登录米游社账号后重试</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
+    <value>指定 AID 的账号不存在："{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
+    <value>游戏账号未注册："{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
+    <value>社区签到
+
+{0} &lt;社区ID&gt;
+社区的 GID
+1 - 崩坏3
+2 - 原神
+3 - 崩坏2
+4 - 未定事件簿
+5 - 大别墅
+6 - 崩坏：星穹铁道
+8 - 绝区零
+
+{1} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
+    <value>开拓力笔记
+
+{0} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
+    <value>米游币任务
+
+{0} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID，默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
+    <value>米游币任务状态
+
+{0} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
+    <value>福利签到
+
+{0} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
+    <value>签到奖励
+
+{0} &lt;起始天&gt; ( 可选 )
+从指定的起始天数开始
+
+{1} &lt;总天数&gt; ( 可选 )
+最多显示的行上限</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
+    <value>浏览帖子
+
+{0} &lt;帖子ID&gt;
+帖子对应的ID
+
+{1} &lt;登录&gt; ( 可选 )
+登录账号以保留浏览记录
+[ True / False ( 默认值 ) ]
+
+{2} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
+    <value>最近帖子列表
+
+{0} &lt;数量&gt;
+需要的帖子数量
+
+{1} &lt;分区ID&gt;
+帖子所在分区的ID
+
+{2} &lt;排序&gt; ( 可选 )
+帖子排序类别
+0 - 不指定 ( 默认值 )
+1 - 回复时间
+2 - 发布时间</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
+    <value>帖子分享
+
+{0} &lt;帖子ID&gt;
+帖子对应的ID
+
+{1} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
+    <value>帖子点赞
+
+{0} &lt;帖子ID&gt;
+帖子对应的ID
+
+{1} &lt;取消点赞&gt; ( 可选 )
+是否取消对帖子的点赞
+[ True / False ( 默认值 ) ]
+
+{2} &lt;账号AID&gt; ( 可选 )
+米游社账号的 AID
+默认使用首个账号</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
+    <value>未知的命令："{0}"
+使用 "Help" 查看帮助</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
+    <value>缺少必要参数
+使用 "Help &lt;命令名称&gt;" 查看帮助</value>
+  </data>
+</root>

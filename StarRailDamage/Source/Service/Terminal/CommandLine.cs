@@ -28,7 +28,7 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public override string ToString()
         {
-            return $"{Name} {string.Join((char)0x20, Expand.Select(Item => $"-{Item.Key} {Item.Value}"))}";
+            return $"{Name} {string.Join((char)0x20, Expand.Select(Item => $"-{Item.Key} \"{Item.Value}"))}\"";
         }
     }
 }

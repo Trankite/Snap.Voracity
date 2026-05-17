@@ -9,11 +9,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
 {
-    public class UserMissionStateCommand : AsyncTerminalCommand<MissionAnalyzedBody>
+    public class UserMissionInfo : AsyncTerminalCommand<MissionAnalyzedBody>
     {
         public override string Name => "mission";
 
-        public override string Help => MarkedText.HoyolabUserMissionStateCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabUserMissionInfoHelp;
 
         public override string[] Parameters => [AID];
 
@@ -43,7 +43,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
                     AnalyzedBody.Mission.GetValueOrDefault(MissionType.Upvote),
                     AnalyzedBody.Mission.GetValueOrDefault(MissionType.Share),
                 ];
-                return TerminalResponse.Create(true, StringExtension.Format(MarkedText.HoyolabUserMissionState, FormatArguments), AnalyzedBody);
+                return TerminalResponse.Create(true, LocalString.WebHoyolabUserMissionInfoContent.Format(FormatArguments), AnalyzedBody);
             }
             return new TerminalResponse<MissionAnalyzedBody>(false, Response.ToString());
         }

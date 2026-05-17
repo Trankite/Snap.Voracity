@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 {
-    public class ForumPostUpvoteCommand : AsyncTerminalCommand
+    public class ForumUpvote : AsyncTerminalCommand
     {
         public override string Name => "upvote";
 
-        public override string Help => MarkedText.HoyolabPostUpvoteCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabForumUpvoteHelp;
 
         public override string[] Parameters => [POSTID, ISCANCEL, AID];
 
@@ -41,7 +41,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
             FinalizedResponse<UpvoteResponse> Response = await Factory.Create().SendAsync<UpvoteResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
-                return new TerminalResponse(true, StringExtension.Format(isCancel ? MarkedText.HoyolabForumPostUpvoteCancel : MarkedText.HoyolabForumPostUpvote, postId));
+                return new TerminalResponse(true, StringExtension.Format(isCancel ? LocalString.WebHoyolabForumUpvoteCancelSuccess : LocalString.WebHoyolabForumUpvoteSuccess, postId));
             }
             return new TerminalResponse(false, Response.ToString());
         }

@@ -1,5 +1,4 @@
 ﻿using StarRailDamage.Source.Core.Setting;
-using StarRailDamage.Source.Model.Text;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,22 +12,6 @@ namespace StarRailDamage.Source.UI.Xaml.Control
         {
             InitializeComponent();
             SizeChanged += OnSizeChanged;
-        }
-
-        public TextBinding TextBinding
-        {
-            get => (TextBinding)GetValue(TextBindingProperty);
-            set => SetValue(TextBindingProperty, value);
-        }
-
-        private static readonly DependencyProperty TextBindingProperty = DependencyProperty.Register(nameof(TextBinding), typeof(TextBinding), typeof(ScopedTextBlock), new PropertyMetadata(default, TextBindingChangedCallback));
-
-        private static void TextBindingChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ScopedTextBlock ScopedTextBlock)
-            {
-                ScopedTextBlock.Text = ScopedTextBlock.TextBinding.Text;
-            }
         }
 
         public string TipText
@@ -95,7 +78,5 @@ namespace StarRailDamage.Source.UI.Xaml.Control
         private void EnabledToolTip() => ToolTipService.SetIsEnabled(this, !TipOnlyTrim || IsTextTrimmed());
 
         public bool IsTextTrimmed() => GetTextSize().Width - 0.1 > ActualWidth;
-
-        public override string ToString() => Text;
     }
 }

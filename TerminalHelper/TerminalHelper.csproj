@@ -12,8 +12,4 @@
     <ProjectReference Include="..\StarRailDamage\StarRailDamage.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Source\" />
-  </ItemGroup>
-
 </Project>

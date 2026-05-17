@@ -1,20 +1,20 @@
-﻿using StarRailDamage.Source.Core.LocalText;
-using StarRailDamage.Source.Model.Text;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Resource.Localization;
 using System.Windows.Media.Imaging;
 
 namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
 {
     public class CharacterAttributeInfo
     {
-        public TextBinding Name { get; }
+        public string Name { get; }
 
         public BitmapImage Icon { get; }
 
-        public TextBinding Unit { get; }
+        public string Unit { get; }
 
         public int Digits { get; }
 
-        private CharacterAttributeInfo(TextBinding name, BitmapImage icon, TextBinding unit, int digits)
+        private CharacterAttributeInfo(string name, BitmapImage icon, string unit, int digits)
         {
             Name = name;
             Icon = icon;
@@ -22,14 +22,14 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             Digits = digits;
         }
 
-        public static CharacterAttributeInfo Create(string attribute, BitmapImage icon, TextBinding unit, int digits)
+        public static CharacterAttributeInfo Create(string attribute, BitmapImage icon, string unit, int digits)
         {
             return new CharacterAttributeInfo(GetNameBinding(attribute), icon, unit, digits);
         }
 
-        private static TextBinding GetNameBinding(string attribute)
+        private static string GetNameBinding(string attribute)
         {
-            return FixedTextManage.Binding("Attribute" + attribute);
+            return LocalString.ResourceManager.GetString("CharacterAttribute" + attribute, LocalString.Culture).NotNull();
         }
     }
 }

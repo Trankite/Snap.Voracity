@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
+﻿using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
 
 namespace StarRailDamage.Source.UI.Model.Control
 {
@@ -11,7 +10,7 @@ namespace StarRailDamage.Source.UI.Model.Control
 
         private double _Minimum;
 
-        private TextBinding _Title = TextBinding.Default;
+        private string _Title = string.Empty;
 
         public double Value
         {
@@ -31,7 +30,7 @@ namespace StarRailDamage.Source.UI.Model.Control
             set => SetField(ref _Minimum, value);
         }
 
-        public TextBinding Title
+        public string Title
         {
             get => _Title;
             set => SetField(ref _Title, value);

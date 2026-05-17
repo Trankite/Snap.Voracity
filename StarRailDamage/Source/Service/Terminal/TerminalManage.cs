@@ -28,7 +28,7 @@ namespace StarRailDamage.Source.Service.Terminal
             {
                 return Command.Invoke(commandLine);
             }
-            return GetUnknownCommandResponse(commandLine.Name);
+            return GetUnknownOperationResponse(commandLine.Name);
         }
 
         public static async ValueTask AsyncInvoke(this CommandParser commandParser)
@@ -45,7 +45,7 @@ namespace StarRailDamage.Source.Service.Terminal
             {
                 return await Command.AsyncInvoke(commandLine);
             }
-            return GetUnknownCommandResponse(commandLine.Name);
+            return GetUnknownOperationResponse(commandLine.Name);
         }
 
         public static bool TryGetCommand(string name, [NotNullWhen(true)] out TerminalCommand? command)
@@ -53,19 +53,19 @@ namespace StarRailDamage.Source.Service.Terminal
             return CommandTable.TryGetValue(name, out command);
         }
 
-        public static TerminalResponse GetUnknownCommandResponse(string commandName)
+        public static TerminalResponse GetUnknownOperationResponse(string commandName)
         {
-            return new TerminalResponse(false, StringExtension.Format(MarkedText.TerminalUnknownCommand, commandName));
+            return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionUnknownOperation.Format(commandName));
         }
 
         public static TerminalResponse GetMissingParameterResponse()
         {
-            return new TerminalResponse(false, MarkedText.TerminalMissingParameter);
+            return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionMissingParameter);
         }
 
-        public static TerminalResponse GetInvalidParameterResponse()
+        public static TerminalResponse GetUnlawfulParameterResponse()
         {
-            return new TerminalResponse(false, MarkedText.TerminalInvalidParameter);
+            return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionUnlawfulParameter);
         }
 
         public static void WriteLine(ITerminalResponse response) => WriteLine(response.Message);
@@ -87,22 +87,22 @@ namespace StarRailDamage.Source.Service.Terminal
         {
             CommandTable = GetCommandTable
             (
-                new TerminalHelpCommand(),
-                new TerminalPrintCommand(),
-                new TerminalFlushCommand(),
-                new TerminalPauseCommand(),
-                new TerminalExitedCommand(),
-                new QRCodeProduceCommand(),
-                new ForumPostNewsCommand(),
-                new ForumPostDetailCommand(),
-                new ForumPostShareCommand(),
-                new ForumPostUpvoteCommand(),
-                new ForumSignPerformCommand(),
-                new UserMissionPerformCommand(),
-                new UserMissionStateCommand(),
-                new GameNoteStaminaCommand(),
-                new GameSignPerformCommand(),
-                new GameSignRewardCommand()
+                new TerminalExample(),
+                new TerminalEcho(),
+                new TerminalClear(),
+                new TerminalPause(),
+                new TerminalExite(),
+                new QRCodeProduce(),
+                new ForumNews(),
+                new ForumDetail(),
+                new ForumShare(),
+                new ForumUpvote(),
+                new ForumSign(),
+                new UserMission(),
+                new UserMissionInfo(),
+                new GameStamina(),
+                new GameSign(),
+                new GameSignReward()
             );
         }
     }

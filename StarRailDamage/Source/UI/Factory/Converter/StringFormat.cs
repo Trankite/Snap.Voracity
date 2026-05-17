@@ -1,18 +1,19 @@
-﻿using System.Globalization;
+﻿using StarRailDamage.Source.Extension;
+using System.Globalization;
 using System.Windows.Data;
 
-namespace StarRailDamage.Source.UI.Model.Converter
+namespace StarRailDamage.Source.UI.Factory.Converter
 {
-    public class ComparableConverter : IValueConverter, IMultiValueConverter
+    public class StringFormat : IValueConverter, IMultiValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((IComparable)value).CompareTo(parameter);
+            return StringExtension.Format((string)parameter, value);
         }
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((IComparable)values[0]).CompareTo(values[1]);
+            return StringExtension.Format((string)parameter, values);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

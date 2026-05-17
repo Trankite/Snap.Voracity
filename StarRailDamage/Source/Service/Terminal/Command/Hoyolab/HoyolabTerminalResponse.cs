@@ -10,14 +10,14 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab
         {
             if (string.IsNullOrWhiteSpace(aid))
             {
-                return new TerminalResponse(false, MarkedText.HoyolabNotFindDefaultToken);
+                return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabExceptionNotFindDefaultToken);
             }
-            return new TerminalResponse(false, StringExtension.Format(MarkedText.HoyolabNotFindToken, aid));
+            return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabExceptionNotFindToken.Format(aid));
         }
 
         public static TerminalResponse NotFindUserRole(GameType gameType)
         {
-            return new TerminalResponse(false, StringExtension.Format(MarkedText.HoyolabNotFindUserRole, gameType));
+            return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabExceptionNotFindUserRole.Format(gameType));
         }
     }
 }

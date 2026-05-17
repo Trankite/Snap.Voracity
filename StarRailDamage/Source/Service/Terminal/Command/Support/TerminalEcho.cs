@@ -3,11 +3,11 @@ using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class TerminalPrintCommand : ITerminalCommand
+    public class TerminalEcho : ITerminalCommand
     {
         public string Name => "echo";
 
-        public string Help => MarkedText.TerminalCommandPrintHelp;
+        public string Help => LocalString.ServiceTerminalSupportConsoleEchoHelp;
 
         public string[] Parameters => [CONTENT];
 

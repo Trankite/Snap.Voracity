@@ -25,12 +25,13 @@ namespace StarRailDamage.Source.Service.Terminal
                 }
                 else if (line[i] == '"')
                 {
+                    Index = i + 1;
                     while (++i < line.Length && line[i] != '"')
                     {
                         if (line[i] == '\\') i++;
                     }
-                    Arguments.Add(StringExtension.Unescape(line[++Index..i]));
-                    Index = ++i + 1;
+                    Arguments.Add($"\"{line[Index..i++].Unescape()}\"");
+                    Index = i + 1;
                 }
             }
             if (Index < line.Length)
@@ -47,30 +48,33 @@ namespace StarRailDamage.Source.Service.Terminal
                 CommandLine CommandLine = new(Arguments[i]);
                 if (TerminalManage.TryGetCommand(CommandLine.Name, out TerminalCommand? Command))
                 {
-                    int Index = 0;
-                    bool HasOption = true;
+                    int Index = -1;
                     while (++i < Arguments.Count)
                     {
                         if (Arguments[i] == "&")
                         {
                             break;
                         }
-                        if (Arguments[i] == "--")
+                        if (Arguments[i].StartsWith('-'))
                         {
-                            HasOption = false;
-                        }
-                        else if (HasOption && Arguments[i].StartsWith('-'))
-                        {
-                            CommandLine.Expand[Arguments[i][1..]] = Arguments.GetIndexValue(++i).NotNull();
+                            CommandLine.Expand[Arguments[i][1..]] = TrimQuote(Arguments.GetIndexValue(++i).NotNull());
                         }
                         else
                         {
-                            CommandLine.Expand.TryAdd(Command.Parameters.GetIndexValue(Index).NotNull(Index++), Arguments[i]);
+                            while (++Index < Command.Parameters.Length)
+                            {
+                                if (CommandLine.Expand.TryAdd(Command.Parameters[Index], TrimQuote(Arguments[i]))) break;
+                            }
                         }
                     }
                 }
                 yield return CommandLine;
             }
+        }
+
+        private static string TrimQuote(string value)
+        {
+            return value.StartsWith('"') && value.EndsWith('"') ? value[1..^1] : value;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CharacterAttributeAttack" xml:space="preserve">
+    <value>ATK</value>
+  </data>
+  <data name="CharacterAttributeAttackBase" xml:space="preserve">
+    <value>BASE ATK</value>
+  </data>
+  <data name="CharacterFinalizeDamageNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CharacterAttributeBreakIncrease" xml:space="preserve">
+    <value>BREK INC</value>
+  </data>
+  <data name="CharacterAttributeBreakEfficiency" xml:space="preserve">
+    <value>BREK EFY</value>
+  </data>
+  <data name="CharacterAttributeBreakEffect" xml:space="preserve">
+    <value>BREK EFT</value>
+  </data>
+  <data name="CharacterFinalizeDamageBreak" xml:space="preserve">
+    <value>Break</value>
+  </data>
+  <data name="ViewPageMockBattleActionChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="CharacterAttributeWonsterLevel" xml:space="preserve">
+    <value>WOST LV</value>
+  </data>
+  <data name="CharacterOccupationName" xml:space="preserve">
+    <value>Destiny</value>
+  </data>
+  <data name="CharacterAttributeMaximumEnergy" xml:space="preserve">
+    <value>MAX MN</value>
+  </data>
+  <data name="CharacterAttributeCriticalHitDamage" xml:space="preserve">
+    <value>CRIT DMG</value>
+  </data>
+  <data name="CharacterAttributeCriticalHitRate" xml:space="preserve">
+    <value>CRIT RATE</value>
+  </data>
+  <data name="CharacterFinalizeDamageCritical" xml:space="preserve">
+    <value>Critical</value>
+  </data>
+  <data name="CharacterAttributeElementIncrease" xml:space="preserve">
+    <value>DMG INC</value>
+  </data>
+  <data name="CharacterAttributeDamageIncrease" xml:space="preserve">
+    <value>DMG INC</value>
+  </data>
+  <data name="CharacterAttributeDefense" xml:space="preserve">
+    <value>DEF</value>
+  </data>
+  <data name="CharacterAttributeDefenseBase" xml:space="preserve">
+    <value>BASE DEF</value>
+  </data>
+  <data name="CharacterAttributeDefenseDecrease" xml:space="preserve">
+    <value>DEF DEC</value>
+  </data>
+  <data name="CharacterFinalizeDamageDelay" xml:space="preserve">
+    <value>Delay</value>
+  </data>
+  <data name="CharacterAttributeEffectHitRate" xml:space="preserve">
+    <value>EFT HIT</value>
+  </data>
+  <data name="CharacterAttributeEffectMagical" xml:space="preserve">
+    <value>EFT RES</value>
+  </data>
+  <data name="CharacterAttributeMagicalIncrease" xml:space="preserve">
+    <value>DMG RES</value>
+  </data>
+  <data name="CharacterFinalizeDamageElation" xml:space="preserve">
+    <value>Elation</value>
+  </data>
+  <data name="ViewPageMockBattleActionExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="CharacterDelayedDamageFire" xml:space="preserve">
+    <value>Burn</value>
+  </data>
+  <data name="CharacterElementFire" xml:space="preserve">
+    <value>Fire</value>
+  </data>
+  <data name="CharacterAttributeHealth" xml:space="preserve">
+    <value>HP</value>
+  </data>
+  <data name="CharacterAttributeHealthBase" xml:space="preserve">
+    <value>BASE HP</value>
+  </data>
+  <data name="CharacterDelayedDamageIce" xml:space="preserve">
+    <value>Freeze</value>
+  </data>
+  <data name="CharacterElementIce" xml:space="preserve">
+    <value>Ice</value>
+  </data>
+  <data name="CharacterDelayedDamageImaginary" xml:space="preserve">
+    <value>Imprisonment</value>
+  </data>
+  <data name="CharacterElementImaginary" xml:space="preserve">
+    <value>Imaginary</value>
+  </data>
+  <data name="CharacterDelayedDamageLightning" xml:space="preserve">
+    <value>Shock</value>
+  </data>
+  <data name="CharacterElementLightning" xml:space="preserve">
+    <value>Lightning</value>
+  </data>
+  <data name="CharacterAttributeMonsterCount" xml:space="preserve">
+    <value>MOST CT</value>
+  </data>
+  <data name="CharacterAttributeMonsterLevel" xml:space="preserve">
+    <value>MOST LV</value>
+  </data>
+  <data name="ViewControlFormulaSpanTitle" xml:space="preserve">
+    <value>Formula</value>
+  </data>
+  <data name="CharacterDelayedDamagePhysical" xml:space="preserve">
+    <value>Bleed</value>
+  </data>
+  <data name="CharacterElementPhysical" xml:space="preserve">
+    <value>Physical</value>
+  </data>
+  <data name="CharacterDelayedDamageQuantum" xml:space="preserve">
+    <value>Entanglement</value>
+  </data>
+  <data name="CharacterElementQuantum" xml:space="preserve">
+    <value>Quantum</value>
+  </data>
+  <data name="CharacterAttributeMagicalDecrease" xml:space="preserve">
+    <value>RES DEC</value>
+  </data>
+  <data name="ViewPageMockBattleActionSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ViewPageMockBattleActionSetting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="CharacterAttributeElationBonus" xml:space="preserve">
+    <value>BONUS</value>
+  </data>
+  <data name="CharacterAttributeSpeed" xml:space="preserve">
+    <value>SPD</value>
+  </data>
+  <data name="CharacterAttributeSpeedBase" xml:space="preserve">
+    <value>BASE SPD</value>
+  </data>
+  <data name="CharacterAttributeElationIncrease" xml:space="preserve">
+    <value>ELAT INC</value>
+  </data>
+  <data name="CharacterFinalizeDamageSuperBreak" xml:space="preserve">
+    <value>Super Break</value>
+  </data>
+  <data name="CharacterAttributeToughness" xml:space="preserve">
+    <value>TOGH</value>
+  </data>
+  <data name="CharacterAttributeToughDecline" xml:space="preserve">
+    <value>TOGH DEC</value>
+  </data>
+  <data name="CharacterAttributeHealingBoost" xml:space="preserve">
+    <value>HEAL INC</value>
+  </data>
+  <data name="CharacterDelayedDamageWind" xml:space="preserve">
+    <value>Shear</value>
+  </data>
+  <data name="CharacterElementWind" xml:space="preserve">
+    <value>Wind</value>
+  </data>
+  <data name="CharacterAttributeDamageDecrease" xml:space="preserve">
+    <value>DMG DEC</value>
+  </data>
+  <data name="CharacterAttributeManaReplenish" xml:space="preserve">
+    <value>MANA</value>
+  </data>
+  <data name="CharacterOccupationAbundance" xml:space="preserve">
+    <value>Abundance</value>
+  </data>
+  <data name="CharacterOccupationDestruction" xml:space="preserve">
+    <value>Destruction</value>
+  </data>
+  <data name="CharacterOccupationErudition" xml:space="preserve">
+    <value>Erudition</value>
+  </data>
+  <data name="CharacterOccupationHarmony" xml:space="preserve">
+    <value>Harmony</value>
+  </data>
+  <data name="CharacterOccupationMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="CharacterOccupationElation" xml:space="preserve">
+    <value>Elation</value>
+  </data>
+  <data name="CharacterOccupationNihility" xml:space="preserve">
+    <value>Nihility</value>
+  </data>
+  <data name="CharacterOccupationPreservation" xml:space="preserve">
+    <value>Preservation</value>
+  </data>
+  <data name="CharacterOccupationTheHunt" xml:space="preserve">
+    <value>TheHunt</value>
+  </data>
+  <data name="ViewPageMockBattleActionCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ViewPageMockBattleUnitLevel" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="ViewPageMockBattleUnitModulo" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="ViewPageMockBattleActionConfirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
+    <value>Generate quick response code
+
+{0} &lt;Text&gt;
+Quick response code content
+
+{1} &lt;Path&gt; ( Optional )
+The saving path of the quick response code
+Default temp path
+
+{2} &lt;Open&gt; ( Optional )
+Open the path in explorer
+[ True / False ( Default ) ]</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleExiteHelp" xml:space="preserve">
+    <value>Exit application</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePauseHelp" xml:space="preserve">
+    <value>Pause until press any key</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePause" xml:space="preserve">
+    <value>Press any key to continue......</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
+    <value>Print to console
+
+{0} &lt;Text&gt;
+Text printed to the console</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
+    <value>All command help
+
+{0} &lt;Command&gt;?
+
+Command parameter help
+
+Below are some examples of commands
+
+1. Specify the necessary parameters
+For example: help name
+Take name as a parameter for the help command
+
+2. Use "&amp;" to separate commands
+For example: help &amp; help
+Execute the "help" command twice in sequence
+
+3. Use "-" to specify options
+For example: help -{0} name
+Use name as the {0} parameter for the help command
+
+4. Use """ to concatenate content
+For example: help "help name"
+Treat "help name" as part of the same section
+
+5. Use "\" to escape symbols
+For example: help "wrap\nline"
+Escape n as a newline character</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleClearHelp" xml:space="preserve">
+    <value>Clear console</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
+    <value>[{0}] Upvote</value>
+  </data>
+  <data name="WebHoyolabForumSignSuccess" xml:space="preserve">
+    <value>Signed : Success</value>
+  </data>
+  <data name="WebHoyolabGameSignSuccess" xml:space="preserve">
+    <value>Signed : Success</value>
+  </data>
+  <data name="WebHoyolabGameSignRewardItem" xml:space="preserve">
+    <value>[{0}] {1} × {2}</value>
+  </data>
+  <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
+    <value>Please complete the human verification</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
+    <value>[{0}] Cancel Upvote</value>
+  </data>
+  <data name="WebHoyolabGameStaminaContent" xml:space="preserve">
+    <value>Stamina {0} / {1}
+Wait {2} Hours {3} Minutes</value>
+  </data>
+  <data name="WebHoyolabUserMissionInfoContent" xml:space="preserve">
+    <value>Coin : {0}
+Today : {1}
+Sign : {2} / 1
+View : {3} / 3
+Upvote : {4} / 5
+Share : {5} / 1</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnlawfulParameter" xml:space="preserve">
+    <value>Unlawful Parameter
+Use "Help &lt;Command&gt;" Access Details</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindDefaultToken" xml:space="preserve">
+    <value>No Hoyolab account
+Please login and try again</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
+    <value>No account id found : "{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
+    <value>No game account found : "{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;GID&gt;
+ Community's GID
+1 - Honkai 3
+2 - Genshin
+3 - Honkai 2
+4 - Tears of Themis
+5 - Grand Villa
+6 - Honkai: Star Rail
+8 - Zenless Zone Zero
+
+{1} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;Start&gt; ( Optional )
+Start from the starting number
+
+{1} &lt;Total&gt; ( Optional )
+Maximum display row limit</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;ID&gt;
+The post identity
+
+{1} &lt;Login&gt; ( Optional )
+Login account and leave browsing history
+[ True / False ( default ) ]
+
+{2} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;Total&gt;
+Number of posts required
+
+{1} &lt;Zone&gt;
+Forum section identity
+
+{2} &lt;Sort&gt; ( optional )
+Type of post sorting
+0 - Auto ( default )
+1 - Reply time
+2 - Posting time</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;ID&gt;
+The post identity
+
+{1} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
+    <value>Only supports chinese server
+
+{0} &lt;ID&gt;
+The post identity
+
+{1} &lt;Cancel&gt; ( optional )
+Whether to cancel the upvote
+[ True / False ( default ) ]
+
+{2} &lt;AID&gt; ( Optional )
+Hoyolab account identity
+Default to the first</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
+    <value>Unknown command : "{0}"
+Use "Help" Access Details</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
+    <value>Missing Parameter
+Use "Help &lt;Command&gt;" Access Details</value>
+  </data>
+</root>

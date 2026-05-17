@@ -2,13 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=netstandard"
-    xmlns:Converter="clr-namespace:StarRailDamage.Source.UI.Model.Converter">
-    <Converter:BooleanInversionConvert x:Key="BooleanInversionConvert"/>
-    <Converter:CharacterAttributeConverter x:Key="CharacterAttributeConverter"/>
-    <Converter:ComparableConverter x:Key="ComparableConverter"/>
-    <Converter:DoubleParseConverter x:Key="DoubleParseConverter"/>
-    <Converter:FormatStringConverter x:Key="FormatStringConverter"/>
-    <Converter:TextBindingConverter x:Key="TextBindingConverter"/>
+    xmlns:sufc="clr-namespace:StarRailDamage.Source.UI.Factory.Converter">
+    <sufc:BooleanToggle x:Key="BooleanToggle"/>
+    <sufc:ObjectComparable x:Key="ObjectComparable"/>
+    <sufc:DoubleParser x:Key="DoubleParser"/>
+    <sufc:StringFormat x:Key="StringFormat"/>
 
     <system:Double x:Key="DropFontSize">12</system:Double>
     <system:Double x:Key="MainFontSize">15</system:Double>

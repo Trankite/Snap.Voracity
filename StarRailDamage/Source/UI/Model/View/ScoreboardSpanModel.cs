@@ -1,11 +1,10 @@
-﻿using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
+﻿using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
 
 namespace StarRailDamage.Source.UI.Model.View
 {
     public class ScoreboardSpanModel : NotifyPropertyChangedFactory
     {
-        private TextBinding _Title = TextBinding.Default;
+        private string _Title = string.Empty;
 
         private double _Value;
 
@@ -13,7 +12,7 @@ namespace StarRailDamage.Source.UI.Model.View
 
         private double _Percent;
 
-        public TextBinding Title
+        public string Title
         {
             get => _Title;
             set => SetField(ref _Title, value);

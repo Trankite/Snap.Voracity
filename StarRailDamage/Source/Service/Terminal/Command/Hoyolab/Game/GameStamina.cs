@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 {
-    public class GameNoteStaminaCommand : AsyncTerminalCommand<NoteAnalyzedBody>
+    public class GameStamina : AsyncTerminalCommand<NoteAnalyzedBody>
     {
         public override string Name => "note";
 
-        public override string Help => MarkedText.HoyolabGameNoteStaminaCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabGameStaminaHelp;
 
         public override string[] Parameters => [AID];
 
@@ -38,7 +38,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NoteAnalyzedBody? Body))
             {
                 TimeSpan Offset = Body.FullTime.Subtract(DateTimeOffset.Now);
-                return TerminalResponse.Create(true, StringExtension.Format(MarkedText.HoyolabGameNoteStamina, Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);
+                return TerminalResponse.Create(true, LocalString.WebHoyolabGameStaminaContent.Format(Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);
             }
             return new TerminalResponse<NoteAnalyzedBody>(false, Response.ToString());
         }

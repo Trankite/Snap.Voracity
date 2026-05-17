@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Model.View;
+﻿using StarRailDamage.Source.UI.Model.View;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +12,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
         public FieldEntrySpan()
         {
             InitializeComponent();
+            Model = new FieldEntrySpanModel();
         }
 
         private void TextBoxGotFocus(object sender, RoutedEventArgs e)
@@ -34,7 +34,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(FieldEntrySpanModel), typeof(FieldEntrySpan), new PropertyMetadata(new FieldEntrySpanModel()));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(FieldEntrySpanModel), typeof(FieldEntrySpan));
 
         public BitmapImage Icon
         {
@@ -52,13 +52,13 @@ namespace StarRailDamage.Source.UI.Xaml.View
             }
         }
 
-        public TextBinding Title
+        public string Title
         {
-            get => (TextBinding)GetValue(TitleProperty);
+            get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(TextBinding), typeof(FieldEntrySpan), new PropertyMetadata(default(TextBinding), TitleChangedCallback));
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(FieldEntrySpan), new PropertyMetadata(default(string), TitleChangedCallback));
 
         private static void TitleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -89,13 +89,13 @@ namespace StarRailDamage.Source.UI.Xaml.View
             return (double.TryParse((string)baseValue, out double result) ? Math.Round(result, ((FieldEntrySpan)d).Digits) : 0).ToString();
         }
 
-        public TextBinding Unit
+        public string Unit
         {
-            get => (TextBinding)GetValue(UnitProperty);
+            get => (string)GetValue(UnitProperty);
             set => SetValue(UnitProperty, value);
         }
 
-        public static readonly DependencyProperty UnitProperty = DependencyProperty.Register(nameof(Unit), typeof(TextBinding), typeof(FieldEntrySpan), new PropertyMetadata(default(TextBinding), UnitChangedCallback));
+        public static readonly DependencyProperty UnitProperty = DependencyProperty.Register(nameof(Unit), typeof(string), typeof(FieldEntrySpan), new PropertyMetadata(default(string), UnitChangedCallback));
 
         private static void UnitChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -136,7 +136,5 @@ namespace StarRailDamage.Source.UI.Xaml.View
         }
 
         public static readonly DependencyProperty FocusBrushProperty = DependencyProperty.Register(nameof(FocusBrush), typeof(SolidColorBrush), typeof(FieldEntrySpan));
-
-        public override string ToString() => Text;
     }
 }

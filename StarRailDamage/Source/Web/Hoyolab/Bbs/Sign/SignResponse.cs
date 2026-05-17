@@ -7,7 +7,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Sign
     {
         public override string ToString()
         {
-            return Code == 1034 ? MarkedText.HoyolabForumSignWrong1034 : base.ToString();
+            return Code == 1034 ? LocalString.WebHoyolabForumSignFailed1034 : base.ToString();
         }
     }
 }

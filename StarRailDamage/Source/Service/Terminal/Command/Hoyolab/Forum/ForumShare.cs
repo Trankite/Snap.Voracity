@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 {
-    public class ForumPostShareCommand : AsyncTerminalCommand<ShareResponseWrapper>
+    public class ForumShare : AsyncTerminalCommand<ShareResponseWrapper>
     {
         public override string Name => "share";
 
-        public override string Help => MarkedText.HoyolabPostShareCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabForumShareHelp;
 
         public override string[] Parameters => [POSTID, AID];
 

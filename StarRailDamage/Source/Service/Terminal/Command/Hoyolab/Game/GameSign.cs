@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 {
-    public class GameSignPerformCommand : AsyncTerminalCommand<SignResponseWrapper>
+    public class GameSign : AsyncTerminalCommand<SignResponseWrapper>
     {
         public override string Name => "sign";
 
-        public override string Help => MarkedText.HoyolabGameSignCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabGameSignHelp;
 
         public override string[] Parameters => [AID];
 
@@ -38,7 +38,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
             FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
-                return TerminalResponse.Create(true, MarkedText.HoyolabGameSign, Response.Body.Content);
+                return TerminalResponse.Create(true, LocalString.WebHoyolabGameSignSuccess, Response.Body.Content);
             }
             return new TerminalResponse<SignResponseWrapper>(false, Response.ToString());
         }

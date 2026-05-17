@@ -8,11 +8,11 @@ using StarRailDamage.Source.Web.Response;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 {
-    public class ForumSignPerformCommand : AsyncTerminalCommand
+    public class ForumSign : AsyncTerminalCommand
     {
         public override string Name => "fsign";
 
-        public override string Help => MarkedText.HoyolabForumSignCommandHelp;
+        public override string Help => LocalString.ServiceTerminalHoyolabForumSignHelp;
 
         public override string[] Parameters => [GROUP, AID];
 
@@ -24,7 +24,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
         {
             if (!commandLine.TryGetEnumParameter(GROUP, out HoyolabGroup Group))
             {
-                return TerminalManage.GetInvalidParameterResponse();
+                return TerminalManage.GetUnlawfulParameterResponse();
             }
             return await AsyncInvoke(Group, commandLine.GetParameter(AID));
         }
@@ -39,7 +39,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
             FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
-                return new TerminalResponse(true, MarkedText.HoyolabForumSign);
+                return new TerminalResponse(true, LocalString.WebHoyolabForumSignSuccess);
             }
             return new TerminalResponse<SignResponseWrapper>(false, Response.ToString());
         }

@@ -3,14 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:StarRailDamage.Source.UI.Xaml.View"
-    xmlns:Control="clr-namespace:StarRailDamage.Source.UI.Xaml.Control"
-    xmlns:Panel="clr-namespace:StarRailDamage.Source.UI.Xaml.Control.Panel"
+    xmlns:suxc="clr-namespace:StarRailDamage.Source.UI.Xaml.Control"
+    xmlns:suxcp="clr-namespace:StarRailDamage.Source.UI.Xaml.Control.Panel"
+    xmlns:suxm="clr-namespace:StarRailDamage.Source.UI.Xaml.Markup"
     Focusable="True" FocusVisualStyle="{x:Null}">
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
             <Grid>
                 <Grid.Resources>
-                    <Style TargetType="{x:Type Control:ScopedTextBlock}">
+                    <Style TargetType="{x:Type suxc:ScopedTextBlock}">
                         <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}"/>
                         <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}"/>
                         <Setter Property="FontWeight" Value="{Binding FontWeight,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}"/>
@@ -26,31 +27,31 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Panel:ScopedViewBox Grid.Column="0" MaxWidth="50">
-                    <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='FormulaSpanTitle'}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
-                </Panel:ScopedViewBox>
+                <suxcp:ScopedViewBox Grid.Column="0" MaxWidth="50">
+                    <suxc:ScopedTextBlock Text="{suxm:LocalStringMarkup Name=ViewControlFormulaSpanTitle}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis"/>
+                </suxcp:ScopedViewBox>
 
-                <Control:ScopedTextBox x:Name="PART_TextBox" Grid.Column="2" CornerRadius="10" Text="{Binding Model.Text,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},Mode=TwoWay}" Background="{TemplateBinding Background}" FocusBrush="{Binding FocusBrush,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}" FontWeight="Normal" PreviewKeyDown="TextBoxPreviewKeyDown" LostFocus="TextBoxLostFocus"/>
+                <suxc:ScopedTextBox x:Name="PART_TextBox" Grid.Column="2" CornerRadius="10" Text="{Binding Model.Text,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},Mode=TwoWay}" Background="{TemplateBinding Background}" FocusBrush="{Binding FocusBrush,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}" FontWeight="Normal" PreviewKeyDown="TextBoxPreviewKeyDown" LostFocus="TextBoxLostFocus"/>
 
-                <Control:ScopedTextBlock Grid.Column="4" Text="{Binding Model.Value,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},StringFormat={}{0:0.#####}}"/>
+                <suxc:ScopedTextBlock Grid.Column="4" Text="{Binding Model.Value,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},StringFormat={}{0:0.#####}}"/>
 
                 <Popup IsOpen="{Binding Dropdown,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}},Mode=TwoWay}" AllowsTransparency="True" StaysOpen="False" Placement="Top" PopupAnimation="Fade" VerticalOffset="-10">
                     <Border CornerRadius="10" Background="{TemplateBinding Background}">
-                        <Panel:ScopedScrollViewer MaxHeight="200" Margin="10" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+                        <suxcp:ScopedScrollViewer MaxHeight="200" Margin="10" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
                             <ItemsControl ItemsSource="{Binding Items,RelativeSource={RelativeSource AncestorType={x:Type local:FormulaSpan}}}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <Panel:ScopedStackPanel Orientation="Vertical"/>
+                                        <suxcp:ScopedStackPanel Orientation="Vertical"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
                                 <ItemsControl.ItemTemplate>
                                     <ItemContainerTemplate>
-                                        <Control:ScopedButton Padding="5,1,5,1" Content="{Binding}" Focusable="False" Click="PromptItemClick"/>
+                                        <suxc:ScopedButton Padding="5,1,5,1" Content="{Binding}" Focusable="False" Click="PromptItemClick"/>
                                     </ItemContainerTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </Panel:ScopedScrollViewer>
+                        </suxcp:ScopedScrollViewer>
                     </Border>
                 </Popup>
             </Grid>

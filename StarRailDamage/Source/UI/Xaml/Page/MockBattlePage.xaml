@@ -3,9 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:StarRailDamage.Source.UI.Xaml.Control.Panel"
-    xmlns:Control="clr-namespace:StarRailDamage.Source.UI.Xaml.Control"
-    xmlns:UI="clr-namespace:StarRailDamage.Source.UI.Xaml.View"
-    xmlns:Page="clr-namespace:StarRailDamage.Source.UI.Xaml.Page">
+    xmlns:suxc="clr-namespace:StarRailDamage.Source.UI.Xaml.Control"
+    xmlns:suxv="clr-namespace:StarRailDamage.Source.UI.Xaml.View"
+    xmlns:suxm="clr-namespace:StarRailDamage.Source.UI.Xaml.Markup">
     <local:ScopedPage.DataContext>
         <Binding RelativeSource="{RelativeSource Self}"/>
     </local:ScopedPage.DataContext>
@@ -16,11 +16,11 @@
         </Grid.Background>
 
         <Grid.Resources>
-            <Style TargetType="{x:Type UI:FieldEntrySpan}" BasedOn="{StaticResource {x:Type UI:FieldEntrySpan}}">
+            <Style TargetType="{x:Type suxv:FieldEntrySpan}" BasedOn="{StaticResource {x:Type suxv:FieldEntrySpan}}">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
-            <Style TargetType="{x:Type UI:TabulateSpan}" BasedOn="{StaticResource {x:Type UI:TabulateSpan}}">
+            <Style TargetType="{x:Type suxv:TabulateSpan}" BasedOn="{StaticResource {x:Type suxv:TabulateSpan}}">
                 <Setter Property="Width" Value="320"/>
             </Style>
         </Grid.Resources>
@@ -60,40 +60,40 @@
 
             <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="10" Background="{StaticResource DropBackBrush}">
                 <local:ScopedStackPanel Orientation="Horizontal" Height="150" Margin="10" Spacing="10">
-                    <UI:HeadFrameSpan/>
-                    <UI:TabulateSpan/>
+                    <suxv:HeadFrameSpan/>
+                    <suxv:TabulateSpan/>
                 </local:ScopedStackPanel>
             </Border>
 
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Attack'}" Text="{Binding Model.CharacterAttributeModel.Attack,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="3" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Health'}" Text="{Binding Model.CharacterAttributeModel.Health,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="4" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Defense'}" Text="{Binding Model.CharacterAttributeModel.Defense,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="5" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Speed'}" Text="{Binding Model.CharacterAttributeModel.Speed,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="2" Model="{suxm:FieldEntryMarkup Name=Attack}" Text="{Binding Model.CharacterAttributeModel.Attack,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="3" Model="{suxm:FieldEntryMarkup Name=Health}" Text="{Binding Model.CharacterAttributeModel.Health,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="4" Model="{suxm:FieldEntryMarkup Name=Defense}" Text="{Binding Model.CharacterAttributeModel.Defense,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="5" Model="{suxm:FieldEntryMarkup Name=Speed}" Text="{Binding Model.CharacterAttributeModel.Speed,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="7" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='CriticalHitRate'}" Text="{Binding Model.CharacterAttributeModel.CriticalHitRate,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="8" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='CriticalHitDamage'}" Text="{Binding Model.CharacterAttributeModel.CriticalHitDamage,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="9" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElementIncrease'}" Text="{Binding Model.CharacterAttributeModel.ElementIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="10" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DefenseDecrease'}" Text="{Binding Model.CharacterAttributeModel.DefenseDecrease,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="11" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MagicalDecrease'}" Text="{Binding Model.CharacterAttributeModel.MagicalDecrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="7" Model="{suxm:FieldEntryMarkup Name=CriticalHitRate}" Text="{Binding Model.CharacterAttributeModel.CriticalHitRate,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="8" Model="{suxm:FieldEntryMarkup Name=CriticalHitDamage}" Text="{Binding Model.CharacterAttributeModel.CriticalHitDamage,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="9" Model="{suxm:FieldEntryMarkup Name=ElementIncrease}" Text="{Binding Model.CharacterAttributeModel.ElementIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="10" Model="{suxm:FieldEntryMarkup Name=DefenseDecrease}" Text="{Binding Model.CharacterAttributeModel.DefenseDecrease,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="11" Model="{suxm:FieldEntryMarkup Name=MagicalDecrease}" Text="{Binding Model.CharacterAttributeModel.MagicalDecrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
 
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="13" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='EffectHitRate'}" Text="{Binding Model.CharacterAttributeModel.EffectHitRate,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="14" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='HealingBoost'}" Text="{Binding Model.CharacterAttributeModel.HealingBoost,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="0" Grid.Row="15" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ManaReplenish'}" Text="{Binding Model.CharacterAttributeModel.ManaReplenish,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="13" Model="{suxm:FieldEntryMarkup Name=EffectHitRate}" Text="{Binding Model.CharacterAttributeModel.EffectHitRate,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="14" Model="{suxm:FieldEntryMarkup Name=HealingBoost}" Text="{Binding Model.CharacterAttributeModel.HealingBoost,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="0" Grid.Row="15" Model="{suxm:FieldEntryMarkup Name=ManaReplenish}" Text="{Binding Model.CharacterAttributeModel.ManaReplenish,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='AttackBase'}" Text="{Binding Model.CharacterAttributeModel.AttackBase,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="3" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='HealthBase'}" Text="{Binding Model.CharacterAttributeModel.HealthBase,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="4" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DefenseBase'}" Text="{Binding Model.CharacterAttributeModel.DefenseBase,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="5" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='SpeedBase'}" Text="{Binding Model.CharacterAttributeModel.SpeedBase,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="2" Model="{suxm:FieldEntryMarkup Name=AttackBase}" Text="{Binding Model.CharacterAttributeModel.AttackBase,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="3" Model="{suxm:FieldEntryMarkup Name=HealthBase}" Text="{Binding Model.CharacterAttributeModel.HealthBase,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="4" Model="{suxm:FieldEntryMarkup Name=DefenseBase}" Text="{Binding Model.CharacterAttributeModel.DefenseBase,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="5" Model="{suxm:FieldEntryMarkup Name=SpeedBase}" Text="{Binding Model.CharacterAttributeModel.SpeedBase,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="7" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakEffect'}" Text="{Binding Model.CharacterAttributeModel.BreakEffect,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="8" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakEfficiency'}" Text="{Binding Model.CharacterAttributeModel.BreakEfficiency,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="9" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='BreakIncrease'}" Text="{Binding Model.CharacterAttributeModel.BreakIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="10" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElationIncrease'}" Text="{Binding Model.CharacterAttributeModel.ElationIncrease,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="11" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ToughDecline'}" Text="{Binding Model.CharacterAttributeModel.ToughDecline,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="7" Model="{suxm:FieldEntryMarkup Name=BreakEffect}" Text="{Binding Model.CharacterAttributeModel.BreakEffect,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="8" Model="{suxm:FieldEntryMarkup Name=BreakEfficiency}" Text="{Binding Model.CharacterAttributeModel.BreakEfficiency,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="9" Model="{suxm:FieldEntryMarkup Name=BreakIncrease}" Text="{Binding Model.CharacterAttributeModel.BreakIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="10" Model="{suxm:FieldEntryMarkup Name=ElationIncrease}" Text="{Binding Model.CharacterAttributeModel.ElationIncrease,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="11" Model="{suxm:FieldEntryMarkup Name=ToughDecline}" Text="{Binding Model.CharacterAttributeModel.ToughDecline,Mode=TwoWay}"/>
 
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="13" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='EffectMagical'}" Text="{Binding Model.CharacterAttributeModel.EffectMagical,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="14" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='ElationBonus'}" Text="{Binding Model.CharacterAttributeModel.ElationBonus,Mode=TwoWay}"/>
-            <UI:FieldEntrySpan Grid.Column="1" Grid.Row="15" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MaximumEnergy'}" Text="{Binding Model.CharacterAttributeModel.MaximumEnergy,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="13" Model="{suxm:FieldEntryMarkup Name=EffectMagical}" Text="{Binding Model.CharacterAttributeModel.EffectMagical,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="14" Model="{suxm:FieldEntryMarkup Name=ElationBonus}" Text="{Binding Model.CharacterAttributeModel.ElationBonus,Mode=TwoWay}"/>
+            <suxv:FieldEntrySpan Grid.Column="1" Grid.Row="15" Model="{suxm:FieldEntryMarkup Name=MaximumEnergy}" Text="{Binding Model.CharacterAttributeModel.MaximumEnergy,Mode=TwoWay}"/>
         </Grid>
 
         <Grid Grid.Column="3" Width="560">
@@ -115,39 +115,39 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <UI:HeadFrameSpan Grid.Column="0"/>
+                    <suxv:HeadFrameSpan Grid.Column="0"/>
 
-                    <UI:TabulateSpan Grid.Column="2"/>
+                    <suxv:TabulateSpan Grid.Column="2"/>
 
                     <Border Grid.Column="4" CornerRadius="10" Background="{StaticResource MainBackBrush}">
                         <UniformGrid Columns="1" Margin="10">
                             <UniformGrid.Resources>
-                                <Style TargetType="{x:Type Control:ScopedButton}" BasedOn="{StaticResource {x:Type Control:ScopedButton}}">
+                                <Style TargetType="{x:Type suxc:ScopedButton}" BasedOn="{StaticResource {x:Type suxc:ScopedButton}}">
                                     <Setter Property="Background" Value="{StaticResource DropBackBrush}"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
                                     <Setter Property="Padding" Value="5"/>
                                 </Style>
 
-                                <Style TargetType="{x:Type Control:ScopedTextBlock}">
+                                <Style TargetType="{x:Type suxc:ScopedTextBlock}">
                                     <Setter Property="TipText" Value="{Binding Text,RelativeSource={RelativeSource Self}}"/>
                                     <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                                     <Setter Property="TipOnlyTrim" Value="True"/>
                                 </Style>
                             </UniformGrid.Resources>
 
-                            <Control:ScopedButton>
-                                <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='ButtonExport'}"/>
-                            </Control:ScopedButton>
-                            <Control:ScopedButton>
-                                <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='ButtonChange'}"/>
-                            </Control:ScopedButton>
-                            <Control:ScopedButton>
-                                <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='ButtonSave'}"/>
-                            </Control:ScopedButton>
-                            <Control:ScopedButton>
-                                <Control:ScopedTextBlock TextBinding="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='ButtonSetting'}"/>
-                            </Control:ScopedButton>
+                            <suxc:ScopedButton>
+                                <suxc:ScopedTextBlock Text="{suxm:LocalStringMarkup Name=ViewPageMockBattleActionExport}"/>
+                            </suxc:ScopedButton>
+                            <suxc:ScopedButton>
+                                <suxc:ScopedTextBlock Text="{suxm:LocalStringMarkup Name=ViewPageMockBattleActionChange}"/>
+                            </suxc:ScopedButton>
+                            <suxc:ScopedButton>
+                                <suxc:ScopedTextBlock Text="{suxm:LocalStringMarkup Name=ViewPageMockBattleActionSave}"/>
+                            </suxc:ScopedButton>
+                            <suxc:ScopedButton>
+                                <suxc:ScopedTextBlock Text="{suxm:LocalStringMarkup Name=ViewPageMockBattleActionSetting}"/>
+                            </suxc:ScopedButton>
                         </UniformGrid>
                     </Border>
                 </Grid>
@@ -172,17 +172,17 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <UI:ScoreboardSpan Grid.Column="1" Grid.Row="1" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='DamageNormal'}" Value="{Binding CharacterDamageModel.Normal}" TempValue="{Binding ComparedDamageModel.Normal}"/>
-                <UI:ScoreboardSpan Grid.Column="3" Grid.Row="1" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='DamageCritical'}" Value="{Binding CharacterDamageModel.Critical}" TempValue="{Binding ComparedDamageModel.Critical}"/>
-                <UI:ScoreboardSpan Grid.Column="5" Grid.Row="1" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='DamageElation'}" Value="{Binding CharacterDamageModel.Elation}" TempValue="{Binding ComparedDamageModel.Elation}"/>
+                <suxv:ScoreboardSpan Grid.Column="1" Grid.Row="1" Title="{suxm:LocalStringMarkup Name=CharacterFinalizeDamageNormal}" Value="{Binding CharacterDamageModel.Normal}" TempValue="{Binding ComparedDamageModel.Normal}"/>
+                <suxv:ScoreboardSpan Grid.Column="3" Grid.Row="1" Title="{suxm:LocalStringMarkup Name=CharacterFinalizeDamageCritical}" Value="{Binding CharacterDamageModel.Critical}" TempValue="{Binding ComparedDamageModel.Critical}"/>
+                <suxv:ScoreboardSpan Grid.Column="5" Grid.Row="1" Title="{suxm:LocalStringMarkup Name=CharacterFinalizeDamageElation}" Value="{Binding CharacterDamageModel.Elation}" TempValue="{Binding ComparedDamageModel.Elation}"/>
 
-                <UI:ScoreboardSpan Grid.Column="1" Grid.Row="3" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='DamageBreak'}" Value="{Binding CharacterDamageModel.Break}" TempValue="{Binding ComparedDamageModel.Break}"/>
-                <UI:ScoreboardSpan Grid.Column="3" Grid.Row="3" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='DamageSuperBreak'}" Value="{Binding CharacterDamageModel.SuperBreak}" TempValue="{Binding ComparedDamageModel.SuperBreak}"/>
-                <UI:ScoreboardSpan Grid.Column="5" Grid.Row="3" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='DamageDelay'}" Value="{Binding CharacterDamageModel.Delay}" TempValue="{Binding ComparedDamageModel.Delay}"/>
+                <suxv:ScoreboardSpan Grid.Column="1" Grid.Row="3" Title="{suxm:LocalStringMarkup Name=CharacterFinalizeDamageBreak}" Value="{Binding CharacterDamageModel.Break}" TempValue="{Binding ComparedDamageModel.Break}"/>
+                <suxv:ScoreboardSpan Grid.Column="3" Grid.Row="3" Title="{suxm:LocalStringMarkup Name=CharacterFinalizeDamageSuperBreak}" Value="{Binding CharacterDamageModel.SuperBreak}" TempValue="{Binding ComparedDamageModel.SuperBreak}"/>
+                <suxv:ScoreboardSpan Grid.Column="5" Grid.Row="3" Title="{suxm:LocalStringMarkup Name=CharacterFinalizeDamageDelay}" Value="{Binding CharacterDamageModel.Delay}" TempValue="{Binding ComparedDamageModel.Delay}"/>
             </Grid>
 
             <Border Grid.Column="0" Grid.Row="2" CornerRadius="15" Background="{StaticResource MainBackBrush}">
-                <UI:FormulaSpan Margin="10,5,10,5"/>
+                <suxv:FormulaSpan Margin="10,5,10,5"/>
             </Border>
 
             <Border Grid.Column="0" Grid.Row="4" CornerRadius="15" Background="{StaticResource DropBackBrush}">
@@ -202,18 +202,18 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <UI:HeadFrameSpan Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"/>
+                    <suxv:HeadFrameSpan Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"/>
 
-                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="0" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='WonsterLevel'}" Text="{Binding Model.CharacterAttributeModel.WonsterLevel,Mode=TwoWay}"/>
-                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="1" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MagicalIncrease'}" Text="{Binding Model.CharacterAttributeModel.MagicalIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
-                    <UI:FieldEntrySpan Grid.Column="2" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DamageIncrease'}" Text="{Binding Model.CharacterAttributeModel.DamageIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+                    <suxv:FieldEntrySpan Grid.Column="2" Grid.Row="0" Model="{suxm:FieldEntryMarkup Name=WonsterLevel}" Text="{Binding Model.CharacterAttributeModel.WonsterLevel,Mode=TwoWay}"/>
+                    <suxv:FieldEntrySpan Grid.Column="2" Grid.Row="1" Model="{suxm:FieldEntryMarkup Name=MagicalIncrease}" Text="{Binding Model.CharacterAttributeModel.MagicalIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
+                    <suxv:FieldEntrySpan Grid.Column="2" Grid.Row="2" Model="{suxm:FieldEntryMarkup Name=DamageIncrease}" Text="{Binding Model.CharacterAttributeModel.DamageIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
 
-                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="0" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='MonsterLevel'}" Text="{Binding Model.CharacterAttributeModel.MonsterLevel,Mode=TwoWay}"/>
-                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="1" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='DamageDecrease'}" Text="{Binding Model.CharacterAttributeModel.DamageDecrease,Mode=TwoWay}"/>
-                    <UI:FieldEntrySpan Grid.Column="4" Grid.Row="2" Model="{Binding Converter={StaticResource CharacterAttributeConverter},ConverterParameter='Toughness'}" Text="{Binding Model.CharacterAttributeModel.Toughness,Mode=TwoWay}"/>
+                    <suxv:FieldEntrySpan Grid.Column="4" Grid.Row="0" Model="{suxm:FieldEntryMarkup Name=MonsterLevel}" Text="{Binding Model.CharacterAttributeModel.MonsterLevel,Mode=TwoWay}"/>
+                    <suxv:FieldEntrySpan Grid.Column="4" Grid.Row="1" Model="{suxm:FieldEntryMarkup Name=DamageDecrease}" Text="{Binding Model.CharacterAttributeModel.DamageDecrease,Mode=TwoWay}"/>
+                    <suxv:FieldEntrySpan Grid.Column="4" Grid.Row="2" Model="{suxm:FieldEntryMarkup Name=Toughness}" Text="{Binding Model.CharacterAttributeModel.Toughness,Mode=TwoWay}"/>
 
                     <Border Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="3" Height="30" CornerRadius="15" Background="{StaticResource MainBackBrush}">
-                        <Control:ScopedSlider Minimum="1" Maximum="5" Margin="15,0,15,0" Value="{Binding Model.CharacterAttributeModel.MonsterCount,Mode=TwoWay}" Title="{Binding Converter={StaticResource TextBindingConverter},ConverterParameter='AttributeMonsterCount'}"/>
+                        <suxc:ScopedSlider Minimum="1" Maximum="5" Margin="15,0,15,0" Value="{Binding Model.CharacterAttributeModel.MonsterCount,Mode=TwoWay}" Title="{suxm:LocalStringMarkup Name=CharacterAttributeMonsterCount}"/>
                     </Border>
                 </Grid>
             </Border>

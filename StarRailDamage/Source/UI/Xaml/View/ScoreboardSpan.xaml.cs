@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Model.View;
+﻿using StarRailDamage.Source.UI.Model.View;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,6 +10,7 @@ namespace StarRailDamage.Source.UI.Xaml.View
         public ScoreboardSpan()
         {
             InitializeComponent();
+            Model = new ScoreboardSpanModel();
         }
 
         public ScoreboardSpanModel Model
@@ -19,15 +19,15 @@ namespace StarRailDamage.Source.UI.Xaml.View
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(ScoreboardSpanModel), typeof(ScoreboardSpan), new PropertyMetadata(new ScoreboardSpanModel()));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(ScoreboardSpanModel), typeof(ScoreboardSpan));
 
-        public TextBinding Title
+        public string Title
         {
-            get => (TextBinding)GetValue(TitleProperty);
+            get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(TextBinding), typeof(ScoreboardSpan), new PropertyMetadata(default(TextBinding), TitleChangedCallback));
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(ScoreboardSpan), new PropertyMetadata(default(string), TitleChangedCallback));
 
         private static void TitleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

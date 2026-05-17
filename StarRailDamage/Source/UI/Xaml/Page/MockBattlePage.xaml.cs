@@ -1,7 +1,7 @@
 using StarRailDamage.Source.Model.Metadata.Character.Attribute;
 using StarRailDamage.Source.Model.Metadata.Character.Damage;
 using StarRailDamage.Source.Model.Metadata.Character.Element;
-using StarRailDamage.Source.UI.Model.Page.Combat;
+using StarRailDamage.Source.UI.Model.Page;
 using StarRailDamage.Source.UI.Xaml.Control.Panel;
 using System.Windows;
 
@@ -12,6 +12,7 @@ namespace StarRailDamage.Source.UI.Xaml.Page
         public MockBattlePage()
         {
             InitializeComponent();
+            Model = new CombatPageModel();
         }
 
         public CombatPageModel Model
@@ -20,7 +21,7 @@ namespace StarRailDamage.Source.UI.Xaml.Page
             set => SetValue(ModelProperty, value);
         }
 
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(CombatPageModel), typeof(MockBattlePage), new PropertyMetadata(new CombatPageModel()));
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(CombatPageModel), typeof(MockBattlePage));
 
         public CharacterElement CharacterElement
         {

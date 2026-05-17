@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Model.Text;
-using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
+﻿using StarRailDamage.Source.UI.Factory.NotifyPropertyChanged;
 using System.Windows.Media.Imaging;
 
 namespace StarRailDamage.Source.UI.Model.View
@@ -8,17 +7,17 @@ namespace StarRailDamage.Source.UI.Model.View
     {
         private BitmapImage? _Icon;
 
-        private TextBinding _Title = TextBinding.Default;
+        private string _Title = string.Empty;
 
         private string _Text = string.Empty;
 
-        private TextBinding _Unit = TextBinding.Default;
+        private string _Unit = string.Empty;
 
         private int _Digits;
 
         public FieldEntrySpanModel() { }
 
-        public FieldEntrySpanModel(BitmapImage? icon, TextBinding title, string text, TextBinding unit, int digits)
+        public FieldEntrySpanModel(BitmapImage? icon, string title, string text, string unit, int digits)
         {
             _Icon = icon;
             _Title = title;
@@ -33,7 +32,7 @@ namespace StarRailDamage.Source.UI.Model.View
             set => SetField(ref _Icon, value);
         }
 
-        public TextBinding Title
+        public string Title
         {
             get => _Title;
             set => SetField(ref _Title, value);
@@ -45,7 +44,7 @@ namespace StarRailDamage.Source.UI.Model.View
             set => SetField(ref _Text, value);
         }
 
-        public TextBinding Unit
+        public string Unit
         {
             get => _Unit;
             set => SetField(ref _Unit, value);
