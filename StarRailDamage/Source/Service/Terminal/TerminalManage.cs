@@ -6,7 +6,6 @@ using StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game;
 using StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission;
 using StarRailDamage.Source.Service.Terminal.Command.Support;
 using System.Collections.Frozen;
-using System.Diagnostics.CodeAnalysis;
 
 namespace StarRailDamage.Source.Service.Terminal
 {
@@ -24,7 +23,7 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public static ITerminalResponse Invoke(this ITerminalCommandLine commandLine)
         {
-            if (TryGetCommand(commandLine.Name, out TerminalCommand? Command))
+            if (CommandTable.TryGetValue(commandLine.Name, out TerminalCommand? Command))
             {
                 return Command.Invoke(commandLine);
             }
@@ -41,16 +40,11 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(this ITerminalCommandLine commandLine)
         {
-            if (TryGetCommand(commandLine.Name, out TerminalCommand? Command))
+            if (CommandTable.TryGetValue(commandLine.Name, out TerminalCommand? Command))
             {
                 return await Command.AsyncInvoke(commandLine);
             }
             return GetUnknownOperationResponse(commandLine.Name);
-        }
-
-        public static bool TryGetCommand(string name, [NotNullWhen(true)] out TerminalCommand? command)
-        {
-            return CommandTable.TryGetValue(name, out command);
         }
 
         public static TerminalResponse GetUnknownOperationResponse(string commandName)

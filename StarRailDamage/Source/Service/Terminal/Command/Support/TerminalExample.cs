@@ -21,7 +21,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 const int Padding = 12;
                 if (commandLine.TryGetParameter(COMMANDNAME, out string? CommandName))
                 {
-                    if (TerminalManage.TryGetCommand(CommandName, out TerminalCommand? Command))
+                    if (TerminalManage.CommandTable.TryGetValue(CommandName, out TerminalCommand? Command))
                     {
                         TerminalManage.WriteLine(Command.Help.Format(Command.Parameters));
                         return new TerminalResponse(true);

@@ -45,26 +45,21 @@ namespace StarRailDamage.Source.Service.Terminal
         {
             for (int i = 0; i < Arguments.Count; i++)
             {
+                int Index = -1;
                 CommandLine CommandLine = new(Arguments[i]);
-                if (TerminalManage.TryGetCommand(CommandLine.Name, out TerminalCommand? Command))
+                TerminalCommand? Command = TerminalManage.CommandTable.GetValueOrDefault(CommandLine.Name);
+                while (++i < Arguments.Count && Arguments[i] != "&")
                 {
-                    int Index = -1;
-                    while (++i < Arguments.Count)
+                    if (Arguments[i].StartsWith('-'))
                     {
-                        if (Arguments[i] == "&")
+                        CommandLine.Expand[Arguments[i][1..]] = TrimQuote(Arguments.GetIndexValue(++i).NotNull());
+                    }
+                    else
+                    {
+                        string Paramater = TrimQuote(Arguments[i]);
+                        while (++Index < Command?.Parameters.Length)
                         {
-                            break;
-                        }
-                        if (Arguments[i].StartsWith('-'))
-                        {
-                            CommandLine.Expand[Arguments[i][1..]] = TrimQuote(Arguments.GetIndexValue(++i).NotNull());
-                        }
-                        else
-                        {
-                            while (++Index < Command.Parameters.Length)
-                            {
-                                if (CommandLine.Expand.TryAdd(Command.Parameters[Index], TrimQuote(Arguments[i]))) break;
-                            }
+                            if (CommandLine.Expand.TryAdd(Command.Parameters[Index], Paramater)) break;
                         }
                     }
                 }

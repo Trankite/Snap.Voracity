@@ -259,11 +259,16 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         private void SetOptimalMaskType()
         {
-            if (MaskType == MaskType.Optimal)
+            if (MaskType != MaskType.Optimal)
+            {
+                SetMaskInformation();
+            }
+            else
             {
                 int Minimum = int.MaxValue;
                 QRCodeBit[,] Original = Content;
                 QRCodeBit[,] Solution = Content;
+                MaskType Optimal = MaskType.Optimal;
                 for (int i = 1; i <= 8; i++)
                 {
                     MaskType = (MaskType)i;
@@ -275,16 +280,14 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
                     {
                         Minimum = Penalty;
                         Solution = Content;
+                        Optimal = MaskType;
                     }
                     else
                     {
+                        MaskType = Optimal;
                         Content = Solution;
                     }
                 }
-            }
-            else
-            {
-                SetMaskInformation();
             }
         }
 
