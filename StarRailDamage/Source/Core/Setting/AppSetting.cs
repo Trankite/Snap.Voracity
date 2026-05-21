@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Core.Setting
         public static string GetUserSid()
         {
             SecurityIdentifier? User = WindowsIdentity.GetCurrent().User;
-            return User.IsNotNull() ? User.ToString().LastSplit('-').Content.ToString() : Guid.NewGuid().ToString();
+            return User.IsNotNull() ? User.ToString().LastSplit('-').Start.ToString() : Guid.NewGuid().ToString();
         }
 
         static AppSetting()

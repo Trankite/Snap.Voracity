@@ -30,27 +30,15 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static string NotNull(this string? value)
-        {
-            return value ?? string.Empty;
-        }
-
-        [DebuggerStepThrough]
-        public static T[] NotNull<T>(this T[]? value)
-        {
-            return value ?? [];
-        }
-
-        [DebuggerStepThrough]
         public static T NotNull<T>(this T? value, T defaultValue)
         {
             return value ?? defaultValue;
         }
 
         [DebuggerStepThrough]
-        public static string NotNull(this string? value, object defaultValue)
+        public static T NotNull<T>(this T? value, Func<T> getter)
         {
-            return value ?? defaultValue.ToString().NotNull();
+            return value ?? getter();
         }
 
         [DebuggerStepThrough]
@@ -66,26 +54,41 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T Configure<T>(this T value, Action action)
+        public static T Configure<T>(this T value, Action action) where T : allows ref struct
         {
             action.Invoke();
             return value;
         }
 
         [DebuggerStepThrough]
-        public static T Configure<T>(this T value, Action<T> action)
+        public static T Configure<T>(this T value, Action<T> action) where T : allows ref struct
         {
             action.Invoke(value);
             return value;
         }
 
         [DebuggerStepThrough]
-        public static TSelf Configure<TSelf, TNone>(this TSelf value, TNone _) => value;
+        public static TSelf Configure<TSelf, TNone>(this TSelf value, TNone _) where TSelf : allows ref struct where TNone : allows ref struct
+        {
+            return value;
+        }
 
         [DebuggerStepThrough]
-        public static bool OutTemp<TSelf>(this TSelf value, out TSelf self) => true.Configure(self = value);
+        public static TResult Captured<TResult, TNone>(this TNone _, TResult result) where TNone : allows ref struct where TResult : allows ref struct
+        {
+            return result;
+        }
 
         [DebuggerStepThrough]
-        public static TSelf OutSelf<TSelf>(this TSelf value, out TSelf self) => self = value;
+        public static bool OutTemp<TSelf>(this TSelf value, out TSelf self) where TSelf : allows ref struct
+        {
+            return true.Configure(self = value);
+        }
+
+        [DebuggerStepThrough]
+        public static TSelf OutSelf<TSelf>(this TSelf value, out TSelf self) where TSelf : allows ref struct
+        {
+            return self = value;
+        }
     }
 }

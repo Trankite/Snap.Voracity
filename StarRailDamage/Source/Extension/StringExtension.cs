@@ -1,6 +1,5 @@
-﻿using StarRailDamage.Source.Model.DataStruct;
+﻿using StarRailDamage.Source.Model.DataStruct.Span;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -9,57 +8,45 @@ namespace StarRailDamage.Source.Extension
     public static class StringExtension
     {
         [DebuggerStepThrough]
-        public static FrozenSpan<char, char> FirstSplit(this ReadOnlySpan<char> value, char separator)
+        public static DyadicReadOnlySpan<char> FirstSplit(this ReadOnlySpan<char> value, char separator)
         {
             return value.FirstSplit(MemoryMarshal.CreateSpan(ref separator, 1));
         }
 
         [DebuggerStepThrough]
-        public static FrozenSpan<char, char> FirstSplit(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator)
+        public static DyadicReadOnlySpan<char> FirstSplit(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator)
         {
-            return value.IndexOfTry(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new FrozenSpan<char, char>(value, string.Empty);
+            return value.TryGetIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<char>(value, string.Empty);
         }
 
         [DebuggerStepThrough]
-        public static FrozenSpan<char, char> LastSplit(this ReadOnlySpan<char> value, char separator)
+        public static DyadicReadOnlySpan<char> LastSplit(this ReadOnlySpan<char> value, char separator)
         {
             return value.LastSplit(MemoryMarshal.CreateSpan(ref separator, 1));
         }
 
         [DebuggerStepThrough]
-        public static FrozenSpan<char, char> LastSplit(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator)
+        public static DyadicReadOnlySpan<char> LastSplit(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator)
         {
-            return value.LastIndexOfTry(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new FrozenSpan<char, char>(value, string.Empty);
+            return value.TryGetLastIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<char>(value, string.Empty);
         }
 
         [DebuggerStepThrough]
-        public static FrozenSpan<char, char> SplitAtWithOutSelf(this ReadOnlySpan<char> value, int index, ReadOnlySpan<char> separator)
+        public static DyadicReadOnlySpan<char> SplitAtWithOutSelf(this ReadOnlySpan<char> value, int index, ReadOnlySpan<char> separator)
         {
-            return new FrozenSpan<char, char>(value[..index], value[(index + separator.Length)..]);
+            return new DyadicReadOnlySpan<char>(value[..index], value[(index + separator.Length)..]);
         }
 
         [DebuggerStepThrough]
-        public static bool IndexOfTry(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator, out int index)
+        public static string NotNull(this string? value)
         {
-            return (index = value.IndexOf(separator)) != -1;
+            return value ?? string.Empty;
         }
 
         [DebuggerStepThrough]
-        public static bool LastIndexOfTry(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator, out int index)
+        public static string NotNull(this string? value, object defaultValue)
         {
-            return (index = value.LastIndexOf(separator)) != -1;
-        }
-
-        [DebuggerStepThrough]
-        public static char? Index(this ReadOnlySpan<char> value, int index)
-        {
-            return index >= 0 && index < value.Length ? value[index] : null;
-        }
-
-        [DebuggerStepThrough]
-        public static bool IndexTry(this ReadOnlySpan<char> value, int index, [NotNullWhen(true)] out char result)
-        {
-            return index >= 0 && index < value.Length ? true.Configure(result = value[index]) : false.Configure(result = default);
+            return value ?? defaultValue.ToString().NotNull();
         }
 
         [DebuggerStepThrough]

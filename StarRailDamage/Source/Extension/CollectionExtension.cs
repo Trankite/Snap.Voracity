@@ -9,53 +9,61 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static T? GetIndexValue<T>(this IList<T> value, int index)
         {
-            return value.TryGetIndexValue(index, out T? Result).Captured(Result);
+            return value.ElementAtOrDefault(index);
         }
 
         [DebuggerStepThrough]
         public static bool TryGetIndexValue<T>(this IList<T> value, int index, [NotNullWhen(true)] out T? result)
         {
-            if (index >= 0 && index < value.Count)
-            {
-                return true.Configure(result = value[index]);
-            }
-            return false.Configure(result = default);
+            return ObjectExtension.IsNotNull(result = value.GetIndexValue(index));
         }
 
         [DebuggerStepThrough]
         public static bool TryGetFirst<T>(this IEnumerable<T> value, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.FirstOrDefault(x => x.IsNotNull())) || false.Configure(result = default);
+            return ObjectExtension.IsNotNull(result = value.FirstOrDefault());
         }
 
         [DebuggerStepThrough]
         public static bool TryGetFirst<T>(this IEnumerable<T> value, Func<T, bool> predicate, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.FirstOrDefault(predicate)) || false.Configure(result = default);
+            return ObjectExtension.IsNotNull(result = value.FirstOrDefault(predicate));
         }
 
         [DebuggerStepThrough]
         public static bool TryGetLast<T>(this IEnumerable<T> value, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.LastOrDefault()) || false.Configure(result = default);
+            return ObjectExtension.IsNotNull(result = value.LastOrDefault());
         }
 
         [DebuggerStepThrough]
         public static bool TryGetLast<T>(this IEnumerable<T> value, Func<T, bool> predicate, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.LastOrDefault(predicate)) || false.Configure(result = default);
+            return ObjectExtension.IsNotNull(result = value.LastOrDefault(predicate));
         }
 
         [DebuggerStepThrough]
-        public static int AutoIndex(int index, int sourceLength)
+        public static bool Exists<T>(this IEnumerable<T> array, params T[] values)
         {
-            return index.Middle(0, sourceLength - 1);
+            return values.Any(array.Contains);
         }
 
         [DebuggerStepThrough]
-        public static int AutoCount(int index, int count, int sourceLength)
+        public static int AutoIndex(this Array source, int index)
         {
-            return (sourceLength - index).Middle(0, count);
+            return ObjectExtension.Middle(index, 0, source.Length - 1);
+        }
+
+        [DebuggerStepThrough]
+        public static int AutoCount(this Array source, int index, int count)
+        {
+            return ObjectExtension.Middle(source.Length - index, 0, count);
+        }
+
+        [DebuggerStepThrough]
+        public static T[] NotNull<T>(this T[]? value)
+        {
+            return value ?? [];
         }
 
         [DebuggerStepThrough]

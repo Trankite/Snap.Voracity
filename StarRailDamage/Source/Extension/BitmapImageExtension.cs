@@ -30,9 +30,12 @@ namespace StarRailDamage.Source.Extension
 
         static BitmapImageExtension()
         {
+            int Dpi = 96;
+            int Width = 32;
+            int Height = 32;
             PngBitmapEncoder Encoder = new();
             PixelFormat Format = PixelFormats.Pbgra32;
-            int Width = 10, Height = 10, Dpi = 96, Pixel = (Format.BitsPerPixel + 7) / 8;
+            int Pixel = (Format.BitsPerPixel + 7) / 8;
             Encoder.Frames.Add(BitmapFrame.Create(
                 BitmapSource.Create(
                     Width, Height, Dpi, Dpi, Format, null,

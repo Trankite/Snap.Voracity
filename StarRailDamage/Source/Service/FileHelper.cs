@@ -31,7 +31,7 @@ namespace StarRailDamage.Source.Service
         [DebuggerStepThrough]
         public static string PathOpen(string? path, bool flag)
         {
-            return flag ? PathOpen(path) : ObjectExtension.NotNull(path);
+            return flag ? PathOpen(path) : path.NotNull();
         }
     }
 }

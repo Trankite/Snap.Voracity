@@ -26,29 +26,34 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
 
         public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = null)
         {
-            ITerminalResponse<MissionAnalyzedBody> MissionState = await UserMissionInfo.AsyncInvoke(aid);
-            if (MissionState.Content.IsNull() || MissionState.Content.Surplus == 0)
+            ITerminalResponse<MissionAnalyzedBody> MissionInfo = await UserMissionInfo.AsyncInvoke(aid);
+            if (MissionInfo.Content.IsNull() || MissionInfo.Content.Surplus == 0)
             {
-                return MissionState;
+                return MissionInfo;
             }
-            for (int i = 1 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Sign) - 1; i >= 0; i--)
+            Dictionary<MissionType, int> Mission = MissionInfo.Content.Mission;
+            for (int i = 1 - Mission.GetValueOrDefault(MissionType.Sign) - 1; i >= 0; i--)
             {
                 TerminalManage.WriteLine(await ForumSign.AsyncInvoke(HoyolabGroup.StarRail, aid));
             }
-            ITerminalResponse<NewestAnalyzedBody[]> PostNews = await ForumNews.AsyncInvoke(5, ZoneType.StarRailWaitingRoom);
-            if (PostNews.Content.IsNotNull() && PostNews.Content.Length >= 5)
+            ITerminalResponse<NewestAnalyzedBody[]>? ForumNews = null;
+            if (Mission.ExistsKey(MissionType.View, MissionType.Upvote, MissionType.Share))
             {
-                for (int i = 3 - MissionState.Content.Mission.GetValueOrDefault(MissionType.View, 0xff) - 1; i >= 0; i--)
+                ForumNews = await Forum.ForumNews.AsyncInvoke(5, ZoneType.StarRailWaitingRoom);
+            }
+            if (ForumNews.IsNotNull() && ForumNews.Content.IsNotNull() && ForumNews.Content.Length >= 5)
+            {
+                for (int i = 3 - Mission.GetValueOrDefault(MissionType.View, 0xff) - 1; i >= 0; i--)
                 {
-                    TerminalManage.WriteLine(await ForumDetail.AsyncInvoke(PostNews.Content[i].PostId, true, aid));
+                    TerminalManage.WriteLine(await ForumDetail.AsyncInvoke(ForumNews.Content[i].PostId, true, aid));
                 }
-                for (int i = 5 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Upvote, 0xff) - 1; i >= 0; i--)
+                for (int i = 5 - Mission.GetValueOrDefault(MissionType.Upvote, 0xff) - 1; i >= 0; i--)
                 {
-                    TerminalManage.WriteLine(await ForumUpvote.AsyncInvoke(PostNews.Content[i].PostId, false, aid));
+                    TerminalManage.WriteLine(await ForumUpvote.AsyncInvoke(ForumNews.Content[i].PostId, false, aid));
                 }
-                for (int i = 1 - MissionState.Content.Mission.GetValueOrDefault(MissionType.Share, 0xff) - 1; i >= 0; i--)
+                for (int i = 1 - Mission.GetValueOrDefault(MissionType.Share, 0xff) - 1; i >= 0; i--)
                 {
-                    TerminalManage.WriteLine(await ForumShare.AsyncInvoke(PostNews.Content[i].PostId, aid));
+                    TerminalManage.WriteLine(await ForumShare.AsyncInvoke(ForumNews.Content[i].PostId, aid));
                 }
             }
             return await UserMissionInfo.AsyncInvoke(aid);

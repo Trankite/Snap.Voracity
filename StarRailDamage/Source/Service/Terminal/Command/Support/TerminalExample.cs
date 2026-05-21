@@ -30,7 +30,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 }
                 foreach (TerminalCommand Command in TerminalManage.CommandTable.GetValues())
                 {
-                    TerminalManage.WriteLine(Command.Name.ToUpper().PadRight(Padding) + Command.Help.FirstSplit('\n').Content.ToString());
+                    TerminalManage.WriteLine(Command.Name.ToUpper().PadRight(Padding) + Command.Help.FirstSplit('\n').Start.ToString());
                 }
             }
             return new TerminalResponse(Program.OnTerminal);

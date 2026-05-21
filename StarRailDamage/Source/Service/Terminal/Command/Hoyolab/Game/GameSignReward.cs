@@ -31,8 +31,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
             FinalizedResponse<SignHomeResponse> Response = await Factory.Create().SendAsync<SignHomeResponse>(Program.HttpClient);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out SignHomeAnalyzedBody[]? Body))
             {
-                int Index = CollectionExtension.AutoIndex(start - 1, Body.Length);
-                int Count = CollectionExtension.AutoCount(Index, total > 0 ? total : Body.Length, Body.Length);
+                int Index = Body.AutoIndex(start - 1);
+                int Count = Body.AutoCount(Index, total > 0 ? total : Body.Length);
                 SignHomeAnalyzedBody[] FindArray = new SignHomeAnalyzedBody[Count].Configure(Self => Array.Copy(Body, Index, Self, 0, Count));
                 return TerminalResponse.Create(true, string.Join('\n', FindArray.Select(SignHomeResponse.GetAwardString)), FindArray);
             }
