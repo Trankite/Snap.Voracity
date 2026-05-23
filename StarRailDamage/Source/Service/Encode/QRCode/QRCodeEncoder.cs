@@ -37,8 +37,8 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             {
                 return CapacityTable[index, Level];
             }
-            int Nearly = CapacityTable.BinarySearch(0, Count, GetValue, length);
-            return this.Configure(Version = Math.Min(Math.Abs(Nearly) + 1, 40));
+            int Neutral = CapacityTable.BinarySearch(0, Count, GetValue, length).Neutral();
+            return this.Configure(Version = Math.Min(Neutral + 1, 40));
         }
 
         public QRCodeEncoder Complete()

@@ -87,29 +87,34 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int BinarySearch<TArray, TValue>(this TArray array, int start, int length, Func<TArray, int, TValue> predicate, TValue value) where TArray : IEnumerable where TValue : IComparable<TValue>
+        public static int BinarySearch<TArray, TContent>(this TArray array, int start, int length, Func<TArray, int, TContent> predicate, TContent value) where TArray : IEnumerable where TContent : IComparable<TContent>
         {
-            int Left = start;
-            int Right = length - 1;
-            while (Left <= Right)
+            return BinarySearch(array, start, length, predicate, value, (Content, Search) => Content.CompareTo(Search));
+        }
+
+        public static int BinarySearch<TArray, TContent, TSearch>(this TArray array, int start, int length, Func<TArray, int, TContent> predicate, TSearch value, Func<TContent, TSearch, int> comparison) where TArray : IEnumerable where TSearch : allows ref struct
+        {
+            int Start = start;
+            int Ended = length - 1;
+            while (Start <= Ended)
             {
-                int Middle = Left + (Right - Left) / 2;
-                TValue Current = predicate(array, Middle);
-                int Compare = Current.CompareTo(value);
+                int Middle = Start + (Ended - Start) / 2;
+                TContent Current = predicate(array, Middle);
+                int Compare = comparison(Current, value);
                 if (Compare == 0)
                 {
                     return Middle;
                 }
                 if (Compare < 0)
                 {
-                    Left = Middle + 1;
+                    Start = Middle + 1;
                 }
                 else
                 {
-                    Right = Middle - 1;
+                    Ended = Middle - 1;
                 }
             }
-            return -Left;
+            return -Start - 1;
         }
 
         [DebuggerStepThrough]

@@ -1,36 +1,35 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Model.DataStruct.Formula.Abstraction;
-using StarRailDamage.Source.Model.DataStruct.Formula.Symbol;
 
 namespace StarRailDamage.Source.Model.DataStruct.Formula
 {
-    public abstract class Formula
+    public abstract class Formula<TFormula, TSymbol, TContent> : IFormula<TFormula, TSymbol, TContent> where TFormula : IFormula<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
     {
-        public Formula? Left { get; set; }
+        public TFormula? Start { get; set; }
 
-        public Formula? Right { get; set; }
+        public TFormula? Ended { get; set; }
 
-        public IFormulaSymbol Symbol { get; set; } = FormulaSymbol.DefaultSymbol;
+        public abstract TSymbol Symbol { get; set; }
 
-        public string? Value { get; set; }
+        public TContent? Content { get; set; }
 
-        public Formula() { }
+        protected Formula() { }
 
-        public Formula(string value)
+        protected Formula(TContent content)
         {
-            Value = value;
+            Content = content;
         }
 
-        public Formula(Formula? leftFormula, IFormulaSymbol formulaSymbol, Formula? rightFormula)
+        protected Formula(TFormula? start, TSymbol symbol, TFormula? ended)
         {
-            Left = leftFormula;
-            Symbol = formulaSymbol;
-            Right = rightFormula;
+            Start = start;
+            Symbol = symbol;
+            Ended = ended;
         }
 
         public override string ToString()
         {
-            return $"{(Left.IsNotNull() ? (Left.Symbol.Rank < Symbol.Rank ? $"( {Left} )" : Left) : Value)}{(Right.IsNotNull() ? $" {Symbol.Text} {(Symbol.Rank > Right.Symbol.Rank ? $"({Right})" : Right)}" : string.Empty)}";
+            return $"{(Start.IsNotNull() ? (Start.Symbol.Order < Symbol.Order ? $"( {Start} )" : Ended) : Content)}{(Ended.IsNotNull() ? $" {Symbol} {(Symbol.Order > Ended.Symbol.Order ? $"({Ended})" : Ended)}" : string.Empty)}";
         }
     }
 }

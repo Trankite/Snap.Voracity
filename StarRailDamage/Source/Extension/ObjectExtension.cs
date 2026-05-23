@@ -54,6 +54,9 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static bool IsNotDefault<T>(this T? value) => !value.IsDefault();
+
+        [DebuggerStepThrough]
         public static T Configure<T>(this T value, Action action) where T : allows ref struct
         {
             action.Invoke();

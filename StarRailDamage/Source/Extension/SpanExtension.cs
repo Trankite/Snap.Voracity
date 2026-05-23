@@ -18,6 +18,18 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static T? FirstOrDefault<T>(this ReadOnlySpan<T> value)
+        {
+            return value.Length == 0 ? default : value[0];
+        }
+
+        [DebuggerStepThrough]
+        public static T? LastOrDefault<T>(this ReadOnlySpan<T> value)
+        {
+            return value.Length == 0 ? default : value[^1];
+        }
+
+        [DebuggerStepThrough]
         public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator, out int index)
         {
             return (index = value.IndexOf(separator)) != -1;

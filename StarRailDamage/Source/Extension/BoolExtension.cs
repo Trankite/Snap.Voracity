@@ -10,7 +10,7 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static bool Parse(string? value)
         {
-            return bool.TryParse(value, out bool Flag) ? Flag : Convert.ToBoolean(IntExtension.Parse(value));
+            return bool.TryParse(value, out bool Flag) ? Flag : Convert.ToBoolean(IntegerExtension.Parse(value));
         }
     }
 }

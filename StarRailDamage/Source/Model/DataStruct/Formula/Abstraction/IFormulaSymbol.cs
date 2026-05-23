@@ -2,8 +2,12 @@
 {
     public interface IFormulaSymbol
     {
-        int Rank { get; init; }
+        int Order { get; }
 
-        string Text { get; }
+        string Name { get; }
+
+        bool IsBeginSymbol { get; }
+
+        bool IsEndedSymbol { get; }
     }
 }
