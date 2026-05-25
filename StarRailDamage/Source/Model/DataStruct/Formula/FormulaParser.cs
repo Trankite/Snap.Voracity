@@ -5,13 +5,16 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
 {
     public abstract class FormulaParser<TFormula, TSymbol, TContent> : IFormulaParser<TFormula, TSymbol, TContent> where TFormula : IFormula<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
     {
-        protected abstract TSymbol? MoveNextSymbol(ReadOnlySpan<char> formula);
+        protected abstract TSymbol? MoveNextSymbol(ReadOnlySpan<char> formula, ref int index);
 
         protected abstract TFormula? GetFormula(ReadOnlySpan<char> content);
 
-        protected abstract TFormula? GetFormula(TFormula? start, TSymbol symbol, TFormula? ended);
+        protected abstract TFormula? GetFormula(TFormula? ended, TSymbol symbol, TFormula? start);
 
-        protected virtual void OnPushEmptyFormula(TSymbol symbol, Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack) { }
+        protected virtual void PushSymbolSplitFormula(ReadOnlySpan<char> formula, TSymbol symbol, Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
+        {
+            formulaStack.Push(GetFormula(formula));
+        }
 
         public TFormula? Parse(ReadOnlySpan<char> formula)
         {
@@ -21,16 +24,13 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
             Stack<TFormula?> FormulaStack = new();
             while (++Index < formula.Length)
             {
-                TSymbol? Symbol = MoveNextSymbol(formula[Index..]);
+                TSymbol? Symbol = MoveNextSymbol(formula[Index..], ref Index);
                 if (Symbol.IsNotNull())
                 {
-                    FormulaStack.Push(GetFormula(formula[Offset..Index]));
-                    if (Offset == Index)
-                    {
-                        OnPushEmptyFormula(Symbol, FormulaStack, SymbolStack);
-                    }
-                    Offset = (Index += Symbol.Name.Length - 1) + 1;
+                    ReadOnlySpan<char> Context = formula[Offset..Index];
+                    PushSymbolSplitFormula(Context, Symbol, FormulaStack, SymbolStack);
                     if (!AppendSymbol(Symbol, FormulaStack, SymbolStack)) return default;
+                    Offset = (Index += Symbol.Name.Length - 1) + 1;
                 }
             }
             if (Offset < formula.Length)
@@ -48,7 +48,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
         {
             if (symbol.IsEndedSymbol)
             {
-                while (symbolStack.TryPeek(out TSymbol? Current) && !Current.IsBeginSymbol)
+                while (symbolStack.TryPeek(out TSymbol? Current) && !Current.IsStartSymbol)
                 {
                     if (!FormulaCombine(formulaStack, symbolStack)) return false;
                 }
@@ -56,9 +56,9 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
             }
             else
             {
-                if (!symbol.IsBeginSymbol)
+                if (!symbol.IsStartSymbol)
                 {
-                    while (symbolStack.TryPeek(out TSymbol? Current) && !Current.IsBeginSymbol && Current.Order >= symbol.Order)
+                    while (symbolStack.TryPeek(out TSymbol? Current) && !Current.IsStartSymbol && Current.Order >= symbol.Order)
                     {
                         if (!FormulaCombine(formulaStack, symbolStack)) return false;
                     }
@@ -68,9 +68,17 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
             return true;
         }
 
-        private bool FormulaCombine(Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
+        protected virtual bool FormulaCombine(Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
         {
-            return formulaStack.Count >= 2 && symbolStack.Count >= 1 && formulaStack.Configure(Self => Self.Push(GetFormula(Self.Pop(), symbolStack.Pop(), Self.Pop()))).Captured(true);
+            if (symbolStack.TryPop(out TSymbol? Symbol))
+            {
+                if (formulaStack.Count >= 2)
+                {
+                    formulaStack.Push(GetFormula(formulaStack.Pop(), Symbol, formulaStack.Pop()));
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             {
                 return CapacityTable[index, Level];
             }
-            int Neutral = CapacityTable.BinarySearch(0, Count, GetValue, length).Neutral();
+            int Neutral = CapacityTable.BinarySearch(0, Count, GetValue, length).GetNeutral();
             return this.Configure(Version = Math.Min(Neutral + 1, 40));
         }
 

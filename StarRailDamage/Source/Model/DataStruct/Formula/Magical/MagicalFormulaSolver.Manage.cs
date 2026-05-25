@@ -20,38 +20,40 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
 
         private static MagicalFormulaSymbol[] GetSymbolTable(params MagicalFormulaSymbol[] symbols)
         {
-            return symbols.Configure(Self => Array.Sort(Self, (Current, Pending) => Current.Name.CompareTo(Pending.Name, StringComparison.Ordinal)));
+            return symbols.Configure(Self => Array.Sort(Self, (Current, Compare) => Current.Name.CompareTo(Compare.Name, StringComparison.Ordinal)));
         }
 
         static MagicalFormulaSolver()
         {
             SymbolTable = GetSymbolTable
             (
-                new BeginMethod(),
-                new EndedMethod(),
-                new SeparatorMethod(),
-                new SetMethod(),
-                new SetAddMethod(),
-                new SetSubtractMethod(),
-                new SetMultiplyMethod(),
-                new SetDivideMethod(),
-                new OrMethod(),
-                new AndMethod(),
-                new MoreMethod(),
-                new MoreOrEqualMethod(),
-                new EqualMethod(),
-                new NotEqualMethod(),
-                new LessMethod(),
-                new LessOrEqualMethod(),
-                new AddMethod(),
-                new SubtractMethod(),
-                new MultiplyMethod(),
-                new DivideMethod(),
-                new PowerMethod(),
-                new ModuloMethod(),
-                new MaximumMethod(),
-                new MinimumMethod(),
-                new SwitchMethod()
+                new StartSymbol(),
+                new EndedSymbol(),
+                new SeparatorSymbol(),
+                new SetSymbol(),
+                new SetAddSymbol(),
+                new SetSubtractSymbol(),
+                new SetMultiplySymbol(),
+                new SetDivideSymbol(),
+                new OrSymbol(),
+                new AndSymbol(),
+                new MoreSymbol(),
+                new MoreOrEqualSymbol(),
+                new EqualSymbol(),
+                new NotEqualSymbol(),
+                new LessSymbol(),
+                new LessOrEqualSymbol(),
+                new AddSymbol(),
+                new SubtractSymbol(),
+                new MultiplySymbol(),
+                new DivideSymbol(),
+                new PowerSymbol(),
+                new NotSymbol(),
+                new HundredSymbol(),
+                new ModuloSymbol(),
+                new MaximumSymbol(),
+                new MinimumSymbol(),
+                new SwitchSymbol()
             );
         }
     }

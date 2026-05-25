@@ -6,7 +6,7 @@
 
         string Name { get; }
 
-        bool IsBeginSymbol { get; }
+        bool IsStartSymbol { get; }
 
         bool IsEndedSymbol { get; }
     }

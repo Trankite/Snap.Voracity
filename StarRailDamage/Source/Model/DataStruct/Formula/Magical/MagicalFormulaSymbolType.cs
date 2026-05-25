@@ -3,10 +3,13 @@
     [Flags]
     public enum MagicalFormulaSymbolType
     {
-        Begin = 1 << 0,
+        Start = 1 << 0,
         Ended = 1 << 1,
-        Prefix = 1 << 2,
-        Suffix = 1 << 3,
-        Method = 1 << 4
+        Separator = 1 << 2,
+        Prefix = 1 << 3,
+        Dyadic = 1 << 4,
+        Suffix = 1 << 5,
+        Affixe = Prefix | Suffix,
+        Method = 1 << 6
     }
 }

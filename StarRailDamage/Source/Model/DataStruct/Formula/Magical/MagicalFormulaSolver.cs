@@ -21,12 +21,51 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
 
         public static double GetValue(MagicalFormula? formula, Func<string, double>? getter, Func<string, double, double>? setter)
         {
-            return double.NaN;
+            if (formula.IsNull()) return double.NaN;
+            if (formula.Start.IsNull() && formula.Ended.IsNull())
+            {
+                if (formula.Content.IsNull()) return double.NaN;
+                if (string.IsNullOrEmpty(formula.Content.Target))
+                {
+                    return formula.Content.Number;
+                }
+                return getter.IsNotNull() ? getter(formula.Content.Target) : double.NaN;
+            }
+            return formula.Symbol.Method(formula, getter, setter);
         }
 
         public static double SetValue(MagicalFormula? formula, double value, Func<string, double, double>? setter)
         {
             return setter.IsNotNull() && ObjectExtension.IsNotNull(formula?.Content) ? setter(formula.Content.Target, value) : value;
+        }
+
+        public static MagicalFormula[] GetMethodContext(MagicalFormula? formula)
+        {
+            if (formula.IsNull()) return [];
+            Stack<MagicalFormula> ContextStack = [];
+            Stack<MagicalFormula> FormulaStack = new();
+            AppendDyadicFormula(formula, FormulaStack);
+            while (FormulaStack.TryPop(out MagicalFormula? Current))
+            {
+                if (Current.Symbol.IsSeparatorSymbol)
+                {
+                    AppendDyadicFormula(Current, FormulaStack);
+                }
+                else ContextStack.Push(Current);
+            }
+            return [.. ContextStack];
+        }
+
+        private static void AppendDyadicFormula(MagicalFormula formula, Stack<MagicalFormula> formulaStack)
+        {
+            if (formula.Start.IsNotNull())
+            {
+                formulaStack.Push(formula.Start);
+            }
+            if (formula.Ended.IsNotNull())
+            {
+                formulaStack.Push(formula.Ended);
+            }
         }
     }
 }

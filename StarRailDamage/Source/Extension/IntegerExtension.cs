@@ -11,7 +11,7 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int Neutral(this int value)
+        public static int GetNeutral(this int value)
         {
             return value > 0 ? value : ~value;
         }

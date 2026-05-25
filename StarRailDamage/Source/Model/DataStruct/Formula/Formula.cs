@@ -29,7 +29,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
 
         public override string ToString()
         {
-            return $"{(Start.IsNotNull() ? (Start.Symbol.Order < Symbol.Order ? $"( {Start} )" : Ended) : Content)}{(Ended.IsNotNull() ? $" {Symbol} {(Symbol.Order > Ended.Symbol.Order ? $"({Ended})" : Ended)}" : string.Empty)}";
+            return $"{(Start.IsNotNull() ? (Start.Symbol.Order < Symbol.Order ? $"({Start})" : Start) : string.Empty)}{Symbol}{(Ended.IsNotNull() ? $"{(Symbol.Order > Ended.Symbol.Order ? $"({Ended})" : Ended)}" : Content)}";
         }
     }
 }

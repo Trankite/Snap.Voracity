@@ -10,7 +10,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
 
         public abstract string Name { get; }
 
-        public abstract bool IsBeginSymbol { get; }
+        public abstract bool IsStartSymbol { get; }
 
         public abstract bool IsEndedSymbol { get; }
 
