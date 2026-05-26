@@ -19,11 +19,11 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         public string[] Parameters => [CONTENT, FILEPATH, PATHOPEN];
 
-        private const string CONTENT = "text";
+        private const string CONTENT = "i";
 
-        private const string FILEPATH = "path";
+        private const string FILEPATH = "p";
 
-        private const string PATHOPEN = "open";
+        private const string PATHOPEN = "o";
 
         public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {

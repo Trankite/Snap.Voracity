@@ -16,9 +16,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string[] Parameters => [START, TOTAL];
 
-        private const string START = "start";
+        private const string START = "s";
 
-        private const string TOTAL = "total";
+        private const string TOTAL = "t";
 
         protected override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {

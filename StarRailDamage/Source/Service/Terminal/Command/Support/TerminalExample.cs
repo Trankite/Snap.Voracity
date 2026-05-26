@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         public string[] Parameters => [COMMANDNAME];
 
-        private const string COMMANDNAME = "command";
+        private const string COMMANDNAME = "i";
 
         public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {

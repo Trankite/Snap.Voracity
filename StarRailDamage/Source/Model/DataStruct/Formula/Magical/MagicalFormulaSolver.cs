@@ -19,7 +19,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
 
         public double GetValue(MagicalFormula? formula) => GetValue(formula, Getter, Setter);
 
-        public static double GetValue(MagicalFormula? formula, Func<string, double>? getter, Func<string, double, double>? setter)
+        public static double GetValue(MagicalFormula? formula, Func<string, double>? getter = null, Func<string, double, double>? setter = null)
         {
             if (formula.IsNull()) return double.NaN;
             if (formula.Start.IsNull() && formula.Ended.IsNull())

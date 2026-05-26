@@ -16,9 +16,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string[] Parameters => [GROUP, AID];
 
-        private const string GROUP = "group";
+        private const string GROUP = "i";
 
-        private const string AID = "aid";
+        private const string AID = "u";
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {

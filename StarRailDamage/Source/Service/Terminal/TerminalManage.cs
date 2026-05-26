@@ -62,6 +62,16 @@ namespace StarRailDamage.Source.Service.Terminal
             return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionUnlawfulParameter);
         }
 
+        public static void Write(ITerminalResponse response) => Write(response.Message);
+
+        public static void Write(string? line)
+        {
+            if (Program.OnTerminal && !string.IsNullOrEmpty(line))
+            {
+                Console.Write(line);
+            }
+        }
+
         public static void WriteLine(ITerminalResponse response) => WriteLine(response.Message);
 
         public static void WriteLine(string? line)
@@ -86,6 +96,7 @@ namespace StarRailDamage.Source.Service.Terminal
                 new TerminalClear(),
                 new TerminalPause(),
                 new TerminalExite(),
+                new FormulaCycle(),
                 new QRCodeProduce(),
                 new ForumNews(),
                 new ForumDetail(),

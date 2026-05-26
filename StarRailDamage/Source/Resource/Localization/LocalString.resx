@@ -329,17 +329,9 @@
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
     <value>二维码生成
-
-{0} &lt;内容&gt;
-二维码的内容文本
-
-{1} &lt;路径&gt; ( 可选 )
-二维码的保存路径
-默认在临时文件夹
-
-{2} &lt;转到路径&gt; ( 可选 )
-是否转到资源管理器
-[ True / False ( 默认值 ) ]</value>
+[{0}]内容文本
+&lt;{1}&gt;保存路径
+&lt;{2}&gt;是否跳转 [True/False]</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExiteHelp" xml:space="preserve">
     <value>退出控制台</value>
@@ -352,37 +344,16 @@
   </data>
   <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
     <value>打印控制台文本
-
-{0} &lt;文本&gt;
-将要打印到控制台的文本</value>
+&lt;{0}&gt; 输出文本</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
     <value>命令帮助
-
-{0} &lt;命令名称&gt; ( 可选 )
-显示指定命令的参数信息
-
-以下是一些命令的示例
-
-1、指定必要的参数
-例如：help name
-将 name 作为 help 命令的参数
-
-2、使用 "&amp;" 来分隔命令
-例如：help &amp; help
-按顺序执行 2 次 help 命令
-
-3、使用 "-" 来指定选项
-例如：help -{0} name
-将 name 作为 help 命令的 {0} 参数
-
-4、使用 """ 来拼接内容
-例如：help "help name"
-将 "help name" 视为同一部分
-
-5、使用 "\" 来转义符号
-例如：help "换\n行"
-将 n 转义为换行符</value>
+&lt;{0}&gt; 命令名称
+命令的使用语法
+使用 "&amp;" 来分隔命令
+使用 "-" 来指定选项
+使用 """ 来拼接内容
+使用 "\" 来转义符号</value>
   </data>
   <data name="ServiceTerminalSupportConsoleClearHelp" xml:space="preserve">
     <value>清空控制台</value>
@@ -433,109 +404,52 @@
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
     <value>社区签到
-
-{0} &lt;社区ID&gt;
-社区的 GID
-1 - 崩坏3
-2 - 原神
-3 - 崩坏2
-4 - 未定事件簿
-5 - 大别墅
-6 - 崩坏：星穹铁道
-8 - 绝区零
-
-{1} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID
-默认使用首个账号</value>
+[{0}] 社区GID [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
+&lt;{1}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
     <value>开拓力笔记
-
-{0} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID
-默认使用首个账号</value>
+&lt;{0}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
     <value>米游币任务
-
-{0} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID，默认使用首个账号</value>
+&lt;{0}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
     <value>米游币任务状态
-
-{0} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID
-默认使用首个账号</value>
+&lt;{0}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
     <value>福利签到
-
-{0} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID
-默认使用首个账号</value>
+&lt;{0}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
     <value>签到奖励
-
-{0} &lt;起始天&gt; ( 可选 )
-从指定的起始天数开始
-
-{1} &lt;总天数&gt; ( 可选 )
-最多显示的行上限</value>
+&lt;{0}&gt; 起始天数
+&lt;{1}&gt; 天数总和</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
     <value>浏览帖子
-
-{0} &lt;帖子ID&gt;
-帖子对应的ID
-
-{1} &lt;登录&gt; ( 可选 )
-登录账号以保留浏览记录
-[ True / False ( 默认值 ) ]
-
-{2} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID
-默认使用首个账号</value>
+[{0}] 帖子ID
+&lt;{1}&gt; 是否登录 [True/False]
+&lt;{2}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
     <value>最近帖子列表
-
-{0} &lt;数量&gt;
-需要的帖子数量
-
-{1} &lt;分区ID&gt;
-帖子所在分区的ID
-
-{2} &lt;排序&gt; ( 可选 )
-帖子排序类别
-0 - 不指定 ( 默认值 )
-1 - 回复时间
-2 - 发布时间</value>
+[{0}] 帖子数量
+[{1}] 分区ID
+&lt;{2}&gt; 排序方式 [0-不指定,1-回复时间,2-发布时间]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
     <value>帖子分享
-
-{0} &lt;帖子ID&gt;
-帖子对应的ID
-
-{1} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID
-默认使用首个账号</value>
+[{0}] 帖子ID
+&lt;{1}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
     <value>帖子点赞
-
-{0} &lt;帖子ID&gt;
-帖子对应的ID
-
-{1} &lt;取消点赞&gt; ( 可选 )
-是否取消对帖子的点赞
-[ True / False ( 默认值 ) ]
-
-{2} &lt;账号AID&gt; ( 可选 )
-米游社账号的 AID
-默认使用首个账号</value>
+[{0}] 帖子ID
+&lt;{1}&gt; 取消点赞 [True/False]
+&lt;{2}&gt; 账号AID</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
     <value>未知的命令："{0}"
@@ -544,5 +458,12 @@
   <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
     <value>缺少必要参数
 使用 "Help &lt;命令名称&gt;" 查看帮助</value>
+  </data>
+  <data name="ServiceTerminalCycleHelpContent" xml:space="preserve">
+    <value>&lt;{0}&gt; 输入内容
+&lt;{1}&gt; 退出循环 [True/False]</value>
+  </data>
+  <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
+    <value>算式运算</value>
   </data>
 </root>

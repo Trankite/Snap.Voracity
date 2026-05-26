@@ -16,11 +16,11 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string[] Parameters => [POSTID, ISCANCEL, AID];
 
-        private const string POSTID = "id";
+        private const string POSTID = "i";
 
-        private const string ISCANCEL = "cancel";
+        private const string ISCANCEL = "c";
 
-        private const string AID = "aid";
+        private const string AID = "u";
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {

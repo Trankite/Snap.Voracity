@@ -329,17 +329,9 @@
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
     <value>Generate quick response code
-
-{0} &lt;Text&gt;
-Quick response code content
-
-{1} &lt;Path&gt; ( Optional )
-The saving path of the quick response code
-Default temp path
-
-{2} &lt;Open&gt; ( Optional )
-Open the path in explorer
-[ True / False ( Default ) ]</value>
+[{0}]Content text
+&lt;{1}&gt;Saving path
+&lt;{2}&gt;Open the path [True/False]</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExiteHelp" xml:space="preserve">
     <value>Exit application</value>
@@ -352,38 +344,16 @@ Open the path in explorer
   </data>
   <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
     <value>Print to console
-
-{0} &lt;Text&gt;
-Text printed to the console</value>
+&lt;{0}&gt; Text printed to the console</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
-    <value>All command help
-
-{0} &lt;Command&gt;?
-
-Command parameter help
-
-Below are some examples of commands
-
-1. Specify the necessary parameters
-For example: help name
-Take name as a parameter for the help command
-
-2. Use "&amp;" to separate commands
-For example: help &amp; help
-Execute the "help" command twice in sequence
-
-3. Use "-" to specify options
-For example: help -{0} name
-Use name as the {0} parameter for the help command
-
-4. Use """ to concatenate content
-For example: help "help name"
-Treat "help name" as part of the same section
-
-5. Use "\" to escape symbols
-For example: help "wrap\nline"
-Escape n as a newline character</value>
+    <value>Command help
+&lt;{0}&gt; Command name
+Usage syntax of commands
+Use "&amp;" to separate commands
+Use "-" to specify options
+Use """ to concatenate content
+Use "\" to escape symbols</value>
   </data>
   <data name="ServiceTerminalSupportConsoleClearHelp" xml:space="preserve">
     <value>Clear console</value>
@@ -433,111 +403,53 @@ Please login and try again</value>
     <value>No game account found : "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;GID&gt;
- Community's GID
-1 - Honkai 3
-2 - Genshin
-3 - Honkai 2
-4 - Tears of Themis
-5 - Grand Villa
-6 - Honkai: Star Rail
-8 - Zenless Zone Zero
-
-{1} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>Community sign
+[{0}] Community'sGID [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
+&lt;{1}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>Stamina note
+&lt;{0}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>User mission
+&lt;{0}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>User mission state
+&lt;{0}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>Welfare sign
+&lt;{0}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;Start&gt; ( Optional )
-Start from the starting number
-
-{1} &lt;Total&gt; ( Optional )
-Maximum display row limit</value>
+    <value>Welfare sgin reward
+&lt;{0}&gt; Starting number
+&lt;{1}&gt; Maximum number</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;ID&gt;
-The post identity
-
-{1} &lt;Login&gt; ( Optional )
-Login account and leave browsing history
-[ True / False ( default ) ]
-
-{2} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>Browse posts
+[{0}] Post identity
+&lt;{1}&gt; Check login state [True/False]
+&lt;{2}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;Total&gt;
-Number of posts required
-
-{1} &lt;Zone&gt;
-Forum section identity
-
-{2} &lt;Sort&gt; ( optional )
-Type of post sorting
-0 - Auto ( default )
-1 - Reply time
-2 - Posting time</value>
+    <value>Recent post list
+[{0}] Number of posts
+[{1}] Section identity
+&lt;{2}&gt; Sorting type [0-Auto,1-Reply,2-Posting]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;ID&gt;
-The post identity
-
-{1} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>Post sharing
+[{0}] Post identity
+&lt;{1}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>Only supports chinese server
-
-{0} &lt;ID&gt;
-The post identity
-
-{1} &lt;Cancel&gt; ( optional )
-Whether to cancel the upvote
-[ True / False ( default ) ]
-
-{2} &lt;AID&gt; ( Optional )
-Hoyolab account identity
-Default to the first</value>
+    <value>Post upvoting
+[{0}] Post identity
+&lt;{1}&gt; Cancel the upvote [True/False]
+&lt;{2}&gt; Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
     <value>Unknown command : "{0}"
@@ -546,5 +458,12 @@ Use "Help" Access Details</value>
   <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
     <value>Missing Parameter
 Use "Help &lt;Command&gt;" Access Details</value>
+  </data>
+  <data name="ServiceTerminalCycleHelpContent" xml:space="preserve">
+    <value>&lt;{0}&gt; Input content
+&lt;{1}&gt; Exit the loop [True/False]</value>
+  </data>
+  <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
+    <value>Arithmetic operations</value>
   </data>
 </root>

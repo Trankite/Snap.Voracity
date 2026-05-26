@@ -16,7 +16,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string[] Parameters => [AID];
 
-        private const string AID = "aid";
+        private const string AID = "u";
 
         protected override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {

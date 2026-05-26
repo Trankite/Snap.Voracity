@@ -40,9 +40,14 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
         {
             if (symbolStack.TryPop(out MagicalFormulaSymbol? Symbol))
             {
-                if (formulaStack.Count >= 1)
+                if (formulaStack.Count >= 2)
                 {
-                    formulaStack.Push(GetFormula(formulaStack.Count >= 2 ? formulaStack.Pop() : null, Symbol, formulaStack.Pop()));
+                    formulaStack.Push(GetFormula(formulaStack.Pop(), Symbol, formulaStack.Pop()));
+                    return true;
+                }
+                else if (formulaStack.Count >= 1 && Symbol.IsSuffixSymbol)
+                {
+                    formulaStack.Push(GetFormula(null, Symbol, formulaStack.Pop()));
                     return true;
                 }
             }
