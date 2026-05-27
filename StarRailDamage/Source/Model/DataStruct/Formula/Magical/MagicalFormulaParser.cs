@@ -24,34 +24,21 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
             return MagicalFormulaSolver.SearchSymbol(formula);
         }
 
-        protected override void PushSymbolSplitFormula(ReadOnlySpan<char> formula, MagicalFormulaSymbol symbol, Stack<MagicalFormula?> formulaStack, Stack<MagicalFormulaSymbol> symbolStack)
+        protected override void AppendSplitFormula(ReadOnlySpan<char> formula, MagicalFormulaSymbol symbol, Stack<MagicalFormula?> formulaStack, Stack<MagicalFormulaSymbol> symbolStack)
         {
             if (formula.Length == 0 && !symbol.IsPrefixSymbol)
             {
-                if (symbolStack.TryPeek(out MagicalFormulaSymbol? Current))
-                {
-                    if (!Current.IsSuffixSymbol) return;
-                }
+                if (!symbolStack.TryPeek(out MagicalFormulaSymbol? Current) || !Current.IsSuffixSymbol) return;
             }
-            base.PushSymbolSplitFormula(formula, symbol, formulaStack, symbolStack);
+            base.AppendSplitFormula(formula, symbol, formulaStack, symbolStack);
         }
 
-        protected override bool FormulaCombine(Stack<MagicalFormula?> formulaStack, Stack<MagicalFormulaSymbol> symbolStack)
+        protected override void AppendEndedFormula(ReadOnlySpan<char> formula, Stack<MagicalFormula?> formulaStack, Stack<MagicalFormulaSymbol> symbolStack)
         {
-            if (symbolStack.TryPop(out MagicalFormulaSymbol? Symbol))
+            if (formula.Length != 0 || symbolStack.TryPeek(out MagicalFormulaSymbol? Symbol) && Symbol.IsSuffixSymbol)
             {
-                if (formulaStack.Count >= 2)
-                {
-                    formulaStack.Push(GetFormula(formulaStack.Pop(), Symbol, formulaStack.Pop()));
-                    return true;
-                }
-                else if (formulaStack.Count >= 1 && Symbol.IsSuffixSymbol)
-                {
-                    formulaStack.Push(GetFormula(null, Symbol, formulaStack.Pop()));
-                    return true;
-                }
+                formulaStack.Push(GetFormula(formula));
             }
-            return false;
         }
     }
 }

@@ -11,9 +11,17 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
 
         protected abstract TFormula? GetFormula(TFormula? ended, TSymbol symbol, TFormula? start);
 
-        protected virtual void PushSymbolSplitFormula(ReadOnlySpan<char> formula, TSymbol symbol, Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
+        protected virtual void AppendSplitFormula(ReadOnlySpan<char> formula, TSymbol symbol, Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
         {
             formulaStack.Push(GetFormula(formula));
+        }
+
+        protected virtual void AppendEndedFormula(ReadOnlySpan<char> formula, Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
+        {
+            if (formula.Length != 0)
+            {
+                formulaStack.Push(GetFormula(formula));
+            }
         }
 
         public TFormula? Parse(ReadOnlySpan<char> formula)
@@ -28,14 +36,14 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
                 if (Symbol.IsNotNull())
                 {
                     ReadOnlySpan<char> Context = formula[Offset..Index];
-                    PushSymbolSplitFormula(Context, Symbol, FormulaStack, SymbolStack);
+                    AppendSplitFormula(Context, Symbol, FormulaStack, SymbolStack);
                     if (!AppendSymbol(Symbol, FormulaStack, SymbolStack)) return default;
                     Offset = (Index += Symbol.Name.Length - 1) + 1;
                 }
             }
-            if (Offset < formula.Length)
+            if (Offset <= formula.Length)
             {
-                FormulaStack.Push(GetFormula(formula[Offset..formula.Length]));
+                AppendEndedFormula(formula[Offset..formula.Length], FormulaStack, SymbolStack);
             }
             while (SymbolStack.Count >= 1)
             {
@@ -68,9 +76,9 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
             return true;
         }
 
-        protected virtual bool FormulaCombine(Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
+        private bool FormulaCombine(Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
         {
-            if (symbolStack.TryPop(out TSymbol? Symbol))
+            if (symbolStack.TryPop(out TSymbol? Symbol) && !Symbol.IsStartSymbol)
             {
                 if (formulaStack.Count >= 2)
                 {

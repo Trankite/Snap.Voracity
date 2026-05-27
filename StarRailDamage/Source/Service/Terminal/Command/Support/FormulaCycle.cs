@@ -1,4 +1,5 @@
-﻿using StarRailDamage.Source.Model.DataStruct.Formula.Magical;
+﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Model.DataStruct.Formula.Magical;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 
@@ -14,8 +15,12 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
         {
             MagicalFormulaParser FormulaParser = new();
             MagicalFormula? Formula = FormulaParser.Parse(line);
-            double Number = MagicalFormulaSolver.GetValue(Formula);
-            return new TerminalResponse(true, $"{Formula} = {Number}");
+            if (Formula.IsNotNull())
+            {
+                double Number = MagicalFormulaSolver.GetValue(Formula);
+                return new TerminalResponse(true, $"{Formula} = {Number}");
+            }
+            return new TerminalResponse(false);
         }
     }
 }

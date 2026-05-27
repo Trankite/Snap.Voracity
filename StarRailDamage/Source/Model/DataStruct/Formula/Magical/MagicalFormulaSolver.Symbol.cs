@@ -420,7 +420,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
 
             protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.GetIndexValue(Convert.ToInt32(GetValue(context.FirstOrDefault(), getter, setter))), getter, setter);
+                return GetValue(context.SplitAt(1).Ended.GetIndexValue(Convert.ToInt32(GetValue(context.FirstOrDefault(), getter, setter))), getter, setter);
             }
         }
     }

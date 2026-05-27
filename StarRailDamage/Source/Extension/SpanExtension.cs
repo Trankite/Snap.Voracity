@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using StarRailDamage.Source.Model.DataStruct.Span;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace StarRailDamage.Source.Extension
@@ -6,15 +7,15 @@ namespace StarRailDamage.Source.Extension
     public static class SpanExtension
     {
         [DebuggerStepThrough]
-        public static Span<T> Ceiling<T>(this Span<T> span, int length)
+        public static DyadicSpan<T> SplitAt<T>(this Span<T> span, int index)
         {
-            return span.Length > length ? span[..length] : span;
+            return span.Length > index ? new DyadicSpan<T>(span[..index], span[index..]) : new DyadicSpan<T>(span, []);
         }
 
         [DebuggerStepThrough]
-        public static ReadOnlySpan<T> Ceiling<T>(this ReadOnlySpan<T> span, int length)
+        public static DyadicReadOnlySpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index)
         {
-            return span.Length > length ? span[..length] : span;
+            return span.Length > index ? new DyadicReadOnlySpan<T>(span[..index], span[index..]) : new DyadicReadOnlySpan<T>(span, []);
         }
 
         [DebuggerStepThrough]

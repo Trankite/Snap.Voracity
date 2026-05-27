@@ -56,10 +56,9 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             return new QRCode(EncodeModeExtension.CreateEncoder(mode).SetECCodeLevel(level).SetVersion(version).Complete(), mask).Complete(content);
         }
 
-        private QRCode Complete(ReadOnlySpan<byte> content)
+        private QRCode Complete(byte[] content)
         {
-            Initialize(content.Ceiling(Capacity));
-            return this;
+            return this.Configure(Self => Self.Initialize(content.AsSpan().SplitAt(Capacity).Start));
         }
 
         private void Initialize(ReadOnlySpan<byte> content)
