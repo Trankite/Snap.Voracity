@@ -52,7 +52,14 @@ namespace StarRailDamage.Source.Service.Terminal
                 {
                     if (Arguments[i].StartsWith('-'))
                     {
-                        CommandLine.Expand[Arguments[i][1..]] = TrimQuote(Arguments.GetIndexValue(++i).NotNull());
+                        if (Arguments[i].StartsWith("--"))
+                        {
+                            CommandLine.Expand[Arguments[i][2..]] = Convert.ToString(true);
+                        }
+                        else
+                        {
+                            CommandLine.Expand[Arguments[i][1..]] = TrimQuote(Arguments.GetIndexValue(++i).NotNull());
+                        }
                     }
                     else
                     {

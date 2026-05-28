@@ -8,15 +8,11 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
         {
             for (int i = 0; i < data.Length; i++)
             {
-                byte Current = data[i];
-                if (Current < '0' || Current > '9')
+                if (data[i] < '0' || data[i] > '9')
                 {
-                    while (++i < data.Length)
+                    while (i < data.Length)
                     {
-                        if (!AlphaEncoder.IsValid(data[i]))
-                        {
-                            return EncodeMode.Byte;
-                        }
+                        if (!AlphaEncoder.IsValid(data[i++])) return EncodeMode.Byte;
                     }
                     return EncodeMode.Alphanumeric;
                 }
