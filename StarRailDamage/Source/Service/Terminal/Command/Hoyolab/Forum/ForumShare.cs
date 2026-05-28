@@ -16,9 +16,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string[] Parameters => [POSTID, AID];
 
-        private const string POSTID = "i";
+        private const string POSTID = "id";
 
-        private const string AID = "u";
+        private const string AID = "aid";
 
         protected override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {

@@ -4,7 +4,7 @@
     {
         public double Number { get; set; }
 
-        public string Target { get; set; } = string.Empty;
+        public string? Target { get; set; }
 
         public MagicalFormulaContent() { }
 
@@ -13,7 +13,7 @@
             Number = number;
         }
 
-        public MagicalFormulaContent(string target)
+        public MagicalFormulaContent(string? target)
         {
             Target = target;
         }

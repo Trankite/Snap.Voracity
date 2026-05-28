@@ -16,11 +16,11 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string[] Parameters => [PAGESIZE, ZONETYPE, SORTTYPE];
 
-        private const string PAGESIZE = "c";
+        private const string PAGESIZE = "size";
 
-        private const string ZONETYPE = "z";
+        private const string ZONETYPE = "zone";
 
-        private const string SORTTYPE = "s";
+        private const string SORTTYPE = "sort";
 
         protected override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {

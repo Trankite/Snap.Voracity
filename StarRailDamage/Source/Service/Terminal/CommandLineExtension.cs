@@ -15,9 +15,9 @@ namespace StarRailDamage.Source.Service.Terminal
             return BoolExtension.Parse(commandLine.GetParameter(name));
         }
 
-        public static int GetIntParameter(this ITerminalCommandLine commandLine, string name)
+        public static int GetIntParameter(this ITerminalCommandLine commandLine, string name, int defaultValue = 0)
         {
-            return IntegerExtension.Parse(commandLine.GetParameter(name));
+            return commandLine.TryGetParameter(name, out string? IntString) ? IntegerExtension.Parse(IntString) : defaultValue;
         }
 
         public static bool TryGetEnumParameter<T>(this ITerminalCommandLine commandLine, string name, out T result) where T : struct, Enum

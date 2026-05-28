@@ -329,9 +329,14 @@
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
     <value>Generate quick response code
-[{0}]Content text
-&lt;{1}&gt;Saving path
-&lt;{2}&gt;Open the path [True/False]</value>
+&lt;{0}&gt; Content text (Required)
+&lt;{1}&gt; Saving path (%Temp%)
+&lt;{2}&gt; File format [Png | Jpg | Bmp | Svg]
+&lt;{3}&gt; Foreground (#000000)
+&lt;{4}&gt; Background (#FFFFFF)
+&lt;{5}&gt; Pixel size (5)
+&lt;{6}&gt; Padding (20)
+&lt;{7}&gt; Open the path [True | False]</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExiteHelp" xml:space="preserve">
     <value>Exit application</value>
@@ -348,7 +353,7 @@
   </data>
   <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
     <value>Command help
-&lt;{0}&gt; Command name
+&lt;{0}&gt; Command name (Empty)
 Usage syntax of commands
 Use "&amp;" to separate commands
 Use "-" to specify options
@@ -404,52 +409,52 @@ Please login and try again</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
     <value>Community sign
-[{0}] Community'sGID [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
-&lt;{1}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Community'sGID (Required) [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
+&lt;{1}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
     <value>Stamina note
-&lt;{0}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
     <value>User mission
-&lt;{0}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
     <value>User mission state
-&lt;{0}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
     <value>Welfare sign
-&lt;{0}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
     <value>Welfare sgin reward
-&lt;{0}&gt; Starting number
-&lt;{1}&gt; Maximum number</value>
+&lt;{0}&gt; Starting number (0)
+&lt;{1}&gt; Maximum number (31)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
     <value>Browse posts
-[{0}] Post identity
-&lt;{1}&gt; Check login state [True/False]
-&lt;{2}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Post identity (Required)
+&lt;{1}&gt; Check login state [True | False]
+&lt;{2}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
     <value>Recent post list
-[{0}] Number of posts
-[{1}] Section identity
+&lt;{0}&gt; Number of posts (Required)
+&lt;{1}&gt; Section identity (Required)
 &lt;{2}&gt; Sorting type [0-Auto,1-Reply,2-Posting]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
     <value>Post sharing
-[{0}] Post identity
-&lt;{1}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Post identity (Required)
+&lt;{1}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
     <value>Post upvoting
-[{0}] Post identity
-&lt;{1}&gt; Cancel the upvote [True/False]
-&lt;{2}&gt; Hoyolab account identity</value>
+&lt;{0}&gt; Post identity (Required)
+&lt;{1}&gt; Cancel the upvote [True | False]
+&lt;{2}&gt; Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
     <value>Unknown command : "{0}"
@@ -460,8 +465,8 @@ Use "Help" Access Details</value>
 Use "Help &lt;Command&gt;" Access Details</value>
   </data>
   <data name="ServiceTerminalCycleHelpContent" xml:space="preserve">
-    <value>&lt;{0}&gt; Input content
-&lt;{1}&gt; Exit the loop [True/False]</value>
+    <value>&lt;{0}&gt; Input content (Empty)
+&lt;{1}&gt; Exit the loop [True | False]</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
     <value>Arithmetic operations</value>

@@ -36,7 +36,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
 
         public static double SetValue(MagicalFormula? formula, double value, Func<string, double, double>? setter)
         {
-            return setter.IsNotNull() && ObjectExtension.IsNotNull(formula?.Content) ? setter(formula.Content.Target, value) : value;
+            return setter.IsNotNull() && !string.IsNullOrEmpty(formula?.Content?.Target) ? setter(formula.Content.Target, value) : value;
         }
 
         public static MagicalFormula[] GetMethodContext(MagicalFormula? formula)

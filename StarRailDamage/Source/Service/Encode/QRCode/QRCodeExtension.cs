@@ -19,16 +19,16 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             return qrcode.GetBitmap(Color.Black, Color.White, pixelSize, padding);
         }
 
-        public static Bitmap GetBitmap(this QRCode qrcode, Color black, Color white, int pixelSize = PIXEL, int padding = PADDING)
+        public static Bitmap GetBitmap(this QRCode qrcode, Color foreground, Color background, int pixelSize = PIXEL, int padding = PADDING)
         {
             int Size = padding * 2 + qrcode.Size * pixelSize;
             Bitmap Bitmap = new(Size, Size, PixelFormat.Format32bppArgb);
             try
             {
-                using Brush Brush = new SolidBrush(black);
+                using Brush Brush = new SolidBrush(foreground);
                 using Graphics Graphic = Graphics.FromImage(Bitmap);
                 Graphic.CompositingMode = CompositingMode.SourceCopy;
-                Graphic.Clear(white);
+                Graphic.Clear(background);
                 for (int x = 0; x < qrcode.Size; x++)
                 {
                     for (int y = 0; y < qrcode.Size; y++)
@@ -52,7 +52,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             qrcode.SaveToSvg(stream, Color.Black, Color.White, pixelSize, padding);
         }
 
-        public static void SaveToSvg(this QRCode qrcode, Stream stream, Color black, Color white, int pixelSize = PIXEL, int padding = PADDING)
+        public static void SaveToSvg(this QRCode qrcode, Stream stream, Color foreground, Color background, int pixelSize = PIXEL, int padding = PADDING)
         {
             const string LINKNAME = "i";
             const string WIDTHNAME = "width";
@@ -69,14 +69,14 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             Writer.WriteStartElement("rect");
             Writer.WriteAttributeString(WIDTHNAME, $"{Size}");
             Writer.WriteAttributeString(HEIGHTNAME, $"{Size}");
-            Writer.WriteAttributeString("fill", ColorTranslator.ToHtml(white));
+            Writer.WriteAttributeString("fill", ColorTranslator.ToHtml(background));
             Writer.WriteEndElement();
             Writer.WriteStartElement("defs");
             Writer.WriteStartElement("rect");
             Writer.WriteAttributeString("id", LINKNAME);
             Writer.WriteAttributeString(WIDTHNAME, $"{pixelSize}");
             Writer.WriteAttributeString(HEIGHTNAME, $"{pixelSize}");
-            Writer.WriteAttributeString("fill", ColorTranslator.ToHtml(black));
+            Writer.WriteAttributeString("fill", ColorTranslator.ToHtml(foreground));
             Writer.WriteEndElement();
             Writer.WriteEndElement();
             Writer.WriteStartElement("g");
