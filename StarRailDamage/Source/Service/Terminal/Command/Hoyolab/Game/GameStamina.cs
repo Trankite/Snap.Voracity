@@ -12,6 +12,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
     {
         public override string Name => "note";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabGameStaminaFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabGameStaminaHelp;
 
         public override string[] Parameters => [AID];

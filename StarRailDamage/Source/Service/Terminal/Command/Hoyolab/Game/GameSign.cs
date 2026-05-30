@@ -12,6 +12,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
     {
         public override string Name => "sign";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabGameSignFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabGameSignHelp;
 
         public override string[] Parameters => [AID];

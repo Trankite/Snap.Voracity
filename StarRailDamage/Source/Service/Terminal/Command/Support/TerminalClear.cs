@@ -8,7 +8,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
     {
         public string Name => "clear";
 
-        public string Help => LocalString.ServiceTerminalSupportConsoleClearHelp;
+        public string FullName => LocalString.ServiceTerminalSupportConsoleClearFullName;
+
+        public string Help => string.Empty;
 
         public string[] Parameters => [];
 

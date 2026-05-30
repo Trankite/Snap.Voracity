@@ -12,6 +12,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "fsign";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabForumSignFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabForumSignHelp;
 
         public override string[] Parameters => [GROUP, AID];

@@ -7,7 +7,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
     {
         public string Name => "pause";
 
-        public string Help => LocalString.ServiceTerminalSupportConsolePauseHelp;
+        public string FullName => LocalString.ServiceTerminalSupportConsolePauseFullName;
+
+        public string Help => string.Empty;
 
         public string[] Parameters => [];
 
@@ -15,7 +17,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
         {
             if (Program.OnTerminal)
             {
-                Console.WriteLine(LocalString.ServiceTerminalSupportConsolePause);
+                Console.WriteLine(LocalString.ServiceTerminalSupportConsolePauseContent);
                 Console.ReadKey(false);
             }
             return new TerminalResponse(Program.OnTerminal);

@@ -9,15 +9,19 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
 
         public string[] Parameters => [INPUT, ISEXIT];
 
-        public string Help => string.Join(Environment.NewLine, HelpOverride, LocalString.ServiceTerminalCycleHelpContent);
+        public string Help => LocalString.ServiceTerminalCycleHelp;
+
+        public abstract string FullName { get; }
 
         protected abstract string HelpOverride { get; }
 
-        private const string INPUT = "i";
+        private const string INPUT = "text";
 
-        private const string ISEXIT = "e";
+        private const string ISEXIT = "exit";
 
         private const string ENDSYMBOL = "end";
+
+        private const string HELPSYMBOL = "help";
 
         protected abstract ITerminalResponse InvokeOverride(string line);
 
@@ -35,7 +39,14 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
                 {
                     if (!string.IsNullOrEmpty(Current))
                     {
-                        TerminalManage.WriteLine(InvokeOverride(Current));
+                        if (Current.Equals(HELPSYMBOL, StringComparison.OrdinalIgnoreCase))
+                        {
+                            TerminalManage.WriteLine(HelpOverride);
+                        }
+                        else
+                        {
+                            TerminalManage.WriteLine(InvokeOverride(Current));
+                        }
                     }
                     TerminalManage.Write(Header);
                     Current = Console.ReadLine().NotNull();

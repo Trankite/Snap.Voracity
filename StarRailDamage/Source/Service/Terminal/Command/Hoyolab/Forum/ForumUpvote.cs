@@ -12,6 +12,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "upvote";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabForumUpvoteFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabForumUpvoteHelp;
 
         public override string[] Parameters => [POSTID, ISCANCEL, AID];

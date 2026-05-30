@@ -12,6 +12,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "share";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabForumShareFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabForumShareHelp;
 
         public override string[] Parameters => [POSTID, AID];

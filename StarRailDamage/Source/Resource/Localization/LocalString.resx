@@ -328,39 +328,46 @@
     <value>确认</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>二维码生成
-&lt;{0}&gt; 内容文本 (必须)
+    <value>&lt;{0}&gt; 内容文本 (必须)
 &lt;{1}&gt; 保存路径 (%Temp%)
-&lt;{2}&gt; 文件格式 [Png | Jpg | Bmp | Svg]
+&lt;{2}&gt; 文件格式 [Png|Jpg|Bmp|Svg]
 &lt;{3}&gt; 前景色 (#000000)
 &lt;{4}&gt; 背景色 (#FFFFFF)
 &lt;{5}&gt; 单格像素 (5)
 &lt;{6}&gt; 填充边距 (20)
-&lt;{7}&gt; 是否跳转 [True | False]</value>
+&lt;{7}&gt; 是否跳转 [True|False]</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleExiteHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeProduceFullName" xml:space="preserve">
+    <value>二维码生成</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleExiteFullName" xml:space="preserve">
     <value>退出控制台</value>
   </data>
-  <data name="ServiceTerminalSupportConsolePauseHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsolePauseFullName" xml:space="preserve">
     <value>等待输入</value>
   </data>
-  <data name="ServiceTerminalSupportConsolePause" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsolePauseContent" xml:space="preserve">
     <value>按任意键继续......</value>
   </data>
   <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
-    <value>打印控制台文本
-&lt;{0}&gt; 输出文本</value>
+    <value>&lt;{0}&gt; 输出文本</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleEchoFullName" xml:space="preserve">
+    <value>输出到控制台</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
-    <value>命令帮助
-&lt;{0}&gt; 命令名称 (空)
+    <value>&lt;{0}&gt; 命令名称 (空)
 命令的使用语法
 使用 "&amp;" 来分隔命令
 使用 "-" 来指定选项
+使用 "--" 来启用开关
 使用 """ 来拼接内容
 使用 "\" 来转义符号</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleClearHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsoleExampleFullName" xml:space="preserve">
+    <value>命令帮助</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleClearFullName" xml:space="preserve">
     <value>清空控制台</value>
   </data>
   <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
@@ -408,53 +415,73 @@
     <value>游戏账号未注册："{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>社区签到
-&lt;{0}&gt; 社区GID (必须) [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
+    <value>&lt;{0}&gt; 社区GID (必须) [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
 &lt;{1}&gt; 账号AID (首个)</value>
   </data>
+  <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
+    <value>社区签到</value>
+  </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
-    <value>开拓力笔记
-&lt;{0}&gt; 账号AID (首个)</value>
+    <value>&lt;{0}&gt; 账号AID (首个)</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameStaminaFullName" xml:space="preserve">
+    <value>开拓力笔记</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
-    <value>米游币任务
-&lt;{0}&gt; 账号AID (首个)</value>
+    <value>&lt;{0}&gt; 账号AID (首个)</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionFullName" xml:space="preserve">
+    <value>米游币任务</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
-    <value>米游币任务状态
-&lt;{0}&gt; 账号AID (首个)</value>
+    <value>&lt;{0}&gt; 账号AID (首个)</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionInfoFullName" xml:space="preserve">
+    <value>查询米游币任务</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
-    <value>福利签到
-&lt;{0}&gt; 账号AID (首个)</value>
+    <value>&lt;{0}&gt; 账号AID (首个)</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
+    <value>福利签到</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>签到奖励
-&lt;{0}&gt; 起始天数 (0)
+    <value>&lt;{0}&gt; 起始天数 (0)
 &lt;{1}&gt; 天数总和 (31)</value>
   </data>
+  <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
+    <value>签到奖励</value>
+  </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>浏览帖子
-&lt;{0}&gt; 帖子ID (必须)
-&lt;{1}&gt; 是否登录 [True | False]
+    <value>&lt;{0}&gt; 帖子ID (必须)
+&lt;{1}&gt; 是否登录 [True|False]
 &lt;{2}&gt; 账号AID (首个)</value>
   </data>
+  <data name="ServiceTerminalHoyolabForumDetailFullName" xml:space="preserve">
+    <value>浏览帖子</value>
+  </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>最近帖子列表
-&lt;{0}&gt; 帖子数量 (必须)
+    <value>&lt;{0}&gt; 帖子数量 (必须)
 &lt;{1}&gt; 分区ID (必须)
 &lt;{2}&gt; 排序方式 [0-不指定,1-回复时间,2-发布时间]</value>
   </data>
+  <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
+    <value>最近帖子列表</value>
+  </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>帖子分享
-&lt;{0}&gt; 帖子ID (必须)
+    <value>&lt;{0}&gt; 帖子ID (必须)
 &lt;{1}&gt; 账号AID (首个)</value>
   </data>
+  <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
+    <value>帖子分享</value>
+  </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>帖子点赞
-&lt;{0}&gt; 帖子ID (必须)
-&lt;{1}&gt; 取消点赞 [True | False]
+    <value>&lt;{0}&gt; 帖子ID (必须)
+&lt;{1}&gt; 取消点赞 [True|False]
 &lt;{2}&gt; 账号AID (首个)</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
+    <value>帖子点赞</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
     <value>未知的命令："{0}"
@@ -464,11 +491,32 @@
     <value>缺少必要参数
 使用 "Help &lt;命令名称&gt;" 查看帮助</value>
   </data>
-  <data name="ServiceTerminalCycleHelpContent" xml:space="preserve">
+  <data name="ServiceTerminalCycleHelp" xml:space="preserve">
     <value>&lt;{0}&gt; 输入内容 (空)
-&lt;{1}&gt; 退出循环 [True | False]</value>
+&lt;{1}&gt; 退出循环 [True|False]
+使用 "end" 来退出当前状态
+使用 "help" 来查看内部帮助</value>
+  </data>
+  <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
+    <value>算式运算器</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
-    <value>算式运算</value>
+    <value>运算符优先级
+[1] 赋值运算符 [=,+=,-=,*=,/=]
+[2] 逻辑或运算符 [|,||]
+[3] 逻辑与运算符 [&amp;,&amp;&amp;]
+[4] 比较运算符 [&gt;,&gt;=,&lt;,&lt;=,==,!=]
+[5] 加减运算符 [+,-]
+[6] 乘除运算符 [*,/]
+[7] 幂运算符 [^]
+[8] 逻辑非符号 [!]
+[8] 百分比符号 [%]
+[9] 正弦符号 [Sin]
+[9] 余弦符号 [Cos]
+[9] 正切符号 [Tan]
+[9] 最小值 [Min(num1,num2...)]
+[9] 最大值 [Max(num1,num2...)]
+[9] 模运算 [Mod(num1,num2)]
+[9] 索引器 [Ind(index,item1,item2...)]</value>
   </data>
 </root>

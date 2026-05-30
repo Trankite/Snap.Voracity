@@ -370,11 +370,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
 
         private class ModuloSymbol : MagicalFormulaMethodSymbol
         {
-            public override int Order => 9;
-
             public override string Name => "Mod";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Prefix | MagicalFormulaSymbolType.Method;
 
             protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
@@ -382,27 +378,9 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
             }
         }
 
-        private class MaximumSymbol : MagicalFormulaMethodSymbol
-        {
-            public override int Order => 9;
-
-            public override string Name => "Max";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Prefix | MagicalFormulaSymbolType.Method;
-
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
-            {
-                return context.Max(Formula => GetValue(Formula, getter, setter));
-            }
-        }
-
         private class MinimumSymbol : MagicalFormulaMethodSymbol
         {
-            public override int Order => 9;
-
             public override string Name => "Min";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Prefix | MagicalFormulaSymbolType.Method;
 
             protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
@@ -410,17 +388,53 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
             }
         }
 
-        private class SwitchSymbol : MagicalFormulaMethodSymbol
+        private class MaximumSymbol : MagicalFormulaMethodSymbol
         {
-            public override int Order => 9;
-
-            public override string Name => "The";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Prefix | MagicalFormulaSymbolType.Method;
+            public override string Name => "Max";
 
             protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.SplitAt(1).Ended.GetIndexValue(Convert.ToInt32(GetValue(context.FirstOrDefault(), getter, setter))), getter, setter);
+                return context.Max(Formula => GetValue(Formula, getter, setter));
+            }
+        }
+
+        private class SineSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "Sin";
+
+            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return Math.Sin(double.DegreesToRadians(GetValue(context.FirstOrDefault(), getter, setter)));
+            }
+        }
+
+        private class CosineSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "Cos";
+
+            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return Math.Cos(double.DegreesToRadians(GetValue(context.FirstOrDefault(), getter, setter)));
+            }
+        }
+
+        private class TangentSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "Tan";
+
+            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return Math.Tan(double.DegreesToRadians(GetValue(context.FirstOrDefault(), getter, setter)));
+            }
+        }
+
+        private class IndexerSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "Ind";
+
+            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return GetValue(context.AsSpan().SplitAt(1).Ended.GetIndexValue(Convert.ToInt32(GetValue(context.FirstOrDefault(), getter, setter)) - 1), getter, setter);
             }
         }
     }

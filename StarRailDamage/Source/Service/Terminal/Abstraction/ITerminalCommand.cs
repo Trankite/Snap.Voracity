@@ -4,11 +4,13 @@
     {
         string Name { get; }
 
+        string FullName { get; }
+
+        string Help { get; }
+
         ITerminalResponse Invoke(ITerminalCommandLine commandLine);
 
         string[] Parameters { get; }
-
-        string Help { get; }
     }
 
     public interface ITerminalCommand<TContent> : ITerminalCommand

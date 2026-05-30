@@ -15,6 +15,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
     {
         public string Name => "qrcode";
 
+        public string FullName => LocalString.ServiceTerminalSupportQRCodeProduceFullName;
+
         public string Help => LocalString.ServiceTerminalSupportQRCodeProduceHelp;
 
         public string[] Parameters => [CONTENT, FILEPATH, FILEFORMAT, FOREGROUND, BACKGROUND, PIXELSIZE, PADDING, PATHOPEN];

@@ -8,11 +8,13 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
     {
         public string Name => "help";
 
+        public string FullName => LocalString.ServiceTerminalSupportConsoleExampleFullName;
+
         public string Help => LocalString.ServiceTerminalSupportConsoleExampleHelp;
 
         public string[] Parameters => [COMMANDNAME];
 
-        private const string COMMANDNAME = "i";
+        private const string COMMANDNAME = "text";
 
         public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
@@ -30,7 +32,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 }
                 foreach (TerminalCommand Command in TerminalManage.CommandTable.GetValues())
                 {
-                    TerminalManage.WriteLine(Command.Name.ToUpper().PadRight(Padding) + Command.Help.FirstSplit('\n').Start.ToString());
+                    TerminalManage.WriteLine(Command.Name.ToUpper().PadRight(Padding) + Command.FullName);
                 }
             }
             return new TerminalResponse(Program.OnTerminal);

@@ -9,6 +9,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
     {
         public override string Name => "formula";
 
+        public override string FullName => LocalString.ServiceTerminalSupportFormulaCycleFullName;
+
         protected override string HelpOverride => LocalString.ServiceTerminalSupportFormulaCycleHelp;
 
         protected override ITerminalResponse InvokeOverride(string? line)

@@ -7,11 +7,13 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
     {
         public string Name => "echo";
 
+        public string FullName => LocalString.ServiceTerminalSupportConsoleEchoFullName;
+
         public string Help => LocalString.ServiceTerminalSupportConsoleEchoHelp;
 
         public string[] Parameters => [CONTENT];
 
-        private const string CONTENT = "i";
+        private const string CONTENT = "text";
 
         public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {

@@ -12,6 +12,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "newpost";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabForumNewsFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabForumNewsHelp;
 
         public override string[] Parameters => [PAGESIZE, ZONETYPE, SORTTYPE];

@@ -8,7 +8,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
     {
         public string Name => "exit";
 
-        public string Help => LocalString.ServiceTerminalSupportConsoleExiteHelp;
+        public string FullName => LocalString.ServiceTerminalSupportConsoleExiteFullName;
+
+        public string Help => string.Empty;
 
         public string[] Parameters => [];
 

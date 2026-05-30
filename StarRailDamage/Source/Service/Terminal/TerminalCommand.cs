@@ -14,6 +14,8 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public string Name => Command.Name;
 
+        public string FullName => Command.FullName;
+
         public string Help => Command.Help;
 
         public string[] Parameters => Command.Parameters;

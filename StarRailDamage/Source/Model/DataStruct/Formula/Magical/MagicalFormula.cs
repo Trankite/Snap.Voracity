@@ -14,7 +14,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
 
         public override string ToString()
         {
-            return $"{(Start.IsNotNull() ? (Start.Symbol.Order < Symbol.Order ? $"({Start})" : Start) : string.Empty)}{Symbol}{(Ended.IsNotNull() ? $"{(!Ended.Symbol.IsMethodSymbol && (Symbol.Order > Ended.Symbol.Order || Ended.Symbol.IsPrefixSymbol && Ended.Start.IsNull()) ? $"({Ended})" : Ended)}" : Content)}";
+            return $"{(Start.IsNotNull() ? (Start.Symbol.Order < Symbol.Order ? $"({Start})" : Start) : string.Empty)}{Symbol}{(Ended.IsNotNull() ? $"{(Symbol.Order > Ended.Symbol.Order || Ended.Symbol.IsPrefixSymbol && (!Ended.Symbol.IsMethodSymbol || Symbol.IsMethodSymbol) ? $"({Ended})" : Ended)}" : Content)}";
         }
     }
 }

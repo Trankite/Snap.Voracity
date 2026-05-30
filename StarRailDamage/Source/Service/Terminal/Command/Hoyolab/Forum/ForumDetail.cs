@@ -12,6 +12,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
     {
         public override string Name => "post";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabForumDetailFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabForumDetailHelp;
 
         public override string[] Parameters => [POSTID, NEEDSIGN, AID];

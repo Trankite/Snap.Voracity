@@ -4,6 +4,8 @@
     {
         public abstract string Name { get; }
 
+        public abstract string FullName { get; }
+
         public abstract string Help { get; }
 
         public abstract string[] Parameters { get; }

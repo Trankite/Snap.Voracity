@@ -114,7 +114,7 @@ namespace StarRailDamage.Source.Extension
                     Ended = Middle - 1;
                 }
             }
-            return -Start - 1;
+            return ~Start;
         }
 
         [DebuggerStepThrough]

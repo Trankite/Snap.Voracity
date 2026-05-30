@@ -13,6 +13,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
     {
         public override string Name => "coin";
 
+        public override string FullName => LocalString.ServiceTerminalHoyolabUserMissionFullName;
+
         public override string Help => LocalString.ServiceTerminalHoyolabUserMissionHelp;
 
         public override string[] Parameters => [AID];
