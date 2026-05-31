@@ -519,4 +519,13 @@ Use "help" to view internal help</value>
 [9] Modulo [Mod(num1,num2)]
 [9] Indexer [Ind(index,item1,item2...)]</value>
   </data>
+  <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
+    <value>The operator "{0}" has insufficient available operands</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAffixeSymbol" xml:space="preserve">
+    <value>The affixe mark "{0}" cannot be used like an operator</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAssignSymbol" xml:space="preserve">
+    <value>The left side of operator "{0}" must be an assignable object</value>
+  </data>
 </root>

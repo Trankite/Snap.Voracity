@@ -1,6 +1,6 @@
-﻿using StarRailDamage.Source.Model.DataStruct.Formula.Abstraction;
+﻿using StarRailDamage.Source.Service.Formula.Abstraction;
 
-namespace StarRailDamage.Source.Model.DataStruct.Formula
+namespace StarRailDamage.Source.Service.Formula
 {
     public abstract class FormulaSymbol<TSymbolType> : IFormulaSymbol where TSymbolType : struct, Enum
     {

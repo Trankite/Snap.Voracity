@@ -1,12 +1,13 @@
 ﻿using StarRailDamage.Source.Extension;
 
-namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
+namespace StarRailDamage.Source.Service.Formula.Magical
 {
     public class MagicalFormulaParser : FormulaParser<MagicalFormula, MagicalFormulaSymbol, MagicalFormulaContent>
     {
         protected override MagicalFormula? GetFormula(ReadOnlySpan<char> content)
         {
-            return content.Length == 0 ? null : new MagicalFormula(MagicalFormulaContent.Create(content));
+            MagicalFormulaContent? FormulaContent = MagicalFormulaContent.Create(content);
+            return FormulaContent.IsNotNull() ? new MagicalFormula(FormulaContent) : null;
         }
 
         protected override MagicalFormula? GetFormula(MagicalFormula? ended, MagicalFormulaSymbol symbol, MagicalFormula? start)

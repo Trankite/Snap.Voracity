@@ -519,4 +519,13 @@
 [9] 模运算 [Mod(num1,num2)]
 [9] 索引器 [Ind(index,item1,item2...)]</value>
   </data>
+  <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
+    <value>运算符 "{0}" 可用的操作数不足</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAffixeSymbol" xml:space="preserve">
+    <value>缀词符 "{0}" 不能像运算符一样使用</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAssignSymbol" xml:space="preserve">
+    <value>运算符 "{0}" 左侧必须是可赋值对象</value>
+  </data>
 </root>

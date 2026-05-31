@@ -1,7 +1,7 @@
 ﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Model.DataStruct.Formula.Abstraction;
+using StarRailDamage.Source.Service.Formula.Abstraction;
 
-namespace StarRailDamage.Source.Model.DataStruct.Formula
+namespace StarRailDamage.Source.Service.Formula
 {
     public abstract class FormulaParser<TFormula, TSymbol, TContent> : IFormulaParser<TFormula, TSymbol, TContent> where TFormula : IFormula<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
     {

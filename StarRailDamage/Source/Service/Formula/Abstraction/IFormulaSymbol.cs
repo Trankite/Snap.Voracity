@@ -1,4 +1,4 @@
-﻿namespace StarRailDamage.Source.Model.DataStruct.Formula.Abstraction
+﻿namespace StarRailDamage.Source.Service.Formula.Abstraction
 {
     public interface IFormulaSymbol
     {

@@ -1,7 +1,8 @@
 ﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Model.DataStruct.Formula.Abstraction;
+using StarRailDamage.Source.Service.Formula.Abstraction;
+using System.Diagnostics.CodeAnalysis;
 
-namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
+namespace StarRailDamage.Source.Service.Formula.Magical
 {
     public partial class MagicalFormulaSolver : IFormulaSolver<MagicalFormula, MagicalFormulaSymbol, MagicalFormulaContent>
     {
@@ -44,28 +45,28 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
             if (formula.IsNull()) return [];
             Stack<MagicalFormula> ContextStack = [];
             Stack<MagicalFormula> FormulaStack = new();
-            AppendDyadicFormula(formula, FormulaStack);
+            formula.AppendFormula(FormulaStack);
             while (FormulaStack.TryPop(out MagicalFormula? Current))
             {
                 if (Current.Symbol.IsSeparatorSymbol)
                 {
-                    AppendDyadicFormula(Current, FormulaStack);
+                    Current.AppendFormula(FormulaStack);
                 }
                 else ContextStack.Push(Current);
             }
             return [.. ContextStack];
         }
 
-        private static void AppendDyadicFormula(MagicalFormula formula, Stack<MagicalFormula> formulaStack)
+        public bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
         {
-            if (formula.Start.IsNotNull())
+            Stack<MagicalFormula> FormulaStack = new();
+            FormulaStack.Push(formula);
+            while (FormulaStack.TryPop(out MagicalFormula? Current))
             {
-                formulaStack.Push(formula.Start);
+                if (!Current.Symbol.Verify(Current, out message)) return false;
+                Current.AppendFormula(FormulaStack);
             }
-            if (formula.Ended.IsNotNull())
-            {
-                formulaStack.Push(formula.Ended);
-            }
+            return true.Configure(message = default);
         }
     }
 }

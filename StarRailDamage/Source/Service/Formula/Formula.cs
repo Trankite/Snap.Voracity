@@ -1,7 +1,7 @@
 ﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Model.DataStruct.Formula.Abstraction;
+using StarRailDamage.Source.Service.Formula.Abstraction;
 
-namespace StarRailDamage.Source.Model.DataStruct.Formula
+namespace StarRailDamage.Source.Service.Formula
 {
     public abstract class Formula<TFormula, TSymbol, TContent> : IFormula<TFormula, TSymbol, TContent> where TFormula : IFormula<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
     {
@@ -15,7 +15,7 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
 
         protected Formula() { }
 
-        protected Formula(TContent content)
+        protected Formula(TContent? content)
         {
             Content = content;
         }
@@ -25,6 +25,18 @@ namespace StarRailDamage.Source.Model.DataStruct.Formula
             Start = start;
             Symbol = symbol;
             Ended = ended;
+        }
+
+        public void AppendFormula(Stack<TFormula> formulaStack)
+        {
+            if (Start.IsNotNull())
+            {
+                formulaStack.Push(Start);
+            }
+            if (Ended.IsNotNull())
+            {
+                formulaStack.Push(Ended);
+            }
         }
 
         public override string ToString()

@@ -1,12 +1,12 @@
 ﻿using StarRailDamage.Source.Extension;
 
-namespace StarRailDamage.Source.Model.DataStruct.Formula.Magical
+namespace StarRailDamage.Source.Service.Formula.Magical
 {
     public class MagicalFormula : Formula<MagicalFormula, MagicalFormulaSymbol, MagicalFormulaContent>
     {
         public MagicalFormula() { }
 
-        public MagicalFormula(MagicalFormulaContent content) : base(content) { }
+        public MagicalFormula(MagicalFormulaContent? content) : base(content) { }
 
         public MagicalFormula(MagicalFormula? start, MagicalFormulaSymbol symbol, MagicalFormula? ended) : base(start, symbol, ended) { }
 
