@@ -1,6 +1,5 @@
 ﻿using StarRailDamage.Source.Model.DataStruct.Span;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace StarRailDamage.Source.Extension
@@ -10,31 +9,13 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static DyadicReadOnlySpan<char> FirstSplit(this ReadOnlySpan<char> value, char separator)
         {
-            return value.FirstSplit(MemoryMarshal.CreateSpan(ref separator, 1));
-        }
-
-        [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<char> FirstSplit(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator)
-        {
-            return value.TryGetIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<char>(value, string.Empty);
+            return value.FirstSplit(separator.ToString());
         }
 
         [DebuggerStepThrough]
         public static DyadicReadOnlySpan<char> LastSplit(this ReadOnlySpan<char> value, char separator)
         {
-            return value.LastSplit(MemoryMarshal.CreateSpan(ref separator, 1));
-        }
-
-        [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<char> LastSplit(this ReadOnlySpan<char> value, ReadOnlySpan<char> separator)
-        {
-            return value.TryGetLastIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<char>(value, string.Empty);
-        }
-
-        [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<char> SplitAtWithOutSelf(this ReadOnlySpan<char> value, int index, ReadOnlySpan<char> separator)
-        {
-            return new DyadicReadOnlySpan<char>(value[..index], value[(index + separator.Length)..]);
+            return value.LastSplit(separator.ToString());
         }
 
         [DebuggerStepThrough]
@@ -62,7 +43,7 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static string Format(this string value, params object?[] arguments)
+        public static string Format(this string value, params ReadOnlySpan<object?> arguments)
         {
             try { return string.Format(value, arguments); } catch { return value; }
         }

@@ -49,15 +49,15 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int AutoIndex(this Array source, int index)
+        public static int ClampIndex(this Array source, int index)
         {
-            return ObjectExtension.Middle(index, 0, source.Length - 1);
+            return ComparableExtension.Clamp(index, 0, source.Length - 1);
         }
 
         [DebuggerStepThrough]
-        public static int AutoCount(this Array source, int index, int count)
+        public static int ClampCount(this Array source, int index, int count)
         {
-            return ObjectExtension.Middle(source.Length - index, 0, count);
+            return ComparableExtension.Clamp(source.Length - index, 0, count);
         }
 
         [DebuggerStepThrough]

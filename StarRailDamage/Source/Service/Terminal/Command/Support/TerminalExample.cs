@@ -20,15 +20,18 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
         {
             if (Program.OnTerminal)
             {
+                const int Margin = 4;
                 const int Padding = 12;
                 if (commandLine.TryGetParameter(COMMANDNAME, out string? CommandName))
                 {
-                    if (TerminalManage.CommandTable.TryGetValue(CommandName, out TerminalCommand? Command))
+                    if (!TerminalManage.CommandTable.TryGetValue(CommandName, out TerminalCommand? Command))
                     {
-                        TerminalManage.WriteLine(Command.Help.Format(Command.Parameters));
-                        return new TerminalResponse(true);
+                        return TerminalManage.GetUnknownOperationResponse(CommandName);
                     }
-                    return TerminalManage.GetUnknownOperationResponse(CommandName);
+                    int Maximum = Command.Parameters.Max(Item => Item.Length) + Margin;
+                    IEnumerable<string> Parameters = Command.Parameters.Select(Item => $"-{Item}{new string('\x20', Maximum - Item.Length)}");
+                    TerminalManage.WriteLine(Command.Help.Format(Parameters.ToArray()));
+                    return new TerminalResponse(true);
                 }
                 foreach (TerminalCommand Command in TerminalManage.CommandTable.GetValues())
                 {

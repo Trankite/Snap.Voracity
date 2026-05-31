@@ -30,7 +30,7 @@ namespace StarRailDamage.Source.UI.Xaml.Control.Panel
             if (ChildSize.IsHidden()) return ChildSize;
             double ScaleWidth = constraint.Width / ChildSize.Width;
             double ScaleHeight = constraint.Height / ChildSize.Height;
-            double FinalScale = Math.Min(ScaleWidth, ScaleHeight).Middle(MinScale, MaxScale);
+            double FinalScale = Math.Min(ScaleWidth, ScaleHeight).Clamp(MinScale, MaxScale);
             double FinalWidth = Math.Min(ChildSize.Width * FinalScale, constraint.Width);
             double FinalHeight = Math.Min(ChildSize.Height * FinalScale, constraint.Height);
             Child.Measure(new Size((FinalWidth / FinalScale).Ceiling(1), (FinalHeight / FinalScale).Ceiling(1)));

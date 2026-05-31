@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
 
         public override EncodeMode EncodeMode => EncodeMode.Byte;
 
-        protected override int BitsOfDataLength => Version >= 10 ? 16 : 8;
+        protected override int BitsOfContent => Version >= 10 ? 16 : 8;
 
         protected override int[,] GetCapacityTable() => CapacityTable;
 

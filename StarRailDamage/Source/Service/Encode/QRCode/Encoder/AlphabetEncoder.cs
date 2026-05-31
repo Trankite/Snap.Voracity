@@ -2,17 +2,17 @@
 
 namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
 {
-    public sealed class AlphaEncoder : QRCodeEncoder
+    public sealed class AlphabetEncoder : QRCodeEncoder
     {
         private static readonly int[,] CapacityTable;
 
         private static readonly int[] AlphanumericTable;
 
-        public override EncodeMode EncodeMode => EncodeMode.Alphanumeric;
+        public override EncodeMode EncodeMode => EncodeMode.Alphabet;
 
         protected override int[,] GetCapacityTable() => CapacityTable;
 
-        protected override int BitsOfDataLength => Version >= 10 ? Version >= 27 ? 13 : 11 : 9;
+        protected override int BitsOfContent => Version >= 10 ? Version >= 27 ? 13 : 11 : 9;
 
         protected override int GetUsedBitCount(int length)
         {
@@ -42,7 +42,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
             return value >= 0x20 && value <= 'Z' && AlphanumericTable[value - 0x20] >= 0;
         }
 
-        static AlphaEncoder()
+        static AlphabetEncoder()
         {
             int Index = 0;
             AlphanumericTable = [.. Enumerable.Repeat(-1, 'Z' - 0x20 + 1)];

@@ -328,14 +328,18 @@
     <value>确认</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 内容文本 (必须)
-&lt;{1}&gt; 保存路径 (%Temp%)
-&lt;{2}&gt; 文件格式 [Png|Jpg|Bmp|Svg]
-&lt;{3}&gt; 前景色 (#000000)
-&lt;{4}&gt; 背景色 (#FFFFFF)
-&lt;{5}&gt; 单格像素 (5)
-&lt;{6}&gt; 填充边距 (20)
-&lt;{7}&gt; 是否跳转 [True|False]</value>
+    <value>{0}内容文本 (必填)
+{1}保存路径 (Temp)
+{2}文件格式 [Png|Jpg|Bmp|Svg]
+{3}前景色 (#000000)
+{4}背景色 (#FFFFFF)
+{5}单格像素 (5)
+{6}填充边距 (20)
+{7}版本 [1-40]
+{8}编码器 [1-数字,2-字母,3-字节]
+{9}纠错级别 (M) [L-低,M-中,Q-高,H-最高]
+{10}掩码图案 [1-8]
+{11}是否跳转 [True|False]</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceFullName" xml:space="preserve">
     <value>二维码生成</value>
@@ -350,13 +354,13 @@
     <value>按任意键继续......</value>
   </data>
   <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 输出文本</value>
+    <value>{0}输出文本</value>
   </data>
   <data name="ServiceTerminalSupportConsoleEchoFullName" xml:space="preserve">
     <value>输出到控制台</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 命令名称 (空)
+    <value>{0}命令名称 (空)
 命令的使用语法
 使用 "&amp;" 来分隔命令
 使用 "-" 来指定选项
@@ -415,70 +419,70 @@
     <value>游戏账号未注册："{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 社区GID (必须) [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
-&lt;{1}&gt; 账号AID (首个)</value>
+    <value>{0}社区GID (必填) [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
+{1}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
     <value>社区签到</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 账号AID (首个)</value>
+    <value>{0}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaFullName" xml:space="preserve">
     <value>开拓力笔记</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 账号AID (首个)</value>
+    <value>{0}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionFullName" xml:space="preserve">
     <value>米游币任务</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 账号AID (首个)</value>
+    <value>{0}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoFullName" xml:space="preserve">
     <value>查询米游币任务</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 账号AID (首个)</value>
+    <value>{0}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
     <value>福利签到</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 起始天数 (0)
-&lt;{1}&gt; 天数总和 (31)</value>
+    <value>{0}起始天数 (0)
+{1}天数总和 (31)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
     <value>签到奖励</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 帖子ID (必须)
-&lt;{1}&gt; 是否登录 [True|False]
-&lt;{2}&gt; 账号AID (首个)</value>
+    <value>{0}帖子ID (必填)
+{1}是否登录 [True|False]
+{2}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailFullName" xml:space="preserve">
     <value>浏览帖子</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 帖子数量 (必须)
-&lt;{1}&gt; 分区ID (必须)
-&lt;{2}&gt; 排序方式 [0-不指定,1-回复时间,2-发布时间]</value>
+    <value>{0}帖子数量 (必填)
+{1}分区ID (必填)
+{2}排序方式 [0-不指定,1-回复时间,2-发布时间]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
     <value>最近帖子列表</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 帖子ID (必须)
-&lt;{1}&gt; 账号AID (首个)</value>
+    <value>{0}帖子ID (必填)
+{1}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
     <value>帖子分享</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 帖子ID (必须)
-&lt;{1}&gt; 取消点赞 [True|False]
-&lt;{2}&gt; 账号AID (首个)</value>
+    <value>{0}帖子ID (必填)
+{1}取消点赞 [True|False]
+{2}账号AID (首个)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
     <value>帖子点赞</value>
@@ -492,8 +496,8 @@
 使用 "Help &lt;命令名称&gt;" 查看帮助</value>
   </data>
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; 输入内容 (空)
-&lt;{1}&gt; 退出循环 [True|False]
+    <value>{0}输入内容 (空)
+{1}退出循环 [True|False]
 使用 "end" 来退出当前状态
 使用 "help" 来查看内部帮助</value>
   </data>

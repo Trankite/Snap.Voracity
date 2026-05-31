@@ -64,9 +64,9 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public static void Write(ITerminalResponse response) => Write(response.Message);
 
-        public static void Write(string? line)
+        public static void Write(ReadOnlySpan<char> line)
         {
-            if (Program.OnTerminal && !string.IsNullOrEmpty(line))
+            if (Program.OnTerminal && line.Length > 0)
             {
                 Console.Write(line);
             }
@@ -74,9 +74,9 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public static void WriteLine(ITerminalResponse response) => WriteLine(response.Message);
 
-        public static void WriteLine(string? line)
+        public static void WriteLine(ReadOnlySpan<char> line)
         {
-            if (Program.OnTerminal && !string.IsNullOrEmpty(line))
+            if (Program.OnTerminal && line.Length > 0)
             {
                 Console.WriteLine(line);
             }

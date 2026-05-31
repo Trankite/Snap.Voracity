@@ -7,15 +7,27 @@ namespace StarRailDamage.Source.Extension
     public static class SpanExtension
     {
         [DebuggerStepThrough]
-        public static DyadicSpan<T> SplitAt<T>(this Span<T> span, int index)
+        public static DyadicReadOnlySpan<T> FirstSplit<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator)
         {
-            return span.Length > index ? new DyadicSpan<T>(span[..index], span[index..]) : new DyadicSpan<T>(span, []);
+            return value.TryGetIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<T>(value, []);
+        }
+
+        [DebuggerStepThrough]
+        public static DyadicReadOnlySpan<T> LastSplit<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator)
+        {
+            return value.TryGetLastIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<T>(value, []);
         }
 
         [DebuggerStepThrough]
         public static DyadicReadOnlySpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index)
         {
             return span.Length > index ? new DyadicReadOnlySpan<T>(span[..index], span[index..]) : new DyadicReadOnlySpan<T>(span, []);
+        }
+
+        [DebuggerStepThrough]
+        public static DyadicReadOnlySpan<T> SplitAtWithOutSelf<T>(this ReadOnlySpan<T> value, int index, ReadOnlySpan<T> separator)
+        {
+            return new DyadicReadOnlySpan<T>(value[..index], value[(index + separator.Length)..]);
         }
 
         [DebuggerStepThrough]
@@ -33,13 +45,13 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator, out int index)
         {
-            return (index = value.IndexOf(separator)) != -1;
+            return (index = value.IndexOf(separator)) >= 0;
         }
 
         [DebuggerStepThrough]
         public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator, out int index)
         {
-            return (index = value.LastIndexOf(separator)) != -1;
+            return (index = value.LastIndexOf(separator)) >= 0;
         }
 
         [DebuggerStepThrough]

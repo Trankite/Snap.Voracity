@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode.Encoder
 
         protected override int[,] GetCapacityTable() => CapacityTable;
 
-        protected override int BitsOfDataLength => Version >= 10 ? Version >= 27 ? 14 : 12 : 10;
+        protected override int BitsOfContent => Version >= 10 ? Version >= 27 ? 14 : 12 : 10;
 
         protected override int GetUsedBitCount(int length)
         {

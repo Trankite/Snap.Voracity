@@ -2,7 +2,7 @@
 
 namespace StarRailDamage.Source.Service.Formula.Magical
 {
-    public class MagicalFormula : Formula<MagicalFormula, MagicalFormulaSymbol, MagicalFormulaContent>
+    public class MagicalFormula : FormulaStruct<MagicalFormula, MagicalFormulaSymbol, MagicalFormulaContent>
     {
         public MagicalFormula() { }
 

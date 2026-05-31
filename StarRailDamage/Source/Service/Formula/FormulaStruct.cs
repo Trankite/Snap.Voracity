@@ -3,7 +3,7 @@ using StarRailDamage.Source.Service.Formula.Abstraction;
 
 namespace StarRailDamage.Source.Service.Formula
 {
-    public abstract class Formula<TFormula, TSymbol, TContent> : IFormula<TFormula, TSymbol, TContent> where TFormula : IFormula<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
+    public abstract class FormulaStruct<TFormula, TSymbol, TContent> : IFormulaStruct<TFormula, TSymbol, TContent> where TFormula : IFormulaStruct<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
     {
         public TFormula? Start { get; set; }
 
@@ -13,14 +13,14 @@ namespace StarRailDamage.Source.Service.Formula
 
         public TContent? Content { get; set; }
 
-        protected Formula() { }
+        protected FormulaStruct() { }
 
-        protected Formula(TContent? content)
+        protected FormulaStruct(TContent? content)
         {
             Content = content;
         }
 
-        protected Formula(TFormula? start, TSymbol symbol, TFormula? ended)
+        protected FormulaStruct(TFormula? start, TSymbol symbol, TFormula? ended)
         {
             Start = start;
             Symbol = symbol;

@@ -328,14 +328,18 @@
     <value>Confirm</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Content text (Required)
-&lt;{1}&gt; Saving path (%Temp%)
-&lt;{2}&gt; File format [Png|Jpg|Bmp|Svg]
-&lt;{3}&gt; Foreground (#000000)
-&lt;{4}&gt; Background (#FFFFFF)
-&lt;{5}&gt; Pixel size (5)
-&lt;{6}&gt; Padding (20)
-&lt;{7}&gt; Open the path [True|False]</value>
+    <value>{0}Content text (Required)
+{1}Saving path (Temp)
+{2}File format [Png|Jpg|Bmp|Svg]
+{3}Foreground (#000000)
+{4}Background (#FFFFFF)
+{5}Pixel size (5)
+{6}Padding (20)
+{7}Version [1-40]
+{8}Encoder [1-Number,2-Letter,3-Byte]
+{9}Error correction level (M) [L-low,M-medium,Q-high,H-highest]
+{10}Mask pattern [1-8]
+{11}Open the path [True|False]</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceFullName" xml:space="preserve">
     <value>Generate QR code</value>
@@ -350,13 +354,13 @@
     <value>Press any key to continue......</value>
   </data>
   <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Text printed to the console</value>
+    <value>{0}Text printed to the console</value>
   </data>
   <data name="ServiceTerminalSupportConsoleEchoFullName" xml:space="preserve">
     <value>Print to console</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Command name (Empty)
+    <value>{0}Command name (Empty)
 Usage syntax of commands
 Use "&amp;" to separate commands
 Use "-" to specify options
@@ -415,70 +419,70 @@ Please login and try again</value>
     <value>No game account found : "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Community'sGID (Required) [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
-&lt;{1}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Community'sGID (Required) [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
+{1}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
     <value>Community sign</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaFullName" xml:space="preserve">
     <value>Stamina note</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionFullName" xml:space="preserve">
     <value>User mission</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoFullName" xml:space="preserve">
     <value>User mission info</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
     <value>Welfare sign</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Starting number (0)
-&lt;{1}&gt; Maximum number (31)</value>
+    <value>{0}Starting number (0)
+{1}Maximum number (31)</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
     <value>Welfare sgin reward</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Post identity (Required)
-&lt;{1}&gt; Check login state [True|False]
-&lt;{2}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Post identity (Required)
+{1}Check login state [True|False]
+{2}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailFullName" xml:space="preserve">
     <value>Browse posts</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Number of posts (Required)
-&lt;{1}&gt; Section identity (Required)
-&lt;{2}&gt; Sorting type [0-Auto,1-Reply,2-Posting]</value>
+    <value>{0}Number of posts (Required)
+{1}Section identity (Required)
+{2}Sorting type [0-Auto,1-Reply,2-Posting]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
     <value>Recent post list</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Post identity (Required)
-&lt;{1}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Post identity (Required)
+{1}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
     <value>Post sharing</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Post identity (Required)
-&lt;{1}&gt; Cancel the upvote [True|False]
-&lt;{2}&gt; Hoyolab account identity (First)</value>
+    <value>{0}Post identity (Required)
+{1}Cancel the upvote [True|False]
+{2}Hoyolab account identity (First)</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
     <value>Post upvoting</value>
@@ -492,8 +496,8 @@ Use "Help" Access Details</value>
 Use "Help &lt;Command&gt;" Access Details</value>
   </data>
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
-    <value>&lt;{0}&gt; Input content (Empty)
-&lt;{1}&gt; Exit the loop [True|False]
+    <value>{0}Input content (Empty)
+{1}Exit the loop [True|False]
 Use "end" to exit the current state
 Use "help" to view internal help</value>
   </data>
@@ -502,11 +506,11 @@ Use "help" to view internal help</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
     <value>Operator precedence
-[1] Assignment operator [=, +=, -=, *=, /=]
+[1] Assignment operator [=,+=,-=,*=,/=]
 [2] Logical OR operator [|,||]
-[3] Logical AND operator [&amp;, &amp;&amp;]
-[4] Comparison operators [&gt;, &gt;=, &lt;, &lt;=, ==, !=]
-[5] Addition and subtraction operators [+, -]
+[3] Logical AND operator [&amp;,&amp;&amp;]
+[4] Comparison operators [&gt;,&gt;=,&lt;,&lt;=,==,!=]
+[5] Addition and subtraction operators [+,-]
 [6] Multiplication and division operators [*,/]
 [7] Exponent operator [^]
 [8] Logical negation symbol [!]

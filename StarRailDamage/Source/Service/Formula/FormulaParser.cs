@@ -3,7 +3,7 @@ using StarRailDamage.Source.Service.Formula.Abstraction;
 
 namespace StarRailDamage.Source.Service.Formula
 {
-    public abstract class FormulaParser<TFormula, TSymbol, TContent> : IFormulaParser<TFormula, TSymbol, TContent> where TFormula : IFormula<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
+    public abstract class FormulaParser<TFormula, TSymbol, TContent> : IFormulaParser<TFormula, TSymbol, TContent> where TFormula : IFormulaStruct<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
     {
         protected abstract TSymbol? MoveNextSymbol(ReadOnlySpan<char> formula, ref int index);
 

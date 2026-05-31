@@ -15,7 +15,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public int Capacity { get; private set; }
 
-        protected abstract int BitsOfDataLength { get; }
+        protected abstract int BitsOfContent { get; }
 
         protected abstract BitSet BinaryEncode(ReadOnlySpan<byte> content);
 
@@ -23,27 +23,23 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         protected abstract int[,] GetCapacityTable();
 
-        public int GetContentCapacity()
+        public int GetMaxCapacity()
         {
             return GetCapacityTable()[Version - 1, ECCodeLevel.ToInt()];
         }
 
-        public QRCodeEncoder SetAutoSize(int length)
+        public void SetOptimalVersion(ReadOnlySpan<byte> content, int value = 0)
         {
-            int[,] CapacityTable = GetCapacityTable();
             int Level = ECCodeLevel.ToInt();
-            int Count = CapacityTable.GetLength(0);
-            int GetValue(int[,] array, int index)
-            {
-                return CapacityTable[index, Level];
-            }
-            int Neutral = CapacityTable.BinarySearch(0, Count, GetValue, length).GetNeutral();
-            return this.Configure(Version = Math.Min(Neutral + 1, 40));
+            int[,] CapacityTable = GetCapacityTable();
+            int Neutral = CapacityTable.BinarySearch(0, CapacityTable.GetLength(0), (Self, Index) => CapacityTable[Index, Level], content.Length).GetNeutral();
+            Version = Math.Clamp(Neutral + 1, value, 40);
         }
 
-        public QRCodeEncoder Complete()
+        public void Complete()
         {
-            return this.Configure(Capacity = QRCodeInfo.GetCapacity(Version, ECCodeLevel)).Configure(ECCodeGroup = ECCodeInfo.GetECCodeInfo(Version, ECCodeLevel));
+            Capacity = QRCodeInfo.GetCapacity(Version, ECCodeLevel);
+            ECCodeGroup = ECCodeInfo.GetECCodeInfo(Version, ECCodeLevel);
         }
 
         public byte[] Encode(ReadOnlySpan<byte> content)
@@ -73,26 +69,26 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
         public BitSet ContentEncode(ReadOnlySpan<byte> content)
         {
             BitSet Binary = BinaryEncode(content);
-            BitSet FinalData = BitSet.FromBitCount(Capacity * 8);
-            FinalData.Write(0, EncodeMode.ToInt(), 4);
-            FinalData.Write(4, content.Length, BitsOfDataLength);
-            FinalData.Write(4 + BitsOfDataLength, Binary, 0, Binary.Count);
+            BitSet FinalContent = BitSet.FromBitCount(Capacity * 8);
+            FinalContent.Write(0, 1 << (EncodeMode.ToInt() - 1), 4);
+            FinalContent.Write(4, content.Length, BitsOfContent);
+            FinalContent.Write(4 + BitsOfContent, Binary, 0, Binary.Count);
             int Index = (GetTotalBitCount(content.Length) + 7) & ~7;
-            while (Index < FinalData.Count)
+            while (Index < FinalContent.Count)
             {
-                FinalData.Write(Index, 0b11101100, 8);
-                if ((Index += 8) < FinalData.Count)
+                FinalContent.Write(Index, 0b11101100, 8);
+                if ((Index += 8) < FinalContent.Count)
                 {
-                    FinalData.Write(Index, 0b00010001, 8);
+                    FinalContent.Write(Index, 0b00010001, 8);
                     Index += 8;
                 }
             }
-            return FinalData;
+            return FinalContent;
         }
 
         public int GetTotalBitCount(int length)
         {
-            int UsedBitCount = 4 + BitsOfDataLength + GetUsedBitCount(length);
+            int UsedBitCount = 4 + BitsOfContent + GetUsedBitCount(length);
             return UsedBitCount + Math.Min(4, Capacity * 8 - UsedBitCount);
         }
 
@@ -101,29 +97,29 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             int Offset = -1;
             int ECCodeCount = ECCodeGroup.ECCodePerBytes * eccode.Length;
             int ContentCount = ECCodeGroup.BlocksInGroup1 * ECCodeGroup.CodewordsInGroup1 + ECCodeGroup.BlocksInGroup2 * ECCodeGroup.CodewordsInGroup2;
-            byte[] FinalData = new byte[ContentCount + ECCodeCount];
+            byte[] FinalContent = new byte[ContentCount + ECCodeCount];
             for (int x = 0; x < ECCodeGroup.CodewordsInGroup1; x++)
             {
                 for (int y = 0; y < content.Length; y++)
                 {
-                    FinalData[++Offset] = content[y][x];
+                    FinalContent[++Offset] = content[y][x];
                 }
             }
             for (int x = ECCodeGroup.CodewordsInGroup1; x < ECCodeGroup.CodewordsInGroup2; x++)
             {
                 for (int y = ECCodeGroup.BlocksInGroup1; y < content.Length; y++)
                 {
-                    FinalData[++Offset] = content[y][x];
+                    FinalContent[++Offset] = content[y][x];
                 }
             }
             for (int x = 0; x < ECCodeGroup.ECCodePerBytes; x++)
             {
                 for (int y = 0; y < eccode.Length; y++)
                 {
-                    FinalData[++Offset] = eccode[y][x];
+                    FinalContent[++Offset] = eccode[y][x];
                 }
             }
-            return FinalData;
+            return FinalContent;
         }
     }
 }

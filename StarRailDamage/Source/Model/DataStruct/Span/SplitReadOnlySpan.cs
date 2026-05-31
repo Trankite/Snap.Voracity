@@ -3,6 +3,14 @@ using System.Collections;
 
 namespace StarRailDamage.Source.Model.DataStruct.Span
 {
+    public static class SplitReadOnlySpan
+    {
+        public static SplitReadOnlySpan<T> Create<T>(ReadOnlySpan<T> content, ReadOnlySpan<T> separator)
+        {
+            return new SplitReadOnlySpan<T>(content, separator);
+        }
+    }
+
     public ref struct SplitReadOnlySpan<T> : IEnumerator<ReadOnlySpan<T>>
     {
         private int Index;
@@ -24,22 +32,13 @@ namespace StarRailDamage.Source.Model.DataStruct.Span
         public bool MoveNext()
         {
             if (Index >= Content.Length) return false;
-            ReadOnlySpan<T> Pending = Content[Index..];
-            bool HasNext = Pending.TryGetIndexOf(Separator, out int NextIndex);
-            if (!HasNext && Index < Content.Length)
-            {
-                HasNext = true;
-                NextIndex = Pending.Length;
-            }
-            if (HasNext)
-            {
-                Current = Pending[..NextIndex];
-                Index += NextIndex + Separator.Length;
-            }
-            return HasNext;
+            DyadicReadOnlySpan<T> DyadicSpan = Content[Index..].FirstSplit(Separator);
+            Current = DyadicSpan.Start;
+            Index = Content.Length - DyadicSpan.Ended.Length;
+            return true;
         }
 
-        public void Reset() => Index = 0;
+        public void Reset() => Index = default;
 
         public readonly void Dispose() { }
     }

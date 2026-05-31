@@ -24,7 +24,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            if (!commandLine.TryGetEnumParameter(GROUP, out HoyolabGroup Group))
+            if (!EnumExtension.TryParse(commandLine.GetParameter(GROUP), out HoyolabGroup Group))
             {
                 return TerminalManage.GetUnlawfulParameterResponse();
             }

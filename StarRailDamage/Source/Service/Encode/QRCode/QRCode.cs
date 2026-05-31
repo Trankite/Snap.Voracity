@@ -22,43 +22,34 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
 
         public ECCodeGroup ECCodeGroup => Encoder.ECCodeGroup;
 
-        public int Capacity => Encoder.GetContentCapacity();
+        public int Capacity => Encoder.GetMaxCapacity();
 
         public MaskType MaskType { get; private set; }
 
         public int Size { get; }
 
-        private QRCode(QRCodeEncoder encoder, MaskType mask)
+        private QRCode(QRCodeEncoder encoder, MaskType mask, ReadOnlySpan<byte> content)
         {
             MaskType = mask;
             Encoder = encoder;
             Size = encoder.Version * 4 + 17;
             Content = new QRCodeBit[Size, Size];
+            Encoder.Complete();
+            Initialize(content);
         }
 
-        public static QRCode Create(byte[] content, ECCodeLevel level = default, MaskType mask = default)
+        public static QRCode Create(ReadOnlySpan<byte> content, QRCodeOptions? options = default)
         {
-            return new QRCode(EncodeModeExtension.GetAutoMode(content).CreateEncoder().SetECCodeLevel(level).SetAutoSize(content.Length).Complete(), mask).Complete(content);
-        }
-
-        public static QRCode Create(byte[] content, EncodeMode mode, ECCodeLevel level = default, MaskType mask = default)
-        {
-            return new QRCode(EncodeModeExtension.CreateEncoder(mode).SetECCodeLevel(level).SetAutoSize(content.Length).Complete(), mask).Complete(content);
-        }
-
-        public static QRCode Create(byte[] content, int version, ECCodeLevel level = default, MaskType mask = default)
-        {
-            return new QRCode(EncodeModeExtension.GetAutoMode(content).CreateEncoder().SetECCodeLevel(level).SetVersion(version).Complete(), mask).Complete(content);
-        }
-
-        public static QRCode Create(byte[] content, EncodeMode mode, int version, ECCodeLevel level = default, MaskType mask = default)
-        {
-            return new QRCode(EncodeModeExtension.CreateEncoder(mode).SetECCodeLevel(level).SetVersion(version).Complete(), mask).Complete(content);
-        }
-
-        private QRCode Complete(byte[] content)
-        {
-            return this.Configure(Self => Self.Initialize(content.AsSpan().SplitAt(Capacity).Start));
+            options ??= new QRCodeOptions();
+            EncodeMode EncodeMode = options.EncodeMode;
+            if (EncodeMode != EncodeMode.Byte)
+            {
+                EncodeMode = EncodeModeExtension.GetEncodeMode(content).Max(EncodeMode);
+            }
+            QRCodeEncoder Encoder = EncodeMode.CreateEncoder();
+            Encoder.SetOptimalVersion(content, options.Version);
+            content = content.SplitAt(Encoder.GetMaxCapacity()).Start;
+            return new(Encoder, options.MaskType, content);
         }
 
         private void Initialize(ReadOnlySpan<byte> content)
