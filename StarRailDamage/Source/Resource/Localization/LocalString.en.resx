@@ -315,17 +315,11 @@
   <data name="CharacterOccupationTheHunt" xml:space="preserve">
     <value>TheHunt</value>
   </data>
-  <data name="ViewPageMockBattleActionCancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
   <data name="ViewPageMockBattleUnitLevel" xml:space="preserve">
     <value>T</value>
   </data>
   <data name="ViewPageMockBattleUnitModulo" xml:space="preserve">
     <value>%</value>
-  </data>
-  <data name="ViewPageMockBattleActionConfirm" xml:space="preserve">
-    <value>Confirm</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
     <value>{0}Content text (Required)
@@ -531,5 +525,11 @@ Use "help" to view internal help</value>
   </data>
   <data name="ServiceFormulaVerifyMisuseAssignSymbol" xml:space="preserve">
     <value>The left side of operator "{0}" must be an assignable object</value>
+  </data>
+  <data name="ViewDialogConfirmActionAccept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="ViewDialogConfirmActionCancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
 </root>

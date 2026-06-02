@@ -8,6 +8,11 @@
         <Setter Property="Opacity" Value="{DynamicResource BorderOpacity}"/>
     </Style>
 
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource MainForeBrush}"/>
+        <Setter Property="FontSize" Value="{DynamicResource MainFontSize}"/>
+    </Style>
+
     <Style TargetType="{x:Type Panel:ScopedViewBox}">
         <Setter Property="StretchDirection" Value="DownOnly"/>
         <Setter Property="MinScale" Value="0.6"/>

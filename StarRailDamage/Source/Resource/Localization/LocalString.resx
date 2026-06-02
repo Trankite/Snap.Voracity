@@ -315,17 +315,11 @@
   <data name="CharacterOccupationTheHunt" xml:space="preserve">
     <value>巡猎</value>
   </data>
-  <data name="ViewPageMockBattleActionCancel" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="ViewPageMockBattleUnitLevel" xml:space="preserve">
     <value>级</value>
   </data>
   <data name="ViewPageMockBattleUnitModulo" xml:space="preserve">
     <value>%</value>
-  </data>
-  <data name="ViewPageMockBattleActionConfirm" xml:space="preserve">
-    <value>确认</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
     <value>{0}内容文本 (必填)
@@ -531,5 +525,11 @@
   </data>
   <data name="ServiceFormulaVerifyMisuseAssignSymbol" xml:space="preserve">
     <value>运算符 "{0}" 左侧必须是可赋值对象</value>
+  </data>
+  <data name="ViewDialogConfirmActionAccept" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ViewDialogConfirmActionCancel" xml:space="preserve">
+    <value>取消</value>
   </data>
 </root>

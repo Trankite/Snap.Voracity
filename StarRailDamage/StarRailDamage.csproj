@@ -101,8 +101,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Source\UI\Xaml\Dialog\" />
-  </ItemGroup>
-
 </Project>
