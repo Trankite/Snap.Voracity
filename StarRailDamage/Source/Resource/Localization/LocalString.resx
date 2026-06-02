@@ -330,7 +330,7 @@
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
     <value>{0}内容文本 (必填)
 {1}保存路径 (Temp)
-{2}文件格式 [Png|Jpg|Bmp|Svg]
+{2}文件格式 [Png|Jpg|Bmp|Svg|Csv]
 {3}前景色 (#000000)
 {4}背景色 (#FFFFFF)
 {5}单格像素 (5)

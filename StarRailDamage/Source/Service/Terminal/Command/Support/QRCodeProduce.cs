@@ -68,12 +68,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
             {
                 Options.Background = Background;
             }
-            if (int.TryParse(commandLine.GetParameter(PIXELSIZE), out int Pixel))
+            if (int.TryParse(commandLine.GetParameter(PIXELSIZE), out int Pixel) && Pixel > 0)
             {
-                if (Pixel > 0)
-                {
-                    Options.Pixel = Pixel;
-                }
+                Options.Pixel = Pixel;
             }
             if (int.TryParse(commandLine.GetParameter(PADDING), out int Padding))
             {
@@ -104,7 +101,11 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 return new TerminalResponse(false, Write.ToString());
             }
             QRCode Qrcode = QRCode.Create(Encoding.UTF8.GetBytes(content), options);
-            if (string.Equals(format, "svg", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(format, "csv", StringComparison.OrdinalIgnoreCase))
+            {
+                Qrcode.SaveToCsv(Write.Stream);
+            }
+            else if (string.Equals(format, "svg", StringComparison.OrdinalIgnoreCase))
             {
                 Qrcode.SaveToSvg(Write.Stream, options);
             }

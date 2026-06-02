@@ -87,5 +87,21 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             Writer.WriteEndElement();
             Writer.WriteEndElement();
         }
+
+        public static void SaveToCsv(this QRCode qrcode, Stream stream)
+        {
+            using StreamWriter Writer = new(stream);
+            ReadOnlySpan<char> BlackSpan = [',', '1'];
+            ReadOnlySpan<char> WhiteSpan = [',', '0'];
+            for (int x = 0; x < qrcode.Size; x++)
+            {
+                Writer.Write(qrcode[x, 0].HasBit ? '1' : '0');
+                for (int y = 1; y < qrcode.Size; y++)
+                {
+                    Writer.Write(qrcode[x, y].HasBit ? BlackSpan : WhiteSpan);
+                }
+                Writer.WriteLine();
+            }
+        }
     }
 }

@@ -330,7 +330,7 @@
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
     <value>{0}Content text (Required)
 {1}Saving path (Temp)
-{2}File format [Png|Jpg|Bmp|Svg]
+{2}File format [Png|Jpg|Bmp|Svg|Csv]
 {3}Foreground (#000000)
 {4}Background (#FFFFFF)
 {5}Pixel size (5)

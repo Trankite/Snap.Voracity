@@ -7,13 +7,13 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static T Min<T>(this T value, T compare) where T : IComparable
         {
-            return value.CompareTo(compare) < 0 ? compare : value;
+            return value.CompareTo(compare) > 0 ? compare : value;
         }
 
         [DebuggerStepThrough]
         public static T Max<T>(this T value, T compare) where T : IComparable
         {
-            return value.CompareTo(compare) > 0 ? compare : value;
+            return value.CompareTo(compare) < 0 ? compare : value;
         }
 
         [DebuggerStepThrough]
