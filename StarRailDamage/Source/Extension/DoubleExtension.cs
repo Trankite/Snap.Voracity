@@ -16,5 +16,11 @@ namespace StarRailDamage.Source.Extension
             double Factor = Math.Pow(10, digits);
             return Math.Ceiling(value * Factor) / Factor;
         }
+
+        [DebuggerStepThrough]
+        public static int ToInt(this double value, int defaultValue = 0)
+        {
+            return double.IsRealNumber(value) ? Convert.ToInt32(Math.Clamp(value, int.MinValue, int.MaxValue)) : defaultValue;
+        }
     }
 }

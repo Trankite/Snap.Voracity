@@ -69,116 +69,69 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             }
         }
 
-        private class AssignSymbol : MagicalFormulaSymbol
+        private class AssignSymbol : MagicalFormulaAssignSymbol
         {
-            public override int Order => 1;
-
             public override string Name => "=";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
                 return SetValue(context.Start, GetValue(context.Ended, getter, setter), setter);
             }
-
-            public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
-            {
-                return AssignSymbolVerify(formula, out message);
-            }
         }
 
-        private class AssignAddSymbol : MagicalFormulaSymbol
+        private class AssignAddSymbol : MagicalFormulaAssignSymbol
         {
-            public override int Order => 1;
-
             public override string Name => "+=";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
                 return SetValue(context.Start, GetValue(context.Start, getter, setter) + GetValue(context.Ended, getter, setter), setter);
             }
-
-            public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
-            {
-                return AssignSymbolVerify(formula, out message);
-            }
         }
 
-        private class AssignSubtractSymbol : MagicalFormulaSymbol
+        private class AssignSubSymbol : MagicalFormulaAssignSymbol
         {
-            public override int Order => 1;
-
             public override string Name => "-=";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
                 return SetValue(context.Start, GetValue(context.Start, getter, setter) - GetValue(context.Ended, getter, setter), setter);
             }
-
-            public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
-            {
-                return AssignSymbolVerify(formula, out message);
-            }
         }
 
-        private class AssignMultiplySymbol : MagicalFormulaSymbol
+        private class AssignMulSymbol : MagicalFormulaAssignSymbol
         {
-            public override int Order => 1;
-
             public override string Name => "*=";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
                 return SetValue(context.Start, GetValue(context.Start, getter, setter) * GetValue(context.Ended, getter, setter), setter);
             }
-
-            public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
-            {
-                return AssignSymbolVerify(formula, out message);
-            }
         }
 
-        private class AssignDivideSymbol : MagicalFormulaSymbol
+        private class AssignDivSymbol : MagicalFormulaAssignSymbol
         {
-            public override int Order => 1;
-
             public override string Name => "/=";
-
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
                 return SetValue(context.Start, GetValue(context.Start, getter, setter) / GetValue(context.Ended, getter, setter), setter);
             }
-
-            public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
-            {
-                return AssignSymbolVerify(formula, out message);
-            }
         }
 
-        private class OrSymbol : MagicalFormulaSymbol
+        private class OrSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 2;
 
             public override string Name => "|";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(Convert.ToBoolean(GetValue(context.Start, getter, setter)) | Convert.ToBoolean(GetValue(context.Ended, getter, setter)));
+                return Convert.ToDouble(Convert.ToBoolean(left) | Convert.ToBoolean(right));
             }
         }
 
-        private class OrStopSymbol : MagicalFormulaSymbol
+        private class OrJumpSymbol : MagicalFormulaSymbol
         {
             public override int Order => 2;
 
@@ -192,21 +145,19 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             }
         }
 
-        private class AndSymbol : MagicalFormulaSymbol
+        private class AndSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 3;
 
             public override string Name => "&";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(Convert.ToBoolean(GetValue(context.Start, getter, setter)) & Convert.ToBoolean(GetValue(context.Ended, getter, setter)));
+                return Convert.ToDouble(Convert.ToBoolean(left) & Convert.ToBoolean(right));
             }
         }
 
-        private class AndStopSymbol : MagicalFormulaSymbol
+        private class AndJumpSymbol : MagicalFormulaSymbol
         {
             public override int Order => 3;
 
@@ -220,105 +171,91 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             }
         }
 
-        private class MoreSymbol : MagicalFormulaSymbol
+        private class MoreSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 4;
 
             public override string Name => ">";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(GetValue(context.Start, getter, setter) > GetValue(context.Ended, getter, setter));
+                return Convert.ToDouble(left > right);
             }
         }
 
-        private class MoreOrEqualSymbol : MagicalFormulaSymbol
+        private class MoreOrEqualSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 4;
 
             public override string Name => ">=";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(GetValue(context.Start, getter, setter) >= GetValue(context.Ended, getter, setter));
+                return Convert.ToDouble(left >= right);
             }
         }
 
-        private class EqualSymbol : MagicalFormulaSymbol
+        private class EqualSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 4;
 
             public override string Name => "==";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(GetValue(context.Start, getter, setter) == GetValue(context.Ended, getter, setter));
+                return Convert.ToDouble(left == right);
             }
         }
 
-        private class NotEqualSymbol : MagicalFormulaSymbol
+        private class NotEqualSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 4;
 
             public override string Name => "!=";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(GetValue(context.Start, getter, setter) != GetValue(context.Ended, getter, setter));
+                return Convert.ToDouble(left != right);
             }
         }
 
-        private class LessSymbol : MagicalFormulaSymbol
+        private class LessSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 4;
 
             public override string Name => "<";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(GetValue(context.Start, getter, setter) < GetValue(context.Ended, getter, setter));
+                return Convert.ToDouble(left < right);
             }
         }
 
-        private class LessOrEqualSymbol : MagicalFormulaSymbol
+        private class LessOrEqualSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 4;
 
             public override string Name => "<=";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Convert.ToDouble(GetValue(context.Start, getter, setter) <= GetValue(context.Ended, getter, setter));
+                return Convert.ToDouble(left <= right);
             }
         }
 
-        private class AddSymbol : MagicalFormulaSymbol
+        private class AddSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 5;
 
             public override string Name => "+";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return GetValue(context.Start, getter, setter) + GetValue(context.Ended, getter, setter);
+                return left + right;
             }
         }
 
-        private class SubtractSymbol : MagicalFormulaSymbol
+        private class SubSymbol : MagicalFormulaSymbol
         {
             public override int Order => 5;
 
@@ -341,167 +278,173 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             }
         }
 
-        private class MultiplySymbol : MagicalFormulaSymbol
+        private class MulSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 6;
 
             public override string Name => "*";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return GetValue(context.Start, getter, setter) * GetValue(context.Ended, getter, setter);
+                return left * right;
             }
         }
 
-        private class DivideSymbol : MagicalFormulaSymbol
+        private class DivSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 6;
 
             public override string Name => "/";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return GetValue(context.Start, getter, setter) / GetValue(context.Ended, getter, setter);
+                return left / right;
             }
         }
 
-        private class PowerSymbol : MagicalFormulaSymbol
+        private class ModuloSymbol : MagicalFormulaDyadicSymbol
+        {
+            public override int Order => 6;
+
+            public override string Name => "MOD";
+
+            protected override double MethodOverride(double left, double right)
+            {
+                return left % right;
+            }
+        }
+
+        private class PowerSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 7;
 
             public override string Name => "^";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Dyadic;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double left, double right)
             {
-                return Math.Pow(GetValue(context.Start, getter, setter), GetValue(context.Ended, getter, setter));
+                return Math.Pow(left, right);
             }
         }
 
-        private class NotSymbol : MagicalFormulaSymbol
+        private class NotSymbol : MagicalFormulaPrefixSymbol
         {
-            public override int Order => 8;
-
             public override string Name => "!";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Prefix;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double value)
             {
-                return Convert.ToDouble(!Convert.ToBoolean(GetValue(context.Ended, getter, setter)));
-            }
-
-            public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
-            {
-                return PrefixSymbolVerify(formula, out message);
+                return Convert.ToDouble(!Convert.ToBoolean(value));
             }
         }
 
-        private class HundredSymbol : MagicalFormulaSymbol
+        private class HundredSymbol : MagicalFormulaSuffixSymbol
         {
-            public override int Order => 8;
-
             public override string Name => "%";
 
-            public override MagicalFormulaSymbolType SymbolType => MagicalFormulaSymbolType.Suffix;
-
-            public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double value)
             {
-                return GetValue(context.Start, getter, setter) * 0.01;
-            }
-
-            public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
-            {
-                return SuffixSymbolVerify(formula, out message);
+                return value * 0.01;
             }
         }
 
-        private class ModuloSymbol : MagicalFormulaMethodSymbol
+        private class SineSymbol : MagicalFormulaPrefixSymbol
         {
-            public override string Name => "Mod";
+            public override string Name => "SIN";
 
-            protected override int MinCount => 2;
-
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(double value)
             {
-                return GetValue(context.GetIndexValue(0), getter, setter) % GetValue(context.GetIndexValue(1), getter, setter);
+                return Math.Sin(double.DegreesToRadians(value));
+            }
+        }
+
+        private class CosineSymbol : MagicalFormulaPrefixSymbol
+        {
+            public override string Name => "COS";
+
+            protected override double MethodOverride(double value)
+            {
+                return Math.Cos(double.DegreesToRadians(value));
+            }
+        }
+
+        private class TangentSymbol : MagicalFormulaPrefixSymbol
+        {
+            public override string Name => "TAN";
+
+            protected override double MethodOverride(double value)
+            {
+                return Math.Tan(double.DegreesToRadians(value));
+            }
+        }
+
+        private class RandomSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "RDM";
+
+            protected override int MinCount => 1;
+
+            protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return ObjectExtension.OutSelf(GetValue(context.FirstOrDefault(), getter, setter).ToInt() + 1, out int Maximum) > 0 ? Random.Shared.Next(Maximum) : double.NaN;
             }
         }
 
         private class MinimumSymbol : MagicalFormulaMethodSymbol
         {
-            public override string Name => "Min";
+            public override string Name => "MIN";
 
             protected override int MinCount => 1;
 
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return context.Min(Formula => GetValue(Formula, getter, setter));
+                return context.Min(Current => GetValue(Current, getter, setter));
             }
         }
 
         private class MaximumSymbol : MagicalFormulaMethodSymbol
         {
-            public override string Name => "Max";
+            public override string Name => "MAX";
 
             protected override int MinCount => 1;
 
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return context.Max(Formula => GetValue(Formula, getter, setter));
+                return context.Max(Current => GetValue(Current, getter, setter));
             }
         }
 
-        private class SineSymbol : MagicalFormulaMethodSymbol
+        private class RoundSymbol : MagicalFormulaMethodSymbol
         {
-            public override string Name => "Sin";
-
-            protected override int MinCount => 1;
-
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
-            {
-                return Math.Sin(double.DegreesToRadians(GetValue(context.FirstOrDefault(), getter, setter)));
-            }
-        }
-
-        private class CosineSymbol : MagicalFormulaMethodSymbol
-        {
-            public override string Name => "Cos";
-
-            protected override int MinCount => 1;
-
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
-            {
-                return Math.Cos(double.DegreesToRadians(GetValue(context.FirstOrDefault(), getter, setter)));
-            }
-        }
-
-        private class TangentSymbol : MagicalFormulaMethodSymbol
-        {
-            public override string Name => "Tan";
-
-            protected override int MinCount => 1;
-
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
-            {
-                return Math.Tan(double.DegreesToRadians(GetValue(context.FirstOrDefault(), getter, setter)));
-            }
-        }
-
-        private class IndexerSymbol : MagicalFormulaMethodSymbol
-        {
-            public override string Name => "Ind";
+            public override string Name => "RND";
 
             protected override int MinCount => 2;
 
-            protected override double MethodOverride(MagicalFormula[] context, Func<string, double>? getter, Func<string, double, double>? setter)
+            protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.AsSpan().SplitAt(1).Ended.GetIndexValue(Convert.ToInt32(GetValue(context.FirstOrDefault(), getter, setter)) - 1), getter, setter);
+                return GetValue(context.GetIndexValue(1), getter, setter).ToInt().OutSelf(out int Minimum).IsClamp(0, 15) ? Math.Round(GetValue(context.FirstOrDefault(), getter, setter), Minimum) : double.NaN;
+            }
+        }
+
+        private class JumpSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "JMP";
+
+            protected override int MinCount => 2;
+
+            protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return GetValue(context.AsSpan().SplitAt(1).Ended.GetIndexValue(GetValue(context.FirstOrDefault(), getter, setter).ToInt()), getter, setter);
+            }
+        }
+
+        private class ClampSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "CLP";
+
+            protected override int MinCount => 3;
+
+            protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return GetValue(context.GetIndexValue(1), getter, setter).OutSelf(out double Minimum) < GetValue(context.GetIndexValue(2), getter, setter).OutSelf(out double Maximum) ? Math.Clamp(GetValue(context.FirstOrDefault(), getter, setter), Minimum, Maximum) : double.NaN;
             }
         }
     }

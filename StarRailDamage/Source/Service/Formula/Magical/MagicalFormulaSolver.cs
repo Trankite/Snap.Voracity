@@ -20,17 +20,17 @@ namespace StarRailDamage.Source.Service.Formula.Magical
 
         public double GetValue(MagicalFormula? formula) => GetValue(formula, Getter, Setter);
 
-        public static double GetValue(MagicalFormula? formula, Func<string, double>? getter = null, Func<string, double, double>? setter = null)
+        public static double GetValue(MagicalFormula? formula, Func<string, double>? getter = null, Func<string, double, double>? setter = null, double defaultValue = double.NaN)
         {
-            if (formula.IsNull()) return double.NaN;
+            if (formula.IsNull()) return defaultValue;
             if (formula.Start.IsNull() && formula.Ended.IsNull())
             {
-                if (formula.Content.IsNull()) return double.NaN;
+                if (formula.Content.IsNull()) return defaultValue;
                 if (string.IsNullOrEmpty(formula.Content.Target))
                 {
                     return formula.Content.Number;
                 }
-                return getter.IsNotNull() ? getter(formula.Content.Target) : double.NaN;
+                return getter.IsNotNull() ? getter(formula.Content.Target) : defaultValue;
             }
             return formula.Symbol.Method(formula, getter, setter);
         }
@@ -40,10 +40,10 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             return setter.IsNotNull() && !string.IsNullOrEmpty(formula?.Content?.Target) ? setter(formula.Content.Target, value) : value;
         }
 
-        public static MagicalFormula[] GetMethodContext(MagicalFormula? formula)
+        public static List<MagicalFormula> GetMethodContext(MagicalFormula? formula)
         {
             if (formula.IsNull()) return [];
-            Stack<MagicalFormula> ContextStack = [];
+            List<MagicalFormula> Context = [];
             Stack<MagicalFormula> FormulaStack = new();
             formula.AppendFormula(FormulaStack);
             while (FormulaStack.TryPop(out MagicalFormula? Current))
@@ -52,9 +52,9 @@ namespace StarRailDamage.Source.Service.Formula.Magical
                 {
                     Current.AppendFormula(FormulaStack);
                 }
-                else ContextStack.Push(Current);
+                else Context.Add(Current);
             }
-            return [.. ContextStack];
+            return Context.Configure(Self => Self.Reverse());
         }
 
         public bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)

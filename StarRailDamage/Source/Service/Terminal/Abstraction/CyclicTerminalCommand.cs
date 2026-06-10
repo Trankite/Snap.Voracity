@@ -7,7 +7,7 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
     {
         public abstract string Name { get; }
 
-        public string[] Parameters => [INPUT, ISEXIT];
+        public string[] Parameters => [INPUT, ENDSYMBOL];
 
         public string Help => LocalString.ServiceTerminalCycleHelp;
 
@@ -16,8 +16,6 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
         protected abstract string HelpOverride { get; }
 
         private const string INPUT = "text";
-
-        private const string ISEXIT = "exit";
 
         private const string ENDSYMBOL = "end";
 
@@ -29,17 +27,17 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
         {
             if (Program.OnTerminal)
             {
-                string Current = commandLine.GetParameter(INPUT);
-                if (commandLine.GetBoolParameter(ISEXIT))
+                if (commandLine.GetBoolParameter(ENDSYMBOL))
                 {
-                    return InvokeOverride(Current);
+                    return InvokeOverride(commandLine.GetParameter(INPUT));
                 }
-                string Header = $"[{Name.ToUpper()}] ";
-                while (Program.OnTerminal && Current != ENDSYMBOL)
+                string Header = $"[{Name.ToUpper()}]\x20";
+                string Current = commandLine.GetParameter(INPUT);
+                while (Program.OnTerminal && !Current.EqualsIgnoreCase(ENDSYMBOL))
                 {
                     if (!string.IsNullOrEmpty(Current))
                     {
-                        if (Current.Equals(HELPSYMBOL, StringComparison.OrdinalIgnoreCase))
+                        if (Current.EqualsIgnoreCase(HELPSYMBOL))
                         {
                             TerminalManage.WriteLine(HelpOverride);
                         }
@@ -48,8 +46,7 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
                             TerminalManage.WriteLine(InvokeOverride(Current));
                         }
                     }
-                    TerminalManage.Write(Header);
-                    Current = Console.ReadLine().NotNull();
+                    Current = TerminalManage.ReadLine(Header);
                 }
             }
             return new TerminalResponse(Program.OnTerminal);

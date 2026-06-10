@@ -6,9 +6,9 @@ namespace StarRailDamage.Source.Extension
 {
     public static class BitmapExtension
     {
-        public static void SaveAndDisponse(this Bitmap bitmap, Stream stream, ImageFormat format)
+        public static void SaveAndDisponse(this Bitmap bitmap, Stream stream, ImageFormat? format = default)
         {
-            try { bitmap.Save(stream, format); } catch { } finally { bitmap.Dispose(); }
+            try { bitmap.Save(stream, format ?? ImageFormat.Png); } catch { } finally { bitmap.Dispose(); }
         }
     }
 }

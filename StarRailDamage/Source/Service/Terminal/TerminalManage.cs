@@ -82,6 +82,17 @@ namespace StarRailDamage.Source.Service.Terminal
             }
         }
 
+        public static string ReadLine()
+        {
+            return Program.OnTerminal ? Console.ReadLine().NotNull() : string.Empty;
+        }
+
+        public static string ReadLine(ReadOnlySpan<char> line)
+        {
+            Write(line);
+            return ReadLine();
+        }
+
         private static FrozenDictionary<string, TerminalCommand> GetCommandTable(params ITerminalCommand[] commands)
         {
             return commands.ToFrozenDictionary(Item => Item.Name, TerminalCommand.Create, StringComparer.OrdinalIgnoreCase);
@@ -91,7 +102,7 @@ namespace StarRailDamage.Source.Service.Terminal
         {
             CommandTable = GetCommandTable
             (
-                new TerminalExample(),
+                new TerminalHelp(),
                 new TerminalEcho(),
                 new TerminalClear(),
                 new TerminalPause(),

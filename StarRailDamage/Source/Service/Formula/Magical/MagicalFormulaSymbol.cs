@@ -24,11 +24,11 @@ namespace StarRailDamage.Source.Service.Formula.Magical
 
         public override bool IsEndedSymbol => (SymbolType & MagicalFormulaSymbolType.Ended) != 0;
 
-        public abstract double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter);
-
         public MagicalFormulaSymbol() { }
 
         public MagicalFormulaSymbol(MagicalFormulaSymbolType symbolType) : base(symbolType) { }
+
+        public abstract double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter);
 
         public virtual bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
         {

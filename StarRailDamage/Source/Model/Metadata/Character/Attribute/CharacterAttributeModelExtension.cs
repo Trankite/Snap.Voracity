@@ -35,7 +35,7 @@ namespace StarRailDamage.Source.Model.Metadata.Character.Attribute
             return element switch { CharacterElement.Quantum or CharacterElement.Imaginary => 0.5, CharacterElement.Ice or CharacterElement.Lightning => 1, CharacterElement.Wind => 1.5, CharacterElement.Fire or CharacterElement.Physical => 2, _ => double.NaN };
         }
 
-        public static int GetLevelIndex(double level) => Convert.ToInt32(level).Clamp(1, 80) - 1;
+        public static int GetLevelIndex(double level) => Math.Clamp(level.ToInt(), 1, 80) - 1;
 
         public static double GetOffense(double value) => value / 100 + 1;
 

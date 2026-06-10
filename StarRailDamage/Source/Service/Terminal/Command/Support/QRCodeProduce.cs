@@ -101,17 +101,18 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 return new TerminalResponse(false, Write.ToString());
             }
             QRCode Qrcode = QRCode.Create(Encoding.UTF8.GetBytes(content), options);
-            if (string.Equals(format, "csv", StringComparison.OrdinalIgnoreCase))
+            if (format.EqualsIgnoreCase("csv"))
             {
                 Qrcode.SaveToCsv(Write.Stream);
             }
-            else if (string.Equals(format, "svg", StringComparison.OrdinalIgnoreCase))
+            else if (format.EqualsIgnoreCase("svg"))
             {
                 Qrcode.SaveToSvg(Write.Stream, options);
             }
             else
             {
-                Qrcode.GetBitmap(options).SaveAndDisponse(Write.Stream, ImageFormatExtension.Parse(format, ImageFormat.Png));
+                ImageFormat? ImageType = ImageFormatExtension.Parse(format);
+                Qrcode.GetBitmap(options).SaveAndDisponse(Write.Stream, ImageType);
             }
             return new TerminalResponse(true, FileHelper.PathOpen(Write.FullPath, pathOpen));
         }

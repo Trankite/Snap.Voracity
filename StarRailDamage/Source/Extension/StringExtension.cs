@@ -19,27 +19,21 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static bool EqualsIgnoreCase(this ReadOnlySpan<char> value, ReadOnlySpan<char> compare)
+        {
+            return value.Equals(compare, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [DebuggerStepThrough]
         public static string NotNull(this string? value)
         {
             return value ?? string.Empty;
         }
 
         [DebuggerStepThrough]
-        public static string NotNull(this string? value, object defaultValue)
-        {
-            return value ?? defaultValue.ToString().NotNull();
-        }
-
-        [DebuggerStepThrough]
         public static string NotEmpty(this string? value, string defaultValue)
         {
             return string.IsNullOrEmpty(value) ? defaultValue : value;
-        }
-
-        [DebuggerStepThrough]
-        public static string NotEmpty(this string? value, object defaultValue)
-        {
-            return string.IsNullOrEmpty(value) ? defaultValue.ToString().NotNull() : value;
         }
 
         [DebuggerStepThrough]

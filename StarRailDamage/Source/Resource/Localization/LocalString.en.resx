@@ -353,7 +353,7 @@
   <data name="ServiceTerminalSupportConsoleEchoFullName" xml:space="preserve">
     <value>Print to console</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsoleHelpHelp" xml:space="preserve">
     <value>{0}Command name (Empty)
 Usage syntax of commands
 Use "&amp;" to separate commands
@@ -362,7 +362,7 @@ Use "--" to enable a switch
 Use """ to concatenate content
 Use "\" to escape symbols</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleExampleFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>Command help</value>
   </data>
   <data name="ServiceTerminalSupportConsoleClearFullName" xml:space="preserve">
@@ -492,30 +492,33 @@ Use "Help &lt;Command&gt;" Access Details</value>
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
     <value>{0}Input content (Empty)
 {1}Exit the loop [True|False]
-Use "end" to exit the current state
-Use "help" to view internal help</value>
+Use "help" to view internal help
+Use "{1}" to exit the current state</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
     <value>Formula calculator</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
     <value>Operator precedence
-[1] Assignment operator [=,+=,-=,*=,/=]
-[2] Logical OR operator [|,||]
-[3] Logical AND operator [&amp;,&amp;&amp;]
-[4] Comparison operators [&gt;,&gt;=,&lt;,&lt;=,==,!=]
-[5] Addition and subtraction operators [+,-]
-[6] Multiplication and division operators [*,/]
-[7] Exponent operator [^]
-[8] Logical negation symbol [!]
-[8] Percentage symbol [%]
-[9] Sine symbol [Sin]
-[9] Cosine symbol [Cos]
-[9] Tangent symbol [Tan]
-[9] Minimum [Min(num1,num2...)]
-[9] Maximum [Max(num1,num2...)]
-[9] Modulo [Mod(num1,num2)]
-[9] Indexer [Ind(index,item1,item2...)]</value>
+[1] Assign [=,+=,-=,*=,/=]
+[2] OR [|,||]
+[3] AND [&amp;,&amp;&amp;]
+[4] Comparison [&gt;,&gt;=,&lt;,&lt;=,==,!=]
+[5] ADD and SUB [+,-]
+[6] MUL and DIV [*,/]
+[6] Modulo [MOD]
+[7] Exponent [^]
+[8] NOT [!]
+[8] Percentage [%]
+[8] Sine [SIN]
+[8] Cosine [COS]
+[8] Tangent [TAN]
+[9] Random [RDM(max)]
+[9] Minimum [MIN(num...)]
+[9] Maximum [MAX(num...)]
+[9] Round [RND(num,digits)]
+[9] Jump table [JMP(index,num...)]
+[9] Clamp [CLP(num,min,max)]</value>
   </data>
   <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
     <value>The operator "{0}" has insufficient available operands</value>

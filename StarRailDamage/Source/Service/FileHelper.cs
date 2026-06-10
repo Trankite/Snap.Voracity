@@ -25,7 +25,7 @@ namespace StarRailDamage.Source.Service
         [DebuggerStepThrough]
         public static string PathOpen(string? path)
         {
-            return path.Configure(Process.Start("explorer", $"{(File.Exists(path) ? "/select," : string.Empty)}\"{path}\"")) ?? string.Empty;
+            return path.Configure(Process.Start("explorer", $"{(File.Exists(path) ? "/select," : string.Empty)}\"{path}\"")).NotNull();
         }
 
         [DebuggerStepThrough]

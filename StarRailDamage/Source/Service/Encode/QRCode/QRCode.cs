@@ -48,8 +48,8 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
             }
             QRCodeEncoder Encoder = EncodeMode.CreateEncoder();
             Encoder.SetOptimalVersion(content, options.Version);
-            content = content.SplitAt(Encoder.GetMaxCapacity()).Start;
-            return new(Encoder, options.MaskType, content);
+            ReadOnlySpan<byte> Payload = content.SplitAt(Encoder.GetMaxCapacity()).Start;
+            return new QRCode(Encoder, options.MaskType, Payload);
         }
 
         private void Initialize(ReadOnlySpan<byte> content)
@@ -384,8 +384,8 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
         private int GetAsPatternPenalty()
         {
             int Penalty = 0;
-            uint Pattern1 = 0b1011101;
-            uint Pattern2 = Pattern1 << 4;
+            const uint Pattern1 = 0b1011101;
+            const uint Pattern2 = Pattern1 << 4;
             for (int x = 0; x < Size; x++)
             {
                 uint Flag = 0;

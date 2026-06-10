@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 namespace StarRailDamage.Source.Extension
 {
@@ -43,6 +44,12 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static Span<T> AsSpan<T>(this List<T> value)
+        {
+            return CollectionsMarshal.AsSpan(value);
+        }
+
+        [DebuggerStepThrough]
         public static bool Exists<T>(this IEnumerable<T> array, params T[] values)
         {
             return values.Any(array.Contains);
@@ -64,6 +71,12 @@ namespace StarRailDamage.Source.Extension
         public static T[] NotNull<T>(this T[]? value)
         {
             return value ?? [];
+        }
+
+        [DebuggerStepThrough]
+        public static T[] NotEmpty<T>(this T[]? value, T defaultValue)
+        {
+            return value ?? [defaultValue];
         }
 
         [DebuggerStepThrough]

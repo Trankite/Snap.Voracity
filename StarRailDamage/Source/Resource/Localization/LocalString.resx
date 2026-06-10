@@ -353,7 +353,7 @@
   <data name="ServiceTerminalSupportConsoleEchoFullName" xml:space="preserve">
     <value>输出到控制台</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleExampleHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsoleHelpHelp" xml:space="preserve">
     <value>{0}命令名称 (空)
 命令的使用语法
 使用 "&amp;" 来分隔命令
@@ -362,7 +362,7 @@
 使用 """ 来拼接内容
 使用 "\" 来转义符号</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleExampleFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>命令帮助</value>
   </data>
   <data name="ServiceTerminalSupportConsoleClearFullName" xml:space="preserve">
@@ -492,8 +492,8 @@
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
     <value>{0}输入内容 (空)
 {1}退出循环 [True|False]
-使用 "end" 来退出当前状态
-使用 "help" 来查看内部帮助</value>
+使用 "help" 来查看内部帮助
+使用 "{1}" 来退出当前状态</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
     <value>算式运算器</value>
@@ -506,16 +506,19 @@
 [4] 比较运算符 [&gt;,&gt;=,&lt;,&lt;=,==,!=]
 [5] 加减运算符 [+,-]
 [6] 乘除运算符 [*,/]
+[6] 模运算符 [MOD]
 [7] 幂运算符 [^]
 [8] 逻辑非符号 [!]
 [8] 百分比符号 [%]
-[9] 正弦符号 [Sin]
-[9] 余弦符号 [Cos]
-[9] 正切符号 [Tan]
-[9] 最小值 [Min(num1,num2...)]
-[9] 最大值 [Max(num1,num2...)]
-[9] 模运算 [Mod(num1,num2)]
-[9] 索引器 [Ind(index,item1,item2...)]</value>
+[8] 正弦符号 [SIN]
+[8] 余弦符号 [COS]
+[8] 正切符号 [TAN]
+[9] 随机数 [RDM(max)]
+[9] 最小值 [MIN(num...)]
+[9] 最大值 [MAX(num...)]
+[9] 舍入值 [RND(num,digits)]
+[9] 跳转表 [JMP(index,num...)]
+[9] 约束值 [CLP(num,min,max)]</value>
   </data>
   <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
     <value>运算符 "{0}" 可用的操作数不足</value>

@@ -4,7 +4,7 @@ namespace StarRailDamage.Source.Extension
 {
     public static class ImageFormatExtension
     {
-        public static ImageFormat Parse(string? value, ImageFormat? defaultValue = default)
+        public static ImageFormat? Parse(string? value)
         {
             return value?.ToLower() switch
             {
@@ -12,7 +12,7 @@ namespace StarRailDamage.Source.Extension
                 "jpg" or "jpeg" => ImageFormat.Jpeg,
                 "bmp" => ImageFormat.Bmp,
                 "ico" => ImageFormat.Icon,
-                _ => defaultValue ?? ImageFormat.Png
+                _ => default
             };
         }
     }
