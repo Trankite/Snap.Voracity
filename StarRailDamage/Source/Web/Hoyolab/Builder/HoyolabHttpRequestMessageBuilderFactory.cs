@@ -9,7 +9,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
 
         public HoyolabHttpRequestMessageBuilderFactory()
         {
-            HoyolabToken = HoyolabToken.Create();
+            HoyolabToken = new HoyolabToken();
         }
 
         public HoyolabHttpRequestMessageBuilderFactory(HoyolabToken hoyolabToken)

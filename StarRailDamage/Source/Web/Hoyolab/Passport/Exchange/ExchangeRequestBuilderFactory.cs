@@ -11,9 +11,9 @@ namespace StarRailDamage.Source.Web.Hoyolab.Passport.Exchange
     {
         private const string URL = "https://passport-api.mihoyo.com/account/ma-cn-session/app/exchange";
 
-        public ExchangeType Origin { get; set; }
+        public HoyolabTokenType Origin { get; set; }
 
-        public ExchangeType Destin { get; set; }
+        public HoyolabTokenType Destin { get; set; }
 
         public ExchangeRequestBuilderFactory() { }
 
@@ -21,11 +21,11 @@ namespace StarRailDamage.Source.Web.Hoyolab.Passport.Exchange
 
         public override HttpRequestMessageBuilder Create()
         {
-            ExchangeRequestBodySrcToken SrcToken = new(Origin.GetToken(HoyolabToken), Origin.ToInt());
+            ExchangeRequestBodySourceToken SourceToken = new(HoyolabToken.GetToken(Origin), Origin.ToInt());
             return new HoyolabHttpRequestMessageBuilder()
                 .SetRequestUri(URL)
                 .SetMethod(HttpMethod.Post)
-                .SetStringContent(JsonSerializer.Serialize(new ExchangeRequestBody(SrcToken, HoyolabToken.Mid, Destin.ToInt())))
+                .SetStringContent(JsonSerializer.Serialize(new ExchangeRequestBody(SourceToken, HoyolabToken.Mid, Destin.ToInt())))
                 .SetXrpcAppId(HoyolabOptions.HoyolabId);
         }
     }

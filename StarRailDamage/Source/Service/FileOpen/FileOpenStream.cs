@@ -10,6 +10,7 @@ namespace StarRailDamage.Source.Service.FileOpen
     {
         [MemberNotNullWhen(true, nameof(Stream))]
         [MemberNotNullWhen(true, nameof(FileInfo))]
+        [MemberNotNullWhen(false, nameof(Exception))]
         public bool Success { get; }
 
         public Stream? Stream { get; }
@@ -41,6 +42,16 @@ namespace StarRailDamage.Source.Service.FileOpen
         }
 
         public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None) => new(path, fileMode, fileAccess, fileShare, true);
+
+        [MemberNotNull(nameof(Stream))]
+        [MemberNotNull(nameof(FileInfo))]
+        public void ThrowIfFailed()
+        {
+            if (!Success)
+            {
+                Exception.Throw();
+            }
+        }
 
         public void Dispose()
         {

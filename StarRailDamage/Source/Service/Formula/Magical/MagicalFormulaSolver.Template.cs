@@ -28,11 +28,11 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             {
                 if (string.IsNullOrEmpty(formula.Start?.Content?.Target))
                 {
-                    return false.Configure(message = LocalString.ServiceFormulaVerifyMisuseAssignSymbol.Format(formula.Symbol.Name));
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMisuseAssignSymbol.Format(Name));
                 }
                 if (formula.Ended.IsNull())
                 {
-                    return false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.Format(formula.Symbol.Name));
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.Format(Name));
                 }
                 return true.Configure(message = default);
             }
@@ -55,11 +55,11 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             {
                 if (formula.Start.IsNotNull())
                 {
-                    return false.Configure(message = LocalString.ServiceFormulaVerifyMisuseAffixeSymbol.Format(formula.Symbol.Name));
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMisuseAffixeSymbol.Format(Name));
                 }
                 if (formula.Ended.IsNull())
                 {
-                    return false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.Format(formula.Symbol.Name));
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.Format(Name));
                 }
                 return true.Configure(message = default);
             }
@@ -82,11 +82,11 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             {
                 if (formula.Ended.IsNotNull())
                 {
-                    return false.Configure(message = LocalString.ServiceFormulaVerifyMisuseAffixeSymbol.Format(formula.Symbol.Name));
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMisuseAffixeSymbol.Format(Name));
                 }
                 if (formula.Start.IsNull())
                 {
-                    return false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.Format(formula.Symbol.Name));
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.Format(Name));
                 }
                 return true.Configure(message = default);
             }
@@ -104,12 +104,16 @@ namespace StarRailDamage.Source.Service.Formula.Magical
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetMethodContext(context).OutSelf(out List<MagicalFormula> MethodContext).Count >= MinCount ? MethodOverride(MethodContext, getter, setter) : double.NaN;
+                return GetMethodContext(context.Ended).OutSelf(out List<MagicalFormula> MethodContext).Count >= MinCount ? MethodOverride(MethodContext, getter, setter) : double.NaN;
             }
 
             public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
             {
-                return VerifyOverride(GetMethodContext(formula), out message);
+                if (formula.Start.IsNotNull())
+                {
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMisuseAffixeSymbol.Format(Name));
+                }
+                return VerifyOverride(GetMethodContext(formula.Ended), out message);
             }
 
             protected virtual bool VerifyOverride(List<MagicalFormula> context, [NotNullWhen(false)] out string? message)

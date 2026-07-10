@@ -1,11 +1,7 @@
-﻿using StarRailDamage.Source.Extension;
-
-namespace StarRailDamage.Source.Web.Hoyolab
+﻿namespace StarRailDamage.Source.Web.Hoyolab
 {
     public class HoyolabToken
     {
-        public string Name { get; set; } = string.Empty;
-
         public string Aid { get; set; } = string.Empty;
 
         public string Mid { get; set; } = string.Empty;
@@ -16,11 +12,13 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         public Dictionary<HoyolabTokenType, string> Tokens { get; set; } = [];
 
-        public List<HoyolabUserRole> UserRoles { get; set; } = [];
+        public HoyolabUserRole[] UserRoles { get; set; } = [];
 
-        public static HoyolabToken Create()
+        public HoyolabToken() { }
+
+        public HoyolabToken(string guid)
         {
-            return new HoyolabToken().Configure(Self => Self.Guid = System.Guid.NewGuid().ToString());
+            Guid = guid;
         }
     }
 }

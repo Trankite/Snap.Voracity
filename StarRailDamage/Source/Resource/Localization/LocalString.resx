@@ -506,19 +506,10 @@
 [4] 比较运算符 [&gt;,&gt;=,&lt;,&lt;=,==,!=]
 [5] 加减运算符 [+,-]
 [6] 乘除运算符 [*,/]
-[6] 模运算符 [MOD]
 [7] 幂运算符 [^]
 [8] 逻辑非符号 [!]
 [8] 百分比符号 [%]
-[8] 正弦符号 [SIN]
-[8] 余弦符号 [COS]
-[8] 正切符号 [TAN]
-[9] 随机数 [RDM(max)]
-[9] 最小值 [MIN(num...)]
-[9] 最大值 [MAX(num...)]
-[9] 舍入值 [RND(num,digits)]
-[9] 跳转表 [JMP(index,num...)]
-[9] 约束值 [CLP(num,min,max)]</value>
+[9] 函数方法 [func(n,m)]</value>
   </data>
   <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
     <value>运算符 "{0}" 可用的操作数不足</value>
@@ -534,5 +525,24 @@
   </data>
   <data name="ViewDialogConfirmActionCancel" xml:space="preserve">
     <value>取消</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginDeviceFpFullName" xml:space="preserve">
+    <value>设备指纹</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginFullName" xml:space="preserve">
+    <value>二维码登录</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginFullName" xml:space="preserve">
+    <value>令牌登录</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
+    <value>{0}账号MID (必填)
+{1}SToken (必填)</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginSuccess" xml:space="preserve">
+    <value>米游社账号数据已更新</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginHelp" xml:space="preserve">
+    <value>{0}设备标识符</value>
   </data>
 </root>

@@ -49,9 +49,29 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> value, Predicate<T> match, out int index)
+        {
+            for (index = 0; index < value.Length; index++)
+            {
+                if (match(value[index])) return true;
+            }
+            return false;
+        }
+
+        [DebuggerStepThrough]
         public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator, out int index)
         {
             return (index = value.LastIndexOf(separator)) >= 0;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> value, Predicate<T> match, out int index)
+        {
+            for (index = value.Length - 1; index >= 0; index--)
+            {
+                if (match(value[index])) return true;
+            }
+            return false;
         }
 
         [DebuggerStepThrough]

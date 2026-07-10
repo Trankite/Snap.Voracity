@@ -14,10 +14,10 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         public static bool TryGetUserRole(this HoyolabToken hoyolabToken, GameType value, [NotNullWhen(true)] out HoyolabUserRole? userRole)
         {
-            for (int i = 0; i < hoyolabToken.UserRoles.Count; i++)
+            for (int i = 0; i < hoyolabToken.UserRoles.Length; i++)
             {
                 userRole = hoyolabToken.UserRoles[i];
-                if (GameTypeExtension.TryGetGameType(userRole.Game, out GameType GameType))
+                if (GameTypeExtension.GameTypeTable.TryGetValue(userRole.Game, out GameType GameType))
                 {
                     if (GameType.HasFlag(value)) return true;
                 }

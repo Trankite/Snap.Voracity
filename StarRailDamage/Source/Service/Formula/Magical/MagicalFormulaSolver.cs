@@ -30,7 +30,7 @@ namespace StarRailDamage.Source.Service.Formula.Magical
                 {
                     return formula.Content.Number;
                 }
-                return getter.IsNotNull() ? getter(formula.Content.Target) : defaultValue;
+                return getter?.Invoke(formula.Content.Target) ?? defaultValue;
             }
             return formula.Symbol.Method(formula, getter, setter);
         }
@@ -45,16 +45,16 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             if (formula.IsNull()) return [];
             List<MagicalFormula> Context = [];
             Stack<MagicalFormula> FormulaStack = new();
-            formula.AppendFormula(FormulaStack);
+            FormulaStack.Push(formula);
             while (FormulaStack.TryPop(out MagicalFormula? Current))
             {
                 if (Current.Symbol.IsSeparatorSymbol)
                 {
-                    Current.AppendFormula(FormulaStack);
+                    Current.PushToStack(FormulaStack);
                 }
                 else Context.Add(Current);
             }
-            return Context.Configure(Self => Self.Reverse());
+            return Context;
         }
 
         public bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
@@ -64,7 +64,7 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             while (FormulaStack.TryPop(out MagicalFormula? Current))
             {
                 if (!Current.Symbol.Verify(Current, out message)) return false;
-                Current.AppendFormula(FormulaStack);
+                Current.PushToStack(FormulaStack);
             }
             return true.Configure(message = default);
         }

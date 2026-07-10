@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -26,6 +27,12 @@ namespace StarRailDamage.Source.Extension
             BitmapImage.EndInit();
             BitmapImage.Freeze();
             return BitmapImage;
+        }
+
+        [DebuggerStepThrough]
+        public static Image GetImage(this BitmapImage image)
+        {
+            return new Image() { Source = image, Stretch = Stretch.Uniform };
         }
 
         static BitmapImageExtension()

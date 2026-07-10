@@ -302,18 +302,6 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             }
         }
 
-        private class ModuloSymbol : MagicalFormulaDyadicSymbol
-        {
-            public override int Order => 6;
-
-            public override string Name => "MOD";
-
-            protected override double MethodOverride(double left, double right)
-            {
-                return left % right;
-            }
-        }
-
         private class PowerSymbol : MagicalFormulaDyadicSymbol
         {
             public override int Order => 7;
@@ -343,36 +331,6 @@ namespace StarRailDamage.Source.Service.Formula.Magical
             protected override double MethodOverride(double value)
             {
                 return value * 0.01;
-            }
-        }
-
-        private class SineSymbol : MagicalFormulaPrefixSymbol
-        {
-            public override string Name => "SIN";
-
-            protected override double MethodOverride(double value)
-            {
-                return Math.Sin(double.DegreesToRadians(value));
-            }
-        }
-
-        private class CosineSymbol : MagicalFormulaPrefixSymbol
-        {
-            public override string Name => "COS";
-
-            protected override double MethodOverride(double value)
-            {
-                return Math.Cos(double.DegreesToRadians(value));
-            }
-        }
-
-        private class TangentSymbol : MagicalFormulaPrefixSymbol
-        {
-            public override string Name => "TAN";
-
-            protected override double MethodOverride(double value)
-            {
-                return Math.Tan(double.DegreesToRadians(value));
             }
         }
 
@@ -416,11 +374,23 @@ namespace StarRailDamage.Source.Service.Formula.Magical
         {
             public override string Name => "RND";
 
+            protected override int MinCount => 1;
+
+            protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
+            {
+                return GetValue(context.GetIndexValue(1), getter, setter).ToInt().OutSelf(out int Digits).IsClamp(0, 15) ? Math.Round(GetValue(context.FirstOrDefault(), getter, setter), Digits, MidpointRounding.AwayFromZero) : double.NaN;
+            }
+        }
+
+        private class ModuloSymbol : MagicalFormulaMethodSymbol
+        {
+            public override string Name => "MOD";
+
             protected override int MinCount => 2;
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.GetIndexValue(1), getter, setter).ToInt().OutSelf(out int Minimum).IsClamp(0, 15) ? Math.Round(GetValue(context.FirstOrDefault(), getter, setter), Minimum) : double.NaN;
+                return GetValue(context.FirstOrDefault(), getter, setter) % GetValue(context.GetIndexValue(1), getter, setter);
             }
         }
 

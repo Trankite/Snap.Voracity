@@ -5,7 +5,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Passport.Exchange
     public class ExchangeRequestBody
     {
         [JsonPropertyName("src_token")]
-        public ExchangeRequestBodySrcToken SrcToken { get; set; }
+        public ExchangeRequestBodySourceToken SrcToken { get; set; }
 
         [JsonPropertyName("mid")]
         public string Mid { get; set; } = string.Empty;
@@ -13,7 +13,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Passport.Exchange
         [JsonPropertyName("dst_token_type")]
         public int DstTokenType { get; set; }
 
-        public ExchangeRequestBody(ExchangeRequestBodySrcToken srcToken, string mid, int dstTokenType)
+        public ExchangeRequestBody(ExchangeRequestBodySourceToken srcToken, string mid, int dstTokenType)
         {
             SrcToken = srcToken;
             Mid = mid;

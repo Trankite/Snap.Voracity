@@ -506,19 +506,10 @@ Use "{1}" to exit the current state</value>
 [4] Comparison [&gt;,&gt;=,&lt;,&lt;=,==,!=]
 [5] ADD and SUB [+,-]
 [6] MUL and DIV [*,/]
-[6] Modulo [MOD]
 [7] Exponent [^]
 [8] NOT [!]
 [8] Percentage [%]
-[8] Sine [SIN]
-[8] Cosine [COS]
-[8] Tangent [TAN]
-[9] Random [RDM(max)]
-[9] Minimum [MIN(num...)]
-[9] Maximum [MAX(num...)]
-[9] Round [RND(num,digits)]
-[9] Jump table [JMP(index,num...)]
-[9] Clamp [CLP(num,min,max)]</value>
+[9] Function [func(n,m)]</value>
   </data>
   <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
     <value>The operator "{0}" has insufficient available operands</value>
@@ -534,5 +525,24 @@ Use "{1}" to exit the current state</value>
   </data>
   <data name="ViewDialogConfirmActionCancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginDeviceFpFullName" xml:space="preserve">
+    <value>Device Fingerprint</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginFullName" xml:space="preserve">
+    <value>QR code login</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginFullName" xml:space="preserve">
+    <value>Token login</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
+    <value>{0}MID (Required)
+{1}SToken (Required)</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginSuccess" xml:space="preserve">
+    <value>The account data on Hoyolab has been updated</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginHelp" xml:space="preserve">
+    <value>{0}Device Identifier</value>
   </data>
 </root>

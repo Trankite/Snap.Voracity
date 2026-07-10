@@ -2,8 +2,8 @@
 {
     public enum HoyolabTokenType
     {
-        SToken,
-        LToken,
-        Cookie
+        SToken = 1,
+        LToken = 2,
+        Cookie = 4
     }
 }

@@ -20,22 +20,28 @@ namespace StarRailDamage.Source.Web.Hoyolab
         public static bool Load()
         {
             using FileOpenRead FileRead = new(GetFilePath());
-            if (FileRead.Success)
-            {
-                return true.Configure(_HoyolabTokens = JsonSerializerExtension.Deserialize<HoyolabToken[]>(FileRead.Stream).NotNull());
-            }
-            return false.Configure(_HoyolabTokens = []);
+            _HoyolabTokens = FileRead.Success ? JsonSerializerExtension.Deserialize<HoyolabToken[]>(FileRead.Stream).NotNull() : [];
+            return FileRead.Success;
         }
 
-        public static bool Save(params HoyolabToken[] hoyolabTokens)
+        public static async ValueTask Save(HoyolabToken[] hoyolabTokens)
         {
             using FileOpenWrite FileWrite = FileOpenWrite.Create(GetFilePath());
-            if (FileWrite.Success)
+            FileWrite.ThrowIfFailed();
+            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, _HoyolabTokens = hoyolabTokens);
+        }
+
+        public static async ValueTask Update(HoyolabToken hoyolabToken)
+        {
+            if (HoyolabTokens.TryGetIndexOf(Current => Current.Aid == hoyolabToken.Aid, out int Index))
             {
-                JsonSerializerExtension.SerializeAsync(FileWrite.Stream, hoyolabTokens).RunSynchronously();
-                return true.Configure(_HoyolabTokens = hoyolabTokens);
+                HoyolabTokens[Index] = hoyolabToken;
             }
-            return false;
+            else
+            {
+                HoyolabTokens = [.. HoyolabTokens.Append(hoyolabToken).OrderBy(Current => Current.Aid)];
+            }
+            await Save(HoyolabTokens);
         }
 
         public static bool TryGetTokenOrFirst(string? aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
@@ -46,6 +52,11 @@ namespace StarRailDamage.Source.Web.Hoyolab
         public static bool TryGetToken(string aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
             return HoyolabTokens.TryGetFirst(Token => Token.Aid == aid, out hoyolabToken);
+        }
+
+        public static string GetGuid()
+        {
+            return HoyolabTokens.FirstOrDefault()?.Guid ?? Guid.NewGuid().ToString();
         }
 
         public static string GetFilePath()

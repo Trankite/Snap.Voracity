@@ -2,9 +2,9 @@
 
 namespace StarRailDamage.Source.UI.Xaml.Page
 {
-    public partial class QRCodeLogin : ScopedPage
+    public partial class QRCodeLoginPage : ScopedPage
     {
-        public QRCodeLogin()
+        public QRCodeLoginPage()
         {
             InitializeComponent();
         }

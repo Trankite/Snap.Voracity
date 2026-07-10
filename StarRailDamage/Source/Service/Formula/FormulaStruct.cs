@@ -27,15 +27,15 @@ namespace StarRailDamage.Source.Service.Formula
             Ended = ended;
         }
 
-        public void AppendFormula(Stack<TFormula> formulaStack)
+        public void PushToStack(Stack<TFormula> formulaStack)
         {
-            if (Start.IsNotNull())
-            {
-                formulaStack.Push(Start);
-            }
             if (Ended.IsNotNull())
             {
                 formulaStack.Push(Ended);
+            }
+            if (Start.IsNotNull())
+            {
+                formulaStack.Push(Start);
             }
         }
 

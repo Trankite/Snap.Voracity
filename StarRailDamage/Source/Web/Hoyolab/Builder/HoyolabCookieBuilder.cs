@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
 
         public HoyolabCookieBuilder()
         {
-            HoyolabToken = HoyolabToken.Create();
+            HoyolabToken = new HoyolabToken();
         }
 
         public HoyolabCookieBuilder(HoyolabToken hoyolabToken)

@@ -1,16 +1,10 @@
 ﻿using StarRailDamage.Source.Model.Collection;
-using System.Diagnostics.CodeAnalysis;
 
 namespace StarRailDamage.Source.Web.Hoyolab
 {
     public static class GameTypeExtension
     {
-        private static readonly BidirectFrozenDictionary<string, GameType> GameTypeTable;
-
-        public static bool TryGetGameType(string name, [NotNullWhen(true)] out GameType gameType)
-        {
-            return GameTypeTable.TryGetValue(name, out gameType);
-        }
+        public static readonly BidirectFrozenDictionary<string, GameType> GameTypeTable;
 
         static GameTypeExtension()
         {

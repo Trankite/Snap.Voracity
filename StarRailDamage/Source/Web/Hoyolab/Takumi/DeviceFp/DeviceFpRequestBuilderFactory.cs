@@ -1,38 +1,36 @@
 ﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Web.Hoyolab.Builder;
 using StarRailDamage.Source.Web.Request;
 using StarRailDamage.Source.Web.Request.Builder;
+using StarRailDamage.Source.Web.Request.Builder.Abstraction;
 using System.Net.Http;
 using System.Text.Json;
 
 namespace StarRailDamage.Source.Web.Hoyolab.Takumi.DeviceFp
 {
-    public class DeviceFpRequestBuilderFactory : HoyolabHttpRequestMessageBuilderFactory
+    public class DeviceFpRequestBuilderFactory : IHttpRequestMessageBuilderFactory
     {
         private const string URL = "https://public-data-api.mihoyo.com/device-fp/api/getFp";
 
         public DeviceFpRequestBuilderFactory() { }
 
-        public DeviceFpRequestBuilderFactory(HoyolabToken hoyolabToken) : base(hoyolabToken) { }
-
-        public override HttpRequestMessageBuilder Create()
+        public HttpRequestMessageBuilder Create()
         {
             return new HttpRequestMessageBuilder()
                 .SetRequestUri(URL)
                 .SetMethod(HttpMethod.Post)
-                .SetStringContent(JsonSerializer.Serialize(GetBody));
+                .SetStringContent(JsonSerializer.Serialize(GetBody()));
         }
 
-        private DeviceFpRequestBody GetBody()
+        private static DeviceFpRequestBody GetBody()
         {
             return new DeviceFpRequestBody
             {
                 DeviceId = Random.Shared.GetLowerHexString(16),
                 SeedId = Guid.NewGuid().ToString(),
                 SeedTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(),
-                Platform = "2",
-                DeviceFp = string.IsNullOrEmpty(HoyolabToken.Device) ? Random.Shared.GetLowerHexString(13) : HoyolabToken.Device,
-                AppName = "bbs_cn",
+                Platform = ClientType.Android.ToIntString(),
+                DeviceFp = Random.Shared.GetLowerHexString(13),
+                AppName = GameTypeExtension.GameTypeTable.GetValueOrDefault(GameType.HoyolabChina).NotNull(),
                 ExtFields = JsonSerializer.Serialize(GetExtendFields()),
                 BbsDeviceId = Guid.NewGuid().ToString()
             };
