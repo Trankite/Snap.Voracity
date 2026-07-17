@@ -322,7 +322,7 @@
     <value>%</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>{0}内容文本 (必填)
+    <value>{0}*内容文本
 {1}保存路径 (Temp)
 {2}文件格式 [Png|Jpg|Bmp|Svg|Csv]
 {3}前景色 (#000000)
@@ -413,70 +413,70 @@
     <value>游戏账号未注册："{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>{0}社区GID (必填) [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
-{1}账号AID (首个)</value>
+    <value>{0}*社区GID [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
+{1}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
     <value>社区签到</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
-    <value>{0}账号AID (首个)</value>
+    <value>{0}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaFullName" xml:space="preserve">
     <value>开拓力笔记</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
-    <value>{0}账号AID (首个)</value>
+    <value>{0}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionFullName" xml:space="preserve">
     <value>米游币任务</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
-    <value>{0}账号AID (首个)</value>
+    <value>{0}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoFullName" xml:space="preserve">
     <value>查询米游币任务</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
-    <value>{0}账号AID (首个)</value>
+    <value>{0}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
     <value>福利签到</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>{0}起始天数 (0)
-{1}天数总和 (31)</value>
+    <value>{0}起始天数
+{1}天数总和</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
     <value>签到奖励</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>{0}帖子ID (必填)
+    <value>{0}*帖子ID
 {1}是否登录 [True|False]
-{2}账号AID (首个)</value>
+{2}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailFullName" xml:space="preserve">
     <value>浏览帖子</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>{0}帖子数量 (必填)
-{1}分区ID (必填)
+    <value>{0}*帖子数量
+{1}*分区ID
 {2}排序方式 [0-不指定,1-回复时间,2-发布时间]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
     <value>最近帖子列表</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>{0}帖子ID (必填)
-{1}账号AID (首个)</value>
+    <value>{0}*帖子ID
+{1}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
     <value>帖子分享</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>{0}帖子ID (必填)
+    <value>{0}*帖子ID
 {1}取消点赞 [True|False]
-{2}账号AID (首个)</value>
+{2}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
     <value>帖子点赞</value>
@@ -490,7 +490,7 @@
 使用 "Help &lt;命令名称&gt;" 查看帮助</value>
   </data>
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
-    <value>{0}输入内容 (空)
+    <value>{0}输入内容
 {1}退出循环 [True|False]
 使用 "help" 来查看内部帮助
 使用 "{1}" 来退出当前状态</value>
@@ -532,17 +532,42 @@
   <data name="ServiceTerminalHoyolabLoginQRLoginFullName" xml:space="preserve">
     <value>二维码登录</value>
   </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCreate" xml:space="preserve">
+    <value>创建登录请求</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginShowQRCode" xml:space="preserve">
+    <value>等待扫描确认</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginGetToken" xml:space="preserve">
+    <value>正在设置令牌 {0}</value>
+  </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginFullName" xml:space="preserve">
     <value>令牌登录</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
-    <value>{0}账号MID (必填)
-{1}SToken (必填)</value>
+    <value>{0}*账号MID
+{1}*账号SToken
+{2}设备标识符</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetDeviceFp" xml:space="preserve">
+    <value>发起设备指纹请求</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetToken" xml:space="preserve">
+    <value>正在交换令牌 {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetUserRole" xml:space="preserve">
+    <value>拉取游戏角色列表</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginTryUpdate" xml:space="preserve">
+    <value>正在更新本地数据</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginSuccess" xml:space="preserve">
-    <value>米游社账号数据已更新</value>
+    <value>账号数据已更新</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginQRLoginHelp" xml:space="preserve">
     <value>{0}设备标识符</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
+    <value>登录已取消或超时</value>
   </data>
 </root>

@@ -322,7 +322,7 @@
     <value>%</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>{0}Content text (Required)
+    <value>{0}*Content text
 {1}Saving path (Temp)
 {2}File format [Png|Jpg|Bmp|Svg|Csv]
 {3}Foreground (#000000)
@@ -413,70 +413,70 @@ Please login and try again</value>
     <value>No game account found : "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>{0}Community'sGID (Required) [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
-{1}Hoyolab account identity (First)</value>
+    <value>{0}*Community's GID [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
+{1}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
     <value>Community sign</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
-    <value>{0}Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaFullName" xml:space="preserve">
     <value>Stamina note</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
-    <value>{0}Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionFullName" xml:space="preserve">
     <value>User mission</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
-    <value>{0}Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoFullName" xml:space="preserve">
     <value>User mission info</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
-    <value>{0}Hoyolab account identity (First)</value>
+    <value>{0}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
     <value>Welfare sign</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>{0}Starting number (0)
-{1}Maximum number (31)</value>
+    <value>{0}Starting number
+{1}Maximum number</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
     <value>Welfare sgin reward</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>{0}Post identity (Required)
+    <value>{0}*Post identity
 {1}Check login state [True|False]
-{2}Hoyolab account identity (First)</value>
+{2}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailFullName" xml:space="preserve">
     <value>Browse posts</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>{0}Number of posts (Required)
-{1}Section identity (Required)
+    <value>{0}*Number of posts
+{1}*Section identity
 {2}Sorting type [0-Auto,1-Reply,2-Posting]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
     <value>Recent post list</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>{0}Post identity (Required)
-{1}Hoyolab account identity (First)</value>
+    <value>{0}*Post identity
+{1}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
     <value>Post sharing</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>{0}Post identity (Required)
+    <value>{0}*Post identity
 {1}Cancel the upvote [True|False]
-{2}Hoyolab account identity (First)</value>
+{2}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
     <value>Post upvoting</value>
@@ -490,7 +490,7 @@ Use "Help" Access Details</value>
 Use "Help &lt;Command&gt;" Access Details</value>
   </data>
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
-    <value>{0}Input content (Empty)
+    <value>{0}Input content
 {1}Exit the loop [True|False]
 Use "help" to view internal help
 Use "{1}" to exit the current state</value>
@@ -532,17 +532,42 @@ Use "{1}" to exit the current state</value>
   <data name="ServiceTerminalHoyolabLoginQRLoginFullName" xml:space="preserve">
     <value>QR code login</value>
   </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCreate" xml:space="preserve">
+    <value>Create login request</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginShowQRCode" xml:space="preserve">
+    <value>Waiting for scan confirmation</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginGetToken" xml:space="preserve">
+    <value>Setting token {0}</value>
+  </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginFullName" xml:space="preserve">
     <value>Token login</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
-    <value>{0}MID (Required)
-{1}SToken (Required)</value>
+    <value>{0}*MID
+{1}*SToken
+{2}Guid</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetDeviceFp" xml:space="preserve">
+    <value>Initiate a device fingerprint request</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetToken" xml:space="preserve">
+    <value>Exchang token {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetUserRole" xml:space="preserve">
+    <value>Retrieve the list of game characters</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginTryUpdate" xml:space="preserve">
+    <value>Updating local data</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginSuccess" xml:space="preserve">
-    <value>The account data on Hoyolab has been updated</value>
+    <value>The account data has been updated</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginQRLoginHelp" xml:space="preserve">
     <value>{0}Device Identifier</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
+    <value>Login has been canceled or timed out</value>
   </data>
 </root>

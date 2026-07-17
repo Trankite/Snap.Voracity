@@ -36,13 +36,16 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             {
                 guid = HoyolabTokenManage.GetGuid();
             }
+            TerminalManage.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
             ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid);
             if (!CreateQRLoginResponse.Success || CreateQRLoginResponse.Content.IsNull())
             {
                 return CreateQRLoginResponse;
             }
-            using Bitmap Bitmap = QRCode.Create(Encoding.UTF8.GetBytes(CreateQRLoginResponse.Content.Url)).GetBitmap(new QRCodeOptions());
-            using CancellationTokenSource CancellationTokenSource = new();
+            string Url = CreateQRLoginResponse.Content.Url;
+            string Ticket = CreateQRLoginResponse.Content.Ticket;
+            using Bitmap Bitmap = QRCode.Create(Encoding.UTF8.GetBytes(Url)).GetBitmap(new QRCodeOptions());
+            using CancellationTokenSource CancellationTokenSource = new(TimeSpan.FromMinutes(5));
             Thread Thread = new(() =>
             {
                 Window Window = new()
@@ -60,7 +63,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
                 }
             });
             Thread.SetBackground().STAStart();
-            ITerminalResponse<QRLoginStatusResponseWrapper> CheckStatusResponse = await CheckStatus(guid, CreateQRLoginResponse.Content.Ticket, CancellationTokenSource.Token);
+            TerminalManage.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
+            ITerminalResponse<QRLoginStatusResponseWrapper> CheckStatusResponse = await CheckStatus(guid, Ticket, CancellationTokenSource.Token);
             CancellationTokenSource.Cancel();
             if (!CheckStatusResponse.Success || CheckStatusResponse.Content.IsNull())
             {
@@ -72,7 +76,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             HoyolabToken.Mid = UserInfo.Mid;
             foreach (QRLoginStatusResponseToken TokenSource in CheckStatusResponse.Content.Tokens)
             {
-                HoyolabToken.SetToken((HoyolabTokenType)TokenSource.TokenType, TokenSource.Token);
+                HoyolabTokenType TokenType = (HoyolabTokenType)TokenSource.TokenType;
+                TerminalManage.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.Format(TokenType));
+                HoyolabToken.SetToken(TokenType, TokenSource.Token);
             }
             return await UserLogin.AsyncInvoke(HoyolabToken);
         }
@@ -93,8 +99,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             QRLoginStatusRequestBuilderFactory Factory = new QRLoginStatusRequestBuilderFactory().SetGuid(guid).SetTicket(ticket);
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(1500, CancellationToken.None);
-                FinalizedResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(Program.HttpClient, cancellationToken);
+                await Task.Delay(3000, CancellationToken.None);
+                FinalizedResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(Program.HttpClient, CancellationToken.None);
                 if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out QRLoginStatusResponseWrapper? AnalyedBody))
                 {
                     if (Response.Body.GetStatus() == QRLoginStatus.Confirmed)
@@ -107,7 +113,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
                     return new TerminalResponse<QRLoginStatusResponseWrapper>(false, Response.ToString());
                 }
             }
-            return new TerminalResponse<QRLoginStatusResponseWrapper>(false);
+            return new TerminalResponse<QRLoginStatusResponseWrapper>(false, LocalString.ServiceTerminalHoyolabLoginQRLoginExceptionCanceled);
         }
     }
 }
