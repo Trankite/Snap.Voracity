@@ -16,7 +16,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => LocalString.ServiceTerminalHoyolabForumUpvoteHelp;
 
-        public override string[] Parameters => [POSTID, ISCANCEL, AID];
+        public override string[] RequiredParameters => [POSTID];
+
+        public override string[] OptionalParameters => [ISCANCEL, AID];
 
         private const string POSTID = "id";
 
@@ -26,11 +28,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            if (!commandLine.TryGetParameter(POSTID, out string? PostId))
-            {
-                return TerminalManage.GetMissingParameterResponse();
-            }
-            return await AsyncInvoke(PostId, commandLine.GetBoolParameter(ISCANCEL), commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetBoolParameter(ISCANCEL), commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(string postId, bool isCancel = false, string? aid = null)

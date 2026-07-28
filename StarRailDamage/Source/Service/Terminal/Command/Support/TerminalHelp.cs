@@ -4,41 +4,43 @@ using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class TerminalHelp : ITerminalCommand
+    public class TerminalHelp : TerminalCommand
     {
-        public string Name => "help";
+        public override string Name => "help";
 
-        public string FullName => LocalString.ServiceTerminalSupportConsoleHelpFullName;
+        public override string FullName => LocalString.ServiceTerminalSupportConsoleHelpFullName;
 
-        public string Help => LocalString.ServiceTerminalSupportConsoleHelpHelp;
+        public override string Help => LocalString.ServiceTerminalSupportConsoleHelpHelp;
 
-        public string[] Parameters => [COMMANDNAME];
+        public override string[] RequiredParameters => [];
+
+        public override string[] OptionalParameters => [COMMANDNAME];
 
         private const string COMMANDNAME = "text";
 
-        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
-            if (Program.OnTerminal)
+            const int Margin = 4;
+            const int Padding = 12;
+            if (commandLine.TryGetParameter(COMMANDNAME, out string? CommandName))
             {
-                const int Margin = 4;
-                const int Padding = 12;
-                if (commandLine.TryGetParameter(COMMANDNAME, out string? CommandName))
+                if (!TerminalManage.CommandTable.TryGetValue(CommandName, out ITerminalCommand? Command))
                 {
-                    if (!TerminalManage.CommandTable.TryGetValue(CommandName, out TerminalCommand? Command))
-                    {
-                        return TerminalManage.GetUnknownOperationResponse(CommandName);
-                    }
-                    int Maximum = Command.Parameters.NotEmpty(string.Empty).Max(Item => Item.Length) + Margin;
-                    IEnumerable<string> Parameters = Command.Parameters.Select(Item => $"-{Item}{new string('\x20', Maximum - Item.Length)}");
-                    TerminalManage.WriteLine(Command.Help.Format(Parameters.ToArray()));
-                    return new TerminalResponse(true);
+                    return TerminalManage.GetUnknownOperationResponse(CommandName);
                 }
-                foreach (TerminalCommand Command in TerminalManage.CommandTable.GetValues())
+                string[] Parameters = [.. Command.RequiredParameters, .. Command.OptionalParameters];
+                int Maximum = Parameters.Length > 0 ? Parameters.Max(Current => Current.Length) + Margin : Margin;
+                for (int i = 0; i < Parameters.Length; i++)
                 {
-                    TerminalManage.WriteLine(Command.Name.ToUpper().PadRight(Padding) + Command.FullName);
+                    Parameters[i] = $"-{Parameters[i]}{new string('\x20', Maximum - Parameters[i].Length)}{(i < Command.RequiredParameters.Length ? '*' : string.Empty)}";
                 }
+                return new TerminalResponse(true, Command.Help.Format(Parameters));
             }
-            return new TerminalResponse(Program.OnTerminal);
+            foreach (ITerminalCommand Command in TerminalManage.CommandTable.GetValues())
+            {
+                this.WriteLine(Command.Name.ToUpper().PadRight(Padding) + Command.FullName);
+            }
+            return new TerminalResponse(true);
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace StarRailDamage.Source.Service.Terminal.Abstraction
+﻿using StarRailDamage.Source.Core.Abstraction;
+
+namespace StarRailDamage.Source.Service.Terminal.Abstraction
 {
-    public interface ITerminalCommand
+    public interface ITerminalCommand : ILinkedTextStream
     {
         string Name { get; }
 
@@ -8,13 +10,17 @@
 
         string Help { get; }
 
-        ITerminalResponse Invoke(ITerminalCommandLine commandLine);
+        string[] RequiredParameters { get; }
 
-        string[] Parameters { get; }
+        string[] OptionalParameters { get; }
+
+        CancellationToken CancellationToken { get; set; }
+
+        ITerminalResponse Invoke(ITerminalCommandLine commandLine);
     }
 
     public interface ITerminalCommand<TContent> : ITerminalCommand
     {
-        new ITerminalResponse<TContent> Invoke(ITerminalCommandLine commandLine);
+        ITerminalResponse<TContent> InvokeOverride(ITerminalCommandLine commandLine);
     }
 }

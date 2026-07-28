@@ -3,15 +3,13 @@ using StarRailDamage.Source.Resource.Localization;
 
 namespace StarRailDamage.Source.Service.Terminal.Abstraction
 {
-    public abstract class CyclicTerminalCommand : ITerminalCommand
+    public abstract class CyclicTerminalCommand : TerminalCommand
     {
-        public abstract string Name { get; }
+        public override string Help => LocalString.ServiceTerminalCycleHelp;
 
-        public string[] Parameters => [INPUT, ENDSYMBOL];
+        public override string[] RequiredParameters => [];
 
-        public string Help => LocalString.ServiceTerminalCycleHelp;
-
-        public abstract string FullName { get; }
+        public override string[] OptionalParameters => [INPUT, ENDSYMBOL];
 
         protected abstract string HelpOverride { get; }
 
@@ -23,7 +21,7 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
 
         protected abstract ITerminalResponse InvokeOverride(string line);
 
-        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
             if (Program.OnTerminal)
             {
@@ -39,14 +37,14 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
                     {
                         if (Current.EqualsIgnoreCase(HELPSYMBOL))
                         {
-                            TerminalManage.WriteLine(HelpOverride);
+                            this.WriteLine(HelpOverride);
                         }
                         else
                         {
-                            TerminalManage.WriteLine(InvokeOverride(Current));
+                            this.WriteLine(InvokeOverride(Current));
                         }
                     }
-                    Current = TerminalManage.ReadLine(Header);
+                    Current = this.ReadLine(Header);
                 }
             }
             return new TerminalResponse(Program.OnTerminal);

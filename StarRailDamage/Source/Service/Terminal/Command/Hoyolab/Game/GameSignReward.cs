@@ -16,13 +16,15 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         public override string Help => LocalString.ServiceTerminalHoyolabGameSignRewardHelp;
 
-        public override string[] Parameters => [START, TOTAL];
+        public override string[] RequiredParameters => [];
+
+        public override string[] OptionalParameters => [START, TOTAL];
 
         private const string START = "start";
 
         private const string TOTAL = "total";
 
-        protected override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
             return await AsyncInvoke(commandLine.GetIntParameter(START), commandLine.GetIntParameter(TOTAL));
         }

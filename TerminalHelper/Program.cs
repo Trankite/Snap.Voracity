@@ -1,20 +1,20 @@
 ﻿using StarRailDamage.Source.Core.Setting;
 using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Service.Terminal;
+using StarRailDamage.Source.Service.Terminal.Command.Support;
 
 namespace TerminalHelper
 {
     public class Program
     {
-        public static bool TerminalFlag => StarRailDamage.Program.OnTerminal;
-
         public static void Main(string[] arguments)
         {
             Console.Title = AppSetting.AppName;
-            TerminalManage.Invoke(new CommandParser(arguments));
-            while (TerminalFlag)
+            TerminalInvoke Invoker = new();
+            TerminalInvoke.Invoke(new CommandParser(arguments), Invoker);
+            while (StarRailDamage.Program.OnTerminal)
             {
-                TerminalManage.Invoke(CommandParser.Create(Console.ReadLine().NotNull()));
+                TerminalInvoke.Invoke(CommandParser.Create(Console.ReadLine().NotNull()), Invoker);
             }
         }
 

@@ -16,7 +16,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => LocalString.ServiceTerminalHoyolabForumDetailHelp;
 
-        public override string[] Parameters => [POSTID, NEEDSIGN, AID];
+        public override string[] RequiredParameters => [POSTID];
+
+        public override string[] OptionalParameters => [NEEDSIGN, AID];
 
         private const string POSTID = "id";
 
@@ -24,13 +26,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         private const string AID = "aid";
 
-        protected override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
-            if (!commandLine.TryGetParameter(POSTID, out string PostId))
-            {
-                return new TerminalResponse<FullPostResponseWrapper>(TerminalManage.GetMissingParameterResponse());
-            }
-            return await AsyncInvoke(PostId, commandLine.GetBoolParameter(NEEDSIGN), commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetBoolParameter(NEEDSIGN), commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvoke(string postId, bool needSign = false, string? aid = null)

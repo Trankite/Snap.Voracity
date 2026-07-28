@@ -1,26 +1,27 @@
 ﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Service.Terminal.Abstraction;
 using System.Collections;
 
 namespace StarRailDamage.Source.Service.Terminal
 {
     public class CommandParser : IEnumerable<CommandLine>
     {
-        private readonly IList<string> Arguments;
+        private readonly IList<string> Keywords;
 
-        public CommandParser(IList<string> arguments)
+        public CommandParser(IList<string> keyWords)
         {
-            Arguments = arguments;
+            Keywords = keyWords;
         }
 
         public static CommandParser Create(string line)
         {
             int Index = 0;
-            List<string> Arguments = [];
+            List<string> Keywords = [];
             for (int i = 0; i < line.Length; i++)
             {
                 if (line[i] == 0x20)
                 {
-                    Arguments.Add(line[Index..i]);
+                    Keywords.Add(line[Index..i]);
                     Index = i + 1;
                 }
                 else if (line[i] == '"')
@@ -30,43 +31,43 @@ namespace StarRailDamage.Source.Service.Terminal
                     {
                         if (line[i] == '\\') i++;
                     }
-                    Arguments.Add($"\"{line[Index..i++].Unescape()}\"");
+                    Keywords.Add($"\"{line[Index..i++].Unescape()}\"");
                     Index = i + 1;
                 }
             }
             if (Index < line.Length)
             {
-                Arguments.Add(line[Index..]);
+                Keywords.Add(line[Index..]);
             }
-            return new CommandParser(Arguments);
+            return new CommandParser(Keywords);
         }
 
         public IEnumerator<CommandLine> GetEnumerator()
         {
-            for (int i = 0; i < Arguments.Count; i++)
+            for (int i = 0; i < Keywords.Count; i++)
             {
-                int Index = -1;
-                CommandLine CommandLine = new(Arguments[i]);
-                TerminalCommand? Command = TerminalManage.CommandTable.GetValueOrDefault(CommandLine.Name);
-                while (++i < Arguments.Count && Arguments[i] != "&")
+                CommandLine CommandLine = new(Keywords[i]);
+                ITerminalCommand? Command = TerminalManage.CommandTable.GetValueOrDefault(CommandLine.Name);
+                IEnumerator<string>? Enumerator = Command?.RequiredParameters.Concat(Command.OptionalParameters).GetEnumerator();
+                while (++i < Keywords.Count && Keywords[i] != "&")
                 {
-                    if (Arguments[i].StartsWith('-'))
+                    if (Keywords[i].StartsWith('-'))
                     {
-                        if (Arguments[i].StartsWith("--"))
+                        if (Keywords[i].StartsWith("--"))
                         {
-                            CommandLine.Expand[Arguments[i][2..]] = Convert.ToString(true);
+                            CommandLine.TryAddParameter(Keywords[i][2..], Convert.ToString(true));
                         }
                         else
                         {
-                            CommandLine.Expand[Arguments[i][1..]] = TrimQuote(Arguments.GetIndexValue(++i).NotNull());
+                            CommandLine.TryAddParameter(Keywords[i][1..], TrimQuote(Keywords.GetIndexValue(++i).NotNull()));
                         }
                     }
-                    else
+                    else if (Enumerator.IsNotNull())
                     {
-                        string Paramater = TrimQuote(Arguments[i]);
-                        while (++Index < Command?.Parameters.Length)
+                        string Paramater = TrimQuote(Keywords[i]);
+                        while (Enumerator.MoveNext())
                         {
-                            if (CommandLine.Expand.TryAdd(Command.Parameters[Index], Paramater)) break;
+                            if (CommandLine.TryAddParameter(Enumerator.Current, Paramater)) break;
                         }
                     }
                 }

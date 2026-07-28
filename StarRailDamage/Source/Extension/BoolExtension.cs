@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Extension
         public static string ToIntString(this bool value) => Convert.ToInt32(value).ToString();
 
         [DebuggerStepThrough]
-        public static bool Parse(string? value)
+        public static bool Parse(ReadOnlySpan<char> value)
         {
             return bool.TryParse(value, out bool Flag) ? Flag : Convert.ToBoolean(IntegerExtension.Parse(value));
         }

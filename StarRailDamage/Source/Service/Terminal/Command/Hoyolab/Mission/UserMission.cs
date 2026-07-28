@@ -1,4 +1,5 @@
-﻿using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Core.Abstraction;
+using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 using StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum;
@@ -17,16 +18,18 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
 
         public override string Help => LocalString.ServiceTerminalHoyolabUserMissionHelp;
 
-        public override string[] Parameters => [AID];
+        public override string[] RequiredParameters => [];
+
+        public override string[] OptionalParameters => [AID];
 
         private const string AID = "aid";
 
-        protected override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
-            return await AsyncInvoke(commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(AID), this);
         }
 
-        public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = null)
+        public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = null, ILinkedTextStream? stream = null)
         {
             ITerminalResponse<MissionAnalyzedBody> MissionInfo = await UserMissionInfo.AsyncInvoke(aid);
             if (MissionInfo.Content.IsNull() || MissionInfo.Content.Surplus == 0)
@@ -36,7 +39,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
             Dictionary<MissionType, int> Mission = MissionInfo.Content.Mission;
             for (int i = 1 - Mission.GetValueOrDefault(MissionType.Sign) - 1; i >= 0; i--)
             {
-                TerminalManage.WriteLine(await ForumSign.AsyncInvoke(HoyolabGroup.StarRail, aid));
+                (await ForumSign.AsyncInvoke(HoyolabGroup.StarRail, aid)).Configure(Self => stream?.WriteLine(Self));
             }
             ITerminalResponse<NewestAnalyzedBody[]>? ForumNews = null;
             if (Mission.ExistsKey(MissionType.View, MissionType.Upvote, MissionType.Share))
@@ -47,15 +50,15 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
             {
                 for (int i = 3 - Mission.GetValueOrDefault(MissionType.View, 0xff) - 1; i >= 0; i--)
                 {
-                    TerminalManage.WriteLine(await ForumDetail.AsyncInvoke(ForumNews.Content[i].PostId, true, aid));
+                    (await ForumDetail.AsyncInvoke(ForumNews.Content[i].PostId, true, aid)).Configure(Self => stream?.WriteLine(Self));
                 }
                 for (int i = 5 - Mission.GetValueOrDefault(MissionType.Upvote, 0xff) - 1; i >= 0; i--)
                 {
-                    TerminalManage.WriteLine(await ForumUpvote.AsyncInvoke(ForumNews.Content[i].PostId, false, aid));
+                    (await ForumUpvote.AsyncInvoke(ForumNews.Content[i].PostId, false, aid)).Configure(Self => stream?.WriteLine(Self));
                 }
                 for (int i = 1 - Mission.GetValueOrDefault(MissionType.Share, 0xff) - 1; i >= 0; i--)
                 {
-                    TerminalManage.WriteLine(await ForumShare.AsyncInvoke(ForumNews.Content[i].PostId, aid));
+                    (await ForumShare.AsyncInvoke(ForumNews.Content[i].PostId, aid)).Configure(Self => stream?.WriteLine(Self));
                 }
             }
             return await UserMissionInfo.AsyncInvoke(aid);

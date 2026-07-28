@@ -20,6 +20,8 @@ namespace StarRailDamage.Source.Service.Terminal
             Message = message;
         }
 
+        public override string ToString() => Message;
+
         public static TerminalResponse<TContent> Create<TContent>(bool success, TContent? content)
         {
             return new TerminalResponse<TContent>(success, content);

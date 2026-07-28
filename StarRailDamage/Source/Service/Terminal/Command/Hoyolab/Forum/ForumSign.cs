@@ -16,7 +16,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => LocalString.ServiceTerminalHoyolabForumSignHelp;
 
-        public override string[] Parameters => [GROUP, AID];
+        public override string[] RequiredParameters => [GROUP];
+
+        public override string[] OptionalParameters => [AID];
 
         private const string GROUP = "group";
 
@@ -24,11 +26,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            if (!EnumExtension.TryParse(commandLine.GetParameter(GROUP), out HoyolabGroup Group))
-            {
-                return TerminalManage.GetUnlawfulParameterResponse();
-            }
-            return await AsyncInvoke(Group, commandLine.GetParameter(AID));
+            return await AsyncInvoke((HoyolabGroup)commandLine.GetIntParameter(GROUP), commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabGroup group, string? aid = null)

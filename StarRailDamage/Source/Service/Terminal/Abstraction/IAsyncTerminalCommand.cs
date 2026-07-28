@@ -7,6 +7,6 @@
 
     public interface IAsyncTerminalCommand<TContent> : IAsyncTerminalCommand, ITerminalCommand<TContent>
     {
-        new ValueTask<ITerminalResponse<TContent>> AsyncInvoke(ITerminalCommandLine commandLine);
+        ValueTask<ITerminalResponse<TContent>> AsyncInvokeOverride(ITerminalCommandLine commandLine);
     }
 }

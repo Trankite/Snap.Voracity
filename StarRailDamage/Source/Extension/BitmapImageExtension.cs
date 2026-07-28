@@ -32,7 +32,7 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static Image GetImage(this BitmapImage image)
         {
-            return new Image() { Source = image, Stretch = Stretch.Uniform };
+            return new Image() { Source = image };
         }
 
         static BitmapImageExtension()

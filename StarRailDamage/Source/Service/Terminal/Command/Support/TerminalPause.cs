@@ -3,17 +3,19 @@ using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class TerminalPause : ITerminalCommand
+    public class TerminalPause : TerminalCommand
     {
-        public string Name => "pause";
+        public override string Name => "pause";
 
-        public string FullName => LocalString.ServiceTerminalSupportConsolePauseFullName;
+        public override string FullName => LocalString.ServiceTerminalSupportConsolePauseFullName;
 
-        public string Help => string.Empty;
+        public override string Help => string.Empty;
 
-        public string[] Parameters => [];
+        public override string[] RequiredParameters => [];
 
-        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override string[] OptionalParameters => [];
+
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
             if (Program.OnTerminal)
             {

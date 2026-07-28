@@ -322,7 +322,7 @@
     <value>%</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>{0}*Content text
+    <value>{0}Content text
 {1}Saving path (Temp)
 {2}File format [Png|Jpg|Bmp|Svg|Csv]
 {3}Foreground (#000000)
@@ -338,7 +338,7 @@
   <data name="ServiceTerminalSupportQRCodeProduceFullName" xml:space="preserve">
     <value>Generate QR code</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleExiteFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
     <value>Exit application</value>
   </data>
   <data name="ServiceTerminalSupportConsolePauseFullName" xml:space="preserve">
@@ -354,13 +354,19 @@
     <value>Print to console</value>
   </data>
   <data name="ServiceTerminalSupportConsoleHelpHelp" xml:space="preserve">
-    <value>{0}Command name (Empty)
+    <value>{0}Command name
 Usage syntax of commands
 Use "&amp;" to separate commands
 Use "-" to specify options
 Use "--" to enable a switch
 Use """ to concatenate content
 Use "\" to escape symbols</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeHelp" xml:space="preserve">
+    <value>{0}Command content</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeFullName" xml:space="preserve">
+    <value>Execute command</value>
   </data>
   <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>Command help</value>
@@ -413,7 +419,7 @@ Please login and try again</value>
     <value>No game account found : "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>{0}*Community's GID [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
+    <value>{0}Community's GID [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
 {1}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
@@ -451,7 +457,7 @@ Please login and try again</value>
     <value>Welfare sgin reward</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>{0}*Post identity
+    <value>{0}Post identity
 {1}Check login state [True|False]
 {2}Hoyolab account identity</value>
   </data>
@@ -459,22 +465,22 @@ Please login and try again</value>
     <value>Browse posts</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>{0}*Number of posts
-{1}*Section identity
+    <value>{0}Number of posts
+{1}Section identity
 {2}Sorting type [0-Auto,1-Reply,2-Posting]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
     <value>Recent post list</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>{0}*Post identity
+    <value>{0}Post identity
 {1}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
     <value>Post sharing</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>{0}*Post identity
+    <value>{0}Post identity
 {1}Cancel the upvote [True|False]
 {2}Hoyolab account identity</value>
   </data>
@@ -545,8 +551,8 @@ Use "{1}" to exit the current state</value>
     <value>Token login</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
-    <value>{0}*MID
-{1}*SToken
+    <value>{0}MID
+{1}SToken
 {2}Guid</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginGetDeviceFp" xml:space="preserve">

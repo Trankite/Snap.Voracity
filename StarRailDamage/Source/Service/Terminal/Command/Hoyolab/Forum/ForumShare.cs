@@ -16,19 +16,17 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         public override string Help => LocalString.ServiceTerminalHoyolabForumShareHelp;
 
-        public override string[] Parameters => [POSTID, AID];
+        public override string[] RequiredParameters => [POSTID];
+
+        public override string[] OptionalParameters => [AID];
 
         private const string POSTID = "id";
 
         private const string AID = "aid";
 
-        protected override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
-            if (!commandLine.TryGetParameter(POSTID, out string? PostId))
-            {
-                return new TerminalResponse<ShareResponseWrapper>(TerminalManage.GetMissingParameterResponse());
-            }
-            return await AsyncInvoke(PostId, commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetParameter(AID));
         }
 
         public static async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvoke(string postId, string? aid = null)

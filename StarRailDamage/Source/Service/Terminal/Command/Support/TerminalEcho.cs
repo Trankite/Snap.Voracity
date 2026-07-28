@@ -3,19 +3,21 @@ using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class TerminalEcho : ITerminalCommand
+    public class TerminalEcho : TerminalCommand
     {
-        public string Name => "echo";
+        public override string Name => "echo";
 
-        public string FullName => LocalString.ServiceTerminalSupportConsoleEchoFullName;
+        public override string FullName => LocalString.ServiceTerminalSupportConsoleEchoFullName;
 
-        public string Help => LocalString.ServiceTerminalSupportConsoleEchoHelp;
+        public override string Help => LocalString.ServiceTerminalSupportConsoleEchoHelp;
 
-        public string[] Parameters => [CONTENT];
+        public override string[] RequiredParameters => [CONTENT];
+
+        public override string[] OptionalParameters => [];
 
         private const string CONTENT = "text";
 
-        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
             return new TerminalResponse(true, commandLine.GetParameter(CONTENT));
         }

@@ -1,13 +1,13 @@
-﻿using StarRailDamage.Source.Extension;
-using StarRailDamage.Source.Service.Terminal.Abstraction;
+﻿using StarRailDamage.Source.Service.Terminal.Abstraction;
+using System.Diagnostics.CodeAnalysis;
 
 namespace StarRailDamage.Source.Service.Terminal
 {
     public class CommandLine : ITerminalCommandLine
     {
-        public string Name { get; set; } = string.Empty;
+        private readonly Dictionary<string, string> Parameters = [with(StringComparer.OrdinalIgnoreCase)];
 
-        public Dictionary<string, string> Expand { get; } = [with(StringComparer.OrdinalIgnoreCase)];
+        public string Name { get; set; } = string.Empty;
 
         public CommandLine() { }
 
@@ -16,19 +16,24 @@ namespace StarRailDamage.Source.Service.Terminal
             Name = name;
         }
 
-        public CommandLine(string name, Dictionary<string, string> expand) : this(name)
+        public bool HasParameter(string name)
         {
-            Expand = expand;
+            return Parameters.ContainsKey(name);
         }
 
-        public string GetParameter(string name)
+        public bool TryAddParameter(string name, string value)
         {
-            return Expand.GetValueOrDefault(name).NotNull();
+            return Parameters.TryAdd(name, value);
+        }
+
+        public bool TryGetParameter(string name, [NotNullWhen(true)] out string? value)
+        {
+            return Parameters.TryGetValue(name, out value);
         }
 
         public override string ToString()
         {
-            return $"{Name} {string.Join((char)0x20, Expand.Select(Item => $"-{Item.Key} \"{Item.Value}"))}\"";
+            return $"{Name} {string.Join((char)0x20, Parameters.Select(Item => $"-{Item.Key} \"{Item.Value}"))}\"";
         }
     }
 }

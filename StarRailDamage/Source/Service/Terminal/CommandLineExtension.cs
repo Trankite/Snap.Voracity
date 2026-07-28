@@ -5,9 +5,9 @@ namespace StarRailDamage.Source.Service.Terminal
 {
     public static class CommandLineExtension
     {
-        public static bool TryGetParameter(this ITerminalCommandLine commandLine, string name, out string result)
+        public static string GetParameter(this ITerminalCommandLine commandLine, string name)
         {
-            return !string.IsNullOrEmpty(result = commandLine.GetParameter(name));
+            return commandLine.TryGetParameter(name, out string? Result) ? Result : string.Empty;
         }
 
         public static bool GetBoolParameter(this ITerminalCommandLine commandLine, string name)

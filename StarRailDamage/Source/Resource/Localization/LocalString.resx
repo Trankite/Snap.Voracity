@@ -322,7 +322,7 @@
     <value>%</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>{0}*内容文本
+    <value>{0}内容文本
 {1}保存路径 (Temp)
 {2}文件格式 [Png|Jpg|Bmp|Svg|Csv]
 {3}前景色 (#000000)
@@ -338,7 +338,7 @@
   <data name="ServiceTerminalSupportQRCodeProduceFullName" xml:space="preserve">
     <value>二维码生成</value>
   </data>
-  <data name="ServiceTerminalSupportConsoleExiteFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
     <value>退出控制台</value>
   </data>
   <data name="ServiceTerminalSupportConsolePauseFullName" xml:space="preserve">
@@ -354,13 +354,19 @@
     <value>输出到控制台</value>
   </data>
   <data name="ServiceTerminalSupportConsoleHelpHelp" xml:space="preserve">
-    <value>{0}命令名称 (空)
+    <value>{0}命令名称
 命令的使用语法
 使用 "&amp;" 来分隔命令
 使用 "-" 来指定选项
 使用 "--" 来启用开关
 使用 """ 来拼接内容
 使用 "\" 来转义符号</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeHelp" xml:space="preserve">
+    <value>{0}命令内容</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeFullName" xml:space="preserve">
+    <value>执行命令</value>
   </data>
   <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>命令帮助</value>
@@ -413,7 +419,7 @@
     <value>游戏账号未注册："{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>{0}*社区GID [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
+    <value>{0}社区GID [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
 {1}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
@@ -451,7 +457,7 @@
     <value>签到奖励</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
-    <value>{0}*帖子ID
+    <value>{0}帖子ID
 {1}是否登录 [True|False]
 {2}账号AID</value>
   </data>
@@ -459,22 +465,22 @@
     <value>浏览帖子</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
-    <value>{0}*帖子数量
-{1}*分区ID
+    <value>{0}帖子数量
+{1}分区ID
 {2}排序方式 [0-不指定,1-回复时间,2-发布时间]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
     <value>最近帖子列表</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
-    <value>{0}*帖子ID
+    <value>{0}帖子ID
 {1}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
     <value>帖子分享</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
-    <value>{0}*帖子ID
+    <value>{0}帖子ID
 {1}取消点赞 [True|False]
 {2}账号AID</value>
   </data>
@@ -545,8 +551,8 @@
     <value>令牌登录</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
-    <value>{0}*账号MID
-{1}*账号SToken
+    <value>{0}账号MID
+{1}账号SToken
 {2}设备标识符</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginUserLoginGetDeviceFp" xml:space="preserve">

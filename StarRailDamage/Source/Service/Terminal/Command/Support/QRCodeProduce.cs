@@ -11,15 +11,17 @@ using System.Text;
 
 namespace StarRailDamage.Source.Service.Terminal.Command.Support
 {
-    public class QRCodeProduce : ITerminalCommand
+    public class QRCodeProduce : TerminalCommand
     {
-        public string Name => "qrcode";
+        public override string Name => "qrcode";
 
-        public string FullName => LocalString.ServiceTerminalSupportQRCodeProduceFullName;
+        public override string FullName => LocalString.ServiceTerminalSupportQRCodeProduceFullName;
 
-        public string Help => LocalString.ServiceTerminalSupportQRCodeProduceHelp;
+        public override string Help => LocalString.ServiceTerminalSupportQRCodeProduceHelp;
 
-        public string[] Parameters => [CONTENT, FILEPATH, FILEFORMAT, FOREGROUND, BACKGROUND, PIXELSIZE, PADDING, VERSION, ENCODEMODE, ECCODELEVEL, MASKTYPE, PATHOPEN];
+        public override string[] RequiredParameters => [CONTENT];
+
+        public override string[] OptionalParameters => [FILEPATH, FILEFORMAT, FOREGROUND, BACKGROUND, PIXELSIZE, PADDING, VERSION, ENCODEMODE, ECCODELEVEL, MASKTYPE, PATHOPEN];
 
         private const string CONTENT = "text";
 
@@ -45,13 +47,9 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         private const string PATHOPEN = "open";
 
-        public ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
         {
             string Content = commandLine.GetParameter(CONTENT);
-            if (string.IsNullOrEmpty(Content))
-            {
-                return TerminalManage.GetMissingParameterResponse();
-            }
             string FileName = commandLine.GetParameter(FILEPATH);
             string FileFormat = commandLine.GetParameter(FILEFORMAT);
             if (string.IsNullOrEmpty(FileName))

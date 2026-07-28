@@ -15,9 +15,11 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
 
         public override string Help => string.Empty;
 
-        public override string[] Parameters => [];
+        public override string[] RequiredParameters => [];
 
-        protected override async ValueTask<ITerminalResponse<DeviceFpResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override string[] OptionalParameters => [];
+
+        public override async ValueTask<ITerminalResponse<DeviceFpResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
         {
             return await AsyncInvoke();
         }

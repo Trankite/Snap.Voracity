@@ -1,6 +1,8 @@
-﻿using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Core.Abstraction;
+using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Encode.QRCode;
+using StarRailDamage.Source.Service.Mission;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 using StarRailDamage.Source.Web.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab.Passport.QRLogin;
@@ -21,22 +23,24 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
 
         public override string Help => LocalString.ServiceTerminalHoyolabLoginQRLoginHelp;
 
-        public override string[] Parameters => [GUID];
+        public override string[] RequiredParameters => [];
+
+        public override string[] OptionalParameters => [GUID];
 
         private const string GUID = "guid";
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
         {
-            return await AsyncInvoke(commandLine.GetParameter(GUID));
+            return await AsyncInvoke(commandLine.GetParameter(GUID), this);
         }
 
-        public static async ValueTask<ITerminalResponse> AsyncInvoke(string? guid = null)
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(string? guid = null, ILinkedTextStream? stream = null)
         {
             if (string.IsNullOrEmpty(guid))
             {
                 guid = HoyolabTokenManage.GetGuid();
             }
-            TerminalManage.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
+            stream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
             ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid);
             if (!CreateQRLoginResponse.Success || CreateQRLoginResponse.Content.IsNull())
             {
@@ -46,7 +50,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             string Ticket = CreateQRLoginResponse.Content.Ticket;
             using Bitmap Bitmap = QRCode.Create(Encoding.UTF8.GetBytes(Url)).GetBitmap(new QRCodeOptions());
             using CancellationTokenSource CancellationTokenSource = new(TimeSpan.FromMinutes(5));
-            Thread Thread = new(() =>
+            STAThread.Invoke(() =>
             {
                 Window Window = new()
                 {
@@ -62,8 +66,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
                     Window.ShowDialog();
                 }
             });
-            Thread.SetBackground().STAStart();
-            TerminalManage.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
+            stream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
             ITerminalResponse<QRLoginStatusResponseWrapper> CheckStatusResponse = await CheckStatus(guid, Ticket, CancellationTokenSource.Token);
             CancellationTokenSource.Cancel();
             if (!CheckStatusResponse.Success || CheckStatusResponse.Content.IsNull())
@@ -77,7 +80,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             foreach (QRLoginStatusResponseToken TokenSource in CheckStatusResponse.Content.Tokens)
             {
                 HoyolabTokenType TokenType = (HoyolabTokenType)TokenSource.TokenType;
-                TerminalManage.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.Format(TokenType));
+                stream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.Format(TokenType));
                 HoyolabToken.SetToken(TokenType, TokenSource.Token);
             }
             return await UserLogin.AsyncInvoke(HoyolabToken);
