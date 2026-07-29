@@ -22,17 +22,22 @@ namespace StarRailDamage.Source.Service.Terminal
 
         public override string ToString() => Message;
 
-        public static TerminalResponse<TContent> Create<TContent>(bool success, TContent? content)
+        public static TerminalResponse Create(ITerminalResponse response)
+        {
+            return new TerminalResponse(response.Success, response.Message);
+        }
+
+        public static TerminalResponse<TContent> Create<TContent>(bool success, TContent? content = default)
         {
             return new TerminalResponse<TContent>(success, content);
         }
 
-        public static TerminalResponse<TContent> Create<TContent>(bool success, string message, TContent? content)
+        public static TerminalResponse<TContent> Create<TContent>(bool success, string message, TContent? content = default)
         {
             return new TerminalResponse<TContent>(success, message, content);
         }
 
-        public static TerminalResponse<TContent> Create<TContent>(ITerminalResponse response, TContent? content)
+        public static TerminalResponse<TContent> Create<TContent>(ITerminalResponse response, TContent? content = default)
         {
             return new TerminalResponse<TContent>(response.Success, response.Message, content);
         }

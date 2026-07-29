@@ -15,7 +15,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         public override string[] OptionalParameters => [];
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             if (Program.OnTerminal)
             {

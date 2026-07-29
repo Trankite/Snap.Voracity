@@ -18,7 +18,7 @@ namespace StarRailDamage.Source.Web.Request
             JsonSerializerOptions = jsonSerializerOptions;
         }
 
-        public HttpContent? Serialize<TContent>(TContent? content, Encoding? encoding = null)
+        public HttpContent? Serialize<TContent>(TContent? content, Encoding? encoding = default)
         {
             return new StringContent(JsonSerializer.Serialize(content, JsonSerializerOptions), encoding, MediaTypeNames.Application.Json);
         }

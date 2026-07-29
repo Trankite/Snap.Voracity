@@ -23,19 +23,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
 
         private const string AID = "aid";
 
-        public override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(AID), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = null)
+        public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
         {
             if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
                 return new TerminalResponse<MissionAnalyzedBody>(HoyolabTerminalResponse.NotFindToken(aid));
             }
             MissionRequestBuilderFactory Factory = new MissionRequestBuilderFactory().SetHoyolabToken(Token);
-            FinalizedResponse<MissionResponse> Response = await Factory.Create().SendAsync<MissionResponse>(Program.HttpClient);
+            FinalizedResponse<MissionResponse> Response = await Factory.Create().SendAsync<MissionResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out MissionAnalyzedBody? AnalyzedBody))
             {
                 object[] FormatArguments =

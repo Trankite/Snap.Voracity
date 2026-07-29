@@ -22,12 +22,12 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         private const string AID = "aid";
 
-        public override async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(AID), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvoke(string? aid = null)
+        public static async ValueTask<ITerminalResponse<SignResponseWrapper>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
         {
             if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
@@ -39,7 +39,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
             }
             SignRequestBody Body = new(HoyolabAction.StarRailSign, UserRole.Server, UserRole.Uid, HoyolabLanguage.ZH_CN);
             SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetBody(Body);
-            FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient);
+            FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
                 return TerminalResponse.Create(true, LocalString.WebHoyolabGameSignSuccess, Response.Body.Content);

@@ -7,14 +7,15 @@ namespace TerminalHelper
 {
     public class Program
     {
+        [MTAThread]
         public static void Main(string[] arguments)
         {
             Console.Title = AppSetting.AppName;
-            TerminalInvoke Invoker = new();
-            TerminalInvoke.Invoke(new CommandParser(arguments), Invoker);
+            LinkedTextStream LinkedStream = new(Console.Out, Console.In);
+            TerminalInvoke.Invoke(new CommandParser(arguments), LinkedStream);
             while (StarRailDamage.Program.OnTerminal)
             {
-                TerminalInvoke.Invoke(CommandParser.Create(Console.ReadLine().NotNull()), Invoker);
+                TerminalInvoke.Invoke(CommandParser.Create(LinkedStream.ReadLine()), LinkedStream);
             }
         }
 

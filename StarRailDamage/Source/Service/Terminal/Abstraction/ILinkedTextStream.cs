@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace StarRailDamage.Source.Core.Abstraction
+namespace StarRailDamage.Source.Service.Terminal.Abstraction
 {
     public interface ILinkedTextStream
     {

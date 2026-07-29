@@ -26,14 +26,14 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         private const string AID = "aid";
 
-        public override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetBoolParameter(NEEDSIGN), commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetBoolParameter(NEEDSIGN), commandLine.GetParameter(AID), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvoke(string postId, bool needSign = false, string? aid = null)
+        public static async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvoke(string postId, bool needSign = false, string? aid = default, CancellationToken cancellationToken = default)
         {
-            HoyolabToken? Token = null;
+            HoyolabToken? Token = default;
             if (needSign && !HoyolabTokenManage.TryGetTokenOrFirst(aid, out Token))
             {
                 return new TerminalResponse<FullPostResponseWrapper>(HoyolabTerminalResponse.NotFindToken(aid));
@@ -43,7 +43,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
                 Token = new HoyolabToken();
             }
             FullPostRequestBuilderFactory Factory = new FullPostRequestBuilderFactory(Token).SetPostId(postId);
-            FinalizedResponse<FullPostResponse> Response = await Factory.Create().SendAsync<FullPostResponse>(Program.HttpClient);
+            FinalizedResponse<FullPostResponse> Response = await Factory.Create().SendAsync<FullPostResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out FullPostResponseWrapper? AnalyedBody))
             {
                 return TerminalResponse.Create(true, $"[{AnalyedBody.Post.PostId}] {AnalyedBody.Post.Subject}", AnalyedBody);

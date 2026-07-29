@@ -9,7 +9,7 @@ namespace StarRailDamage.Source.Extension
         public static void SetFocusable(this Control control)
         {
             control.Focusable = true;
-            control.FocusVisualStyle = null;
+            control.FocusVisualStyle = default;
         }
     }
 }

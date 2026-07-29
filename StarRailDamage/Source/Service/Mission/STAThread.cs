@@ -28,7 +28,7 @@
             }
         }
 
-        public static void Invoke(Action task)
+        public static async Task Invoke(Action task)
         {
             if (IsRunning)
             {
@@ -43,6 +43,8 @@
                 task.Invoke();
             }
         }
+
+        public static async void Start(Action task) => await Invoke(task);
 
         static STAThread()
         {

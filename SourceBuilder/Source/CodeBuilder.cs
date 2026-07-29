@@ -13,7 +13,7 @@
 
         public void Write(string? value) => Stream.Write(value);
 
-        public void WriteLine(string? value = null) => Stream.WriteLine(value);
+        public void WriteLine(string? value = default) => Stream.WriteLine(value);
 
         public void Dispose()
         {

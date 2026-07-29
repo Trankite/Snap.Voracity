@@ -30,14 +30,7 @@ namespace StarRailDamage.Source.Web.Hoyolab
             using AESAlgorithm Algorithm = GetAlgorithm();
             if (hoyolabToken.Tokens.TryGetValue(tokenType, out string? Ciphertext))
             {
-                try
-                {
-                    return Encoding.UTF8.GetString(Algorithm.DecryptFromBase64String(Ciphertext));
-                }
-                catch
-                {
-                    hoyolabToken.Tokens.Remove(tokenType);
-                }
+                try { return Encoding.UTF8.GetString(Algorithm.DecryptFromBase64String(Ciphertext)); } catch { }
             }
             return string.Empty;
         }

@@ -13,22 +13,22 @@ namespace StarRailDamage.Source.Extension
             return new JsonSerializerOptions(options);
         }
 
-        public static string Serialize<T>(this T content, JsonSerializerOptions? options = null)
+        public static string Serialize<T>(this T content, JsonSerializerOptions? options = default)
         {
             return JsonSerializer.Serialize(content, options ?? JsonOptions);
         }
 
-        public static Task SerializeAsync<T>(Stream utf8Json, T value, JsonSerializerOptions? options = null)
+        public static Task SerializeAsync<T>(Stream utf8Json, T value, JsonSerializerOptions? options = default)
         {
             return JsonSerializer.SerializeAsync(utf8Json, value, options ?? JsonOptions);
         }
 
-        public static T? Deserialize<T>(string json, JsonSerializerOptions? options = null)
+        public static T? Deserialize<T>(string json, JsonSerializerOptions? options = default)
         {
             return JsonSerializer.Deserialize<T>(json, options ?? JsonOptions);
         }
 
-        public static T? Deserialize<T>(Stream utf8Json, JsonSerializerOptions? options = null)
+        public static T? Deserialize<T>(Stream utf8Json, JsonSerializerOptions? options = default)
         {
             return JsonSerializer.Deserialize<T>(utf8Json, options ?? JsonOptions);
         }

@@ -18,7 +18,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         private const string COMMANDNAME = "text";
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             const int Margin = 4;
             const int Padding = 12;
@@ -36,11 +36,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 }
                 return new TerminalResponse(true, Command.Help.Format(Parameters));
             }
-            foreach (ITerminalCommand Command in TerminalManage.CommandTable.GetValues())
-            {
-                this.WriteLine(Command.Name.ToUpper().PadRight(Padding) + Command.FullName);
-            }
-            return new TerminalResponse(true);
+            IEnumerable<string> Commands = TerminalManage.CommandTable.GetValues().Select(Current => Current.Name.ToUpper().PadRight(Padding) + Current.FullName);
+            return new TerminalResponse(true, string.Join(Environment.NewLine, Commands));
         }
     }
 }

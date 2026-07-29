@@ -24,19 +24,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         private const string AID = "aid";
 
-        public override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetParameter(AID), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvoke(string postId, string? aid = null)
+        public static async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvoke(string postId, string? aid = default, CancellationToken cancellationToken = default)
         {
             if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
                 return new TerminalResponse<ShareResponseWrapper>(HoyolabTerminalResponse.NotFindToken(aid));
             }
             ShareRequestBuilderFactory Factory = new ShareRequestBuilderFactory(Token).SetEntityType(EntityType.Post).SetEntityId(postId);
-            FinalizedResponse<ShareResponse> Response = await Factory.Create().SendAsync<ShareResponse>(Program.HttpClient);
+            FinalizedResponse<ShareResponse> Response = await Factory.Create().SendAsync<ShareResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out ShareResponseWrapper? AnalyedBody))
             {
                 return TerminalResponse.Create(true, $"{AnalyedBody.Title}\n{AnalyedBody.Url}", AnalyedBody);

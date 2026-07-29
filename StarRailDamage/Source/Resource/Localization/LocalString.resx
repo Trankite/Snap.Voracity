@@ -576,4 +576,7 @@
   <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
     <value>登录已取消或超时</value>
   </data>
+  <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
+    <value>网络请求已取消</value>
+  </data>
 </root>

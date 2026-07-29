@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Core.Abstraction;
-using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Encode.QRCode;
 using StarRailDamage.Source.Service.Mission;
@@ -29,19 +28,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
 
         private const string GUID = "guid";
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(GUID), this);
+            return await AsyncInvoke(commandLine.GetParameter(GUID), linkedStream, cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse> AsyncInvoke(string? guid = null, ILinkedTextStream? stream = null)
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(string? guid = default, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(guid))
             {
                 guid = HoyolabTokenManage.GetGuid();
             }
-            stream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
-            ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid);
+            linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
+            ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid, cancellationToken);
             if (!CreateQRLoginResponse.Success || CreateQRLoginResponse.Content.IsNull())
             {
                 return CreateQRLoginResponse;
@@ -50,7 +49,8 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             string Ticket = CreateQRLoginResponse.Content.Ticket;
             using Bitmap Bitmap = QRCode.Create(Encoding.UTF8.GetBytes(Url)).GetBitmap(new QRCodeOptions());
             using CancellationTokenSource CancellationTokenSource = new(TimeSpan.FromMinutes(5));
-            STAThread.Invoke(() =>
+            using CancellationTokenSource LinkedCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSource.Token, cancellationToken);
+            STAThread.Start(() =>
             {
                 Window Window = new()
                 {
@@ -60,15 +60,15 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     Content = Bitmap.GetBitmapImage().GetImage()
                 };
-                Window.Closed += (sender, e) => CancellationTokenSource.Cancel();
-                using (CancellationTokenSource.Token.Register(() => Window.Dispatcher.Invoke(Window.Close)))
+                Window.Closed += (sender, e) => LinkedCancellationTokenSource.Cancel();
+                using (LinkedCancellationTokenSource.Token.Register(() => Window.Dispatcher.Invoke(Window.Close)))
                 {
                     Window.ShowDialog();
                 }
             });
-            stream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
-            ITerminalResponse<QRLoginStatusResponseWrapper> CheckStatusResponse = await CheckStatus(guid, Ticket, CancellationTokenSource.Token);
-            CancellationTokenSource.Cancel();
+            linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
+            ITerminalResponse<QRLoginStatusResponseWrapper> CheckStatusResponse = await CheckStatus(guid, Ticket, LinkedCancellationTokenSource.Token);
+            LinkedCancellationTokenSource.Cancel();
             if (!CheckStatusResponse.Success || CheckStatusResponse.Content.IsNull())
             {
                 return CheckStatusResponse;
@@ -80,16 +80,16 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             foreach (QRLoginStatusResponseToken TokenSource in CheckStatusResponse.Content.Tokens)
             {
                 HoyolabTokenType TokenType = (HoyolabTokenType)TokenSource.TokenType;
-                stream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.Format(TokenType));
+                linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.Format(TokenType));
                 HoyolabToken.SetToken(TokenType, TokenSource.Token);
             }
-            return await UserLogin.AsyncInvoke(HoyolabToken);
+            return await UserLogin.AsyncInvoke(HoyolabToken, linkedStream, cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<QRLoginResponseWrapper>> CreateQRLogin(string guid)
+        public static async ValueTask<ITerminalResponse<QRLoginResponseWrapper>> CreateQRLogin(string guid, CancellationToken cancellationToken = default)
         {
             QRLoginRequestBuilderFactory Factory = new QRLoginRequestBuilderFactory().SetGuid(guid);
-            FinalizedResponse<QRLoginResponse> Response = await Factory.Create().SendAsync<QRLoginResponse>(Program.HttpClient);
+            FinalizedResponse<QRLoginResponse> Response = await Factory.Create().SendAsync<QRLoginResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out QRLoginResponseWrapper? AnalyedBody))
             {
                 return TerminalResponse.Create(true, AnalyedBody.Url, AnalyedBody);
@@ -102,8 +102,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
             QRLoginStatusRequestBuilderFactory Factory = new QRLoginStatusRequestBuilderFactory().SetGuid(guid).SetTicket(ticket);
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(3000, CancellationToken.None);
-                FinalizedResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(Program.HttpClient, CancellationToken.None);
+                FinalizedResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(Program.HttpClient, cancellationToken);
                 if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out QRLoginStatusResponseWrapper? AnalyedBody))
                 {
                     if (Response.Body.GetStatus() == QRLoginStatus.Confirmed)
@@ -115,6 +114,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
                 {
                     return new TerminalResponse<QRLoginStatusResponseWrapper>(false, Response.ToString());
                 }
+                try { await Task.Delay(2000, cancellationToken); } catch { }
             }
             return new TerminalResponse<QRLoginStatusResponseWrapper>(false, LocalString.ServiceTerminalHoyolabLoginQRLoginExceptionCanceled);
         }

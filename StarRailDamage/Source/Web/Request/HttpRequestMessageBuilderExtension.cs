@@ -1,4 +1,5 @@
 ﻿using StarRailDamage.Source.Extension;
+using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Web.Response;
 using System.Net.Http;
 using System.Runtime.ExceptionServices;
@@ -26,6 +27,10 @@ namespace StarRailDamage.Source.Web.Request
                 try
                 {
                     return new FinalizedResponse<TResult>(HttpContext.Response.Headers, await builder.HttpContentSerializer.DeserializeAsync<TResult>(HttpContext.Response.Content, cancellation).ConfigureAwait(false));
+                }
+                catch (OperationCanceledException CanceledException)
+                {
+                    HttpContext.Exception = ExceptionDispatchInfo.Capture(new OperationCanceledException(LocalString.WebRequestExceptionOperationCanceled, CanceledException));
                 }
                 catch (Exception Exception)
                 {

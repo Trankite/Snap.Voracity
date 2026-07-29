@@ -1,4 +1,4 @@
-﻿using StarRailDamage.Source.Core.Abstraction;
+﻿using StarRailDamage.Source.Service.Terminal.Abstraction;
 
 namespace StarRailDamage.Source.Extension
 {

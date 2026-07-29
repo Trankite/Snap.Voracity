@@ -24,19 +24,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         private const string AID = "aid";
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke((HoyolabGroup)commandLine.GetIntParameter(GROUP), commandLine.GetParameter(AID));
+            return await AsyncInvoke((HoyolabGroup)commandLine.GetIntParameter(GROUP), commandLine.GetParameter(AID), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabGroup group, string? aid = null)
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabGroup group, string? aid = default, CancellationToken cancellationToken = default)
         {
             if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
                 return HoyolabTerminalResponse.NotFindToken(aid);
             }
             SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetGroup(group);
-            FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient);
+            FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
                 return new TerminalResponse(true, LocalString.WebHoyolabForumSignSuccess);

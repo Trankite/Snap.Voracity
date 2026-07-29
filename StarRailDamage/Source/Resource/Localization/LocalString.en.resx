@@ -576,4 +576,7 @@ Use "{1}" to exit the current state</value>
   <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
     <value>Login has been canceled or timed out</value>
   </data>
+  <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
+    <value>The network request has been canceled</value>
+  </data>
 </root>

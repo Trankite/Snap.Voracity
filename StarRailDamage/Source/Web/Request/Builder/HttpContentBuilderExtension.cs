@@ -9,7 +9,7 @@ namespace StarRailDamage.Source.Web.Request.Builder
     public static class HttpContentBuilderExtension
     {
         [DebuggerStepThrough]
-        public static T SetStringContent<T>(this T builder, string content, Encoding? encoding = null, string? mediaType = null) where T : IHttpContentBuilder
+        public static T SetStringContent<T>(this T builder, string content, Encoding? encoding = default, string? mediaType = default) where T : IHttpContentBuilder
         {
             return builder.Configure(builder.Content = new StringContent(content, encoding, mediaType));
         }

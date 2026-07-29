@@ -50,7 +50,7 @@ namespace StarRailDamage.Source.UI.Xaml.Control
         {
             if (string.IsNullOrEmpty(tipText))
             {
-                scopedTextBlock.ToolTip = null;
+                scopedTextBlock.ToolTip = default;
             }
             else
             {

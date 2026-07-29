@@ -26,19 +26,19 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         private const string AID = "aid";
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetBoolParameter(ISCANCEL), commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(POSTID), commandLine.GetBoolParameter(ISCANCEL), commandLine.GetParameter(AID), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse> AsyncInvoke(string postId, bool isCancel = false, string? aid = null)
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(string postId, bool isCancel = false, string? aid = default, CancellationToken cancellationToken = default)
         {
             if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
                 return HoyolabTerminalResponse.NotFindToken(aid);
             }
             UpvoteRequestBuilderFactory Factory = new UpvoteRequestBuilderFactory(Token).SetPostId(postId).SetIsCancel(isCancel);
-            FinalizedResponse<UpvoteResponse> Response = await Factory.Create().SendAsync<UpvoteResponse>(Program.HttpClient);
+            FinalizedResponse<UpvoteResponse> Response = await Factory.Create().SendAsync<UpvoteResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
                 return new TerminalResponse(true, StringExtension.Format(isCancel ? LocalString.WebHoyolabForumUpvoteCancelSuccess : LocalString.WebHoyolabForumUpvoteSuccess, postId));

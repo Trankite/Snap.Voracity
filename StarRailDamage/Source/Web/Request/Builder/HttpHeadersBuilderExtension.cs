@@ -8,7 +8,7 @@ namespace StarRailDamage.Source.Web.Request.Builder
     public static class HttpHeadersBuilderExtension
     {
         [DebuggerStepThrough]
-        public static T AddHeader<T>(this T builder, string name, string? value = null) where T : IHttpHeadersBuilder<HttpHeaders>
+        public static T AddHeader<T>(this T builder, string name, string? value = default) where T : IHttpHeadersBuilder<HttpHeaders>
         {
             return builder.Configure(builder => builder.Headers.Add(name, value));
         }
@@ -20,7 +20,7 @@ namespace StarRailDamage.Source.Web.Request.Builder
         }
 
         [DebuggerStepThrough]
-        public static T SetHeader<T>(this T builder, string name, string? value = null) where T : IHttpHeadersBuilder<HttpHeaders>
+        public static T SetHeader<T>(this T builder, string name, string? value = default) where T : IHttpHeadersBuilder<HttpHeaders>
         {
             return builder.RemoveHeader(name).AddHeader(name, value);
         }

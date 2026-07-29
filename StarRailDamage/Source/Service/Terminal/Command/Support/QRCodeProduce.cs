@@ -47,7 +47,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         private const string PATHOPEN = "open";
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             string Content = commandLine.GetParameter(CONTENT);
             string FileName = commandLine.GetParameter(FILEPATH);

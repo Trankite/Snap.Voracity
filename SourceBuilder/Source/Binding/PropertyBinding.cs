@@ -2,7 +2,7 @@ namespace SourceBuilder.Source.Binding
 {
     public class PropertyBinding
     {
-        public static void BuildCode(CodeBuilder builder, string name, string propertyType, string ownerType, string? defaultValue = null, bool callback = false)
+        public static void BuildCode(CodeBuilder builder, string name, string propertyType, string ownerType, string? defaultValue = default, bool callback = false)
         {
             builder.WriteLine($"public {propertyType} {name}");
             builder.WriteLine("{");

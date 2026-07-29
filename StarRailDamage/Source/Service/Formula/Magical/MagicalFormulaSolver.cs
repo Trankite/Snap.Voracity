@@ -20,7 +20,7 @@ namespace StarRailDamage.Source.Service.Formula.Magical
 
         public double GetValue(MagicalFormula? formula) => GetValue(formula, Getter, Setter);
 
-        public static double GetValue(MagicalFormula? formula, Func<string, double>? getter = null, Func<string, double, double>? setter = null, double defaultValue = double.NaN)
+        public static double GetValue(MagicalFormula? formula, Func<string, double>? getter = default, Func<string, double, double>? setter = default, double defaultValue = double.NaN)
         {
             if (formula.IsNull()) return defaultValue;
             if (formula.Start.IsNull() && formula.Ended.IsNull())

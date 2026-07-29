@@ -24,15 +24,15 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         private const string TOTAL = "total";
 
-        public override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetIntParameter(START), commandLine.GetIntParameter(TOTAL));
+            return await AsyncInvoke(commandLine.GetIntParameter(START), commandLine.GetIntParameter(TOTAL), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvoke(int start = 0, int total = 0)
+        public static async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvoke(int start = 0, int total = 0, CancellationToken cancellationToken = default)
         {
             SignHomeRequestBuilderFactory Factory = new(HoyolabLanguage.ZH_CN, HoyolabAction.StarRailSign);
-            FinalizedResponse<SignHomeResponse> Response = await Factory.Create().SendAsync<SignHomeResponse>(Program.HttpClient);
+            FinalizedResponse<SignHomeResponse> Response = await Factory.Create().SendAsync<SignHomeResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out SignHomeAnalyzedBody[]? Body))
             {
                 int Index = Body.ClampIndex(start - 1);

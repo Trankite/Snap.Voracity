@@ -26,18 +26,18 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
 
         private const string SORTTYPE = "sort";
 
-        public override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             int PageSize = commandLine.GetIntParameter(PAGESIZE);
             ZoneType ZoneType = (ZoneType)commandLine.GetIntParameter(ZONETYPE);
             SortType SortType = (SortType)commandLine.GetIntParameter(SORTTYPE);
-            return await AsyncInvoke(PageSize, ZoneType, SortType);
+            return await AsyncInvoke(PageSize, ZoneType, SortType, cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvoke(int pageSize, ZoneType zoneType, SortType sortType = default)
+        public static async ValueTask<ITerminalResponse<NewestAnalyzedBody[]>> AsyncInvoke(int pageSize, ZoneType zoneType, SortType sortType = default, CancellationToken cancellationToken = default)
         {
             NewestRequestBuilderFactory Factory = new NewestRequestBuilderFactory().SetPageSize(pageSize).SetZoneType(zoneType).SetSortType(sortType);
-            FinalizedResponse<NewestResponse> Response = await Factory.Create().SendAsync<NewestResponse>(Program.HttpClient);
+            FinalizedResponse<NewestResponse> Response = await Factory.Create().SendAsync<NewestResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NewestAnalyzedBody[]? AnalyzedBody))
             {
                 if (AnalyzedBody.Length == 0)

@@ -13,7 +13,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         protected override string HelpOverride => LocalString.ServiceTerminalSupportFormulaCycleHelp;
 
-        protected override ITerminalResponse InvokeOverride(string? line)
+        protected override ITerminalResponse InvokeOverride(string? line, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             MagicalFormulaParser FormulaParser = new();
             MagicalFormula? Formula = FormulaParser.Parse(line);

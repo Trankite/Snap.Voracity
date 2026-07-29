@@ -22,12 +22,12 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
 
         private const string AID = "aid";
 
-        public override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine)
+        public override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(AID));
+            return await AsyncInvoke(commandLine.GetParameter(AID), cancellationToken);
         }
 
-        public static async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvoke(string? aid = null)
+        public static async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
         {
             if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
@@ -38,7 +38,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game
                 return new TerminalResponse<NoteAnalyzedBody>(HoyolabTerminalResponse.NotFindUserRole(Game));
             }
             NoteRequestBuilderFactory Factory = new NoteRequestBuilderFactory(Token).SetUserRole(UserRole);
-            FinalizedResponse<NoteResponse> Response = await Factory.Create().SendAsync<NoteResponse>(Program.HttpClient);
+            FinalizedResponse<NoteResponse> Response = await Factory.Create().SendAsync<NoteResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NoteAnalyzedBody? Body))
             {
                 TimeSpan Offset = Body.FullTime.Subtract(DateTimeOffset.Now);

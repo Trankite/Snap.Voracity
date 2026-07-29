@@ -19,15 +19,15 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
 
         private const string HELPSYMBOL = "help";
 
-        protected abstract ITerminalResponse InvokeOverride(string line);
+        protected abstract ITerminalResponse InvokeOverride(string line, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default);
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             if (Program.OnTerminal)
             {
-                if (commandLine.GetBoolParameter(ENDSYMBOL))
+                if (linkedStream.IsNull() || commandLine.GetBoolParameter(ENDSYMBOL))
                 {
-                    return InvokeOverride(commandLine.GetParameter(INPUT));
+                    return InvokeOverride(commandLine.GetParameter(INPUT), linkedStream, cancellationToken);
                 }
                 string Header = $"[{Name.ToUpper()}]\x20";
                 string Current = commandLine.GetParameter(INPUT);
@@ -37,14 +37,14 @@ namespace StarRailDamage.Source.Service.Terminal.Abstraction
                     {
                         if (Current.EqualsIgnoreCase(HELPSYMBOL))
                         {
-                            this.WriteLine(HelpOverride);
+                            linkedStream.WriteLine(HelpOverride);
                         }
                         else
                         {
-                            this.WriteLine(InvokeOverride(Current));
+                            linkedStream.WriteLine(InvokeOverride(Current, linkedStream, cancellationToken));
                         }
                     }
-                    Current = this.ReadLine(Header);
+                    Current = linkedStream.ReadLine(Header);
                 }
             }
             return new TerminalResponse(Program.OnTerminal);

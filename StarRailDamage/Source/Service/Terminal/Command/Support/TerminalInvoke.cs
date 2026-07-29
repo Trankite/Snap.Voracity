@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Core.Abstraction;
-using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 
@@ -19,12 +18,12 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         private const string CONTENT = "text";
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return Invoke(CommandParser.Create(commandLine.GetParameter(CONTENT)), this);
+            return Invoke(CommandParser.Create(commandLine.GetParameter(CONTENT)), linkedStream);
         }
 
-        public static ITerminalResponse Invoke(CommandParser parser, ILinkedTextStream? stream = null)
+        public static ITerminalResponse Invoke(CommandParser parser, ILinkedTextStream? linkedStream = default)
         {
             foreach (CommandLine Current in parser)
             {
@@ -32,16 +31,16 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
                 {
                     if (Command.RequiredParameters.All(Current.HasParameter))
                     {
-                        Command.Invoke(Current).Configure(Self => stream?.WriteLine(Self));
+                        Command.Invoke(Current, linkedStream).Configure(Self => linkedStream?.WriteLine(Self));
                     }
                     else
                     {
-                        stream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
+                        linkedStream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
                     }
                 }
                 else
                 {
-                    stream?.WriteLine(TerminalManage.GetUnknownOperationResponse(Current.Name));
+                    linkedStream?.WriteLine(TerminalManage.GetUnknownOperationResponse(Current.Name));
                 }
             }
             return new TerminalResponse(true);

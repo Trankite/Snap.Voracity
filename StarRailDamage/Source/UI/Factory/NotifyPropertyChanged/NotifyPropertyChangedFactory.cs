@@ -10,12 +10,12 @@ namespace StarRailDamage.Source.UI.Factory.NotifyPropertyChanged
 
         private readonly Dictionary<string, PropertyChangedEventHandler> Handlers = [];
 
-        public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        public void OnPropertyChanged([CallerMemberName] string? propertyName = default)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        public bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = default)
         {
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
@@ -25,12 +25,12 @@ namespace StarRailDamage.Source.UI.Factory.NotifyPropertyChanged
             return false;
         }
 
-        public bool SetField<T>(ref T field, T value, Predicate<T> predicate, [CallerMemberName] string? propertyName = null)
+        public bool SetField<T>(ref T field, T value, Predicate<T> predicate, [CallerMemberName] string? propertyName = default)
         {
             return predicate(value) && SetField(ref field, value, propertyName);
         }
 
-        public bool SetNotifyField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null) where T : INotifyPropertyChanged
+        public bool SetNotifyField<T>(ref T field, T value, [CallerMemberName] string? propertyName = default) where T : INotifyPropertyChanged
         {
             if (Equals(field, value)) return false;
             ArgumentNullException.ThrowIfNull(propertyName);
@@ -50,7 +50,7 @@ namespace StarRailDamage.Source.UI.Factory.NotifyPropertyChanged
             return true;
         }
 
-        public bool SetNotifyField<T>(ref T field, T value, Predicate<T> predicate, [CallerMemberName] string? propertyName = null) where T : INotifyPropertyChanged
+        public bool SetNotifyField<T>(ref T field, T value, Predicate<T> predicate, [CallerMemberName] string? propertyName = default) where T : INotifyPropertyChanged
         {
             return predicate(value) && SetNotifyField(ref field, value, propertyName);
         }

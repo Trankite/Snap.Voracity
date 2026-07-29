@@ -17,7 +17,7 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         private const string CONTENT = "text";
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             return new TerminalResponse(true, commandLine.GetParameter(CONTENT));
         }
