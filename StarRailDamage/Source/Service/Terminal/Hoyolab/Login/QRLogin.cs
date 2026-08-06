@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
+namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Login
 {
     public class QRLogin : AsyncTerminalCommand
     {

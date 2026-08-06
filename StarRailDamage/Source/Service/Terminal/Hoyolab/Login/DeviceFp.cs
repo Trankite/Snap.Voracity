@@ -5,7 +5,7 @@ using StarRailDamage.Source.Web.Hoyolab.Takumi.DeviceFp;
 using StarRailDamage.Source.Web.Request;
 using StarRailDamage.Source.Web.Response;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login
+namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Login
 {
     public class DeviceFp : AsyncTerminalCommand<DeviceFpResponseWrapper>
     {

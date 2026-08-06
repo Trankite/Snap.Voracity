@@ -27,20 +27,22 @@ namespace StarRailDamage.Source.Extension
             }
         }
 
-        public static int Read(this ILinkedTextStream stream)
+        public static string ReadLine(this ILinkedTextStream stream, CancellationToken cancellationToken = default)
         {
-            return stream.Reader.Read();
+            try
+            {
+                return stream.Reader.ReadLineAsync(cancellationToken).AsTask().Result.NotNull();
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
-        public static string ReadLine(this ILinkedTextStream stream)
-        {
-            return stream.Reader.ReadLine().NotNull();
-        }
-
-        public static string ReadLine(this ILinkedTextStream stream, ReadOnlySpan<char> value)
+        public static string ReadLine(this ILinkedTextStream stream, ReadOnlySpan<char> value, CancellationToken cancellationToken = default)
         {
             stream.Writer.Write(value);
-            return stream.ReadLine();
+            return stream.ReadLine(cancellationToken);
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
-using StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum;
-using StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Game;
-using StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Login;
-using StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission;
-using StarRailDamage.Source.Service.Terminal.Command.Support;
+using StarRailDamage.Source.Service.Terminal.Hoyolab.Forum;
+using StarRailDamage.Source.Service.Terminal.Hoyolab.Game;
+using StarRailDamage.Source.Service.Terminal.Hoyolab.Login;
+using StarRailDamage.Source.Service.Terminal.Hoyolab.Mission;
+using StarRailDamage.Source.Service.Terminal.Support;
 using System.Collections.Frozen;
 
 namespace StarRailDamage.Source.Service.Terminal

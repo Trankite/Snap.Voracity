@@ -2,7 +2,7 @@
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Web.Hoyolab;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab
+namespace StarRailDamage.Source.Service.Terminal.Hoyolab
 {
     public static class HoyolabTerminalResponse
     {

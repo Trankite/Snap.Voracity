@@ -1,12 +1,13 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
+using StarRailDamage.Source.Service.Terminal.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab.Bbs.Sign;
 using StarRailDamage.Source.Web.Request;
 using StarRailDamage.Source.Web.Response;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
+namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Forum
 {
     public class ForumSign : AsyncTerminalCommand
     {

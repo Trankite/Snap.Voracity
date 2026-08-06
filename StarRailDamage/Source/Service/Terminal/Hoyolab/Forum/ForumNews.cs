@@ -6,7 +6,7 @@ using StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.Newest;
 using StarRailDamage.Source.Web.Request;
 using StarRailDamage.Source.Web.Response;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Forum
+namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Forum
 {
     public class ForumNews : AsyncTerminalCommand<NewestAnalyzedBody[]>
     {

@@ -1,13 +1,14 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
+using StarRailDamage.Source.Service.Terminal.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab.Bbs.Mission;
 using StarRailDamage.Source.Web.Hoyolab.Builder;
 using StarRailDamage.Source.Web.Request;
 using StarRailDamage.Source.Web.Response;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Hoyolab.Mission
+namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Mission
 {
     public class UserMissionInfo : AsyncTerminalCommand<MissionAnalyzedBody>
     {

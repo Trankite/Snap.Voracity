@@ -2,7 +2,7 @@
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Support
+namespace StarRailDamage.Source.Service.Terminal.Support
 {
     public class TerminalExit : TerminalCommand
     {

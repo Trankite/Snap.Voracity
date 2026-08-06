@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Support
+namespace StarRailDamage.Source.Service.Terminal.Support
 {
     public class QRCodeProduce : TerminalCommand
     {

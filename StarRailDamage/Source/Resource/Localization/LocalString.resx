@@ -496,10 +496,9 @@
 使用 "Help &lt;命令名称&gt;" 查看帮助</value>
   </data>
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
-    <value>{0}输入内容
-{1}退出循环 [True|False]
-使用 "help" 来查看内部帮助
-使用 "{1}" 来退出当前状态</value>
+    <value>{{0}}输入内容
+使用 "{0}" 来退出当前状态
+使用 "{1}" 来查看帮助</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
     <value>算式运算器</value>

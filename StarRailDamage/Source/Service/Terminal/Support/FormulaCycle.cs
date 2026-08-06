@@ -3,7 +3,7 @@ using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Formula.Magical;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
 
-namespace StarRailDamage.Source.Service.Terminal.Command.Support
+namespace StarRailDamage.Source.Service.Terminal.Support
 {
     public class FormulaCycle : CyclicTerminalCommand
     {
@@ -15,21 +15,15 @@ namespace StarRailDamage.Source.Service.Terminal.Command.Support
 
         protected override ITerminalResponse InvokeOverride(string? line, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            MagicalFormulaParser FormulaParser = new();
-            MagicalFormula? Formula = FormulaParser.Parse(line);
-            if (Formula.IsNotNull())
+            string? Message = string.Empty;
+            MagicalFormulaParser Parser = new();
+            MagicalFormulaSolver Solver = new();
+            MagicalFormula? Formula = Parser.Parse(line);
+            if (Formula.IsNotNull() && Solver.Verify(Formula, out Message))
             {
-                MagicalFormulaSolver FormulaSolver = new();
-                if (FormulaSolver.Verify(Formula, out string? Message))
-                {
-                    return new TerminalResponse(true, $"{Formula} = {FormulaSolver.GetValue(Formula)}");
-                }
-                else
-                {
-                    return new TerminalResponse(false, Message);
-                }
+                Message = $"{Formula}\x20=\x20{Solver.GetValue(Formula)}";
             }
-            return new TerminalResponse(false);
+            return new TerminalResponse(true, Message);
         }
     }
 }

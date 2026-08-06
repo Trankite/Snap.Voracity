@@ -496,10 +496,9 @@ Use "Help" Access Details</value>
 Use "Help &lt;Command&gt;" Access Details</value>
   </data>
   <data name="ServiceTerminalCycleHelp" xml:space="preserve">
-    <value>{0}Input content
-{1}Exit the loop [True|False]
-Use "help" to view internal help
-Use "{1}" to exit the current state</value>
+    <value>{{0}}Input content
+Use "{0}" to exit the current state
+Use "{1}" access details</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
     <value>Formula calculator</value>
