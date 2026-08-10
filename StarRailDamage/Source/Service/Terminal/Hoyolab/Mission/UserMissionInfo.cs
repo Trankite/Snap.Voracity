@@ -1,7 +1,6 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Terminal.Abstraction;
-using StarRailDamage.Source.Service.Terminal.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab;
 using StarRailDamage.Source.Web.Hoyolab.Bbs.Mission;
 using StarRailDamage.Source.Web.Hoyolab.Builder;
@@ -39,16 +38,8 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Mission
             FinalizedResponse<MissionResponse> Response = await Factory.Create().SendAsync<MissionResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out MissionAnalyzedBody? AnalyzedBody))
             {
-                object[] FormatArguments =
-                [
-                    AnalyzedBody.TotalPoint,
-                    AnalyzedBody.TodayPoint,
-                    AnalyzedBody.Mission.GetValueOrDefault(MissionType.Sign),
-                    AnalyzedBody.Mission.GetValueOrDefault(MissionType.View),
-                    AnalyzedBody.Mission.GetValueOrDefault(MissionType.Upvote),
-                    AnalyzedBody.Mission.GetValueOrDefault(MissionType.Share),
-                ];
-                return TerminalResponse.Create(true, LocalString.WebHoyolabUserMissionInfoContent.Format(FormatArguments), AnalyzedBody);
+                object[] FormatInfo = [AnalyzedBody.TotalPoint, AnalyzedBody.TodayPoint, AnalyzedBody.Mission.GetValueOrDefault(MissionType.Sign), AnalyzedBody.Mission.GetValueOrDefault(MissionType.View), AnalyzedBody.Mission.GetValueOrDefault(MissionType.Upvote), AnalyzedBody.Mission.GetValueOrDefault(MissionType.Share)];
+                return TerminalResponse.Create(true, LocalString.WebHoyolabUserMissionInfoContent.Format(FormatInfo), AnalyzedBody);
             }
             return new TerminalResponse<MissionAnalyzedBody>(false, Response.ToString());
         }

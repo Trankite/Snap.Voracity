@@ -4,7 +4,7 @@
     {
         Optimal,
         Numeric,
-        Alphabet,
+        Alphanumeric,
         Byte
     }
 }

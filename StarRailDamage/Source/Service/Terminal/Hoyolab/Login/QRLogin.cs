@@ -41,12 +41,12 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Login
             }
             linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
             ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid, cancellationToken);
-            if (!CreateQRLoginResponse.Success || CreateQRLoginResponse.Content.IsNull())
+            if (!CreateQRLoginResponse.TryGetAnalyzedBody(out QRLoginResponseWrapper? CreateQRLoginContent))
             {
                 return CreateQRLoginResponse;
             }
-            string Url = CreateQRLoginResponse.Content.Url;
-            string Ticket = CreateQRLoginResponse.Content.Ticket;
+            string Url = CreateQRLoginContent.Url;
+            string Ticket = CreateQRLoginContent.Ticket;
             using Bitmap Bitmap = QRCode.Create(Encoding.UTF8.GetBytes(Url)).GetBitmap(new QRCodeOptions());
             using CancellationTokenSource CancellationTokenSource = new(TimeSpan.FromMinutes(5));
             using CancellationTokenSource LinkedCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSource.Token, cancellationToken);
@@ -67,17 +67,17 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Login
                 }
             });
             linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
-            ITerminalResponse<QRLoginStatusResponseWrapper> CheckStatusResponse = await CheckStatus(guid, Ticket, LinkedCancellationTokenSource.Token);
+            ITerminalResponse<QRLoginStatusResponseWrapper> QRLoginStatusResponse = await CheckStatus(guid, Ticket, LinkedCancellationTokenSource.Token);
             LinkedCancellationTokenSource.Cancel();
-            if (!CheckStatusResponse.Success || CheckStatusResponse.Content.IsNull())
+            if (!QRLoginStatusResponse.TryGetAnalyzedBody(out QRLoginStatusResponseWrapper? QRLoginStatusContent))
             {
-                return CheckStatusResponse;
+                return QRLoginStatusResponse;
             }
             HoyolabToken HoyolabToken = new(guid);
-            QRLoginStatusResponseUserInfo UserInfo = CheckStatusResponse.Content.UserInfo;
+            QRLoginStatusResponseUserInfo UserInfo = QRLoginStatusContent.UserInfo;
             HoyolabToken.Aid = UserInfo.Aid;
             HoyolabToken.Mid = UserInfo.Mid;
-            foreach (QRLoginStatusResponseToken TokenSource in CheckStatusResponse.Content.Tokens)
+            foreach (QRLoginStatusResponseToken TokenSource in QRLoginStatusContent.Tokens)
             {
                 HoyolabTokenType TokenType = (HoyolabTokenType)TokenSource.TokenType;
                 linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.Format(TokenType));

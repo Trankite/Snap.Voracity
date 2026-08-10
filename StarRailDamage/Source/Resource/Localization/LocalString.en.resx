@@ -321,9 +321,9 @@
   <data name="ViewPageMockBattleUnitModulo" xml:space="preserve">
     <value>%</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
-    <value>{0}Content text
-{1}Saving path (Temp)
+  <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
+    <value>{0}Content
+{1}Saving path
 {2}File format [Png|Jpg|Bmp|Svg|Csv]
 {3}Foreground (#000000)
 {4}Background (#FFFFFF)
@@ -335,8 +335,15 @@
 {10}Mask pattern [1-8]
 {11}Open the path [True|False]</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeProduceFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
     <value>Generate QR code</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerUnSupportedFormat" xml:space="preserve">
+    <value>Unsupported file format</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
+    <value>File path: {0}
+Mode-{1}, Version-{2}, Error correction-{3}, Mask-{4}</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
     <value>Exit application</value>

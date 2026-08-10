@@ -1,6 +1,4 @@
-﻿using StarRailDamage.Source.Service.Terminal.Abstraction;
-
-namespace StarRailDamage.Source.Service.Terminal
+﻿namespace StarRailDamage.Source.Service.Terminal.Abstraction
 {
     public abstract class TerminalCommand : ITerminalCommand
     {

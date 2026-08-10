@@ -1,4 +1,5 @@
-﻿using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Core.Abstraction;
+using StarRailDamage.Source.Extension;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 

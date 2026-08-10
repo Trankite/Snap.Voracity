@@ -43,11 +43,11 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Login
         {
             linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetDeviceFp);
             ITerminalResponse<DeviceFpResponseWrapper> DeviceFpResponse = await DeviceFp.AsyncInvoke(cancellationToken);
-            if (!DeviceFpResponse.Success || DeviceFpResponse.Content.IsNull())
+            if (!DeviceFpResponse.TryGetAnalyzedBody(out DeviceFpResponseWrapper? DeviceFpContent))
             {
                 return DeviceFpResponse;
             }
-            hoyolabToken.Device = DeviceFpResponse.Content.DeviceFp;
+            hoyolabToken.Device = DeviceFpContent.DeviceFp;
             ExchangeRequestBuilderFactory ExchangeFactory = new ExchangeRequestBuilderFactory(hoyolabToken).SetOrigin(HoyolabTokenType.SToken);
             foreach (HoyolabTokenType TokenType in Enum.GetValues<HoyolabTokenType>())
             {

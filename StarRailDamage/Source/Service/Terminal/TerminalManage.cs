@@ -29,7 +29,7 @@ namespace StarRailDamage.Source.Service.Terminal
             CommandTable = new ITerminalCommand[]
             {
                 new FormulaCycle(),
-                new QRCodeProduce(),
+                new QRCodeMaker(),
                 new TerminalClear(),
                 new TerminalEcho(),
                 new TerminalExit(),

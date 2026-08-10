@@ -1,5 +1,6 @@
 ﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
+using StarRailDamage.Source.Service.Terminal.Abstraction;
 using StarRailDamage.Source.Web.Hoyolab;
 
 namespace StarRailDamage.Source.Service.Terminal.Hoyolab

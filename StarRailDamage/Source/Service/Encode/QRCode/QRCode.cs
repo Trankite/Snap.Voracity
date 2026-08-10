@@ -47,6 +47,7 @@ namespace StarRailDamage.Source.Service.Encode.QRCode
                 EncodeMode = EncodeModeExtension.GetEncodeMode(content).Max(EncodeMode);
             }
             QRCodeEncoder Encoder = EncodeMode.CreateEncoder();
+            Encoder.ECCodeLevel = options.ECCodeLevel;
             Encoder.SetOptimalVersion(content, options.Version);
             ReadOnlySpan<byte> Payload = content.SplitAt(Encoder.GetMaxCapacity()).Start;
             return new QRCode(Encoder, options.MaskType, Payload);

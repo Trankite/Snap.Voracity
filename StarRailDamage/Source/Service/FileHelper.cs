@@ -33,5 +33,11 @@ namespace StarRailDamage.Source.Service
         {
             return flag ? PathOpen(path) : path.NotNull();
         }
+
+        [DebuggerStepThrough]
+        public static string GetExtensionName(string? path)
+        {
+            return Path.GetExtension(path).Captured(Extension => Extension.IsNotNull() && Extension.Length >= 1 ? Extension[1..] : string.Empty);
+        }
     }
 }

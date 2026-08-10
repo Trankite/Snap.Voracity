@@ -14,9 +14,9 @@ namespace StarRailDamage.Source.Extension
             stream.Writer.WriteLine();
         }
 
-        public static void WriteLine(this ILinkedTextStream command, object value)
+        public static void WriteLine(this ILinkedTextStream stream, object value)
         {
-            command.WriteLine(value.ToString());
+            stream.WriteLine(value.ToString());
         }
 
         public static void WriteLine(this ILinkedTextStream stream, ReadOnlySpan<char> value)

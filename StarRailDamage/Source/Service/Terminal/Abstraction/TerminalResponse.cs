@@ -1,6 +1,7 @@
-﻿using StarRailDamage.Source.Service.Terminal.Abstraction;
+﻿using StarRailDamage.Source.Extension;
+using System.Diagnostics.CodeAnalysis;
 
-namespace StarRailDamage.Source.Service.Terminal
+namespace StarRailDamage.Source.Service.Terminal.Abstraction
 {
     public class TerminalResponse : ITerminalResponse
     {
@@ -63,6 +64,11 @@ namespace StarRailDamage.Source.Service.Terminal
         public TerminalResponse(bool success, string message, TContent? content) : this(success, message)
         {
             Content = content;
+        }
+
+        public bool TryGetAnalyzedBody([NotNullWhen(true)] out TContent? analyedBody)
+        {
+            return (analyedBody = Content).IsNotNull() && Success;
         }
     }
 }

@@ -321,9 +321,9 @@
   <data name="ViewPageMockBattleUnitModulo" xml:space="preserve">
     <value>%</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeProduceHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
     <value>{0}内容文本
-{1}保存路径 (Temp)
+{1}保存路径
 {2}文件格式 [Png|Jpg|Bmp|Svg|Csv]
 {3}前景色 (#000000)
 {4}背景色 (#FFFFFF)
@@ -335,8 +335,15 @@
 {10}掩码图案 [1-8]
 {11}是否跳转 [True|False]</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeProduceFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
     <value>二维码生成</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerUnSupportedFormat" xml:space="preserve">
+    <value>不支持的文件格式</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
+    <value>文件路径: {0}
+模式-{1}, 版本-{2}, 纠错-{3}, 掩码-{4}</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
     <value>退出控制台</value>

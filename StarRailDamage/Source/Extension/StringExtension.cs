@@ -37,6 +37,12 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static string NotEmpty(this string? value, Func<string> defaultValue)
+        {
+            return string.IsNullOrEmpty(value) ? defaultValue.Invoke() : value;
+        }
+
+        [DebuggerStepThrough]
         public static string Format(this string value, params ReadOnlySpan<object?> arguments)
         {
             try { return string.Format(value, arguments); } catch { return value; }

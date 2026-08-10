@@ -31,57 +31,33 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Mission
         public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = default, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             ITerminalResponse<MissionAnalyzedBody> MissionInfoResponse = await UserMissionInfo.AsyncInvoke(aid, cancellationToken);
-            if (!MissionInfoResponse.Success || MissionInfoResponse.Content.IsNull() || MissionInfoResponse.Content.Surplus == 0)
+            if (!MissionInfoResponse.TryGetAnalyzedBody(out MissionAnalyzedBody? MissionInfoContent) || MissionInfoContent.Surplus == 0)
             {
                 return MissionInfoResponse;
             }
-            Dictionary<MissionType, int> Mission = MissionInfoResponse.Content.Mission;
-            for (int i = 1 - Mission.GetValueOrDefault(MissionType.Sign) - 1; i >= 0; i--)
+            Dictionary<MissionType, int> Mission = MissionInfoContent.Mission;
+            for (int i = 1 - Mission.GetValueOrDefault(MissionType.Sign, 0xff); i >= 0; i--)
             {
-                ITerminalResponse SignResponse = await ForumSign.AsyncInvoke(HoyolabGroup.StarRail, aid, cancellationToken);
-                if (!SignResponse.Success)
-                {
-                    return TerminalResponse.Create<MissionAnalyzedBody>(SignResponse);
-                }
-                linkedStream?.WriteLine(SignResponse);
+                ForumSign.AsyncInvoke(HoyolabGroup.StarRail, aid, cancellationToken).AsTask().Result.Configure(Self => linkedStream?.WriteLine(Self));
             }
-            ITerminalResponse<NewestAnalyzedBody[]>? NewsResponse = default;
             if (Mission.ExistsKey(MissionType.View, MissionType.Upvote, MissionType.Share))
             {
-                NewsResponse = await ForumNews.AsyncInvoke(5, ZoneType.StarRailWaitingRoom, default, cancellationToken);
-                if (!NewsResponse.Success)
+                ITerminalResponse<NewestAnalyzedBody[]>? NewsResponse = await ForumNews.AsyncInvoke(5, ZoneType.StarRailWaitingRoom, default, cancellationToken);
+                if (!NewsResponse.TryGetAnalyzedBody(out NewestAnalyzedBody[]? NewsContent) || NewsContent.Length < 5)
                 {
                     return TerminalResponse.Create<MissionAnalyzedBody>(NewsResponse);
                 }
-            }
-            if (NewsResponse.IsNotNull() && NewsResponse.Content.IsNotNull() && NewsResponse.Content.Length >= 5)
-            {
                 for (int i = 3 - Mission.GetValueOrDefault(MissionType.View, 0xff) - 1; i >= 0; i--)
                 {
-                    ITerminalResponse DetailResponse = await ForumDetail.AsyncInvoke(NewsResponse.Content[i].PostId, true, aid, cancellationToken);
-                    if (!DetailResponse.Success)
-                    {
-                        return TerminalResponse.Create<MissionAnalyzedBody>(DetailResponse);
-                    }
-                    linkedStream?.WriteLine(DetailResponse);
+                    ForumDetail.AsyncInvoke(NewsContent[i].PostId, true, aid, cancellationToken).AsTask().Result.Configure(Self => linkedStream?.WriteLine(Self));
                 }
                 for (int i = 5 - Mission.GetValueOrDefault(MissionType.Upvote, 0xff) - 1; i >= 0; i--)
                 {
-                    ITerminalResponse UpvoteResponse = await ForumUpvote.AsyncInvoke(NewsResponse.Content[i].PostId, false, aid, cancellationToken);
-                    if (!UpvoteResponse.Success)
-                    {
-                        return TerminalResponse.Create<MissionAnalyzedBody>(UpvoteResponse);
-                    }
-                    linkedStream?.WriteLine(UpvoteResponse);
+                    ForumUpvote.AsyncInvoke(NewsContent[i].PostId, false, aid, cancellationToken).AsTask().Result.Configure(Self => linkedStream?.WriteLine(Self));
                 }
                 for (int i = 1 - Mission.GetValueOrDefault(MissionType.Share, 0xff) - 1; i >= 0; i--)
                 {
-                    ITerminalResponse ShareResponse = await ForumShare.AsyncInvoke(NewsResponse.Content[i].PostId, aid, cancellationToken);
-                    if (!ShareResponse.Success)
-                    {
-                        return TerminalResponse.Create<MissionAnalyzedBody>(ShareResponse);
-                    }
-                    linkedStream?.WriteLine(ShareResponse);
+                    ForumShare.AsyncInvoke(NewsContent[i].PostId, aid, cancellationToken).AsTask().Result.Configure(Self => linkedStream?.WriteLine(Self));
                 }
             }
             return await UserMissionInfo.AsyncInvoke(aid, cancellationToken);

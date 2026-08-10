@@ -71,9 +71,15 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static TResult Captured<TResult, TNone>(this TNone _, TResult result) where TNone : allows ref struct where TResult : allows ref struct
+        public static TResult Captured<TNone, TResult>(this TNone _, TResult result) where TNone : allows ref struct where TResult : allows ref struct
         {
             return result;
+        }
+
+        [DebuggerStepThrough]
+        public static TResult Captured<TSelf, TResult>(this TSelf value, Func<TSelf, TResult> action) where TSelf : allows ref struct where TResult : allows ref struct
+        {
+            return action.Invoke(value);
         }
 
         [DebuggerStepThrough]

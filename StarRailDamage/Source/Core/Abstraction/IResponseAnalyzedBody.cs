@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace StarRailDamage.Source.Web.Response
+namespace StarRailDamage.Source.Core.Abstraction
 {
     public interface IResponseAnalyzedBody<TContent>
     {

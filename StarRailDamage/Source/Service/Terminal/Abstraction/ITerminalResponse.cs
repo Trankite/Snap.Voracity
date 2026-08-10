@@ -1,4 +1,6 @@
-﻿namespace StarRailDamage.Source.Service.Terminal.Abstraction
+﻿using StarRailDamage.Source.Core.Abstraction;
+
+namespace StarRailDamage.Source.Service.Terminal.Abstraction
 {
     public interface ITerminalResponse
     {
@@ -7,7 +9,7 @@
         string Message { get; }
     }
 
-    public interface ITerminalResponse<TContent> : ITerminalResponse
+    public interface ITerminalResponse<TContent> : ITerminalResponse, IResponseAnalyzedBody<TContent>
     {
         TContent? Content { get; }
     }

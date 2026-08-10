@@ -1,5 +1,4 @@
-﻿using StarRailDamage.Source.Core.Setting;
-using StarRailDamage.Source.Extension;
+﻿using StarRailDamage.Source.Extension;
 using StarRailDamage.Source.Resource.Localization;
 using StarRailDamage.Source.Service.Encode.QRCode;
 using StarRailDamage.Source.Service.FileOpen;
@@ -11,17 +10,17 @@ using System.Text;
 
 namespace StarRailDamage.Source.Service.Terminal.Support
 {
-    public class QRCodeProduce : TerminalCommand
+    public class QRCodeMaker : TerminalCommand
     {
         public override string Name => "qrcode";
 
-        public override string FullName => LocalString.ServiceTerminalSupportQRCodeProduceFullName;
+        public override string FullName => LocalString.ServiceTerminalSupportQRCodeMakerFullName;
 
-        public override string Help => LocalString.ServiceTerminalSupportQRCodeProduceHelp;
+        public override string Help => LocalString.ServiceTerminalSupportQRCodeMakerHelp;
 
-        public override string[] RequiredParameters => [CONTENT];
+        public override string[] RequiredParameters => [CONTENT, FILEPATH];
 
-        public override string[] OptionalParameters => [FILEPATH, FILEFORMAT, FOREGROUND, BACKGROUND, PIXELSIZE, PADDING, VERSION, ENCODEMODE, ECCODELEVEL, MASKTYPE, PATHOPEN];
+        public override string[] OptionalParameters => [FILEFORMAT, FOREGROUND, BACKGROUND, PIXELSIZE, PADDING, VERSION, ENCODEMODE, ECCODELEVEL, MASKTYPE, PATHOPEN];
 
         private const string CONTENT = "text";
 
@@ -50,13 +49,15 @@ namespace StarRailDamage.Source.Service.Terminal.Support
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             string Content = commandLine.GetParameter(CONTENT);
-            string FileName = commandLine.GetParameter(FILEPATH);
-            string FileFormat = commandLine.GetParameter(FILEFORMAT);
-            if (string.IsNullOrEmpty(FileName))
+            string FilePath = commandLine.GetParameter(FILEPATH);
+            if (!commandLine.TryGetParameter(FILEFORMAT, out string? FileFormat))
             {
-                FileName = $"Qrcode.{FileFormat.NotEmpty("png")}";
+                FileFormat = FileHelper.GetExtensionName(FilePath).NotEmpty(ImageFormat.Png.ToString);
             }
-            string FilePath = Path.Combine(LocalSetting.GetTempPath(), FileName);
+            if (string.IsNullOrEmpty(Path.GetExtension(FilePath)))
+            {
+                FilePath = Path.ChangeExtension(FilePath, FileFormat);
+            }
             QRCodeOptions Options = new();
             if (ColorExtension.TryFromHtml(commandLine.GetParameter(FOREGROUND), out Color Foreground))
             {
@@ -70,7 +71,7 @@ namespace StarRailDamage.Source.Service.Terminal.Support
             {
                 Options.Pixel = Pixel;
             }
-            if (int.TryParse(commandLine.GetParameter(PADDING), out int Padding))
+            if (int.TryParse(commandLine.GetParameter(PADDING), out int Padding) && Padding >= 0)
             {
                 Options.Padding = Padding;
             }
@@ -98,21 +99,26 @@ namespace StarRailDamage.Source.Service.Terminal.Support
             {
                 return new TerminalResponse(false, Write.ToString());
             }
-            QRCode Qrcode = QRCode.Create(Encoding.UTF8.GetBytes(content), options);
+            QRCode Qrcode;
+            byte[] UTF8Bytes = Encoding.UTF8.GetBytes(content);
             if (format.EqualsIgnoreCase("csv"))
             {
-                Qrcode.SaveToCsv(Write.Stream);
+                (Qrcode = QRCode.Create(UTF8Bytes, options)).SaveToCsv(Write.Stream);
             }
             else if (format.EqualsIgnoreCase("svg"))
             {
-                Qrcode.SaveToSvg(Write.Stream, options);
+                (Qrcode = QRCode.Create(UTF8Bytes, options)).SaveToSvg(Write.Stream, options);
+            }
+            else if (ImageFormatExtension.TryParse(format, out ImageFormat? ImageType))
+            {
+                (Qrcode = QRCode.Create(UTF8Bytes, options)).GetBitmap(options).SaveAndDisponse(Write.Stream, ImageType);
             }
             else
             {
-                ImageFormat? ImageType = ImageFormatExtension.Parse(format);
-                Qrcode.GetBitmap(options).SaveAndDisponse(Write.Stream, ImageType);
+                return new TerminalResponse(false, LocalString.ServiceTerminalSupportQRCodeMakerUnSupportedFormat);
             }
-            return new TerminalResponse(true, FileHelper.PathOpen(Write.FullPath, pathOpen));
+            object[] FormatInfo = [FileHelper.PathOpen(Write.FullPath, pathOpen), Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType.ToInt()];
+            return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeMakerDetails.Format(FormatInfo));
         }
     }
 }

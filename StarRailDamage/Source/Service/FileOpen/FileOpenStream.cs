@@ -1,5 +1,4 @@
 ﻿using StarRailDamage.Source.Core.Abstraction;
-using StarRailDamage.Source.Extension;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.ExceptionServices;
@@ -8,9 +7,8 @@ namespace StarRailDamage.Source.Service.FileOpen
 {
     public class FileOpenStream : IExceptionCapture, IDisposable
     {
-        [MemberNotNullWhen(true, nameof(Stream))]
-        [MemberNotNullWhen(true, nameof(FileInfo))]
         [MemberNotNullWhen(false, nameof(Exception))]
+        [MemberNotNullWhen(true, nameof(Stream), nameof(FileInfo))]
         public bool Success { get; }
 
         public Stream? Stream { get; }
@@ -43,8 +41,7 @@ namespace StarRailDamage.Source.Service.FileOpen
 
         public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None) => new(path, fileMode, fileAccess, fileShare, true);
 
-        [MemberNotNull(nameof(Stream))]
-        [MemberNotNull(nameof(FileInfo))]
+        [MemberNotNull(nameof(Stream), nameof(FileInfo))]
         public void ThrowIfFailed()
         {
             if (!Success)
@@ -61,7 +58,7 @@ namespace StarRailDamage.Source.Service.FileOpen
 
         public override string ToString()
         {
-            return Exception.IsNotNull() ? Exception.SourceException.Message : string.Empty;
+            return Success ? string.Empty : Exception.SourceException.Message;
         }
     }
 }

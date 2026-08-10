@@ -1,12 +1,13 @@
-﻿using System.Drawing.Imaging;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing.Imaging;
 
 namespace StarRailDamage.Source.Extension
 {
     public static class ImageFormatExtension
     {
-        public static ImageFormat? Parse(string? value)
+        public static bool TryParse(string? value, [NotNullWhen(true)] out ImageFormat? imageFormat)
         {
-            return value?.ToLower() switch
+            imageFormat = value?.ToLower() switch
             {
                 "png" => ImageFormat.Png,
                 "jpg" or "jpeg" => ImageFormat.Jpeg,
@@ -14,6 +15,7 @@ namespace StarRailDamage.Source.Extension
                 "ico" => ImageFormat.Icon,
                 _ => default
             };
+            return imageFormat.IsNotNull();
         }
     }
 }
