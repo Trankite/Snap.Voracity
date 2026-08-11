@@ -52,7 +52,7 @@ namespace StarRailDamage.Source.Service.Terminal.Support
             string FilePath = commandLine.GetParameter(FILEPATH);
             if (!commandLine.TryGetParameter(FILEFORMAT, out string? FileFormat))
             {
-                FileFormat = FileHelper.GetExtensionName(FilePath).NotEmpty(ImageFormat.Png.ToString);
+                FileFormat = FileHelper.GetExtensionName(FilePath).NotEmpty(ImageFormat.Png);
             }
             if (string.IsNullOrEmpty(Path.GetExtension(FilePath)))
             {
@@ -117,7 +117,8 @@ namespace StarRailDamage.Source.Service.Terminal.Support
             {
                 return new TerminalResponse(false, LocalString.ServiceTerminalSupportQRCodeMakerUnSupportedFormat);
             }
-            object[] FormatInfo = [FileHelper.PathOpen(Write.FullPath, pathOpen), Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType.ToInt()];
+            FileHelper.PathOpen(Write.FullPath, pathOpen);
+            object[] FormatInfo = [Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType.ToInt()];
             return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeMakerDetails.Format(FormatInfo));
         }
     }

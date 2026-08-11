@@ -31,7 +31,7 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Game
 
         public static async ValueTask<ITerminalResponse<SignHomeAnalyzedBody[]>> AsyncInvoke(int start = 0, int total = 0, CancellationToken cancellationToken = default)
         {
-            SignHomeRequestBuilderFactory Factory = new(HoyolabLanguage.ZH_CN, HoyolabAction.StarRailSign);
+            SignHomeRequestBuilderFactory Factory = new(HoyolabLanguage.Chinese, HoyolabAction.StarRailSign);
             FinalizedResponse<SignHomeResponse> Response = await Factory.Create().SendAsync<SignHomeResponse>(Program.HttpClient, cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out SignHomeAnalyzedBody[]? Body))
             {

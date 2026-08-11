@@ -342,8 +342,7 @@
     <value>Unsupported file format</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
-    <value>File path: {0}
-Mode-{1}, Version-{2}, Error correction-{3}, Mask-{4}</value>
+    <value>Mode-{0}, Version-{1}, Error correction-{2}, Mask-3}</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
     <value>Exit application</value>

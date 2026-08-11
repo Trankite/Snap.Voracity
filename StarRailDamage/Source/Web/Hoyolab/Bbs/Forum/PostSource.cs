@@ -1,7 +1,10 @@
-﻿namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum
+﻿using System.ComponentModel;
+
+namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum
 {
-    public static class PostSource
+    public enum PostSource
     {
-        public const string Discussion = "discussion";
+        [Description("discussion")]
+        Discussion = 1
     }
 }

@@ -6,9 +6,9 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
 {
     public static class HoyolabHttpRequestMessageBuilderExtension
     {
-        public static HoyolabHttpRequestMessageBuilder SetReferer(this HoyolabHttpRequestMessageBuilder builder, string value)
+        public static HoyolabHttpRequestMessageBuilder SetReferer(this HoyolabHttpRequestMessageBuilder builder, HoyolabReferer value)
         {
-            return builder.SetHeader("Referer", value);
+            return builder.SetHeader("Referer", value.GetDescription());
         }
 
         public static HoyolabHttpRequestMessageBuilder SetXrpcAppId(this HoyolabHttpRequestMessageBuilder builder, string value)
@@ -26,7 +26,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
             return builder.SetHeader("x-rpc-device_id", value);
         }
 
-        public static HoyolabHttpRequestMessageBuilder SetXrpcClientType(this HoyolabHttpRequestMessageBuilder builder, ClientType clientType)
+        public static HoyolabHttpRequestMessageBuilder SetXrpcClientType(this HoyolabHttpRequestMessageBuilder builder, HoyolabClient clientType)
         {
             return builder.SetHeader("x-rpc-client_type", clientType.ToIntString());
         }

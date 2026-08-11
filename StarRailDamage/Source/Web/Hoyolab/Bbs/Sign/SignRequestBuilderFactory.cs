@@ -25,7 +25,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Sign
                 .SetMethod(HttpMethod.Post)
                 .SetReferer(HoyolabReferer.MihoyoApp)
                 .SetXrpcAppVersion(HoyolabOptions.Version)
-                .SetXrpcClientType(ClientType.Android)
+                .SetXrpcClientType(HoyolabClient.Android)
                 .SetDataSignWithBody(DataSignOptions.Create(SaltType.X6, DataSignAlgorithm.Gen2), JsonSerializer.Serialize(new SignRequestBody(Group.ToIntString())))
                 .SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetMid().SetStoken());
         }

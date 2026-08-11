@@ -1,6 +1,6 @@
 ﻿namespace StarRailDamage.Source.Web.Hoyolab
 {
-    public enum ClientType
+    public enum HoyolabClient
     {
         Apple = 1,
         Android = 2,

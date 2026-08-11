@@ -6,9 +6,9 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
 {
     public static class HoyolabHttpUriBuilderExtension
     {
-        public static HoyolabHttpUriBuilder SetChannalId(this HoyolabHttpUriBuilder builder, string value)
+        public static HoyolabHttpUriBuilder SetChannalId(this HoyolabHttpUriBuilder builder, HoyolabChannal value)
         {
-            return builder.SetQuery("channel_id", value);
+            return builder.SetQuery("channel_id", value.GetDescription());
         }
 
         public static HoyolabHttpUriBuilder SetContentId(this HoyolabHttpUriBuilder builder, string value)
@@ -31,14 +31,14 @@ namespace StarRailDamage.Source.Web.Hoyolab.Builder
             return builder.SetQuery("role_id", value);
         }
 
-        public static HoyolabHttpUriBuilder SetLanguage(this HoyolabHttpUriBuilder builder, string value)
+        public static HoyolabHttpUriBuilder SetAction(this HoyolabHttpUriBuilder builder, HoyolabAction value)
         {
-            return builder.SetQuery("lang", value);
+            return builder.SetQuery("act_id", value.GetDescription());
         }
 
-        public static HoyolabHttpUriBuilder SetActionId(this HoyolabHttpUriBuilder builder, string value)
+        public static HoyolabHttpUriBuilder SetLanguage(this HoyolabHttpUriBuilder builder, HoyolabLanguage value)
         {
-            return builder.SetQuery("act_id", value);
+            return builder.SetQuery("lang", value.GetDescription());
         }
 
         public static HoyolabHttpUriBuilder SetRegion(this HoyolabHttpUriBuilder builder, string value)

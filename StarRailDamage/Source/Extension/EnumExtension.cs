@@ -4,6 +4,8 @@ namespace StarRailDamage.Source.Extension
 {
     public static class EnumExtension
     {
+        private static readonly Dictionary<Enum, string> DescriptionCache = [];
+
         [DebuggerStepThrough]
         public static int ToInt<TEnum>(this TEnum value) where TEnum : Enum
         {
@@ -13,7 +15,7 @@ namespace StarRailDamage.Source.Extension
         [DebuggerStepThrough]
         public static string ToIntString<TEnum>(this TEnum value) where TEnum : Enum
         {
-            return value.ToString("D");
+            return value.ToInt().ToString();
         }
 
         [DebuggerStepThrough]
@@ -31,6 +33,16 @@ namespace StarRailDamage.Source.Extension
                 Flags |= 1 << value.ToInt();
             }
             return Flags;
+        }
+
+        [DebuggerStepThrough]
+        public static string GetDescription<T>(this T value) where T : struct, Enum
+        {
+            if (!DescriptionCache.TryGetValue(value, out string? Description))
+            {
+                DescriptionCache[value] = Description = typeof(T).GetDescription(Enum.GetName(value).ThrowIfNull());
+            }
+            return Description;
         }
     }
 }

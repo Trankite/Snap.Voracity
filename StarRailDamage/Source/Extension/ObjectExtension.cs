@@ -36,9 +36,9 @@ namespace StarRailDamage.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T NotNull<T>(this T? value, Func<T> getter)
+        public static T NotNull<T>(this T? value, Func<T> defaultValue)
         {
-            return value ?? getter();
+            return value ?? defaultValue.Invoke();
         }
 
         [DebuggerStepThrough]

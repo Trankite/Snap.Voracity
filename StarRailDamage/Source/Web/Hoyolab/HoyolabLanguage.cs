@@ -1,7 +1,10 @@
-﻿namespace StarRailDamage.Source.Web.Hoyolab
+﻿using System.ComponentModel;
+
+namespace StarRailDamage.Source.Web.Hoyolab
 {
-    public static class HoyolabLanguage
+    public enum HoyolabLanguage
     {
-        public const string ZH_CN = "zh-cn";
+        [Description("zh-cn")]
+        Chinese = 1
     }
 }

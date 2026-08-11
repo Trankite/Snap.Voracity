@@ -23,7 +23,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.Avatar
                 .SetRequestUri(new HoyolabHttpUriBuilder(URL).SetServer(Server).SetRoleId(Uid))
                 .SetXrpcAppVersion(HoyolabOptions.Version)
                 .SetXrpcDeviceFp(HoyolabToken.Device)
-                .SetXrpcClientType(ClientType.Other)
+                .SetXrpcClientType(HoyolabClient.Other)
                 .SetDataSignWithQuery(DataSignOptions.Create(SaltType.X4, DataSignAlgorithm.Gen2))
                 .SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetLtuid().SetLtoken());
         }

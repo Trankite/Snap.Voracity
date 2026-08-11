@@ -28,10 +28,10 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.DeviceFp
                 DeviceId = Random.Shared.GetLowerHexString(16),
                 SeedId = Guid.NewGuid().ToString(),
                 SeedTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(),
-                Platform = ClientType.Android.ToIntString(),
+                Platform = HoyolabClient.Android.ToIntString(),
                 DeviceFp = Random.Shared.GetLowerHexString(13),
-                AppName = GameTypeExtension.GameTypeTable.GetValueOrDefault(GameType.HoyolabChina).NotNull(),
-                ExtFields = JsonSerializer.Serialize(GetExtendFields()),
+                AppName = HoyolabApp.HoyolabChina.GetDescription(),
+                ExtendFields = JsonSerializer.Serialize(GetExtendFields()),
                 BbsDeviceId = Guid.NewGuid().ToString()
             };
         }

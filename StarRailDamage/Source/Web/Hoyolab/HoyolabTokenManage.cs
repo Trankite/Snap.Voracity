@@ -12,23 +12,30 @@ namespace StarRailDamage.Source.Web.Hoyolab
 
         public static HoyolabToken[] HoyolabTokens
         {
-            get => _HoyolabTokens ?? Load().Captured(_HoyolabTokens);
+            get
+            {
+                if (_HoyolabTokens.IsNull())
+                {
+                    _HoyolabTokens = Load().AsTask().Result.NotNull();
+                }
+                return _HoyolabTokens;
+            }
             private set => _HoyolabTokens = value;
         }
 
-        [MemberNotNull(nameof(_HoyolabTokens))]
-        public static bool Load()
+        public static async ValueTask<HoyolabToken[]?> Load(CancellationToken cancellationToken = default)
         {
             using FileOpenRead FileRead = new(GetFilePath());
-            _HoyolabTokens = FileRead.Success ? JsonSerializerExtension.Deserialize<HoyolabToken[]>(FileRead.Stream).NotNull() : [];
-            return FileRead.Success;
+            if (!FileRead.Success) return default;
+            return await JsonSerializerExtension.DeserializeAsync<HoyolabToken[]>(FileRead.Stream, default, cancellationToken);
         }
 
-        public static async ValueTask Save(HoyolabToken[] hoyolabTokens)
+        public static async ValueTask Save(HoyolabToken[] hoyolabTokens, CancellationToken cancellationToken = default)
         {
             using FileOpenWrite FileWrite = FileOpenWrite.Create(GetFilePath());
             FileWrite.ThrowIfFailed();
-            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, _HoyolabTokens = hoyolabTokens);
+            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, hoyolabTokens, default, cancellationToken);
+            _HoyolabTokens = hoyolabTokens;
         }
 
         public static async ValueTask Update(HoyolabToken hoyolabToken)

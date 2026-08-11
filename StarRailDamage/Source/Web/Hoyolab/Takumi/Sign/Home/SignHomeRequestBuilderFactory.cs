@@ -9,21 +9,21 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.Sign.Home
     {
         private const string URL = "https://api-takumi.mihoyo.com/event/luna/hkrpg/home";
 
-        public string Language { get; set; } = string.Empty;
+        public HoyolabAction Action { get; set; }
 
-        public string ActionId { get; set; } = string.Empty;
+        public HoyolabLanguage Language { get; set; }
 
         public SignHomeRequestBuilderFactory() { }
 
-        public SignHomeRequestBuilderFactory(string language, string actionId)
+        public SignHomeRequestBuilderFactory(HoyolabLanguage language, HoyolabAction hoyolabAction)
         {
             Language = language;
-            ActionId = actionId;
+            Action = hoyolabAction;
         }
 
         public HttpRequestMessageBuilder Create()
         {
-            return new HoyolabHttpRequestMessageBuilder().SetRequestUri(new HoyolabHttpUriBuilder(URL).SetLanguage(Language).SetActionId(ActionId).Uri);
+            return new HoyolabHttpRequestMessageBuilder().SetRequestUri(new HoyolabHttpUriBuilder(URL).SetLanguage(Language).SetAction(Action).Uri);
         }
     }
 }

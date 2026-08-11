@@ -21,7 +21,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.FullPost
                 .SetRequestUri(new HoyolabHttpUriBuilder(URL).SetPostId(PostId))
                 .SetReferer(HoyolabReferer.MihoyoApp)
                 .SetXrpcAppVersion(HoyolabOptions.Version)
-                .SetXrpcClientType(ClientType.Android)
+                .SetXrpcClientType(HoyolabClient.Android)
                 .SetDataSign(DataSignOptions.Create(SaltType.K2, DataSignAlgorithm.Gen1))
                 .SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetMid().SetStoken());
         }

@@ -23,7 +23,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.DeviceFp
         public string AppName { get; set; } = string.Empty;
 
         [JsonPropertyName("ext_fields")]
-        public string ExtFields { get; set; } = string.Empty;
+        public string ExtendFields { get; set; } = string.Empty;
 
         [JsonPropertyName("bbs_device_id")]
         public string BbsDeviceId { get; set; } = string.Empty;

@@ -16,7 +16,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.Wiki.Home
 
         public HttpRequestMessageBuilder Create()
         {
-            return new HttpRequestMessageBuilder().SetRequestUri(new HoyolabHttpUriBuilder(URL).SetChannalId(HoyolabQuery.StarRailWiki).SetAppSn(ChannelType.ToIntString()));
+            return new HttpRequestMessageBuilder().SetRequestUri(new HoyolabHttpUriBuilder(URL).SetChannalId(HoyolabChannal.StarRailWiki).SetAppSn(ChannelType.ToIntString()));
         }
     }
 }

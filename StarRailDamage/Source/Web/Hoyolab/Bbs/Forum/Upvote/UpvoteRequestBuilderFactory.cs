@@ -25,10 +25,10 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.Upvote
             return new HoyolabHttpRequestMessageBuilder()
                 .SetRequestUri(URL)
                 .SetMethod(HttpMethod.Post)
-                .SetStringContent(JsonSerializer.Serialize(new UpvoteRequestBody(PostSource.Discussion, IsCancel, PostId, BoolExtension.ToIntString(!IsCancel))))
+                .SetStringContent(JsonSerializer.Serialize(UpvoteRequestBody.Create(PostSource.Discussion, IsCancel, PostId, BoolExtension.ToIntString(!IsCancel))))
                 .SetReferer(HoyolabReferer.MihoyoApp)
                 .SetXrpcAppVersion(HoyolabOptions.Version)
-                .SetXrpcClientType(ClientType.Android)
+                .SetXrpcClientType(HoyolabClient.Android)
                 .SetDataSign(DataSignOptions.Create(SaltType.K2, DataSignAlgorithm.Gen1))
                 .SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetMid().SetStoken());
         }

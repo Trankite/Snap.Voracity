@@ -1,7 +1,10 @@
-﻿namespace StarRailDamage.Source.Web.Hoyolab
+﻿using System.ComponentModel;
+
+namespace StarRailDamage.Source.Web.Hoyolab
 {
-    public static class HoyolabReferer
+    public enum HoyolabReferer
     {
-        public const string MihoyoApp = "https://app.mihoyo.com";
+        [Description("https://app.mihoyo.com")]
+        MihoyoApp = 1
     }
 }

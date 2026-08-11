@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using StarRailDamage.Source.Extension;
+using System.Text.Json.Serialization;
 
 namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.Upvote
 {
@@ -24,6 +25,11 @@ namespace StarRailDamage.Source.Web.Hoyolab.Bbs.Forum.Upvote
             IsCancel = isCancel;
             PostId = postId;
             UpvoteType = upvoteType;
+        }
+
+        public static UpvoteRequestBody Create(PostSource source, bool isCancel, string postId, string upvoteType)
+        {
+            return new UpvoteRequestBody(source.GetDescription(), isCancel, postId, upvoteType);
         }
     }
 }

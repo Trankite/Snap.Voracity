@@ -4,14 +4,14 @@ namespace StarRailDamage.Source.Web.Hoyolab.Takumi.Sign.Info
 {
     public static class SignInfoRequestBuilderFactoryExtension
     {
-        public static SignInfoRequestBuilderFactory SetLanguage(this SignInfoRequestBuilderFactory builder, string value)
+        public static SignInfoRequestBuilderFactory SetAction(this SignInfoRequestBuilderFactory builder, HoyolabAction value)
         {
-            return builder.Configure(builder.Language = value);
+            return builder.Configure(builder.Action = value);
         }
 
-        public static SignInfoRequestBuilderFactory SetActionId(this SignInfoRequestBuilderFactory builder, string value)
+        public static SignInfoRequestBuilderFactory SetLanguage(this SignInfoRequestBuilderFactory builder, HoyolabLanguage value)
         {
-            return builder.Configure(builder.ActionId = value);
+            return builder.Configure(builder.Language = value);
         }
 
         public static SignInfoRequestBuilderFactory SetServer(this SignInfoRequestBuilderFactory builder, string value)

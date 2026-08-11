@@ -342,8 +342,7 @@
     <value>不支持的文件格式</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
-    <value>文件路径: {0}
-模式-{1}, 版本-{2}, 纠错-{3}, 掩码-{4}</value>
+    <value>模式-{0}, 版本-{1}, 纠错-{2}, 掩码-{3}</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
     <value>退出控制台</value>

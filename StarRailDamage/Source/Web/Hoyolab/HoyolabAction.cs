@@ -1,7 +1,10 @@
-﻿namespace StarRailDamage.Source.Web.Hoyolab
+﻿using System.ComponentModel;
+
+namespace StarRailDamage.Source.Web.Hoyolab
 {
-    public static class HoyolabAction
+    public enum HoyolabAction
     {
-        public const string StarRailSign = "e202304121516551";
+        [Description("e202304121516551")]
+        StarRailSign = 1
     }
 }

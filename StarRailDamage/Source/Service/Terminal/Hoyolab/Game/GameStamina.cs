@@ -34,7 +34,7 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab.Game
             {
                 return new TerminalResponse<NoteAnalyzedBody>(HoyolabTerminalResponse.NotFindToken(aid));
             }
-            if (!Token.TryGetUserRole(GameType.StarRailChina.OutSelf(out GameType Game), out HoyolabUserRole? UserRole))
+            if (!Token.TryGetUserRole(HoyolabApp.StarRailChina.OutSelf(out HoyolabApp Game), out HoyolabUserRole? UserRole))
             {
                 return new TerminalResponse<NoteAnalyzedBody>(HoyolabTerminalResponse.NotFindUserRole(Game));
             }

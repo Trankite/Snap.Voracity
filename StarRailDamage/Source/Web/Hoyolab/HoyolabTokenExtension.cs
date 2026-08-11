@@ -12,14 +12,14 @@ namespace StarRailDamage.Source.Web.Hoyolab
     {
         private const string Salt = "B9176A0A08605E7EE16428AB13199AC2";
 
-        public static bool TryGetUserRole(this HoyolabToken hoyolabToken, GameType value, [NotNullWhen(true)] out HoyolabUserRole? userRole)
+        public static bool TryGetUserRole(this HoyolabToken hoyolabToken, HoyolabApp value, [NotNullWhen(true)] out HoyolabUserRole? userRole)
         {
             for (int i = 0; i < hoyolabToken.UserRoles.Length; i++)
             {
                 userRole = hoyolabToken.UserRoles[i];
-                if (GameTypeExtension.GameTypeTable.TryGetValue(userRole.Game, out GameType GameType))
+                if (HoyolabAppExtension.TryGetValue(userRole.Game, out HoyolabApp GameType))
                 {
-                    if (GameType.HasFlag(value)) return true;
+                    if (value.HasFlag(GameType)) return true;
                 }
             }
             return false.Configure(userRole = default);

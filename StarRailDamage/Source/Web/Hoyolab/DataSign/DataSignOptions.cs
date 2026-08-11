@@ -27,7 +27,7 @@ namespace StarRailDamage.Source.Web.Hoyolab.DataSign
 
         public static DataSignOptions Create(SaltType type, DataSignAlgorithm algorithm)
         {
-            return new DataSignOptions(HoyolabOptions.Salts[type], algorithm, algorithm >= DataSignAlgorithm.Gen2 ? Random.Shared.GetLowerAndNumberString(6) : GetRandomNumberString());
+            return new DataSignOptions(type.GetDescription(), algorithm, algorithm >= DataSignAlgorithm.Gen2 ? Random.Shared.GetLowerAndNumberString(6) : GetRandomNumberString());
         }
 
         private static string GetRandomNumberString()

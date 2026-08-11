@@ -16,7 +16,7 @@ namespace StarRailDamage.Source.Service.Terminal.Hoyolab
             return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabExceptionNotFindToken.Format(aid));
         }
 
-        public static TerminalResponse NotFindUserRole(GameType gameType)
+        public static TerminalResponse NotFindUserRole(HoyolabApp gameType)
         {
             return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabExceptionNotFindUserRole.Format(gameType));
         }
