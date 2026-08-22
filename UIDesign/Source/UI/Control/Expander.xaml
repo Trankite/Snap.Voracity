@@ -1,0 +1,75 @@
+﻿<UserControl
+    x:Class="UIDesign.Source.UI.Control.Expander"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UIDesign.Source.UI.Control"
+    xmlns:dsup="clr-namespace:UIDesign.Source.UI.Panel"
+    xmlns:dsfc="clr-namespace:UIDesign.Source.Factory.Converter">
+    <UserControl.Template>
+        <ControlTemplate TargetType="{x:Type UserControl}">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <dsup:ScrollViewer Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" x:Name="PART_Panel" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+                    <dsup:ScrollViewer.Style>
+                        <Style TargetType="{x:Type dsup:ScrollViewer}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Dropdown,RelativeSource={RelativeSource AncestorType={x:Type local:Expander}}}" Value="False">
+                                    <Setter Property="MaxHeight" Value="{Binding PanelHeight,RelativeSource={RelativeSource AncestorType={x:Type local:Expander}}}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dsup:ScrollViewer.Style>
+                    <ContentPresenter/>
+                </dsup:ScrollViewer>
+
+                <local:Button Grid.Column="1" Grid.Row="1" Click="ExpandClick" Padding="5" Margin="{TemplateBinding Padding}">
+                    <local:Button.Style>
+                        <Style TargetType="{x:Type local:Button}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Value="-1">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding>
+                                            <MultiBinding.Converter>
+                                                <dsfc:ObjectComparable/>
+                                            </MultiBinding.Converter>
+                                            <Binding ElementName="PART_Panel" Path="ActualHeight"/>
+                                            <Binding Path="PanelHeight" RelativeSource="{RelativeSource AncestorType={x:Type local:Expander}}"/>
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:Button.Style>
+                    
+                    <Path Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Data="M 0,0 L 8,6 L 16,0">
+                        <Path.Style>
+                            <Style TargetType="{x:Type Path}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Dropdown,RelativeSource={RelativeSource AncestorType={x:Type local:Expander}}}" Value="True">
+                                        <Setter Property="LayoutTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleY="-1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+                </local:Button>
+            </Grid>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>

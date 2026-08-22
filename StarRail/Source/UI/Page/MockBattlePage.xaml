@@ -1,0 +1,222 @@
+<local:Page
+    x:Class="StarRail.Source.UI.Page.MockBattlePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UIDesign.Source.UI.Panel;assembly=UIDesign"
+    xmlns:dsuc="clr-namespace:UIDesign.Source.UI.Control;assembly=UIDesign"
+    xmlns:ssuv="clr-namespace:StarRail.Source.UI.View"
+    xmlns:ssfm="clr-namespace:StarRail.Source.Factory.Markup">
+    <local:Page.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}"/>
+    </local:Page.DataContext>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush Stretch="Uniform"/>
+        </Grid.Background>
+
+        <Grid.Resources>
+            <Style TargetType="{x:Type ssuv:FieldEntrySpan}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="{x:Type ssuv:TabulateSpan}">
+                <Setter Property="Width" Value="320"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="10" Background="{StaticResource DropBackBrush}">
+                <local:StackPanel Orientation="Horizontal" Height="150" Margin="10" Spacing="10">
+                    <ssuv:HeadFrameSpan/>
+                    <ssuv:TabulateSpan/>
+                </local:StackPanel>
+            </Border>
+
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="2" Text="{Binding Model.CharacterAttributeModel.Attack,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="3" Text="{Binding Model.CharacterAttributeModel.Health,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="4" Text="{Binding Model.CharacterAttributeModel.Defense,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="5" Text="{Binding Model.CharacterAttributeModel.Speed,Mode=TwoWay}"/>
+
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="7" Text="{Binding Model.CharacterAttributeModel.CriticalHitRate,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="8" Text="{Binding Model.CharacterAttributeModel.CriticalHitDamage,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="9" Text="{Binding Model.CharacterAttributeModel.ElementIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="10" Text="{Binding Model.CharacterAttributeModel.DefenseDecrease,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="11" Text="{Binding Model.CharacterAttributeModel.MagicalDecrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
+
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="13" Text="{Binding Model.CharacterAttributeModel.EffectHitRate,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="14" Text="{Binding Model.CharacterAttributeModel.HealingBoost,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="0" Grid.Row="15" Text="{Binding Model.CharacterAttributeModel.ManaReplenish,Mode=TwoWay}"/>
+
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="2" Text="{Binding Model.CharacterAttributeModel.AttackBase,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="3" Text="{Binding Model.CharacterAttributeModel.HealthBase,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="4" Text="{Binding Model.CharacterAttributeModel.DefenseBase,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="5" Text="{Binding Model.CharacterAttributeModel.SpeedBase,Mode=TwoWay}"/>
+
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="7" Text="{Binding Model.CharacterAttributeModel.BreakEffect,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="8" Text="{Binding Model.CharacterAttributeModel.BreakEfficiency,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="9" Text="{Binding Model.CharacterAttributeModel.BreakIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="10" Text="{Binding Model.CharacterAttributeModel.ElationIncrease,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="11" Text="{Binding Model.CharacterAttributeModel.ToughDecline,Mode=TwoWay}"/>
+
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="13" Text="{Binding Model.CharacterAttributeModel.EffectMagical,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="14" Text="{Binding Model.CharacterAttributeModel.ElationBonus,Mode=TwoWay}"/>
+            <ssuv:FieldEntrySpan Grid.Column="1" Grid.Row="15" Text="{Binding Model.CharacterAttributeModel.MaximumEnergy,Mode=TwoWay}"/>
+        </Grid>
+
+        <Grid Grid.Column="3" Width="560">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Column="0" Grid.Row="0" CornerRadius="10" Background="{StaticResource DropBackBrush}">
+                <Grid Height="150" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ssuv:HeadFrameSpan Grid.Column="0"/>
+
+                    <ssuv:TabulateSpan Grid.Column="2"/>
+
+                    <Border Grid.Column="4" CornerRadius="10" Background="{StaticResource MainBackBrush}">
+                        <UniformGrid Columns="1" Margin="10">
+                            <UniformGrid.Resources>
+                                <Style TargetType="{x:Type dsuc:Button}">
+                                    <Setter Property="Background" Value="{StaticResource DropBackBrush}"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Padding" Value="5"/>
+                                </Style>
+
+                                <Style TargetType="{x:Type dsuc:TextBlock}">
+                                    <Setter Property="TipText" Value="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                    <Setter Property="TipOnlyTrim" Value="True"/>
+                                </Style>
+                            </UniformGrid.Resources>
+
+                            <dsuc:Button>
+                                <dsuc:TextBlock Text="{ssfm:LocalStringMarkup Name=ViewPageMockBattleActionExport}"/>
+                            </dsuc:Button>
+                            <dsuc:Button>
+                                <dsuc:TextBlock Text="{ssfm:LocalStringMarkup Name=ViewPageMockBattleActionChange}"/>
+                            </dsuc:Button>
+                            <dsuc:Button>
+                                <dsuc:TextBlock Text="{ssfm:LocalStringMarkup Name=ViewPageMockBattleActionSave}"/>
+                            </dsuc:Button>
+                            <dsuc:Button>
+                                <dsuc:TextBlock Text="{ssfm:LocalStringMarkup Name=ViewPageMockBattleActionSetting}"/>
+                            </dsuc:Button>
+                        </UniformGrid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="0" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <ssuv:ScoreboardSpan Grid.Column="1" Grid.Row="1" Title="{ssfm:LocalStringMarkup Name=CharacterFinalizeDamageNormal}" Value="{Binding CharacterDamageModel.Normal}" TempValue="{Binding ComparedDamageModel.Normal}"/>
+                <ssuv:ScoreboardSpan Grid.Column="3" Grid.Row="1" Title="{ssfm:LocalStringMarkup Name=CharacterFinalizeDamageCritical}" Value="{Binding CharacterDamageModel.Critical}" TempValue="{Binding ComparedDamageModel.Critical}"/>
+                <ssuv:ScoreboardSpan Grid.Column="5" Grid.Row="1" Title="{ssfm:LocalStringMarkup Name=CharacterFinalizeDamageElation}" Value="{Binding CharacterDamageModel.Elation}" TempValue="{Binding ComparedDamageModel.Elation}"/>
+
+                <ssuv:ScoreboardSpan Grid.Column="1" Grid.Row="3" Title="{ssfm:LocalStringMarkup Name=CharacterFinalizeDamageBreak}" Value="{Binding CharacterDamageModel.Break}" TempValue="{Binding ComparedDamageModel.Break}"/>
+                <ssuv:ScoreboardSpan Grid.Column="3" Grid.Row="3" Title="{ssfm:LocalStringMarkup Name=CharacterFinalizeDamageSuperBreak}" Value="{Binding CharacterDamageModel.SuperBreak}" TempValue="{Binding ComparedDamageModel.SuperBreak}"/>
+                <ssuv:ScoreboardSpan Grid.Column="5" Grid.Row="3" Title="{ssfm:LocalStringMarkup Name=CharacterFinalizeDamageDelay}" Value="{Binding CharacterDamageModel.Delay}" TempValue="{Binding ComparedDamageModel.Delay}"/>
+            </Grid>
+
+            <Border Grid.Column="0" Grid.Row="2" CornerRadius="15" Background="{StaticResource MainBackBrush}">
+
+            </Border>
+
+            <Border Grid.Column="0" Grid.Row="4" CornerRadius="15" Background="{StaticResource DropBackBrush}">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ssuv:HeadFrameSpan Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"/>
+
+                    <ssuv:FieldEntrySpan Grid.Column="2" Grid.Row="0" Text="{Binding Model.CharacterAttributeModel.CharacterLevel,Mode=TwoWay}"/>
+                    <ssuv:FieldEntrySpan Grid.Column="2" Grid.Row="1" Text="{Binding Model.CharacterAttributeModel.MagicalIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Defense}"/>
+                    <ssuv:FieldEntrySpan Grid.Column="2" Grid.Row="2" Text="{Binding Model.CharacterAttributeModel.DamageIncrease,Mode=TwoWay}" Icon="{Binding CharacterElementModel.Offense}"/>
+
+                    <ssuv:FieldEntrySpan Grid.Column="4" Grid.Row="0" Text="{Binding Model.CharacterAttributeModel.MonsterLevel,Mode=TwoWay}"/>
+                    <ssuv:FieldEntrySpan Grid.Column="4" Grid.Row="1" Text="{Binding Model.CharacterAttributeModel.DamageDecrease,Mode=TwoWay}"/>
+                    <ssuv:FieldEntrySpan Grid.Column="4" Grid.Row="2" Text="{Binding Model.CharacterAttributeModel.Toughness,Mode=TwoWay}"/>
+
+                    <Border Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="3" Height="30" CornerRadius="15" Background="{StaticResource MainBackBrush}">
+                        <dsuc:Slider Minimum="1" Maximum="5" Margin="15,0,15,0" Value="{Binding Model.CharacterAttributeModel.MonsterCount,Mode=TwoWay}" Title="{ssfm:LocalStringMarkup Name=CharacterAttributeMonsterCount}"/>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</local:Page>

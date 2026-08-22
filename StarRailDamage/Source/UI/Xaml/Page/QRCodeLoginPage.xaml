@@ -1,9 +1,0 @@
-﻿<local:ScopedPage
-    x:Class="StarRailDamage.Source.UI.Xaml.Page.QRCodeLoginPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:StarRailDamage.Source.UI.Xaml.Control.Panel">
-    <Grid Margin="15">
-
-    </Grid>
-</local:ScopedPage>

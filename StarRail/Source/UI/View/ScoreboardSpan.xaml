@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="StarRail.Source.UI.View.ScoreboardSpan"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:StarRail.Source.UI.View"
+    xmlns:dsuc="clr-namespace:UIDesign.Source.UI.Control;assembly=UIDesign">
+    <UserControl.Template>
+        <ControlTemplate TargetType="{x:Type UserControl}">
+            <Border CornerRadius="15" Background="{TemplateBinding Background}">
+                <Grid Margin="10">
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type dsuc:TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}"/>
+                            <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <dsuc:TextBlock Grid.Row="0" Text="{Binding Model.Title,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TipOnlyTrim="True" TextTrimming="CharacterEllipsis" FontWeight="Bold"/>
+                    <dsuc:TextBlock Grid.Row="2" Text="{Binding Model.Value,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}},StringFormat={}{0:F0}}"/>
+                    <dsuc:TextBlock Grid.Row="4" Text="{Binding Model.Percent,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}},StringFormat={}{0:+0.#%;-0.#%;0;}}" Foreground="{Binding TempBrush,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}" FontSize="{Binding DropFontSize,RelativeSource={RelativeSource AncestorType={x:Type local:ScoreboardSpan}}}">
+                        <dsuc:TextBlock.Style>
+                            <Style TargetType="{x:Type dsuc:TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text,RelativeSource={RelativeSource Self}}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </dsuc:TextBlock.Style>
+                    </dsuc:TextBlock>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>

@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
+    <value>{0}Content
+{1}Saving path
+{2}File format [Png|Jpg|Bmp|Svg|Csv]
+{3}Foreground (#000000)
+{4}Background (#FFFFFF)
+{5}Pixel size (5)
+{6}Padding (20)
+{7}Version [1-40]
+{8}Encoder [1-Number,2-Letter,3-Byte]
+{9}Error correction level (M) [L-low,M-medium,Q-high,H-highest]
+{10}Mask pattern [1-8]
+{11}Open the path [True|False]</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
+    <value>Generate QR code</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerUnSupportedFormat" xml:space="preserve">
+    <value>Unsupported file format</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
+    <value>Mode-{0}, Version-{1}, Error correction-{2}, Mask-{3}</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
+    <value>Exit application</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePauseFullName" xml:space="preserve">
+    <value>Pause until press any key</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePauseContent" xml:space="preserve">
+    <value>Press any key to continue......</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
+    <value>{0}Text printed to the console</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleEchoFullName" xml:space="preserve">
+    <value>Print to console</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleHelpHelp" xml:space="preserve">
+    <value>{0}Command name
+Usage syntax of commands
+Use "&amp;" to separate commands
+Use "-" to specify options
+Use "--" to enable a switch
+Use """ to concatenate content
+Use "\" to escape symbols</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeHelp" xml:space="preserve">
+    <value>{0}Command content</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeFullName" xml:space="preserve">
+    <value>Execute command</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
+    <value>Command help</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleClearFullName" xml:space="preserve">
+    <value>Clear console</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
+    <value>[{0}] Upvote</value>
+  </data>
+  <data name="WebHoyolabForumSignSuccess" xml:space="preserve">
+    <value>Signed : Success</value>
+  </data>
+  <data name="WebHoyolabGameSignSuccess" xml:space="preserve">
+    <value>Signed : Success</value>
+  </data>
+  <data name="WebHoyolabGameSignRewardItem" xml:space="preserve">
+    <value>[{0}] {1} × {2}</value>
+  </data>
+  <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
+    <value>Please complete the human verification</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
+    <value>[{0}] Cancel Upvote</value>
+  </data>
+  <data name="WebHoyolabGameStaminaContent" xml:space="preserve">
+    <value>Stamina {0} / {1}
+Wait {2} Hours {3} Minutes</value>
+  </data>
+  <data name="WebHoyolabUserMissionInfoContent" xml:space="preserve">
+    <value>Coin : {0}
+Today : {1}
+Sign : {2} / 1
+View : {3} / 3
+Upvote : {4} / 5
+Share : {5} / 1</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnlawfulParameter" xml:space="preserve">
+    <value>Unlawful Parameter
+Use "Help &lt;Command&gt;" Access Details</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindDefaultToken" xml:space="preserve">
+    <value>No Hoyolab account
+Please login and try again</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
+    <value>No account id found : "{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
+    <value>No game account found : "{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
+    <value>{0}Community's GID [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
+{1}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
+    <value>Community sign</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
+    <value>{0}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameStaminaFullName" xml:space="preserve">
+    <value>Stamina note</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
+    <value>{0}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionFullName" xml:space="preserve">
+    <value>User mission</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
+    <value>{0}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionInfoFullName" xml:space="preserve">
+    <value>User mission info</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
+    <value>{0}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
+    <value>Welfare sign</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
+    <value>{0}Starting number
+{1}Maximum number</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
+    <value>Welfare sgin reward</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
+    <value>{0}Post identity
+{1}Check login state [True|False]
+{2}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumDetailFullName" xml:space="preserve">
+    <value>Browse posts</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
+    <value>{0}Number of posts
+{1}Section identity
+{2}Sorting type [0-Auto,1-Reply,2-Posting]</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
+    <value>Recent post list</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
+    <value>{0}Post identity
+{1}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
+    <value>Post sharing</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
+    <value>{0}Post identity
+{1}Cancel the upvote [True|False]
+{2}Hoyolab account identity</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
+    <value>Post upvoting</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
+    <value>Unknown command : "{0}"
+Use "Help" Access Details</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
+    <value>Missing Parameter
+Use "Help &lt;Command&gt;" Access Details</value>
+  </data>
+  <data name="ServiceTerminalCycleHelp" xml:space="preserve">
+    <value>{{0}}Input content
+Use "{0}" to exit the current state
+Use "{1}" access details</value>
+  </data>
+  <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
+    <value>Formula calculator</value>
+  </data>
+  <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
+    <value>Operator precedence
+[1] Assign [=,+=,-=,*=,/=]
+[2] OR [|,||]
+[3] AND [&amp;,&amp;&amp;]
+[4] Comparison [&gt;,&gt;=,&lt;,&lt;=,==,!=]
+[5] ADD and SUB [+,-]
+[6] MUL and DIV [*,/]
+[7] Exponent [^]
+[8] NOT [!]
+[8] Percentage [%]
+[9] Function [func(n,m)]</value>
+  </data>
+  <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
+    <value>The operator "{0}" has insufficient available operands</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAffixeSymbol" xml:space="preserve">
+    <value>The affixe mark "{0}" cannot be used like an operator</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAssignSymbol" xml:space="preserve">
+    <value>The left side of operator "{0}" must be an assignable object</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginDeviceFpFullName" xml:space="preserve">
+    <value>Device Fingerprint</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginFullName" xml:space="preserve">
+    <value>QR code login</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCreate" xml:space="preserve">
+    <value>Create login request</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginShowQRCode" xml:space="preserve">
+    <value>Waiting for scan confirmation</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginGetToken" xml:space="preserve">
+    <value>Setting token {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginFullName" xml:space="preserve">
+    <value>Token login</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
+    <value>{0}MID
+{1}SToken
+{2}Guid</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetDeviceFp" xml:space="preserve">
+    <value>Initiate a device fingerprint request</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetToken" xml:space="preserve">
+    <value>Exchang token {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetUserRole" xml:space="preserve">
+    <value>Retrieve the list of game characters</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginTryUpdate" xml:space="preserve">
+    <value>Updating local data</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginSuccess" xml:space="preserve">
+    <value>The account data has been updated</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginHelp" xml:space="preserve">
+    <value>{0}Device Identifier</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
+    <value>Login has been canceled or timed out</value>
+  </data>
+  <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
+    <value>The network request has been canceled</value>
+  </data>
+</root>

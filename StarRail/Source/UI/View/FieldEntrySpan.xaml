@@ -1,0 +1,58 @@
+﻿<UserControl
+    x:Class="StarRail.Source.UI.View.FieldEntrySpan"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:StarRail.Source.UI.View"
+    xmlns:dsuc="clr-namespace:UIDesign.Source.UI.Control;assembly=UIDesign"
+    xmlns:dsup="clr-namespace:UIDesign.Source.UI.Panel;assembly=UIDesign"
+    Focusable="True" FocusVisualStyle="{x:Null}">
+    <UserControl.Template>
+        <ControlTemplate TargetType="{x:Type UserControl}">
+            <Border CornerRadius="15" Background="{Binding Background,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}">
+                <Grid Width="200" Height="30" Margin="5,0,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type dsuc:TextBlock}">
+                            <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="FontWeight" Value="{Binding FontWeight,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                            <Setter Property="TipOnlyTrim" Value="True"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+
+                        <Style TargetType="{x:Type dsuc:TextBox}">
+                            <Setter Property="Foreground" Value="{Binding Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="Background" Value="{Binding BorderBrush,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="FocusBrush" Value="{Binding FocusBrush,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="FontSize" Value="{Binding FontSize,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="FontWeight" Value="{Binding FontWeight,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="CornerRadius" Value="10"/>
+                            <Setter Property="Padding" Value="0,0,5,0"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <Image Grid.Column="0" Width="25" Height="25" Source="{Binding Model.Icon,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}" VerticalAlignment="Center"/>
+
+                    <dsup:ViewBox Grid.Column="1" MaxWidth="65">
+                        <dsuc:TextBlock Text="{Binding  Model.Title,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                    </dsup:ViewBox>
+
+                    <dsuc:TextBox Grid.Column="3" Width="80" Text="{Binding Model.Text,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}},Mode=TwoWay,Converter={StaticResource DoubleParser},StringFormat={}{0:0.0;0.0;0}}" IsEnabled="{Binding ReadOnly,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}},Converter={StaticResource BooleanToggle}}" TextAlignment="Right" InputMethod.IsInputMethodEnabled="False" GotFocus="TextBoxGotFocus" KeyDown="TextBoxKeyDown"/>
+
+                    <dsup:ViewBox Grid.Column="4" Width="20">
+                        <dsuc:TextBlock Text="{Binding Model.Unit,RelativeSource={RelativeSource AncestorType={x:Type local:FieldEntrySpan}}}" TipText="{Binding Text,RelativeSource={RelativeSource Self}}" TextAlignment="Center"/>
+                    </dsup:ViewBox>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>

@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
+    <value>{0}内容文本
+{1}保存路径
+{2}文件格式 [Png|Jpg|Bmp|Svg|Csv]
+{3}前景色 (#000000)
+{4}背景色 (#FFFFFF)
+{5}单格像素 (5)
+{6}填充边距 (20)
+{7}版本 [1-40]
+{8}编码器 [1-数字,2-字母,3-字节]
+{9}纠错级别 (M) [L-低,M-中,Q-高,H-最高]
+{10}掩码图案 [1-8]
+{11}是否跳转 [True|False]</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
+    <value>二维码生成</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerUnSupportedFormat" xml:space="preserve">
+    <value>不支持的文件格式</value>
+  </data>
+  <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
+    <value>模式-{0}, 版本-{1}, 纠错-{2}, 掩码-{3}</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
+    <value>退出控制台</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePauseFullName" xml:space="preserve">
+    <value>等待输入</value>
+  </data>
+  <data name="ServiceTerminalSupportConsolePauseContent" xml:space="preserve">
+    <value>按任意键继续......</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleEchoHelp" xml:space="preserve">
+    <value>{0}输出文本</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleEchoFullName" xml:space="preserve">
+    <value>输出到控制台</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleHelpHelp" xml:space="preserve">
+    <value>{0}命令名称
+命令的使用语法
+使用 "&amp;" 来分隔命令
+使用 "-" 来指定选项
+使用 "--" 来启用开关
+使用 """ 来拼接内容
+使用 "\" 来转义符号</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeHelp" xml:space="preserve">
+    <value>{0}命令内容</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleInvokeFullName" xml:space="preserve">
+    <value>执行命令</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
+    <value>命令帮助</value>
+  </data>
+  <data name="ServiceTerminalSupportConsoleClearFullName" xml:space="preserve">
+    <value>清空控制台</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
+    <value>[{0}] 已点赞</value>
+  </data>
+  <data name="WebHoyolabForumSignSuccess" xml:space="preserve">
+    <value>社区签到：已签到</value>
+  </data>
+  <data name="WebHoyolabGameSignSuccess" xml:space="preserve">
+    <value>签到福利：已签到</value>
+  </data>
+  <data name="WebHoyolabGameSignRewardItem" xml:space="preserve">
+    <value>[{0}] {1} × {2}</value>
+  </data>
+  <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
+    <value>请前往米游社完成人机验证</value>
+  </data>
+  <data name="WebHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
+    <value>[{0}] 取消点赞</value>
+  </data>
+  <data name="WebHoyolabGameStaminaContent" xml:space="preserve">
+    <value>开拓力 {0} / {1}
+回满 {2} 小时 {3} 分钟</value>
+  </data>
+  <data name="WebHoyolabUserMissionInfoContent" xml:space="preserve">
+    <value>米游币：{0}
+今日奖励：{1}
+打卡：{2} / 1
+浏览：{3} / 3
+点赞：{4} / 5
+分享：{5} / 1</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnlawfulParameter" xml:space="preserve">
+    <value>非法的参数
+使用 "Help &lt;命令名称&gt;" 查看帮助</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindDefaultToken" xml:space="preserve">
+    <value>无可用的账号
+登录米游社账号后重试</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
+    <value>指定 AID 的账号不存在："{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
+    <value>游戏账号未注册："{0}"</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
+    <value>{0}社区GID [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
+{1}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
+    <value>社区签到</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
+    <value>{0}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameStaminaFullName" xml:space="preserve">
+    <value>开拓力笔记</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionHelp" xml:space="preserve">
+    <value>{0}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionFullName" xml:space="preserve">
+    <value>米游币任务</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionInfoHelp" xml:space="preserve">
+    <value>{0}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabUserMissionInfoFullName" xml:space="preserve">
+    <value>查询米游币任务</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignHelp" xml:space="preserve">
+    <value>{0}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
+    <value>福利签到</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
+    <value>{0}起始天数
+{1}天数总和</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
+    <value>签到奖励</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
+    <value>{0}帖子ID
+{1}是否登录 [True|False]
+{2}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumDetailFullName" xml:space="preserve">
+    <value>浏览帖子</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumNewsHelp" xml:space="preserve">
+    <value>{0}帖子数量
+{1}分区ID
+{2}排序方式 [0-不指定,1-回复时间,2-发布时间]</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
+    <value>最近帖子列表</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
+    <value>{0}帖子ID
+{1}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
+    <value>帖子分享</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
+    <value>{0}帖子ID
+{1}取消点赞 [True|False]
+{2}账号AID</value>
+  </data>
+  <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
+    <value>帖子点赞</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
+    <value>未知的命令："{0}"
+使用 "Help" 查看帮助</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
+    <value>缺少必要参数
+使用 "Help &lt;命令名称&gt;" 查看帮助</value>
+  </data>
+  <data name="ServiceTerminalCycleHelp" xml:space="preserve">
+    <value>{{0}}输入内容
+使用 "{0}" 来退出当前状态
+使用 "{1}" 来查看帮助</value>
+  </data>
+  <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
+    <value>算式运算器</value>
+  </data>
+  <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
+    <value>运算符优先级
+[1] 赋值运算符 [=,+=,-=,*=,/=]
+[2] 逻辑或运算符 [|,||]
+[3] 逻辑与运算符 [&amp;,&amp;&amp;]
+[4] 比较运算符 [&gt;,&gt;=,&lt;,&lt;=,==,!=]
+[5] 加减运算符 [+,-]
+[6] 乘除运算符 [*,/]
+[7] 幂运算符 [^]
+[8] 逻辑非符号 [!]
+[8] 百分比符号 [%]
+[9] 函数方法 [func(n,m)]</value>
+  </data>
+  <data name="ServiceFormulaVerifyMissingOperand" xml:space="preserve">
+    <value>运算符 "{0}" 可用的操作数不足</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAffixeSymbol" xml:space="preserve">
+    <value>缀词符 "{0}" 不能像运算符一样使用</value>
+  </data>
+  <data name="ServiceFormulaVerifyMisuseAssignSymbol" xml:space="preserve">
+    <value>运算符 "{0}" 左侧必须是可赋值对象</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginDeviceFpFullName" xml:space="preserve">
+    <value>设备指纹</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginFullName" xml:space="preserve">
+    <value>二维码登录</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCreate" xml:space="preserve">
+    <value>创建登录请求</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginShowQRCode" xml:space="preserve">
+    <value>等待扫描确认</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginGetToken" xml:space="preserve">
+    <value>正在设置令牌 {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginFullName" xml:space="preserve">
+    <value>令牌登录</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginHelp" xml:space="preserve">
+    <value>{0}账号MID
+{1}账号SToken
+{2}设备标识符</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetDeviceFp" xml:space="preserve">
+    <value>发起设备指纹请求</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetToken" xml:space="preserve">
+    <value>正在交换令牌 {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginGetUserRole" xml:space="preserve">
+    <value>拉取游戏角色列表</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginTryUpdate" xml:space="preserve">
+    <value>正在更新本地数据</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginUserLoginSuccess" xml:space="preserve">
+    <value>账号数据已更新</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginHelp" xml:space="preserve">
+    <value>{0}设备标识符</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
+    <value>登录已取消或超时</value>
+  </data>
+  <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
+    <value>网络请求已取消</value>
+  </data>
+</root>

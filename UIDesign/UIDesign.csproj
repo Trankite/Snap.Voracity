@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Source\UI\Control\Button.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\CheckBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\Expander.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\Slider.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\TabControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\TabItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\TextBlock.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\TextBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Source\UI\Control\ToolTip.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Source\UI\Dialog\" />
+    <Folder Include="Source\UI\View\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Source\Resource\Icon\Delete.png" />
+    <Resource Include="Source\Resource\Icon\Modify.png" />
+    <Resource Include="Source\Resource\Icon\Selected.png" />
+    <Resource Include="Source\Resource\Icon\UnSelect.png" />
+  </ItemGroup>
+
+</Project>

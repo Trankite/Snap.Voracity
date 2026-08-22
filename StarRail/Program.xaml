@@ -1,0 +1,16 @@
+﻿<Application
+    x:Class="StarRail.Program"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:StarRail"
+    StartupUri="/Source/UI/Window/MainWindow.xaml"
+    ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Source/UI/Style/DefaultStyle.xaml"/>
+                <ResourceDictionary Source="/Source/UI/Style/LocalSettings.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

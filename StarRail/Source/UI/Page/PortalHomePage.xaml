@@ -1,0 +1,13 @@
+﻿<local:Page
+    x:Class="StarRail.Source.UI.Page.PortalHomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UIDesign.Source.UI.Panel;assembly=UIDesign">
+    <local:Page.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}"/>
+    </local:Page.DataContext>
+
+    <Grid>
+
+    </Grid>
+</local:Page>

@@ -1,0 +1,13 @@
+﻿namespace Common.Source.Web.Hoyolab
+{
+    public enum HoyolabGroup
+    {
+        Honkai3 = 1,
+        Genshin = 2,
+        Honkai2 = 3,
+        Tears = 4,
+        Mansion = 5,
+        StarRail = 6,
+        Zenless = 8
+    }
+}

@@ -1,0 +1,35 @@
+﻿using Common.Source.Extension;
+using System.Text.Json.Serialization;
+
+namespace Common.Source.Web.Hoyolab.Bbs.Forum.Upvote
+{
+    public class UpvoteRequestBody
+    {
+        [JsonPropertyName("csm_source")]
+        public string Source { get; set; } = string.Empty;
+
+        [JsonPropertyName("is_cancel")]
+        public bool IsCancel { get; set; }
+
+        [JsonPropertyName("post_id")]
+        public string PostId { get; set; } = string.Empty;
+
+        [JsonPropertyName("upvote_type")]
+        public string UpvoteType { get; set; } = string.Empty;
+
+        public UpvoteRequestBody() { }
+
+        public UpvoteRequestBody(string source, bool isCancel, string postId, string upvoteType)
+        {
+            Source = source;
+            IsCancel = isCancel;
+            PostId = postId;
+            UpvoteType = upvoteType;
+        }
+
+        public static UpvoteRequestBody Create(PostSource source, bool isCancel, string postId, string upvoteType)
+        {
+            return new UpvoteRequestBody(source.GetDescription(), isCancel, postId, upvoteType);
+        }
+    }
+}

@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Source\Resource\Icon\Icon.ico</ApplicationIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <LangVersion>preview</LangVersion>
+    <StartupObject></StartupObject>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Source\Resource\Icon\Occupation\Elation.png" />
+    <None Remove="Source\Resource\Wallpaper\Backgroup.png" />
+    <None Remove="Source\Resource\Wallpaper\GoldenItem.png" />
+    <None Remove="Source\Resource\Wallpaper\Monster.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Program.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="Program.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Source\Resource\Icon\Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Source\Resource\Icon\Attribute\Punchline.png" />
+    <Resource Include="Source\Resource\Icon\Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Source\Resource\Icon\Attribute\Attack.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Break.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Replenish.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Maximum.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Offense.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Critical.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Defense.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\HitRate.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Magical.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Health.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Speed.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Healing.png" />
+    <Resource Include="Source\Resource\Icon\Attribute\Unknown.png" />
+    <Resource Include="Source\Resource\Icon\Element\Offense\Fire.png" />
+    <Resource Include="Source\Resource\Icon\Element\Offense\Ice.png" />
+    <Resource Include="Source\Resource\Icon\Element\Offense\Imaginary.png" />
+    <Resource Include="Source\Resource\Icon\Element\Offense\Lightning.png" />
+    <Resource Include="Source\Resource\Icon\Element\Offense\Physical.png" />
+    <Resource Include="Source\Resource\Icon\Element\Offense\Quantum.png" />
+    <Resource Include="Source\Resource\Icon\Element\Offense\Wind.png" />
+    <Resource Include="Source\Resource\Icon\Element\Fire.png" />
+    <Resource Include="Source\Resource\Icon\Element\Ice.png" />
+    <Resource Include="Source\Resource\Icon\Element\Imaginary.png" />
+    <Resource Include="Source\Resource\Icon\Element\Lightning.png" />
+    <Resource Include="Source\Resource\Icon\Element\Physical.png" />
+    <Resource Include="Source\Resource\Icon\Element\Quantum.png" />
+    <Resource Include="Source\Resource\Icon\Element\Wind.png" />
+    <Resource Include="Source\Resource\Icon\Element\Defense\Fire.png" />
+    <Resource Include="Source\Resource\Icon\Element\Defense\Ice.png" />
+    <Resource Include="Source\Resource\Icon\Element\Defense\Imaginary.png" />
+    <Resource Include="Source\Resource\Icon\Element\Defense\Lightning.png" />
+    <Resource Include="Source\Resource\Icon\Element\Defense\Physical.png" />
+    <Resource Include="Source\Resource\Icon\Element\Defense\Quantum.png" />
+    <Resource Include="Source\Resource\Icon\Element\Defense\Wind.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Abundance.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Destruction.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Elation.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Erudition.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Harmony.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Memory.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Nihility.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\Preservation.png" />
+    <Resource Include="Source\Resource\Icon\Occupation\TheHunt.png" />
+    <Resource Include="Source\Resource\Wallpaper\Backgroup.png" />
+    <Resource Include="Source\Resource\Wallpaper\GoldenItem.png" />
+    <Resource Include="Source\Resource\Wallpaper\Monster.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Source\Resource\Localization\LocalString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LocalString.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Source\Resource\Localization\LocalString.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FixedText.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Source\Resource\Localization\LocalString.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\UIDesign\UIDesign.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Source\Extension\" />
+    <Folder Include="Source\Model\Character\Element\" />
+    <Folder Include="Source\Model\Character\Occupation\" />
+  </ItemGroup>
+
+</Project>
