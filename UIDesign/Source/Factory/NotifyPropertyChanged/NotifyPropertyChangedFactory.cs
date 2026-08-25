@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Common.Source.Extension;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace UIDesign.Source.Factory.NotifyPropertyChanged
@@ -14,7 +15,7 @@ namespace UIDesign.Source.Factory.NotifyPropertyChanged
 
         public virtual void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = default)
         {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
+            if (!field.IsEquals(value))
             {
                 field = value;
                 OnPropertyChanged(propertyName);

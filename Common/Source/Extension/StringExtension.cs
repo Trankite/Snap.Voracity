@@ -65,5 +65,11 @@ namespace Common.Source.Extension
         {
             try { return Regex.Unescape(value); } catch { return value; }
         }
+
+        [DebuggerStepThrough]
+        public static ReadOnlySpan<char> TrimMarkup(this ReadOnlySpan<char> value, char markup)
+        {
+            return value.StartsWith(markup) && value.EndsWith(markup) ? value[1..^1] : value;
+        }
     }
 }

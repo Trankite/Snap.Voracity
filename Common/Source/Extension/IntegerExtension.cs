@@ -11,9 +11,15 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int GetNeutral(this int value)
+        public static int GetInsert(this int value)
         {
-            return value > 0 ? value : ~value;
+            return value >= 0 ? value : ~value;
+        }
+
+        [DebuggerStepThrough]
+        public static int Unsigned(this int value, int defaultValue = default, int offset = default)
+        {
+            return value >= 0 ? value + offset : defaultValue;
         }
     }
 }

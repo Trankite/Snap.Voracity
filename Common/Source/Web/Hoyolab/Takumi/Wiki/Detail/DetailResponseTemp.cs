@@ -9,7 +9,7 @@ namespace Common.Source.Web.Hoyolab.Takumi.Wiki.Detail
         public string Type { get; set; } = string.Empty;
 
         [JsonPropertyName("modules")]
-        public ImmutableArray<DetailResponseModule> Modules { get; set; } 
+        public ImmutableArray<DetailResponseModule> Modules { get; set; }
 
         [JsonPropertyName("tabs")]
         public ImmutableArray<DetailResponseTab> Tabs { get; set; }

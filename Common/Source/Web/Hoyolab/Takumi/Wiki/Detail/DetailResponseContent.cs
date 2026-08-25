@@ -57,7 +57,7 @@ namespace Common.Source.Web.Hoyolab.Takumi.Wiki.Detail
         public string AvatarUrl { get; set; } = string.Empty;
 
         [JsonPropertyName("contents")]
-        public ImmutableArray<DetailResponseMetaContent> Contents { get; set; } 
+        public ImmutableArray<DetailResponseMetaContent> Contents { get; set; }
 
         [JsonPropertyName("forbid_correct_error")]
         public bool ForbidCorrectError { get; set; }

@@ -51,13 +51,15 @@
             if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
             {
                 IsRunning = true;
-                Thread = new Thread(WorkLoop);
+                Thread = new Thread(WorkLoop)
+                {
+                    IsBackground = true,
+                    Name = nameof(STAThread)
+                };
                 if (OperatingSystem.IsWindows())
                 {
                     Thread.SetApartmentState(ApartmentState.STA);
                 }
-                Thread.Name = nameof(STAThread);
-                Thread.IsBackground = true;
                 Thread.Start();
             }
         }

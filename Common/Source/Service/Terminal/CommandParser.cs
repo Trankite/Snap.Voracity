@@ -59,12 +59,12 @@ namespace Common.Source.Service.Terminal
                         }
                         else
                         {
-                            CommandLine.TryAddParameter(Keywords[i][1..], TrimQuote(Keywords.GetIndexValue(++i).NotNull()));
+                            CommandLine.TryAddParameter(Keywords[i][1..], Keywords.GetIndexValue(++i).NotNull().TrimMarkup('"').ToString());
                         }
                     }
                     else if (Enumerator.IsNotNull())
                     {
-                        string Paramater = TrimQuote(Keywords[i]);
+                        string Paramater = Keywords[i].TrimMarkup('"').ToString();
                         while (Enumerator.MoveNext())
                         {
                             if (CommandLine.TryAddParameter(Enumerator.Current, Paramater)) break;
@@ -73,11 +73,6 @@ namespace Common.Source.Service.Terminal
                 }
                 yield return CommandLine;
             }
-        }
-
-        private static string TrimQuote(string value)
-        {
-            return value.StartsWith('"') && value.EndsWith('"') ? value[1..^1] : value;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

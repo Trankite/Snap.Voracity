@@ -33,8 +33,8 @@ namespace Common.Source.Model.DataStruct.Span
         {
             if (Index >= Content.Length) return false;
             DyadicReadOnlySpan<T> DyadicSpan = Content[Index..].FirstSplit(Separator);
-            Current = DyadicSpan.Start;
-            Index = Content.Length - DyadicSpan.Ended.Length;
+            Current = DyadicSpan.Former;
+            Index = Content.Length - DyadicSpan.Latter.Length;
             return true;
         }
 

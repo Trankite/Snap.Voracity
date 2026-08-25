@@ -32,7 +32,7 @@ namespace Common.Source.Service.Encode.QRCode
         {
             int Level = ECCodeLevel.ToInt();
             int[,] CapacityTable = GetCapacityTable();
-            int Neutral = CapacityTable.BinarySearch(0, CapacityTable.GetLength(0), (Self, Index) => CapacityTable[Index, Level], content.Length).GetNeutral();
+            int Neutral = CapacityTable.BinarySearch(0, CapacityTable.GetLength(0), (Self, Index) => CapacityTable[Index, Level], content.Length).GetInsert();
             Version = Math.Clamp(Neutral + 1, value, 40);
         }
 

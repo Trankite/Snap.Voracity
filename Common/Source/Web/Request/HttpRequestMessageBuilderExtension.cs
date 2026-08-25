@@ -9,7 +9,7 @@ namespace Common.Source.Web.Request
     {
         private static readonly HttpClient DefaultHttpClient;
 
-        public static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken = default, HttpClient? httpClient = default)
+        public static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpClient? httpClient = default)
         {
             return await builder.SendAsync<TResult>(HttpCompletionOption.ResponseContentRead, cancellationToken, httpClient);
         }
@@ -52,7 +52,8 @@ namespace Common.Source.Web.Request
 
         static HttpRequestMessageBuilderExtension()
         {
-            DefaultHttpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
+            HttpClientHandler Handler = new() { AllowAutoRedirect = false };
+            DefaultHttpClient = new HttpClient(Handler) { Timeout = TimeSpan.FromSeconds(15) };
         }
     }
 }

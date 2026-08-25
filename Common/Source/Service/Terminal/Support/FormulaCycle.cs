@@ -1,8 +1,7 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Formula.Magical;
 using Common.Source.Resource.Localization;
-using Common.Source.Service.Formula.Magical;
 using Common.Source.Service.Terminal.Abstraction;
-using UIDesign.Source.Service.Formula.Magical;
 
 namespace Common.Source.Service.Terminal.Support
 {

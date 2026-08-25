@@ -7,15 +7,35 @@ namespace Common.Source.Extension
     public static class SpanExtension
     {
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<T> FirstSplit<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex)
         {
-            return value.TryGetIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<T>(value, []);
+            for (int i = startIndex; i < span.Length; i++)
+            {
+                if (span[i].IsEquals(value)) return i;
+            }
+            return -1;
         }
 
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<T> LastSplit<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator)
+        public static int LastIndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex)
         {
-            return value.TryGetLastIndexOf(separator, out int index) ? value.SplitAtWithOutSelf(index, separator) : new DyadicReadOnlySpan<T>(value, []);
+            for (int i = span.Length - 1; i >= startIndex; i++)
+            {
+                if (span[i].IsEquals(value)) return i;
+            }
+            return -1;
+        }
+
+        [DebuggerStepThrough]
+        public static DyadicReadOnlySpan<T> FirstSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values)
+        {
+            return span.TryGetIndexOf(values, out int index) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, []);
+        }
+
+        [DebuggerStepThrough]
+        public static DyadicReadOnlySpan<T> LastSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values)
+        {
+            return span.TryGetLastIndexOf(values, out int index) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, []);
         }
 
         [DebuggerStepThrough]
@@ -25,68 +45,92 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<T> SplitAtWithOutSelf<T>(this ReadOnlySpan<T> value, int index, ReadOnlySpan<T> separator)
+        public static DyadicReadOnlySpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index, int offset)
         {
-            return new DyadicReadOnlySpan<T>(value[..index], value[(index + separator.Length)..]);
+            return new DyadicReadOnlySpan<T>(span[..index], span[(index + offset)..]);
         }
 
         [DebuggerStepThrough]
         [return: NotNullIfNotNull(nameof(defaultValue))]
-        public static T? FirstOrDefault<T>(this ReadOnlySpan<T> value, T? defaultValue = default)
+        public static T? FirstOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
         {
-            return value.Length == 0 ? defaultValue : value[0];
+            return span.Length == 0 ? defaultValue : span[0];
         }
 
         [DebuggerStepThrough]
         [return: NotNullIfNotNull(nameof(defaultValue))]
-        public static T? LastOrDefault<T>(this ReadOnlySpan<T> value, T? defaultValue = default)
+        public static T? LastOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
         {
-            return value.Length == 0 ? defaultValue : value[^1];
+            return span.Length == 0 ? defaultValue : span[^1];
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator, out int index)
+        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, T value, out int index)
         {
-            return (index = value.IndexOf(separator)) >= 0;
+            return (index = span.IndexOf(value)) >= 0;
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> value, Predicate<T> match, out int index)
+        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex, out int index)
         {
-            for (index = 0; index < value.Length; index++)
+            return (index = span.IndexOf(value, startIndex)) >= 0;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, out int index)
+        {
+            return (index = span.IndexOf(values)) >= 0;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> match, out int index)
+        {
+            for (index = 0; index < span.Length; index++)
             {
-                if (match(value[index])) return true;
+                if (match(span[index])) return true;
             }
             return false;
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> value, ReadOnlySpan<T> separator, out int index)
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, T value, out int index)
         {
-            return (index = value.LastIndexOf(separator)) >= 0;
+            return (index = span.LastIndexOf(value)) >= 0;
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> value, Predicate<T> match, out int index)
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex, out int index)
         {
-            for (index = value.Length - 1; index >= 0; index--)
+            return (index = span.LastIndexOf(value, startIndex)) >= 0;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, out int index)
+        {
+            return (index = span.LastIndexOf(values)) >= 0;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> match, out int index)
+        {
+            for (index = span.Length - 1; index >= 0; index--)
             {
-                if (match(value[index])) return true;
+                if (match(span[index])) return true;
             }
             return false;
         }
 
         [DebuggerStepThrough]
         [return: NotNullIfNotNull(nameof(defaultValue))]
-        public static T? GetIndexValue<T>(this ReadOnlySpan<T> value, int index, T? defaultValue = default)
+        public static T? GetIndexValue<T>(this ReadOnlySpan<T> span, int index, T? defaultValue = default)
         {
-            return index >= 0 && index < value.Length ? value[index] : defaultValue;
+            return index >= 0 && index < span.Length ? span[index] : defaultValue;
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetIndexValue<T>(this ReadOnlySpan<T> value, int index, [NotNullWhen(true)] out T? result)
+        public static bool TryGetIndexValue<T>(this ReadOnlySpan<T> span, int index, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.GetIndexValue(index));
+            return ObjectExtension.IsNotNull(result = span.GetIndexValue(index));
         }
     }
 }

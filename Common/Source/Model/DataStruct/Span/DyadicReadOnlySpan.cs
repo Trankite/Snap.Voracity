@@ -2,14 +2,14 @@
 {
     public readonly ref struct DyadicReadOnlySpan<T>
     {
-        public ReadOnlySpan<T> Start { get; }
+        public ReadOnlySpan<T> Former { get; }
 
-        public ReadOnlySpan<T> Ended { get; }
+        public ReadOnlySpan<T> Latter { get; }
 
-        public DyadicReadOnlySpan(ReadOnlySpan<T> start, ReadOnlySpan<T> ended)
+        public DyadicReadOnlySpan(ReadOnlySpan<T> former, ReadOnlySpan<T> latter)
         {
-            Start = start;
-            Ended = ended;
+            Former = former;
+            Latter = latter;
         }
     }
 }

@@ -42,13 +42,10 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool IsDefault<T>(this T? value)
+        public static bool IsEquals<T>(this T? value, T? other)
         {
-            return EqualityComparer<T>.Default.Equals(value, default);
+            return EqualityComparer<T>.Default.Equals(value, other);
         }
-
-        [DebuggerStepThrough]
-        public static bool IsNotDefault<T>(this T? value) => !value.IsDefault();
 
         [DebuggerStepThrough]
         public static T Configure<T>(this T value, Action action) where T : allows ref struct

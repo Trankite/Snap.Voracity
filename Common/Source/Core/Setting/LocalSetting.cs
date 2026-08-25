@@ -17,7 +17,7 @@ namespace Common.Source.Core.Setting
             if (OperatingSystem.IsWindows())
             {
                 SecurityIdentifier? User = WindowsIdentity.GetCurrent().User;
-                return User.IsNotNull() ? User.ToString().LastSplit('-').Start.ToString() : Guid.NewGuid().ToString();
+                return User.IsNotNull() ? User.ToString().LastSplit('-').Former.ToString() : Guid.NewGuid().ToString();
             }
             return string.Empty;
         }

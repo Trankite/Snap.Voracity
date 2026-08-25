@@ -1,0 +1,47 @@
+﻿using Common.Source.Extension;
+using Common.Source.Factory.Formula.Abstraction;
+
+namespace Common.Source.Factory.Formula
+{
+    public abstract class FormulaStruct<TFormula, TSymbol, TContent> : IFormulaStruct<TFormula, TSymbol, TContent> where TFormula : IFormulaStruct<TFormula, TSymbol, TContent> where TSymbol : IFormulaSymbol
+    {
+        public TFormula? Start { get; set; }
+
+        public TFormula? Ended { get; set; }
+
+        public abstract TSymbol Symbol { get; set; }
+
+        public TContent? Content { get; set; }
+
+        protected FormulaStruct() { }
+
+        protected FormulaStruct(TContent? content)
+        {
+            Content = content;
+        }
+
+        protected FormulaStruct(TFormula? start, TSymbol symbol, TFormula? ended)
+        {
+            Start = start;
+            Symbol = symbol;
+            Ended = ended;
+        }
+
+        public void PushToStack(Stack<TFormula> formulaStack)
+        {
+            if (Ended.IsNotNull())
+            {
+                formulaStack.Push(Ended);
+            }
+            if (Start.IsNotNull())
+            {
+                formulaStack.Push(Start);
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{(Start.IsNotNull() ? (Start.Symbol.Order < Symbol.Order ? $"({Start})" : Start) : string.Empty)}{Symbol}{(Ended.IsNotNull() ? $"{(Symbol.Order > Ended.Symbol.Order ? $"({Ended})" : Ended)}" : Content)}";
+        }
+    }
+}

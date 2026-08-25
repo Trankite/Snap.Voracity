@@ -49,7 +49,7 @@ namespace Common.Source.Service.Encode.QRCode
             QRCodeEncoder Encoder = EncodeMode.CreateEncoder();
             Encoder.ECCodeLevel = options.ECCodeLevel;
             Encoder.SetOptimalVersion(content, options.Version);
-            ReadOnlySpan<byte> Payload = content.SplitAt(Encoder.GetMaxCapacity()).Start;
+            ReadOnlySpan<byte> Payload = content.SplitAt(Encoder.GetMaxCapacity()).Former;
             return new QRCode(Encoder, options.MaskType, Payload);
         }
 
