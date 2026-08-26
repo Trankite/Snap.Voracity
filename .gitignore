@@ -361,4 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/StarRailDamage/Source/Resource/Localization/LocalString.Designer.cs
+/Common/Source/Resource/Localization/LocalString.Designer.cs
+/StarRail/Source/Resource/Localization/LocalString.Designer.cs
