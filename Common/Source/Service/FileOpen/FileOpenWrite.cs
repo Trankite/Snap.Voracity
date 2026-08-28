@@ -2,8 +2,8 @@
 {
     public class FileOpenWrite : FileOpenStream
     {
-        public FileOpenWrite(string path, bool create = false) : base(path, FileMode.Create, FileAccess.Write, FileShare.None, create) { }
+        public FileOpenWrite(string path, bool create = default, bool leaveOpen = default) : base(path, FileMode.Create, FileAccess.Write, FileShare.None, create, leaveOpen) { }
 
-        public static FileOpenWrite Create(string path) => new(path, true);
+        public static FileOpenWrite Create(string path, bool leaveOpen = default) => new(path, true, leaveOpen);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Block;
 using Common.Source.Model.DataStruct.Span;
 using System.Collections;
 using System.Text;
@@ -7,87 +8,99 @@ namespace Common.Source.Factory.Streams.Html
 {
     public sealed class HtmlReader : IEnumerable<HtmlElement>, IDisposable
     {
-        private const int BufferSize = 4 * 1024 / sizeof(char);
+        private readonly bool LeaveOpen;
 
-        private readonly StreamReader Reader;
+        private readonly TextBlockReader Reader;
 
         private readonly Stack<HtmlElement> ElementStack = [];
 
-        private readonly char[] Buffer = new char[BufferSize];
-
-        private readonly StringBuilder Builder = new();
-
-        private int Offset = 0;
-
-        private int Count = 0;
-
-        public HtmlReader(Stream stream)
+        public HtmlReader(Stream stream, bool leaveOpen = default)
         {
-            Reader = new StreamReader(stream);
+            Reader = new TextBlockReader(new StreamReader(stream, leaveOpen: LeaveOpen = leaveOpen), leaveOpen);
         }
 
         public IEnumerator<HtmlElement> GetEnumerator()
         {
-            string? Header;
-            MoveNextContent();
-            while ((Header = MoveNextSymbol('>')).IsNotNull())
+            while (MoveNextContent())
             {
-                if (Header.StartsWith('/'))
+                if (MoveNextMarkup(out HtmlElement HtmlElement))
                 {
-                    yield return ClosingTag(Header.FirstSplit('\x20').Former[1..]);
+                    yield return ClosingTag(HtmlElement.Markup);
                 }
-                else
-                {
-                    ElementStack.Push(FromTagHeader(Header));
-                }
-                MoveNextContent();
+            }
+            while (ElementStack.Count > 0)
+            {
+                yield return ClosingTag(default);
             }
         }
 
         private bool MoveNextContent()
         {
-            string? Content = MoveNextSymbol('<');
-            if (!string.IsNullOrWhiteSpace(Content))
+            StringBuilder Builder = new();
+            Reader.ReadToEnd('<', (_, _, block) => Builder.Append(block.Trim()));
+            if (Builder.Length > 0)
             {
                 if (ElementStack.TryPeek(out HtmlElement? htmlElement))
                 {
-                    htmlElement.Contents.Add(Content);
+                    htmlElement.Contents.Add(Builder.ToString());
                 }
                 else
                 {
-                    ElementStack.Push(new HtmlElement() { Contents = [Content] });
+                    ElementStack.Push(new HtmlElement() { Contents = [Builder.ToString()] });
                 }
                 return true;
             }
-            return false;
+            return !Reader.IsReadToEnd();
         }
 
-        private static HtmlElement FromTagHeader(ReadOnlySpan<char> header)
+        private bool MoveNextMarkup(out HtmlElement htmlElement)
         {
-            HtmlElement HtmlElement = new();
-            DyadicReadOnlySpan<char> Splitter = header.FirstSplit('\x20');
-            HtmlElement.Tag = Splitter.Former.Trim().ToString();
-            ReadOnlySpan<char> Current = Splitter.Latter;
-            while (Current.Length > 0 && Current.TryGetIndexOf('=', out int Index))
+            htmlElement = new();
+            StringBuilder Builder = new();
+            void HtmlMarkupTrim(int index, BlockStates state, ReadOnlySpan<char> block)
             {
-                ReadOnlySpan<char> Attribute;
-                ReadOnlySpan<char> Markup = Current[..Index++].Trim();
-                Current = Current[Index..];
-                if (Current.StartsWith('"'))
+                ReadOnlySpan<char> TrimSpan = block;
+                if (state.IsComplete())
                 {
-                    Attribute = Current[..Current.IndexOf('"', Current.IndexOf('"').GetInsert() + 1).Unsigned(Current.Length, 1)];
+                    TrimSpan = TrimSpan.TrimEnd();
                 }
-                else
+                if (index == 0)
                 {
-                    Attribute = Current[..Current.IndexOf('\x20').Unsigned(Current.Length)];
+                    TrimSpan = TrimSpan.TrimStart();
                 }
-                Current = Current.SplitAt(Attribute.Length + 1).Latter;
-                HtmlElement.Attributes[Markup.ToString()] = Attribute.Trim().TrimMarkup('"').ToString();
+                Builder.Append(TrimSpan);
             }
-            return HtmlElement;
+            Reader.ReadToEnd('>', HtmlMarkupTrim);
+            ReadOnlySpan<char> HtmlMarkup = Builder.ToString();
+            ReadOnlySpanSplitter<char> Splitter = ReadOnlySpanSplitter.Create(HtmlMarkup.Trim('/', 1), ['=']);
+            ReadOnlySpan<char> Attribute = default;
+            for (int i = 0; Splitter.MoveNext(out ReadOnlySpan<char> Source); i++)
+            {
+                ReadOnlySpan<char> TrimSource = Source.TrimEnd();
+                int SplitIndex = TrimSource.LastIndexOf('\x20');
+                if (i == 0)
+                {
+                    htmlElement.Markup = TrimSource[..SplitIndex.Unsigned(TrimSource.Length)].Trim().ToString();
+                }
+                if (Attribute.Length > 0)
+                {
+                    htmlElement.Attributes[Attribute.ToString()] = TrimSource[..SplitIndex.Unsigned(TrimSource.Length)].Trim().TrimMarkup('"').ToString();
+                }
+                if (!Splitter.IsReadToEnd())
+                {
+                    Attribute = TrimSource[SplitIndex.Unsigned(TrimSource.Length, 1)..].TrimEnd();
+                }
+            }
+            bool IsClosed = HtmlMarkup.StartsWith('/');
+            bool IsSelfClosed = HtmlMarkup.EndsWith("/");
+            if (!IsClosed || IsSelfClosed)
+            {
+                ElementStack.Push(htmlElement);
+            }
+            return IsClosed || IsSelfClosed;
         }
 
-        private HtmlElement ClosingTag(ReadOnlySpan<char> tag)
+        private HtmlElement ClosingTag(ReadOnlySpan<char> markup)
         {
             bool IsClosing = false;
             HtmlElement? HtmlElement = default;
@@ -101,34 +114,16 @@ namespace Common.Source.Factory.Streams.Html
                 {
                     return HtmlElement;
                 }
-                IsClosing = HtmlElement.Tag.EqualsIgnoreCase(tag);
+                IsClosing = HtmlElement.Markup.EqualsIgnoreCase(markup);
             }
             return HtmlElement.ThrowIfNull();
         }
 
-        private string? MoveNextSymbol(char symbol)
-        {
-            while (ReadBlock(out ReadOnlySpan<char> Block))
-            {
-                if (Block.TryGetIndexOf(symbol, out int Index))
-                {
-                    return Builder.Append(Block[..Index]).Complete().Configure(Offset += Index + 1);
-                }
-                else
-                {
-                    Builder.Append(Block).Configure(Offset = Count);
-                }
-            }
-            return Builder.Length > 0 ? Builder.Complete() : default;
-        }
-
-        private bool ReadBlock(out ReadOnlySpan<char> span)
-        {
-            return (Offset < Count || Reader.TryRead(Buffer, out Count).Configure(Offset = 0)).Configure(span = Buffer.AsSpan()[Offset..Count]);
-        }
-
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public void Dispose() => Reader.Dispose();
+        public void Dispose()
+        {
+            if (!LeaveOpen) Reader.Dispose();
+        }
     }
 }

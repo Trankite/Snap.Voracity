@@ -33,13 +33,12 @@ namespace Common.Source.Web.Hoyolab
         {
             using FileOpenWrite FileWrite = FileOpenWrite.Create(GetFilePath());
             FileWrite.ThrowIfFailed();
-            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, hoyolabTokens, default, cancellationToken);
-            _HoyolabTokens = hoyolabTokens;
+            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, _HoyolabTokens = hoyolabTokens, default, cancellationToken);
         }
 
         public static async ValueTask Update(HoyolabToken hoyolabToken)
         {
-            if (HoyolabTokens.TryGetIndexOf(Current => Current.Aid == hoyolabToken.Aid, out int Index))
+            if (HoyolabTokens.TryGetIndexOf(hoyolabToken, HoyolabToken.Comparer, out int Index))
             {
                 HoyolabTokens[Index] = hoyolabToken;
             }

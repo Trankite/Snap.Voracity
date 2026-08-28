@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Source\Extension\**" />
+    <EmbeddedResource Remove="Source\Extension\**" />
+    <None Remove="Source\Extension\**" />
+    <Page Remove="Source\Extension\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Source\Resource\Icon\Occupation\Elation.png" />
     <None Remove="Source\Resource\Wallpaper\Backgroup.png" />
     <None Remove="Source\Resource\Wallpaper\GoldenItem.png" />
@@ -111,7 +118,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Source\Extension\" />
     <Folder Include="Source\Model\Character\Element\" />
     <Folder Include="Source\Model\Character\Occupation\" />
   </ItemGroup>

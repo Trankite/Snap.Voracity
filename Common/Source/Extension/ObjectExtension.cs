@@ -80,13 +80,13 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool OutTemp<TSelf>(this TSelf value, out TSelf self) where TSelf : allows ref struct
+        public static T Exchange<T>(this T source, ref T destination) where T : allows ref struct
         {
-            return true.Configure(self = value);
+            return destination.Configure(destination = source);
         }
 
         [DebuggerStepThrough]
-        public static TSelf OutSelf<TSelf>(this TSelf value, out TSelf self) where TSelf : allows ref struct
+        public static T OutSelf<T>(this T value, out T self) where T : allows ref struct
         {
             return self = value;
         }

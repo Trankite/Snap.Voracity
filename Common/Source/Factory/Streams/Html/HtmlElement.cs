@@ -2,9 +2,9 @@
 {
     public class HtmlElement
     {
-        public string Tag { get; set; } = string.Empty;
+        public string Markup { get; set; } = string.Empty;
 
-        public Dictionary<string, string> Attributes { get; set; } = [];
+        public Dictionary<string, string> Attributes { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
         public List<HtmlElement> Elements { get; set; } = [];
 
@@ -12,14 +12,14 @@
 
         public HtmlElement() { }
 
-        public HtmlElement(string tag)
+        public HtmlElement(string markup)
         {
-            Tag = tag;
+            Markup = markup;
         }
 
         public override string ToString()
         {
-            return $"<{Tag} {string.Join('\x20', Attributes.Select(Pair => $"{Pair.Key}=\"{Pair.Value}\""))}/>";
+            return $"<{Markup} {string.Join('\x20', Attributes.Select(Attribute => $"{Attribute.Key}=\"{Attribute.Value}\""))} />";
         }
     }
 }

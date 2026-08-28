@@ -2,6 +2,8 @@
 {
     public class HoyolabToken
     {
+        public static IEqualityComparer<HoyolabToken> Comparer { get; }
+
         public string Aid { get; set; } = string.Empty;
 
         public string Mid { get; set; } = string.Empty;
@@ -19,6 +21,11 @@
         public HoyolabToken(string guid)
         {
             Guid = guid;
+        }
+
+        static HoyolabToken()
+        {
+            Comparer = EqualityComparer<HoyolabToken>.Create((sender, other) => ReferenceEquals(sender, other) || sender?.Aid == other?.Aid, sender => sender.Aid.GetHashCode());
         }
     }
 }

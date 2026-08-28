@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
+using StarRail.Source.Resource.Localization;
 using System.Globalization;
 using System.Windows.Markup;
-using UIDesign.Source.Resource.Localization;
 
 namespace StarRail.Source.Factory.Markup
 {

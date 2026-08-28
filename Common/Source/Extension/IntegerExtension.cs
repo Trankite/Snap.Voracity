@@ -11,9 +11,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int GetInsert(this int value)
+        public static int GetInsert(this int value, int offset = default)
         {
-            return value >= 0 ? value : ~value;
+            return value >= 0 ? value + offset : ~value;
         }
 
         [DebuggerStepThrough]

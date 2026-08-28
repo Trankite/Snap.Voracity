@@ -2,6 +2,6 @@
 {
     public class FileOpenRead : FileOpenStream
     {
-        public FileOpenRead(string path) : base(path, FileMode.Open, FileAccess.Read) { }
+        public FileOpenRead(string path, bool leaveOpen = default) : base(path, FileMode.Open, FileAccess.Read, leaveOpen: leaveOpen) { }
     }
 }

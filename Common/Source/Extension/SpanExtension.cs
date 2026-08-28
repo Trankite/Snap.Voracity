@@ -7,23 +7,17 @@ namespace Common.Source.Extension
     public static class SpanExtension
     {
         [DebuggerStepThrough]
-        public static int IndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex)
+        [return: NotNullIfNotNull(nameof(defaultValue))]
+        public static T? FirstOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
         {
-            for (int i = startIndex; i < span.Length; i++)
-            {
-                if (span[i].IsEquals(value)) return i;
-            }
-            return -1;
+            return span.Length == 0 ? defaultValue : span[0];
         }
 
         [DebuggerStepThrough]
-        public static int LastIndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex)
+        [return: NotNullIfNotNull(nameof(defaultValue))]
+        public static T? LastOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
         {
-            for (int i = span.Length - 1; i >= startIndex; i++)
-            {
-                if (span[i].IsEquals(value)) return i;
-            }
-            return -1;
+            return span.Length == 0 ? defaultValue : span[^1];
         }
 
         [DebuggerStepThrough]
@@ -51,17 +45,27 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        [return: NotNullIfNotNull(nameof(defaultValue))]
-        public static T? FirstOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex)
         {
-            return span.Length == 0 ? defaultValue : span[0];
+            return span[startIndex..].TryGetIndexOf(value, out int Index) ? startIndex + Index : -1;
         }
 
         [DebuggerStepThrough]
-        [return: NotNullIfNotNull(nameof(defaultValue))]
-        public static T? LastOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, int startIndex)
         {
-            return span.Length == 0 ? defaultValue : span[^1];
+            return span[startIndex..].TryGetIndexOf(values, out int Index) ? startIndex + Index : -1;
+        }
+
+        [DebuggerStepThrough]
+        public static int LastIndexOf<T>(this ReadOnlySpan<T> span, T value, int endIndex)
+        {
+            return span[..endIndex].TryGetLastIndexOf(value, out int Index) ? endIndex + Index : -1;
+        }
+
+        [DebuggerStepThrough]
+        public static int LastIndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, int endIndex)
+        {
+            return span[..endIndex].TryGetLastIndexOf(values, out int Index) ? endIndex + Index : -1;
         }
 
         [DebuggerStepThrough]
@@ -83,13 +87,15 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> match, out int index)
+        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, int startIndex, out int index)
         {
-            for (index = 0; index < span.Length; index++)
-            {
-                if (match(span[index])) return true;
-            }
-            return false;
+            return (index = span.IndexOf(values, startIndex)) >= 0;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, T value, IEqualityComparer<T> comparer, out int index)
+        {
+            return (index = span.IndexOf(value, comparer)) >= 0;
         }
 
         [DebuggerStepThrough]
@@ -99,9 +105,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, T value, int startIndex, out int index)
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, T value, int endIndex, out int index)
         {
-            return (index = span.LastIndexOf(value, startIndex)) >= 0;
+            return (index = span.LastIndexOf(value, endIndex)) >= 0;
         }
 
         [DebuggerStepThrough]
@@ -111,13 +117,15 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> match, out int index)
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, int endIndex, out int index)
         {
-            for (index = span.Length - 1; index >= 0; index--)
-            {
-                if (match(span[index])) return true;
-            }
-            return false;
+            return (index = span.LastIndexOf(values, endIndex)) >= 0;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, T value, IEqualityComparer<T> comparer, out int index)
+        {
+            return (index = span.LastIndexOf(value, comparer)) >= 0;
         }
 
         [DebuggerStepThrough]

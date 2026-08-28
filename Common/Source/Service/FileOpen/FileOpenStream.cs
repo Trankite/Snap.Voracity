@@ -6,6 +6,8 @@ namespace Common.Source.Service.FileOpen
 {
     public class FileOpenStream : IExceptionCapture, IDisposable
     {
+        private readonly bool LeaveOpen;
+
         [MemberNotNullWhen(false, nameof(Exception))]
         [MemberNotNullWhen(true, nameof(Stream), nameof(FileInfo))]
         public bool Success { get; }
@@ -20,10 +22,11 @@ namespace Common.Source.Service.FileOpen
 
         public FileOpenStream() { }
 
-        public FileOpenStream(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None, bool create = false)
+        public FileOpenStream(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None, bool create = default, bool leaveOpen = default)
         {
             try
             {
+                LeaveOpen = leaveOpen;
                 FileInfo = new FileInfo(path);
                 if (create)
                 {
@@ -38,8 +41,6 @@ namespace Common.Source.Service.FileOpen
             }
         }
 
-        public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None) => new(path, fileMode, fileAccess, fileShare, true);
-
         [MemberNotNull(nameof(Stream), nameof(FileInfo))]
         public void ThrowIfFailed()
         {
@@ -51,7 +52,10 @@ namespace Common.Source.Service.FileOpen
 
         public void Dispose()
         {
-            Stream?.Dispose();
+            if (!LeaveOpen)
+            {
+                Stream?.Dispose();
+            }
             GC.SuppressFinalize(this);
         }
 

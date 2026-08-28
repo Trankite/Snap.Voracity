@@ -55,6 +55,48 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static ReadOnlySpan<char> Trim(this ReadOnlySpan<char> span, char trimChar, int maxCount)
+        {
+            return span.TrimStart(trimChar, maxCount).TrimEnd(trimChar, maxCount);
+        }
+
+        [DebuggerStepThrough]
+        public static ReadOnlySpan<char> Trim(this ReadOnlySpan<char> span, ReadOnlySpan<char> trimChars, int maxCount)
+        {
+            return span.TrimStart(trimChars, maxCount).TrimEnd(trimChars, maxCount);
+        }
+
+        [DebuggerStepThrough]
+        public static ReadOnlySpan<char> TrimStart(this ReadOnlySpan<char> span, char trimChar, int maxCount)
+        {
+            return span[(maxCount - span[..maxCount].TrimStart(trimChar).Length)..];
+        }
+
+        [DebuggerStepThrough]
+        public static ReadOnlySpan<char> TrimStart(this ReadOnlySpan<char> span, ReadOnlySpan<char> trimChars, int maxCount)
+        {
+            return span[(maxCount - span[..maxCount].TrimStart(trimChars).Length)..];
+        }
+
+        [DebuggerStepThrough]
+        public static ReadOnlySpan<char> TrimEnd(this ReadOnlySpan<char> span, char trimChar, int maxCount)
+        {
+            return span[..^(maxCount - span[^maxCount..].TrimEnd(trimChar).Length)];
+        }
+
+        [DebuggerStepThrough]
+        public static ReadOnlySpan<char> TrimEnd(this ReadOnlySpan<char> span, ReadOnlySpan<char> trimChars, int maxCount)
+        {
+            return span[..^(maxCount - span[^maxCount..].TrimEnd(trimChars).Length)];
+        }
+
+        [DebuggerStepThrough]
+        public static ReadOnlySpan<char> TrimMarkup(this ReadOnlySpan<char> span, char markup)
+        {
+            return span.Length >= 2 && span.StartsWith(markup) && span.EndsWith(markup) ? span[1..^1] : span;
+        }
+
+        [DebuggerStepThrough]
         public static string SafeFormat(this string value, params ReadOnlySpan<object?> arguments)
         {
             try { return string.Format(value, arguments); } catch { return value; }
@@ -64,12 +106,6 @@ namespace Common.Source.Extension
         public static string Unescape(this string value)
         {
             try { return Regex.Unescape(value); } catch { return value; }
-        }
-
-        [DebuggerStepThrough]
-        public static ReadOnlySpan<char> TrimMarkup(this ReadOnlySpan<char> value, char markup)
-        {
-            return value.StartsWith(markup) && value.EndsWith(markup) ? value[1..^1] : value;
         }
     }
 }
