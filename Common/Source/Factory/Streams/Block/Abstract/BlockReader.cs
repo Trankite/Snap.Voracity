@@ -50,6 +50,6 @@ namespace Common.Source.Factory.Streams.Block.Abstract
             return Offset < Count ? new ReadBlockResponse<T>(true, Buffer[Offset..]) : ReadBlockOverride();
         }
 
-        public virtual ReadBlockResponse<T> ReadBlockOverride() => default;
+        protected virtual ReadBlockResponse<T> ReadBlockOverride() => default;
     }
 }

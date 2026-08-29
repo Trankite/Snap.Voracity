@@ -9,15 +9,15 @@ namespace Common.Source.Factory.Streams.Html
 {
     public sealed class HtmlReader : IEnumerable<HtmlElement>, IDisposable
     {
-        private readonly bool LeaveOpen;
+        private readonly bool LeaveStreamOpen;
 
         private readonly TextStreamBlockReader Reader;
 
         private readonly Stack<HtmlElement> ElementStack = [];
 
-        public HtmlReader(TextReader stream, bool leaveOpen = default)
+        public HtmlReader(Stream stream, bool leaveOpen = default)
         {
-            Reader = TextStreamBlockReader.Create(stream, leaveOpen);
+            Reader = TextStreamBlockReader.Create(stream, leaveOpen: LeaveStreamOpen = leaveOpen);
         }
 
         public IEnumerator<HtmlElement> GetEnumerator()
@@ -109,7 +109,7 @@ namespace Common.Source.Factory.Streams.Html
 
         public void Dispose()
         {
-            if (!LeaveOpen) Reader.Dispose();
+            if (!LeaveStreamOpen) Reader.Dispose();
         }
     }
 }

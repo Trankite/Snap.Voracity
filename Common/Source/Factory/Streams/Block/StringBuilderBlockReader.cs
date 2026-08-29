@@ -14,7 +14,7 @@ namespace Common.Source.Factory.Streams.Block
             Enumerator = stringBuilder.GetChunks();
         }
 
-        public override ReadBlockResponse<char> ReadBlockOverride()
+        protected override ReadBlockResponse<char> ReadBlockOverride()
         {
             return Enumerator.MoveNext() ? new ReadBlockResponse<char>(true, Buffer = Enumerator.Current).Configure(Count = Buffer.Length).Configure(Offset = 0) : base.ReadBlockOverride();
         }

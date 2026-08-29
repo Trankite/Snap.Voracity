@@ -7,7 +7,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 {
     public class FileOpenStream : IExceptionCapture, IDisposable
     {
-        private readonly bool LeaveOpen;
+        private readonly bool LeaveStreamOpen;
 
         [MemberNotNullWhen(false, nameof(Exception))]
         [MemberNotNullWhen(true, nameof(Stream), nameof(FileInfo))]
@@ -27,7 +27,7 @@ namespace Common.Source.Factory.Streams.FileOpen
         {
             try
             {
-                LeaveOpen = leaveOpen;
+                LeaveStreamOpen = leaveOpen;
                 FileInfo = new FileInfo(path);
                 if (create)
                 {
@@ -53,7 +53,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         public void Dispose()
         {
-            if (!LeaveOpen)
+            if (!LeaveStreamOpen)
             {
                 Stream?.Dispose();
             }
