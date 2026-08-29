@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.FileOpen;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Encode.QRCode;
-using Common.Source.Service.FileOpen;
 using Common.Source.Service.Terminal.Abstraction;
 using System.Drawing;
 using System.Text;

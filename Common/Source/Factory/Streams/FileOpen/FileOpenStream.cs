@@ -1,8 +1,9 @@
 ﻿using Common.Source.Core.Interface;
+using Common.Source.Service;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 
-namespace Common.Source.Service.FileOpen
+namespace Common.Source.Factory.Streams.FileOpen
 {
     public class FileOpenStream : IExceptionCapture, IDisposable
     {

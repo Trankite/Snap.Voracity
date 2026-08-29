@@ -1,6 +1,6 @@
 ﻿using Common.Source.Core.Setting;
 using Common.Source.Extension;
-using Common.Source.Service.FileOpen;
+using Common.Source.Factory.Streams.FileOpen;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab
@@ -38,7 +38,7 @@ namespace Common.Source.Web.Hoyolab
 
         public static async ValueTask Update(HoyolabToken hoyolabToken)
         {
-            if (HoyolabTokens.TryGetIndexOf(hoyolabToken, HoyolabToken.Comparer, out int Index))
+            if (HoyolabTokens.TryGetIndexOf(hoyolabToken, out int Index, HoyolabToken.Comparer))
             {
                 HoyolabTokens[Index] = hoyolabToken;
             }

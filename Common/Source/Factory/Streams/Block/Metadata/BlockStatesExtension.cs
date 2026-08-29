@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Factory.Streams.Block
+﻿namespace Common.Source.Factory.Streams.Block.Metadata
 {
     public static class BlockStatesExtension
     {

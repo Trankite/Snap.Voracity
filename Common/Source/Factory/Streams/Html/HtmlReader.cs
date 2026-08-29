@@ -1,5 +1,6 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.Block;
+using Common.Source.Factory.Streams.Block.Abstract;
 using Common.Source.Model.DataStruct.Span;
 using System.Collections;
 using System.Text;
@@ -10,13 +11,13 @@ namespace Common.Source.Factory.Streams.Html
     {
         private readonly bool LeaveOpen;
 
-        private readonly TextBlockReader Reader;
+        private readonly TextStreamBlockReader Reader;
 
         private readonly Stack<HtmlElement> ElementStack = [];
 
-        public HtmlReader(Stream stream, bool leaveOpen = default)
+        public HtmlReader(TextReader stream, bool leaveOpen = default)
         {
-            Reader = new TextBlockReader(new StreamReader(stream, leaveOpen: LeaveOpen = leaveOpen), leaveOpen);
+            Reader = TextStreamBlockReader.Create(stream, leaveOpen);
         }
 
         public IEnumerator<HtmlElement> GetEnumerator()
@@ -25,19 +26,18 @@ namespace Common.Source.Factory.Streams.Html
             {
                 if (MoveNextMarkup(out HtmlElement HtmlElement))
                 {
-                    yield return ClosingTag(HtmlElement.Markup);
+                    yield return ClosingMarkup(HtmlElement.Markup);
                 }
             }
             while (ElementStack.Count > 0)
             {
-                yield return ClosingTag(default);
+                yield return ClosingMarkup(default);
             }
         }
 
         private bool MoveNextContent()
         {
-            StringBuilder Builder = new();
-            Reader.ReadToEnd('<', (_, _, block) => Builder.Append(block.Trim()));
+            StringBuilder Builder = Reader.ReadContentTrim('<');
             if (Builder.Length > 0)
             {
                 if (ElementStack.TryPeek(out HtmlElement? htmlElement))
@@ -56,21 +56,7 @@ namespace Common.Source.Factory.Streams.Html
         private bool MoveNextMarkup(out HtmlElement htmlElement)
         {
             htmlElement = new();
-            StringBuilder Builder = new();
-            void HtmlMarkupTrim(int index, BlockStates state, ReadOnlySpan<char> block)
-            {
-                ReadOnlySpan<char> TrimSpan = block;
-                if (state.IsComplete())
-                {
-                    TrimSpan = TrimSpan.TrimEnd();
-                }
-                if (index == 0)
-                {
-                    TrimSpan = TrimSpan.TrimStart();
-                }
-                Builder.Append(TrimSpan);
-            }
-            Reader.ReadToEnd('>', HtmlMarkupTrim);
+            StringBuilder Builder = Reader.ReadContentTrim('>');
             ReadOnlySpan<char> HtmlMarkup = Builder.ToString();
             ReadOnlySpanSplitter<char> Splitter = ReadOnlySpanSplitter.Create(HtmlMarkup.Trim('/', 1), ['=']);
             ReadOnlySpan<char> Attribute = default;
@@ -100,7 +86,7 @@ namespace Common.Source.Factory.Streams.Html
             return IsClosed || IsSelfClosed;
         }
 
-        private HtmlElement ClosingTag(ReadOnlySpan<char> markup)
+        private HtmlElement ClosingMarkup(ReadOnlySpan<char> markup)
         {
             bool IsClosing = false;
             HtmlElement? HtmlElement = default;

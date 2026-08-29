@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Service.FileOpen
+﻿namespace Common.Source.Factory.Streams.FileOpen
 {
     public class FileOpenWrite : FileOpenStream
     {

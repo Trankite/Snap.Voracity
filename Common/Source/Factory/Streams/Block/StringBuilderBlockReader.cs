@@ -1,22 +1,22 @@
-﻿using Common.Source.Core.Setting;
-using Common.Source.Extension;
+﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.Block.Abstract;
+using Common.Source.Factory.Streams.Block.Metadata;
 using System.Text;
 
 namespace Common.Source.Factory.Streams.Block
 {
-    public class StringBuilderBlockReader : ReadOnlyBlockStream<char>
+    public class StringBuilderBlockReader : BlockReader<char>
     {
         private StringBuilder.ChunkEnumerator Enumerator;
 
-        public StringBuilderBlockReader(StringBuilder stringBuilder) : base(AppSetting.GetBuffer<char>(sizeof(char)))
+        public StringBuilderBlockReader(StringBuilder stringBuilder) : base(default)
         {
             Enumerator = stringBuilder.GetChunks();
         }
 
-        protected override bool ReadBlock(out ReadOnlySpan<char> block)
+        public override ReadBlockResponse<char> ReadBlockOverride()
         {
-            return base.ReadBlock(out block) || Enumerator.MoveNext().Configure(Offset = 0) && true.Configure(Count = (block = Enumerator.Current.Span).Length);
+            return Enumerator.MoveNext() ? new ReadBlockResponse<char>(true, Buffer = Enumerator.Current).Configure(Count = Buffer.Length).Configure(Offset = 0) : base.ReadBlockOverride();
         }
     }
 }
