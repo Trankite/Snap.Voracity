@@ -1,7 +1,9 @@
 ﻿using Common.Source.Core.Setting;
 using Common.Source.Extension;
+using Common.Source.Factory.Streams.FileClean;
 using Common.Source.Factory.Streams.FileSave.Metadata;
 using Common.Source.Resource.Localization;
+using Common.Source.Service.Mission;
 using Common.Source.Service.Terminal.Abstraction;
 using Common.Source.Service.Terminal.Support;
 using Common.Source.Web.Hoyolab;
@@ -9,6 +11,7 @@ using Common.Source.Web.Hoyolab.Passport.QRLogin;
 using Common.Source.Web.Hoyolab.Passport.QRLogin.Status;
 using Common.Source.Web.Request;
 using Common.Source.Web.Response;
+using System.Diagnostics;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Login
 {
@@ -52,11 +55,13 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             FileFormat QRCodeFormat = FileFormat.Svg;
             string QRCodeName = QRCodeFormat.ChangeExtension(nameof(QRLogin));
             string QRCodePath = Path.Combine(LocalSetting.GetTempPath(), QRCodeName);
-            ITerminalResponse CreateQRCodeResponse = QRCodeMaker.Invoke(Url, QRCodePath, default, true, QRCodeFormat);
+            ITerminalResponse CreateQRCodeResponse = QRCodeMaker.Invoke(Url, QRCodePath);
             if (!CreateQRCodeResponse.Success)
             {
                 return CreateQRCodeResponse;
             }
+            using FileCleaner Cleaner = FileCleaner.Create(QRCodePath, true);
+            using Process QRCodeProcess = ProcessHelper.Start(QRCodePath, true);
             using CancellationTokenSource TimeOutSource = new(TimeSpan.FromMinutes(5));
             using CancellationTokenSource CheckStatusSource = CancellationTokenSource.CreateLinkedTokenSource(TimeOutSource.Token, cancellationToken);
             linkedStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);

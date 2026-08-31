@@ -41,9 +41,9 @@ namespace Common.Source.Extension
             stream.WriteLine($"{message} (Y/N)");
         }
 
-        private static bool GetEnquireState(string value)
+        private static bool GetEnquireState(string? value)
         {
-            return !value.StartsWith("N", StringComparison.OrdinalIgnoreCase);
+            return value.IsNotNull() && !value.StartsWith("N", StringComparison.OrdinalIgnoreCase);
         }
 
         public static int Read(this ILinkedTextStream stream)
@@ -51,23 +51,23 @@ namespace Common.Source.Extension
             return stream.Reader.Read();
         }
 
-        public static string ReadLine(this ILinkedTextStream stream)
+        public static string? ReadLine(this ILinkedTextStream stream)
         {
-            try { return stream.Reader.ReadLine().NotNull(); } catch { return string.Empty; }
+            try { return stream.Reader.ReadLine(); } catch { return string.Empty; }
         }
 
-        public static async ValueTask<string> ReadLineAsync(this ILinkedTextStream stream, CancellationToken cancellationToken = default)
+        public static async ValueTask<string?> ReadLineAsync(this ILinkedTextStream stream, CancellationToken cancellationToken = default)
         {
-            try { return await stream.Reader.ReadLineAsync(cancellationToken) ?? string.Empty; } catch { return string.Empty; }
+            try { return await stream.Reader.ReadLineAsync(cancellationToken); } catch { return string.Empty; }
         }
 
-        public static string ReadLine(this ILinkedTextStream stream, ReadOnlySpan<char> value)
+        public static string? ReadLine(this ILinkedTextStream stream, ReadOnlySpan<char> value)
         {
             stream.Write(value);
             return stream.ReadLine();
         }
 
-        public static ValueTask<string> ReadLineAsync(this ILinkedTextStream stream, string value, CancellationToken cancellationToken = default)
+        public static ValueTask<string?> ReadLineAsync(this ILinkedTextStream stream, string value, CancellationToken cancellationToken = default)
         {
             stream.Write(value);
             return stream.ReadLineAsync(cancellationToken);

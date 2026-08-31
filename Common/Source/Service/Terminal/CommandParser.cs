@@ -13,7 +13,7 @@ namespace Common.Source.Service.Terminal
             Keywords = keyWords;
         }
 
-        public static CommandParser Create(string line)
+        public static CommandParser Create(ReadOnlySpan<char> line)
         {
             int Index = 0;
             List<string> Keywords = [];
@@ -21,7 +21,7 @@ namespace Common.Source.Service.Terminal
             {
                 if (line[i] == 0x20)
                 {
-                    Keywords.Add(line[Index..i]);
+                    Keywords.Add(line[Index..i].ToString());
                     Index = i + 1;
                 }
                 else if (line[i] == '"')
@@ -31,13 +31,13 @@ namespace Common.Source.Service.Terminal
                     {
                         if (line[i] == '\\') i++;
                     }
-                    Keywords.Add($"\"{line[Index..i++].Unescape()}\"");
+                    Keywords.Add($"\"{line[Index..i++].ToString().Unescape()}\"");
                     Index = i + 1;
                 }
             }
             if (Index < line.Length)
             {
-                Keywords.Add(line[Index..]);
+                Keywords.Add(line[Index..].ToString());
             }
             return new CommandParser(Keywords);
         }
