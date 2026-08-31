@@ -25,7 +25,7 @@ namespace Common.Source.Web.Hoyolab.Bbs.Sign
                 .SetReferer(HoyolabReferer.MihoyoApp)
                 .SetXrpcAppVersion(HoyolabOptions.Version)
                 .SetXrpcClientType(HoyolabClient.Android)
-                .SetDataSignWithBody(DataSignOptions.Create(SaltType.X6, DataSignAlgorithm.Gen2), JsonSerializer.Serialize(new SignRequestBody(Group.ToIntString())))
+                .SetDataSignWithBody(DataSignOptions.Create(SaltType.X6, DataSignAlgorithm.Gen2), JsonSerializer.Serialize(new SignRequestBody(Group.GetIntString())))
                 .SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetMid().SetStoken());
         }
     }

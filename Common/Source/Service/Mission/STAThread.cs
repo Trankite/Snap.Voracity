@@ -14,15 +14,16 @@
         {
             while (IsRunning)
             {
-                Task? Current = null;
+                Task? Task = null;
                 lock (ThreadLock)
                 {
-                    while (!TaskQueue.TryDequeue(out Current))
+                    while (TaskQueue.Count == 0)
                     {
                         Monitor.Wait(ThreadLock);
                     }
+                    Task = TaskQueue.Dequeue();
                 }
-                Current.RunSynchronously();
+                Task.RunSynchronously();
             }
         }
 

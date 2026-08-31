@@ -47,7 +47,7 @@ namespace Common.Source.Factory.Streams.Block.Abstract
 
         public ReadBlockResponse<T> ReadBlock()
         {
-            return Offset < Count ? new ReadBlockResponse<T>(true, Buffer[Offset..]) : ReadBlockOverride();
+            return Offset < Count ? new ReadBlockResponse<T>(true, Buffer[Offset..Count]) : ReadBlockOverride();
         }
 
         protected virtual ReadBlockResponse<T> ReadBlockOverride() => default;

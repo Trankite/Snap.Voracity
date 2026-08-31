@@ -1,10 +1,12 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.FileOpen;
+using Common.Source.Factory.Streams.FileSave;
+using Common.Source.Factory.Streams.FileSave.Abstract;
+using Common.Source.Factory.Streams.FileSave.Metadata;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Encode.QRCode;
 using Common.Source.Service.Terminal.Abstraction;
 using System.Drawing;
-using System.Text;
 
 namespace Common.Source.Service.Terminal.Support
 {
@@ -48,13 +50,14 @@ namespace Common.Source.Service.Terminal.Support
         {
             string Content = commandLine.GetParameter(CONTENT);
             string FilePath = commandLine.GetParameter(FILEPATH);
-            if (!commandLine.TryGetParameter(FILEFORMAT, out string? FileFormat))
+            if (!commandLine.TryGetParameter(FILEFORMAT, out string? Format))
             {
-                FileFormat = FileHelper.GetExtensionName(FilePath).NotEmpty("svg");
+                Format = FileHelper.GetExtensionName(FilePath);
             }
+            FileFormat FileFormat = FileFormatExtension.Parse(Format, FileFormat.Svg);
             if (string.IsNullOrEmpty(Path.GetExtension(FilePath)))
             {
-                FilePath = Path.ChangeExtension(FilePath, FileFormat);
+                FilePath = Path.ChangeExtension(FilePath, FileFormat.GetDescription());
             }
             QRCodeOptions Options = new();
             if (ColorExtension.TryFromHtml(commandLine.GetParameter(FOREGROUND), out Color Foreground))
@@ -90,26 +93,19 @@ namespace Common.Source.Service.Terminal.Support
             return Invoke(Content, FilePath, Options, PathOpne, FileFormat);
         }
 
-        public static ITerminalResponse Invoke(string content, string filePath, QRCodeOptions options, bool pathOpen = false, string? format = default)
+        public static ITerminalResponse Invoke(string content, string filePath, QRCodeOptions? options = default, bool pathOpen = false, FileFormat format = FileFormat.Svg)
         {
+            options ??= new QRCodeOptions();
             using FileOpenWrite Write = FileOpenWrite.Create(filePath);
             if (!Write.Success)
             {
                 return new TerminalResponse(false, Write.ToString());
             }
-            QRCode Qrcode;
-            byte[] UTF8Bytes = Encoding.UTF8.GetBytes(content);
-            if (format.EqualsIgnoreCase("csv"))
+            QRCode Qrcode = QRCode.Create(content, options);
+            QRCodeSaver Saver = QRCodeSaver.Create(Qrcode, options);
+            if (!Saver.TrySaveToFormat(Write.Stream, format))
             {
-                (Qrcode = QRCode.Create(UTF8Bytes, options)).SaveToCsv(Write.Stream);
-            }
-            else if (format.EqualsIgnoreCase("svg"))
-            {
-                (Qrcode = QRCode.Create(UTF8Bytes, options)).SaveToSvg(Write.Stream, options);
-            }
-            else
-            {
-                return new TerminalResponse(false, LocalString.ServiceTerminalSupportQRCodeMakerUnSupportedFormat);
+                return new TerminalResponse(false, format.UnSupported());
             }
             FileHelper.PathOpen(Write.FullPath, pathOpen);
             object[] FormatInfo = [Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType.ToInt()];

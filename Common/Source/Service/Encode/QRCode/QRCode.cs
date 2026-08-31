@@ -1,6 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Model.DataStruct;
 using Common.Source.Model.DataStruct.Point;
+using System.Text;
 
 namespace Common.Source.Service.Encode.QRCode
 {
@@ -36,6 +37,11 @@ namespace Common.Source.Service.Encode.QRCode
             Content = new QRCodeBit[Size, Size];
             Encoder.Complete();
             Initialize(content);
+        }
+
+        public static QRCode Create(string content, QRCodeOptions? options = default, Encoding? encoding = default)
+        {
+            return Create(encoding.NotNull().GetBytes(content), options);
         }
 
         public static QRCode Create(ReadOnlySpan<byte> content, QRCodeOptions? options = default)

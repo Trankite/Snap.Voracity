@@ -24,13 +24,17 @@ namespace Common.Source.Service.Terminal
             return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionUnlawfulParameter);
         }
 
+        public static TerminalResponse GetMissingUserInteractionResponse()
+        {
+            return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionMissingUserInteraction);
+        }
+
         static TerminalManage()
         {
             CommandTable = new ITerminalCommand[]
             {
                 new FormulaCycle(),
                 new QRCodeMaker(),
-                new TerminalClear(),
                 new TerminalEcho(),
                 new TerminalExit(),
                 new TerminalHelp(),

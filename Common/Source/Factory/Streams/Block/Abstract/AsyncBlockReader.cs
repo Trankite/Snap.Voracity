@@ -14,7 +14,7 @@ namespace Common.Source.Factory.Streams.Block.Abstract
 
         public async ValueTask<ReadBlockResponse<T>> ReadBlockAsync(CancellationToken cancellationToken = default)
         {
-            return Offset < Count ? new ReadBlockResponse<T>(true, Buffer[Offset..]) : await ReadBlockAsyncOverride(cancellationToken);
+            return Offset < Count ? new ReadBlockResponse<T>(true, Buffer[Offset..Count]) : await ReadBlockAsyncOverride(cancellationToken);
         }
 
         protected virtual async ValueTask<ReadBlockResponse<T>> ReadBlockAsyncOverride(CancellationToken cancellationToken) => default;

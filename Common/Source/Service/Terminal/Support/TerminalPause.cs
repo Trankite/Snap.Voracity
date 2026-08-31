@@ -1,4 +1,4 @@
-﻿using Common.Source.Core.Setting;
+﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstraction;
 
@@ -18,12 +18,7 @@ namespace Common.Source.Service.Terminal.Support
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            if (AppSetting.OnTerminal)
-            {
-                Console.WriteLine(LocalString.ServiceTerminalSupportConsolePauseContent);
-                Console.ReadKey(false);
-            }
-            return new TerminalResponse(AppSetting.OnTerminal);
+            return new TerminalResponse(linkedStream.IsNotNull() && linkedStream.Configure(Self => Self.WriteLine(LocalString.ServiceTerminalSupportConsolePauseContent)).Read() >= 0);
         }
     }
 }

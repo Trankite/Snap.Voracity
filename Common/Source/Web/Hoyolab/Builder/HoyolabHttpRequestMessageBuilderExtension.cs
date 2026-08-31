@@ -28,7 +28,7 @@ namespace Common.Source.Web.Hoyolab.Builder
 
         public static HoyolabHttpRequestMessageBuilder SetXrpcClientType(this HoyolabHttpRequestMessageBuilder builder, HoyolabClient clientType)
         {
-            return builder.SetHeader("x-rpc-client_type", clientType.ToIntString());
+            return builder.SetHeader("x-rpc-client_type", clientType.GetIntString());
         }
 
         public static HoyolabHttpRequestMessageBuilder SetXrpcDeviceFp(this HoyolabHttpRequestMessageBuilder builder, string value)

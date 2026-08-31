@@ -53,12 +53,12 @@ namespace Common.Source.Web.Hoyolab.Builder
 
         public static HoyolabHttpUriBuilder SetForumId(this HoyolabHttpUriBuilder builder, ZoneType value)
         {
-            return builder.SetQuery("forum_id", value.ToIntString());
+            return builder.SetQuery("forum_id", value.GetIntString());
         }
 
         public static HoyolabHttpUriBuilder SetSortType(this HoyolabHttpUriBuilder builder, SortType value)
         {
-            return builder.SetQuery("sort_type", value.ToIntString());
+            return builder.SetQuery("sort_type", value.GetIntString());
         }
 
         public static HoyolabHttpUriBuilder SetPageSize(this HoyolabHttpUriBuilder builder, int value)
@@ -68,7 +68,7 @@ namespace Common.Source.Web.Hoyolab.Builder
 
         public static HoyolabHttpUriBuilder SetEntityType(this HoyolabHttpUriBuilder builder, EntityType value)
         {
-            return builder.SetQuery("entity_type", value.ToIntString());
+            return builder.SetQuery("entity_type", value.GetIntString());
         }
 
         public static HoyolabHttpUriBuilder SetEntityId(this HoyolabHttpUriBuilder builder, string value)

@@ -120,7 +120,7 @@
   <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
     <value>{0}Content
 {1}Saving path
-{2}File format [Png|Jpg|Bmp|Svg|Csv]
+{2}File format [Svg|Csv]
 {3}Foreground (#000000)
 {4}Background (#FFFFFF)
 {5}Pixel size (5)
@@ -134,8 +134,8 @@
   <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
     <value>Generate QR code</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeMakerUnSupportedFormat" xml:space="preserve">
-    <value>Unsupported file format</value>
+  <data name="CoreMetadataExceptionUnSupportedFormat" xml:space="preserve">
+    <value>Unsupported file format "{0}"</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
     <value>Mode-{0}, Version-{1}, Error correction-{2}, Mask-{3}</value>
@@ -172,9 +172,6 @@ Use "\" to escape symbols</value>
   </data>
   <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>Command help</value>
-  </data>
-  <data name="ServiceTerminalSupportConsoleClearFullName" xml:space="preserve">
-    <value>Clear console</value>
   </data>
   <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
     <value>[{0}] Upvote</value>
@@ -373,5 +370,14 @@ Use "{1}" access details</value>
   </data>
   <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
     <value>The network request has been canceled</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionMissingUserInteraction" xml:space="preserve">
+    <value>Missing user interaction environment</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCheckLogin" xml:space="preserve">
+    <value>Has the login been confirmed?</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCheckStatus" xml:space="preserve">
+    <value>QR code status: {0}</value>
   </data>
 </root>

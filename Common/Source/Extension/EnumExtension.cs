@@ -4,7 +4,19 @@ namespace Common.Source.Extension
 {
     public static class EnumExtension
     {
-        private static readonly Dictionary<Enum, string> DescriptionCache = [];
+        private static readonly Dictionary<Enum, string> DescriptionCache;
+
+        [DebuggerStepThrough]
+        public static TEnum Parse<TEnum>(string? value) where TEnum : struct, Enum
+        {
+            return TryParse(value, out TEnum result) ? result : default;
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryParse<TEnum>(string? value, out TEnum result) where TEnum : struct, Enum
+        {
+            return Enum.TryParse(value, out result) && Enum.IsDefined(result);
+        }
 
         [DebuggerStepThrough]
         public static int ToInt<TEnum>(this TEnum value) where TEnum : Enum
@@ -13,15 +25,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static string ToIntString<TEnum>(this TEnum value) where TEnum : Enum
+        public static string GetIntString<TEnum>(this TEnum value) where TEnum : Enum
         {
             return value.ToInt().ToString();
-        }
-
-        [DebuggerStepThrough]
-        public static bool TryParse<TEnum>(string? value, out TEnum result) where TEnum : struct, Enum
-        {
-            return Enum.TryParse(value, out result) && Enum.IsDefined(result);
         }
 
         [DebuggerStepThrough]
@@ -43,6 +49,16 @@ namespace Common.Source.Extension
                 DescriptionCache[value] = Description = typeof(T).GetDescription(Enum.GetName(value).ThrowIfNull());
             }
             return Description;
+        }
+
+        private static int EnumGetHashCode(Enum sender)
+        {
+            return HashCode.Combine(sender.GetType().TypeHandle.Value, sender.GetHashCode());
+        }
+
+        static EnumExtension()
+        {
+            DescriptionCache = new Dictionary<Enum, string>(EqualityComparer<Enum>.Create(Equals, EnumGetHashCode));
         }
     }
 }

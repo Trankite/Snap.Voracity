@@ -120,7 +120,7 @@
   <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
     <value>{0}内容文本
 {1}保存路径
-{2}文件格式 [Png|Jpg|Bmp|Svg|Csv]
+{2}文件格式 [Svg|Csv]
 {3}前景色 (#000000)
 {4}背景色 (#FFFFFF)
 {5}单格像素 (5)
@@ -134,8 +134,8 @@
   <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
     <value>二维码生成</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeMakerUnSupportedFormat" xml:space="preserve">
-    <value>不支持的文件格式</value>
+  <data name="CoreMetadataExceptionUnSupportedFormat" xml:space="preserve">
+    <value>不支持的文件格式 "{0}"</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
     <value>模式-{0}, 版本-{1}, 纠错-{2}, 掩码-{3}</value>
@@ -172,9 +172,6 @@
   </data>
   <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>命令帮助</value>
-  </data>
-  <data name="ServiceTerminalSupportConsoleClearFullName" xml:space="preserve">
-    <value>清空控制台</value>
   </data>
   <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
     <value>[{0}] 已点赞</value>
@@ -373,5 +370,14 @@
   </data>
   <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
     <value>网络请求已取消</value>
+  </data>
+  <data name="ServiceTerminalSupportExceptionMissingUserInteraction" xml:space="preserve">
+    <value>缺少用户交互环境</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCheckLogin" xml:space="preserve">
+    <value>是否已确认登陆?</value>
+  </data>
+  <data name="ServiceTerminalHoyolabLoginQRLoginCheckStatus" xml:space="preserve">
+    <value>二维码状态: {0}</value>
   </data>
 </root>

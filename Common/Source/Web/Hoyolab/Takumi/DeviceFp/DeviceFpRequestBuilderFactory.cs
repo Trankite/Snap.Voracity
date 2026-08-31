@@ -27,7 +27,7 @@ namespace Common.Source.Web.Hoyolab.Takumi.DeviceFp
                 DeviceId = Random.Shared.GetLowerHexString(16),
                 SeedId = Guid.NewGuid().ToString(),
                 SeedTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(),
-                Platform = HoyolabClient.Android.ToIntString(),
+                Platform = HoyolabClient.Android.GetIntString(),
                 DeviceFp = Random.Shared.GetLowerHexString(13),
                 AppName = HoyolabApp.HoyolabChina.GetDescription(),
                 ExtendFields = JsonSerializer.Serialize(GetExtendFields()),
