@@ -2,6 +2,7 @@
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstraction;
 using Common.Source.Web.Hoyolab;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Takumi.Note;
 using Common.Source.Web.Request;
 using Common.Source.Web.Response;
@@ -42,7 +43,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Game
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NoteAnalyzedBody? Body))
             {
                 TimeSpan Offset = Body.FullTime.Subtract(DateTimeOffset.Now);
-                return TerminalResponse.Create(true, LocalString.WebHoyolabGameStaminaContent.SafeFormat(Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);
+                return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabGameStaminaContent.SafeFormat(Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);
             }
             return new TerminalResponse<NoteAnalyzedBody>(false, Response.ToString());
         }

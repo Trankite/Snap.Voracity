@@ -2,10 +2,10 @@
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstraction;
 using Common.Source.Service.Terminal.Hoyolab.Forum;
-using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Newest;
 using Common.Source.Web.Hoyolab.Bbs.Mission;
+using Common.Source.Web.Hoyolab.Metadata;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Mission
 {

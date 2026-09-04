@@ -17,9 +17,12 @@ namespace Common.Source.Core.Setting
             if (OperatingSystem.IsWindows())
             {
                 SecurityIdentifier? User = WindowsIdentity.GetCurrent().User;
-                return User.IsNotNull() ? User.ToString().LastSplit('-').Former.ToString() : Guid.NewGuid().ToString();
+                if (User.IsNotNull())
+                {
+                    return User.AccountDomainSid.IsNotNull() ? User.AccountDomainSid.Value : User.Value;
+                }
             }
-            return string.Empty;
+            return $"{Environment.MachineName}-{Environment.UserName}";
         }
 
         static LocalSetting()

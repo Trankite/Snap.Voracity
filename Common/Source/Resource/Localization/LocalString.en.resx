@@ -173,29 +173,23 @@ Use "\" to escape symbols</value>
   <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>Command help</value>
   </data>
-  <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabForumUpvoteSuccess" xml:space="preserve">
     <value>[{0}] Upvote</value>
   </data>
-  <data name="WebHoyolabForumSignSuccess" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabForumSignSuccess" xml:space="preserve">
     <value>Signed : Success</value>
-  </data>
-  <data name="WebHoyolabGameSignSuccess" xml:space="preserve">
-    <value>Signed : Success</value>
-  </data>
-  <data name="WebHoyolabGameSignRewardItem" xml:space="preserve">
-    <value>[{0}] {1} × {2}</value>
   </data>
   <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
     <value>Please complete the human verification</value>
   </data>
-  <data name="WebHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
     <value>[{0}] Cancel Upvote</value>
   </data>
-  <data name="WebHoyolabGameStaminaContent" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabGameStaminaContent" xml:space="preserve">
     <value>Stamina {0} / {1}
 Wait {2} Hours {3} Minutes</value>
   </data>
-  <data name="WebHoyolabUserMissionInfoContent" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabUserMissionInfoContent" xml:space="preserve">
     <value>Coin : {0}
 Today : {1}
 Sign : {2} / 1
@@ -247,13 +241,6 @@ Please login and try again</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
     <value>Welfare sign</value>
-  </data>
-  <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>{0}Starting number
-{1}Maximum number</value>
-  </data>
-  <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
-    <value>Welfare sgin reward</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
     <value>{0}Post identity
@@ -379,5 +366,9 @@ Use "{1}" access details</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginQRLoginCheckStatus" xml:space="preserve">
     <value>QR code status: {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignContent" xml:space="preserve">
+    <value>Signed : Success
+[{0}/{1}] {2} × {3}</value>
   </data>
 </root>

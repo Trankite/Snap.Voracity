@@ -2,6 +2,7 @@
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstraction;
 using Common.Source.Web.Hoyolab;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Passport.Exchange;
 using Common.Source.Web.Hoyolab.Takumi.DeviceFp;
 using Common.Source.Web.Hoyolab.Takumi.GameRole;

@@ -36,7 +36,7 @@ namespace Common.Source.Service.Terminal.Support
                 }
                 return new TerminalResponse(true, Command.Help.SafeFormat(Parameters));
             }
-            IEnumerable<string> Commands = TerminalManage.CommandTable.GetValues().Select(Current => Current.Name.ToUpper().PadRight(Padding) + Current.FullName);
+            IEnumerable<string> Commands = TerminalManage.CommandTable.GetValues().Select(Current => Current.Name.PadRight(Padding) + Current.FullName);
             return new TerminalResponse(true, string.Join(Environment.NewLine, Commands));
         }
     }

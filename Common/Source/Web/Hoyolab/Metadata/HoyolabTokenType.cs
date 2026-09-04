@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Web.Hoyolab
+﻿namespace Common.Source.Web.Hoyolab.Metadata
 {
     public enum HoyolabTokenType
     {

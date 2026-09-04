@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstraction;
-using Common.Source.Web.Hoyolab;
+using Common.Source.Web.Hoyolab.Metadata;
 
 namespace Common.Source.Service.Terminal.Hoyolab
 {

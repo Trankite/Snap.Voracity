@@ -4,39 +4,30 @@
     {
         private bool Disposed;
 
-        private readonly bool IsFolder;
+        public string Path { get; }
 
-        public string FilePath { get; }
+        public bool Finalize { get; set; }
 
-        public bool PlanToDelete { get; set; }
+        protected abstract void DeleteOverrid();
 
-        protected PathCleaner(string filePath, bool planToDelete, bool isFolder)
+        protected PathCleaner(string path, bool finalize)
         {
-            FilePath = filePath;
-            PlanToDelete = planToDelete;
-            IsFolder = isFolder;
+            Path = path;
+            Finalize = finalize;
         }
 
         public void Delete()
         {
-            if (Disposed)
+            if (!Disposed)
             {
-                return;
+                DeleteOverrid();
+                Disposed = true;
             }
-            if (IsFolder)
-            {
-                Directory.Delete(FilePath);
-            }
-            else
-            {
-                File.Delete(FilePath);
-            }
-            Disposed = true;
         }
 
         public void Dispose()
         {
-            if (PlanToDelete)
+            if (Finalize)
             {
                 try { Delete(); } catch { }
             }

@@ -39,7 +39,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out MissionAnalyzedBody? AnalyzedBody))
             {
                 object[] FormatInfo = [AnalyzedBody.TotalPoint, AnalyzedBody.TodayPoint, AnalyzedBody.Mission.GetValueOrDefault(MissionType.Sign), AnalyzedBody.Mission.GetValueOrDefault(MissionType.View), AnalyzedBody.Mission.GetValueOrDefault(MissionType.Upvote), AnalyzedBody.Mission.GetValueOrDefault(MissionType.Share)];
-                return TerminalResponse.Create(true, LocalString.WebHoyolabUserMissionInfoContent.SafeFormat(FormatInfo), AnalyzedBody);
+                return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabUserMissionInfoContent.SafeFormat(FormatInfo), AnalyzedBody);
             }
             return new TerminalResponse<MissionAnalyzedBody>(false, Response.ToString());
         }

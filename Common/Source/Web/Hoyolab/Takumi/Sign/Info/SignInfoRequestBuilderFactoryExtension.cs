@@ -1,4 +1,5 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Web.Hoyolab.Metadata;
 
 namespace Common.Source.Web.Hoyolab.Takumi.Sign.Info
 {
@@ -14,14 +15,9 @@ namespace Common.Source.Web.Hoyolab.Takumi.Sign.Info
             return builder.Configure(builder.Language = value);
         }
 
-        public static SignInfoRequestBuilderFactory SetServer(this SignInfoRequestBuilderFactory builder, string value)
+        public static SignInfoRequestBuilderFactory SetUserRole(this SignInfoRequestBuilderFactory builder, HoyolabUserRole value)
         {
-            return builder.Configure(builder.Server = value);
-        }
-
-        public static SignInfoRequestBuilderFactory SetUid(this SignInfoRequestBuilderFactory builder, string value)
-        {
-            return builder.Configure(builder.Uid = value);
+            return builder.Configure(builder.UserRole = value);
         }
     }
 }

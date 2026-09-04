@@ -1,4 +1,5 @@
 ﻿using Common.Source.Web.Hoyolab.Builder;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Takumi.Sign.Info;
 using Common.Source.Web.Request;
 using Common.Source.Web.Request.Builder;
@@ -13,18 +14,23 @@ namespace Common.Source.Web.Hoyolab.Takumi.Sign.Info
 
         public HoyolabLanguage Language { get; set; }
 
-        public string Server { get; set; } = string.Empty;
-
-        public string Uid { get; set; } = string.Empty;
+        public HoyolabUserRole UserRole { get; set; } = new();
 
         public SignInfoRequestBuilderFactory() { }
 
         public SignInfoRequestBuilderFactory(HoyolabToken hoyolabToken) : base(hoyolabToken) { }
 
+        public SignInfoRequestBuilderFactory(HoyolabToken hoyolabToken, HoyolabAction action, HoyolabLanguage language, HoyolabUserRole userRole) : base(hoyolabToken)
+        {
+            Action = action;
+            Language = language;
+            UserRole = userRole;
+        }
+
         public override HttpRequestMessageBuilder Create()
         {
             return new HoyolabHttpRequestMessageBuilder()
-                .SetRequestUri(new HoyolabHttpUriBuilder(URL).SetLanguage(Language).SetAction(Action).SetRegion(Server).SetUid(Uid))
+                .SetRequestUri(new HoyolabHttpUriBuilder(URL).SetLanguage(Language).SetAction(Action).SetRegion(UserRole.Server).SetUid(UserRole.Uid))
                 .SetHeader(new HoyolabCookieBuilder(HoyolabToken).SetAccountMid().SetCookieToken());
         }
     }

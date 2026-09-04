@@ -2,6 +2,7 @@
 using Common.Source.Extension;
 using Common.Source.Service.Encode.Encrypt;
 using Common.Source.Service.Encode.Hashing;
+using Common.Source.Web.Hoyolab.Metadata;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;

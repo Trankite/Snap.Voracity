@@ -18,7 +18,8 @@ namespace Common.Source.Service.Terminal.Support
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return new TerminalResponse(linkedStream.IsNotNull() && linkedStream.Configure(Self => Self.WriteLine(LocalString.ServiceTerminalSupportConsolePauseContent)).Read() >= 0);
+            linkedStream?.WriteLine(LocalString.ServiceTerminalSupportConsolePauseContent);
+            return new TerminalResponse(linkedStream.IsNotNull() && linkedStream.ReadLine().IsNotNull());
         }
     }
 }

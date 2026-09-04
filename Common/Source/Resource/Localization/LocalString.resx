@@ -173,35 +173,29 @@
   <data name="ServiceTerminalSupportConsoleHelpFullName" xml:space="preserve">
     <value>命令帮助</value>
   </data>
-  <data name="WebHoyolabForumUpvoteSuccess" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabForumUpvoteSuccess" xml:space="preserve">
     <value>[{0}] 已点赞</value>
   </data>
-  <data name="WebHoyolabForumSignSuccess" xml:space="preserve">
-    <value>社区签到：已签到</value>
-  </data>
-  <data name="WebHoyolabGameSignSuccess" xml:space="preserve">
-    <value>签到福利：已签到</value>
-  </data>
-  <data name="WebHoyolabGameSignRewardItem" xml:space="preserve">
-    <value>[{0}] {1} × {2}</value>
+  <data name="ServiceTerminalHoyolabForumSignSuccess" xml:space="preserve">
+    <value>社区签到 : 已签到</value>
   </data>
   <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
     <value>请前往米游社完成人机验证</value>
   </data>
-  <data name="WebHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabForumUpvoteCancelSuccess" xml:space="preserve">
     <value>[{0}] 取消点赞</value>
   </data>
-  <data name="WebHoyolabGameStaminaContent" xml:space="preserve">
+  <data name="ServiceTerminalHoyolabGameStaminaContent" xml:space="preserve">
     <value>开拓力 {0} / {1}
 回满 {2} 小时 {3} 分钟</value>
   </data>
-  <data name="WebHoyolabUserMissionInfoContent" xml:space="preserve">
-    <value>米游币：{0}
-今日奖励：{1}
-打卡：{2} / 1
-浏览：{3} / 3
-点赞：{4} / 5
-分享：{5} / 1</value>
+  <data name="ServiceTerminalHoyolabUserMissionInfoContent" xml:space="preserve">
+    <value>米游币 : {0}
+今日奖励 : {1}
+打卡 : {2} / 1
+浏览 : {3} / 3
+点赞 : {4} / 5
+分享 : {5} / 1</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnlawfulParameter" xml:space="preserve">
     <value>非法的参数
@@ -212,13 +206,13 @@
 登录米游社账号后重试</value>
   </data>
   <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
-    <value>指定 AID 的账号不存在："{0}"</value>
+    <value>指定 AID 的账号不存在 : "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
-    <value>游戏账号未注册："{0}"</value>
+    <value>游戏账号未注册 : "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
-    <value>{0}社区GID [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏：星穹铁道,8-绝区零]
+    <value>{0}社区GID [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏 : 星穹铁道,8-绝区零]
 {1}账号AID</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
@@ -247,13 +241,6 @@
   </data>
   <data name="ServiceTerminalHoyolabGameSignFullName" xml:space="preserve">
     <value>福利签到</value>
-  </data>
-  <data name="ServiceTerminalHoyolabGameSignRewardHelp" xml:space="preserve">
-    <value>{0}起始天数
-{1}天数总和</value>
-  </data>
-  <data name="ServiceTerminalHoyolabGameSignRewardFullName" xml:space="preserve">
-    <value>签到奖励</value>
   </data>
   <data name="ServiceTerminalHoyolabForumDetailHelp" xml:space="preserve">
     <value>{0}帖子ID
@@ -287,7 +274,7 @@
     <value>帖子点赞</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
-    <value>未知的命令："{0}"
+    <value>未知的命令 : "{0}"
 使用 "Help" 查看帮助</value>
   </data>
   <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
@@ -379,5 +366,9 @@
   </data>
   <data name="ServiceTerminalHoyolabLoginQRLoginCheckStatus" xml:space="preserve">
     <value>二维码状态: {0}</value>
+  </data>
+  <data name="ServiceTerminalHoyolabGameSignContent" xml:space="preserve">
+    <value>福利签到 : 已签到
+[{0}/{1}] {2} × {3}</value>
   </data>
 </root>

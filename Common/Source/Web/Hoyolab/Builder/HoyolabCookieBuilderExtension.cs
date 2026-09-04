@@ -1,4 +1,5 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Request.Builder;
 
 namespace Common.Source.Web.Hoyolab.Builder

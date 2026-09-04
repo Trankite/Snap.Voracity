@@ -1,5 +1,4 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Resource.Localization;
 using Common.Source.Web.Response;
 using System.Diagnostics.CodeAnalysis;
 
@@ -11,20 +10,16 @@ namespace Common.Source.Web.Hoyolab.Takumi.Sign.Home
         {
             if (TryGetAnalyzedBody(out SignHomeResponseWrapper? Content))
             {
-                int Today = 0;
-                analyedBody = new SignHomeAnalyzedBody[Content.Awards.Length];
-                foreach (SignHomeResponseAward Award in Content.Awards)
+                int Count = Content.Awards.Length;
+                analyedBody = new SignHomeAnalyzedBody[Count];
+                for (int i = 0; i < Count; i++)
                 {
-                    analyedBody[Today++] = new SignHomeAnalyzedBody(Today, Award.Count, Award.Name, Award.Icon);
+                    SignHomeResponseAward Current = Content.Awards[i];
+                    analyedBody[i] = new SignHomeAnalyzedBody(i + 1, Current.Count, Current.Name, Current.Icon);
                 }
-                return true;
+                return Count > 0;
             }
             return false.Configure(analyedBody = default);
-        }
-
-        public static string GetAwardString(SignHomeAnalyzedBody award)
-        {
-            return LocalString.WebHoyolabGameSignRewardItem.SafeFormat(award.Today.ToString("D2"), award.Name, award.Count);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Share;
+using Common.Source.Web.Hoyolab.Metadata;
 
 namespace Common.Source.Web.Hoyolab.Builder
 {

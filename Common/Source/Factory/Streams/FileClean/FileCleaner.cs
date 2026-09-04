@@ -2,11 +2,11 @@
 {
     public class FileCleaner : PathCleaner
     {
-        private FileCleaner(string filePath, bool planToDelete) : base(filePath, planToDelete, false) { }
+        public FileCleaner(string path, bool finalize = default) : base(path, finalize) { }
 
-        public static FileCleaner Create(string filePath, bool planToDelete = default)
+        protected override void DeleteOverrid()
         {
-            return new FileCleaner(filePath, planToDelete);
+            File.Delete(Path);
         }
     }
 }

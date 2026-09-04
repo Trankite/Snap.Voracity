@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
 using System.Collections.Frozen;
 
-namespace Common.Source.Web.Hoyolab
+namespace Common.Source.Web.Hoyolab.Metadata
 {
     public static class HoyolabAppExtension
     {

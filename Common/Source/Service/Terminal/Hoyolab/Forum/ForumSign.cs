@@ -3,6 +3,7 @@ using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstraction;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Sign;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Request;
 using Common.Source.Web.Response;
 
@@ -39,7 +40,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
             FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
-                return new TerminalResponse(true, LocalString.WebHoyolabForumSignSuccess);
+                return new TerminalResponse(true, LocalString.ServiceTerminalHoyolabForumSignSuccess);
             }
             return new TerminalResponse<SignResponseWrapper>(false, Response.ToString());
         }

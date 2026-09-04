@@ -1,4 +1,5 @@
 ﻿using Common.Source.Web.Hoyolab.Builder;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Takumi.Wiki.Detail;
 using Common.Source.Web.Request;
 using Common.Source.Web.Request.Builder;

@@ -7,6 +7,7 @@ using Common.Source.Service.Mission;
 using Common.Source.Service.Terminal.Abstraction;
 using Common.Source.Service.Terminal.Support;
 using Common.Source.Web.Hoyolab;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Passport.QRLogin;
 using Common.Source.Web.Hoyolab.Passport.QRLogin.Status;
 using Common.Source.Web.Request;
@@ -60,7 +61,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             {
                 return CreateQRCodeResponse;
             }
-            using FileCleaner Cleaner = FileCleaner.Create(QRCodePath, true);
+            using FileCleaner Cleaner = new(QRCodePath, true);
             using Process QRCodeProcess = ProcessHelper.Start(QRCodePath, true);
             using CancellationTokenSource TimeOutSource = new(TimeSpan.FromMinutes(5));
             using CancellationTokenSource CheckStatusSource = CancellationTokenSource.CreateLinkedTokenSource(TimeOutSource.Token, cancellationToken);
@@ -91,7 +92,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabLoginQRLoginExceptionCanceled);
         }
 
-        public static async ValueTask<ITerminalResponse<QRLoginResponseWrapper>> CreateQRLogin(string guid, CancellationToken cancellationToken = default)
+        private static async ValueTask<ITerminalResponse<QRLoginResponseWrapper>> CreateQRLogin(string guid, CancellationToken cancellationToken = default)
         {
             QRLoginRequestBuilderFactory Factory = new QRLoginRequestBuilderFactory().SetGuid(guid);
             FinalizedResponse<QRLoginResponse> Response = await Factory.Create().SendAsync<QRLoginResponse>(cancellationToken);
@@ -102,7 +103,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             return new TerminalResponse<QRLoginResponseWrapper>(false, Response.ToString());
         }
 
-        public static async ValueTask<ITerminalResponse<QRLoginStatusResponseWrapper>> CheckStatus(string guid, string ticket, CancellationToken cancellationToken = default)
+        private static async ValueTask<ITerminalResponse<QRLoginStatusResponseWrapper>> CheckStatus(string guid, string ticket, CancellationToken cancellationToken = default)
         {
             QRLoginStatusRequestBuilderFactory Factory = new QRLoginStatusRequestBuilderFactory().SetGuid(guid).SetTicket(ticket);
             FinalizedResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(cancellationToken);

@@ -2,11 +2,16 @@
 {
     public class FolderCleaner : PathCleaner
     {
-        private FolderCleaner(string filePath, bool planToDelete) : base(filePath, planToDelete, true) { }
+        public bool Recursive { get; set; }
 
-        public static FolderCleaner Create(string filePath, bool planToDelete = default)
+        public FolderCleaner(string path, bool finalize = default, bool recursive = default) : base(path, finalize)
         {
-            return new FolderCleaner(filePath, planToDelete);
+            Recursive = recursive;
+        }
+
+        protected override void DeleteOverrid()
+        {
+            Directory.Delete(Path, Recursive);
         }
     }
 }

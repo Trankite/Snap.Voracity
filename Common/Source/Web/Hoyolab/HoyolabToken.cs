@@ -1,4 +1,6 @@
-﻿namespace Common.Source.Web.Hoyolab
+﻿using Common.Source.Web.Hoyolab.Metadata;
+
+namespace Common.Source.Web.Hoyolab
 {
     public class HoyolabToken
     {

@@ -41,7 +41,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
             FinalizedResponse<UpvoteResponse> Response = await Factory.Create().SendAsync<UpvoteResponse>(cancellationToken);
             if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
             {
-                return new TerminalResponse(true, StringExtension.SafeFormat(isCancel ? LocalString.WebHoyolabForumUpvoteCancelSuccess : LocalString.WebHoyolabForumUpvoteSuccess, postId));
+                return new TerminalResponse(true, StringExtension.SafeFormat(isCancel ? LocalString.ServiceTerminalHoyolabForumUpvoteCancelSuccess : LocalString.ServiceTerminalHoyolabForumUpvoteSuccess, postId));
             }
             return new TerminalResponse(false, Response.ToString());
         }

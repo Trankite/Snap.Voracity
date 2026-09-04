@@ -49,7 +49,6 @@ namespace Common.Source.Service.Terminal
                 new UserMissionInfo(),
                 new GameStamina(),
                 new GameSign(),
-                new GameSignReward(),
                 new DeviceFp(),
                 new QRLogin(),
                 new UserLogin()

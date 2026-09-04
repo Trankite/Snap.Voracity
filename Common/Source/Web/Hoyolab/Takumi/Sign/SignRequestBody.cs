@@ -1,4 +1,5 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Web.Hoyolab.Metadata;
 using System.Text.Json.Serialization;
 
 namespace Common.Source.Web.Hoyolab.Takumi.Sign
@@ -27,9 +28,9 @@ namespace Common.Source.Web.Hoyolab.Takumi.Sign
             Language = language;
         }
 
-        public static SignRequestBody Create(HoyolabAction action, string region, string uid, HoyolabLanguage language)
+        public static SignRequestBody Create(HoyolabUserRole userRole, HoyolabAction action, HoyolabLanguage language)
         {
-            return new SignRequestBody(action.GetDescription(), region, uid, language.GetDescription());
+            return new SignRequestBody(action.GetDescription(), userRole.Server, userRole.Uid, language.GetDescription());
         }
     }
 }
