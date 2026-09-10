@@ -6,7 +6,7 @@
 
         private static readonly Queue<Task> TaskQueue = [];
 
-        private static readonly object ThreadLock = new();
+        private static readonly object SyncLock = new();
 
         public static readonly bool IsRunning;
 
@@ -15,11 +15,11 @@
             while (IsRunning)
             {
                 Task? Task = null;
-                lock (ThreadLock)
+                lock (SyncLock)
                 {
                     while (TaskQueue.Count == 0)
                     {
-                        Monitor.Wait(ThreadLock);
+                        Monitor.Wait(SyncLock);
                     }
                     Task = TaskQueue.Dequeue();
                 }
@@ -32,10 +32,10 @@
             if (IsRunning)
             {
                 Task Task = new(action);
-                lock (ThreadLock)
+                lock (SyncLock)
                 {
                     TaskQueue.Enqueue(Task);
-                    Monitor.Pulse(ThreadLock);
+                    Monitor.Pulse(SyncLock);
                 }
                 return Task;
             }

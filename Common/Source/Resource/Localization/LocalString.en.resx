@@ -141,10 +141,10 @@
     <value>Mode-{0}, Version-{1}, Error correction-{2}, Mask-{3}</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">
-    <value>Exit application</value>
+    <value>Exit console</value>
   </data>
   <data name="ServiceTerminalSupportConsolePauseFullName" xml:space="preserve">
-    <value>Pause until press any key</value>
+    <value>Pause and wait</value>
   </data>
   <data name="ServiceTerminalSupportConsolePauseContent" xml:space="preserve">
     <value>Press any key to continue......</value>
@@ -177,7 +177,7 @@ Use "\" to escape symbols</value>
     <value>[{0}] Upvote</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignSuccess" xml:space="preserve">
-    <value>Signed : Success</value>
+    <value>Signed: Success</value>
   </data>
   <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
     <value>Please complete the human verification</value>
@@ -190,12 +190,12 @@ Use "\" to escape symbols</value>
 Wait {2} Hours {3} Minutes</value>
   </data>
   <data name="ServiceTerminalHoyolabUserMissionInfoContent" xml:space="preserve">
-    <value>Coin : {0}
-Today : {1}
-Sign : {2} / 1
-View : {3} / 3
-Upvote : {4} / 5
-Share : {5} / 1</value>
+    <value>Coin: {0}
+Today: {1}
+Sign: {2} / 1
+View: {3} / 3
+Upvote: {4} / 5
+Share: {5} / 1</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnlawfulParameter" xml:space="preserve">
     <value>Unlawful Parameter
@@ -206,17 +206,17 @@ Use "Help &lt;Command&gt;" Access Details</value>
 Please login and try again</value>
   </data>
   <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
-    <value>No account id found : "{0}"</value>
+    <value>No account id found: "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
-    <value>No game account found : "{0}"</value>
+    <value>No game account found: "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignHelp" xml:space="preserve">
     <value>{0}Community's GID [1-Honkai 3,2-Genshin,3-Honkai 2,4-Tearsof Themis,5-GrandVilla,6-Honkai:StarRail,8-Zenless Zone Zero]
 {1}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignFullName" xml:space="preserve">
-    <value>Community sign</value>
+    <value>Section sign</value>
   </data>
   <data name="ServiceTerminalHoyolabGameStaminaHelp" xml:space="preserve">
     <value>{0}Hoyolab account identity</value>
@@ -256,14 +256,14 @@ Please login and try again</value>
 {2}Sorting type [0-Auto,1-Reply,2-Posting]</value>
   </data>
   <data name="ServiceTerminalHoyolabForumNewsFullName" xml:space="preserve">
-    <value>Recent post list</value>
+    <value>Post list</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareHelp" xml:space="preserve">
     <value>{0}Post identity
 {1}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumShareFullName" xml:space="preserve">
-    <value>Post sharing</value>
+    <value>Share post</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteHelp" xml:space="preserve">
     <value>{0}Post identity
@@ -271,10 +271,10 @@ Please login and try again</value>
 {2}Hoyolab account identity</value>
   </data>
   <data name="ServiceTerminalHoyolabForumUpvoteFullName" xml:space="preserve">
-    <value>Post upvoting</value>
+    <value>Upvote post</value>
   </data>
   <data name="ServiceTerminalSupportExceptionUnknownOperation" xml:space="preserve">
-    <value>Unknown command : "{0}"
+    <value>Unknown command: "{0}"
 Use "Help" Access Details</value>
   </data>
   <data name="ServiceTerminalSupportExceptionMissingParameter" xml:space="preserve">
@@ -287,7 +287,7 @@ Use "{0}" to exit the current state
 Use "{1}" access details</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleFullName" xml:space="preserve">
-    <value>Formula calculator</value>
+    <value>Calculator</value>
   </data>
   <data name="ServiceTerminalSupportFormulaCycleHelp" xml:space="preserve">
     <value>Operator precedence
@@ -312,7 +312,7 @@ Use "{1}" access details</value>
     <value>The left side of operator "{0}" must be an assignable object</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginDeviceFpFullName" xml:space="preserve">
-    <value>Device Fingerprint</value>
+    <value>Device Fp</value>
   </data>
   <data name="ServiceTerminalHoyolabLoginQRLoginFullName" xml:space="preserve">
     <value>QR code login</value>
@@ -368,7 +368,7 @@ Use "{1}" access details</value>
     <value>QR code status: {0}</value>
   </data>
   <data name="ServiceTerminalHoyolabGameSignContent" xml:space="preserve">
-    <value>Signed : Success
+    <value>Signed: Success
 [{0}/{1}] {2} × {3}</value>
   </data>
 </root>
