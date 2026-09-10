@@ -1,6 +1,6 @@
-﻿using Common.Source.Core.Setting;
-using Common.Source.Factory.Streams.Block.Abstract;
+﻿using Common.Source.Factory.Streams.Block.Abstract;
 using Common.Source.Factory.Streams.Block.Metadata;
+using Common.Source.Service.Pool;
 using System.Text;
 
 namespace Common.Source.Factory.Streams.Block
@@ -13,45 +13,50 @@ namespace Common.Source.Factory.Streams.Block
 
         private readonly Decoder Decoder;
 
-        private readonly byte[] BytesBuffer;
+        private readonly PoolOwner<byte> BytesOwner;
 
-        private readonly char[] CharsBuffer;
+        private readonly PoolOwner<char> CharsOwner;
 
-        private TextStreamBlockReader(Stream reader, Decoder decoder, byte[] bytesBuffer, char[] charsBuffer, bool leaveOpen = default) : base(charsBuffer)
+        private TextStreamBlockReader(Stream reader, Decoder decoder, PoolOwner<byte> bytesOwner, PoolOwner<char> charsOwner, bool leaveOpen = default) : base(charsOwner.Memory)
         {
             Reader = reader;
             Decoder = decoder;
-            BytesBuffer = bytesBuffer;
-            CharsBuffer = charsBuffer;
+            BytesOwner = bytesOwner;
+            CharsOwner = charsOwner;
             LeaveStreamOpen = leaveOpen;
         }
 
         public static TextStreamBlockReader Create(Stream stream, Encoding? encoding = default, bool leaveOpen = default)
         {
             encoding ??= Encoding.UTF8;
-            byte[] BytesBuffer = AppSetting.GetBuffer<byte>(sizeof(byte));
-            char[] CharsBuffer = new char[encoding.GetMaxCharCount(BytesBuffer.Length)];
-            return new TextStreamBlockReader(stream, encoding.GetDecoder(), BytesBuffer, CharsBuffer, leaveOpen);
+            PoolOwner<byte> BytesOwner = BufferPool<byte>.GetBuffer();
+            PoolOwner<char> CharsOwner = BufferPool<char>.GetBuffer(encoding.GetMaxCharCount(BytesOwner.Length));
+            return new TextStreamBlockReader(stream, encoding.GetDecoder(), BytesOwner, CharsOwner, leaveOpen);
         }
 
         protected override ReadBlockResponse<char> ReadBlockOverride()
         {
-            return ReadBlock(Reader.Read(BytesBuffer));
+            return ReadBlock(Reader.Read(BytesOwner.Span));
         }
 
         protected override async ValueTask<ReadBlockResponse<char>> ReadBlockAsyncOverride(CancellationToken cancellationToken)
         {
-            return ReadBlock(await Reader.ReadAsync(BytesBuffer, cancellationToken));
+            return ReadBlock(await Reader.ReadAsync(BytesOwner.Memory, cancellationToken));
         }
 
         private ReadBlockResponse<char> ReadBlock(int bytesCount)
         {
-            return new ReadBlockResponse<char>((Count = Decoder.GetChars(BytesBuffer.AsSpan()[..bytesCount], CharsBuffer, bytesCount <= 0)) > 0, Buffer[(Offset = 0)..Count]);
+            return new ReadBlockResponse<char>((Count = Decoder.GetChars(BytesOwner.Span[..bytesCount], CharsOwner.Span, bytesCount <= 0)) > 0, Buffer[(Offset = 0)..Count]);
         }
 
         public void Dispose()
         {
-            if (!LeaveStreamOpen) Reader.Dispose();
+            BytesOwner.Dispose();
+            CharsOwner.Dispose();
+            if (!LeaveStreamOpen)
+            {
+                Reader.Dispose();
+            }
         }
     }
 }

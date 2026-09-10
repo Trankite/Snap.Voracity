@@ -58,15 +58,15 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
                 {
                     return TerminalResponse.Create<MissionAnalyzedBody>(NewestResponse);
                 }
-                for (int i = 3 - Mission.GetValueOrDefault(MissionType.View, 0xff) - 1; i >= 0; i--)
+                for (int i = 3 - Mission.GetValueOrDefault(MissionType.View) - 1; i >= 0; i--)
                 {
                     if (!VerifyMissionStatus(await ForumDetail.AsyncInvoke(NewsContent[i].PostId, true, aid, cancellationToken))) break;
                 }
-                for (int i = 5 - Mission.GetValueOrDefault(MissionType.Upvote, 0xff) - 1; i >= 0; i--)
+                for (int i = 5 - Mission.GetValueOrDefault(MissionType.Upvote) - 1; i >= 0; i--)
                 {
                     if (!VerifyMissionStatus(await ForumUpvote.AsyncInvoke(NewsContent[i].PostId, false, aid, cancellationToken))) break;
                 }
-                for (int i = 1 - Mission.GetValueOrDefault(MissionType.Share, 0xff) - 1; i >= 0; i--)
+                for (int i = 1 - Mission.GetValueOrDefault(MissionType.Share) - 1; i >= 0; i--)
                 {
                     if (!VerifyMissionStatus(await ForumShare.AsyncInvoke(NewsContent[i].PostId, aid, cancellationToken))) break;
                 }
