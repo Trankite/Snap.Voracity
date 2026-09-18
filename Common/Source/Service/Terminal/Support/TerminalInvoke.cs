@@ -1,6 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
-using Common.Source.Service.Terminal.Abstraction;
+using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Metadata;
 
 namespace Common.Source.Service.Terminal.Support
 {
@@ -12,15 +13,15 @@ namespace Common.Source.Service.Terminal.Support
 
         public override string Help => LocalString.ServiceTerminalSupportConsoleInvokeHelp;
 
-        public override string[] RequiredParameters => [CONTENT];
+        public override string[] RequiredParameters => [Param_Content];
 
         public override string[] OptionalParameters => [];
 
-        private const string CONTENT = "text";
+        private const string Param_Content = TerminalParameters.Content;
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return Invoke(CommandParser.Create(commandLine.GetParameter(CONTENT)), linkedStream);
+            return Invoke(CommandParser.Create(commandLine.GetParameter(Param_Content)), linkedStream);
         }
 
         public static ITerminalResponse Invoke(CommandParser parser, ILinkedTextStream? linkedStream = default)
@@ -40,7 +41,7 @@ namespace Common.Source.Service.Terminal.Support
                 }
                 else
                 {
-                    linkedStream?.WriteLine(TerminalManage.GetUnknownOperationResponse(Current.Name));
+                    linkedStream?.WriteLine(SupportTerminalResponse.UnknownOperation(Current.Name));
                 }
             }
             return new TerminalResponse(true);

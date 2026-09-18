@@ -41,7 +41,7 @@ namespace Common.Source.Factory.Streams.Block
 
         protected override async ValueTask<ReadBlockResponse<char>> ReadBlockAsyncOverride(CancellationToken cancellationToken)
         {
-            return ReadBlock(await Reader.ReadAsync(BytesOwner.Memory, cancellationToken));
+            return ReadBlock(await Reader.ReadAsync(BytesOwner.Memory, cancellationToken).ConfigureAwait(false));
         }
 
         private ReadBlockResponse<char> ReadBlock(int bytesCount)

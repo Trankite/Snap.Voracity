@@ -1,6 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
-using Common.Source.Service.Terminal.Abstraction;
+using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Metadata;
 
 namespace Common.Source.Service.Terminal.Support
 {
@@ -14,19 +15,19 @@ namespace Common.Source.Service.Terminal.Support
 
         public override string[] RequiredParameters => [];
 
-        public override string[] OptionalParameters => [COMMANDNAME];
+        public override string[] OptionalParameters => [Param_CommandName];
 
-        private const string COMMANDNAME = "text";
+        private const string Param_CommandName = TerminalParameters.Content;
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             const int Margin = 4;
             const int Padding = 12;
-            if (commandLine.TryGetParameter(COMMANDNAME, out string? CommandName))
+            if (commandLine.TryGetParameter(Param_CommandName, out string? CommandName))
             {
                 if (!TerminalManage.CommandTable.TryGetValue(CommandName, out ITerminalCommand? Command))
                 {
-                    return TerminalManage.GetUnknownOperationResponse(CommandName);
+                    return SupportTerminalResponse.UnknownOperation(CommandName);
                 }
                 string[] Parameters = [.. Command.RequiredParameters, .. Command.OptionalParameters];
                 int Maximum = Parameters.Length > 0 ? Parameters.Max(Current => Current.Length) + Margin : Margin;

@@ -2,7 +2,7 @@
 
 namespace Common.Source.Web.Hoyolab.Builder
 {
-    public class HoyolabHttpUriBuilder : HttpRequestUriBuilder
+    public class HoyolabHttpUriBuilder : HttpUriBuilder
     {
         public HoyolabHttpUriBuilder() { }
 

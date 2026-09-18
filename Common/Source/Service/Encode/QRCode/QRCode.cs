@@ -229,7 +229,7 @@ namespace Common.Source.Service.Encode.QRCode
             BitSet Bits = BitSet.FromBitBytes(Encoder.Encode(data));
             QRCodeBitType[] Types = [QRCodeBitType.Unused, QRCodeBitType.Content, QRCodeBitType.ContentPadding, QRCodeBitType.ECCode];
             IEnumerator<SpacePoint> PointArray = GetPoints(Types).GetEnumerator();
-            while (PointArray.TryGetNext(out SpacePoint Point) && Point.Z <= Bits.Count)
+            while (PointArray.TryMoveNext(out SpacePoint Point) && Point.Z <= Bits.Count)
             {
                 Content[Point.X, Point.Y].HasBit = Bits[Point.Z];
             }

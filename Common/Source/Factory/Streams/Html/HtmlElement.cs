@@ -6,9 +6,9 @@
 
         public Dictionary<string, string> Attributes { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
-        public List<HtmlElement> Elements { get; set; } = [];
+        public IList<HtmlElement> Elements { get; set; } = [];
 
-        public List<string> Contents { get; set; } = [];
+        public IList<string> Contents { get; set; } = [];
 
         public HtmlElement() { }
 

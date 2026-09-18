@@ -201,12 +201,12 @@
     <value>非法的参数
 使用 "Help &lt;命令名称&gt;" 查看帮助</value>
   </data>
-  <data name="ServiceTerminalHoyolabExceptionNotFindDefaultToken" xml:space="preserve">
+  <data name="ServiceTerminalSupportExceptionNotFindDefaultToken" xml:space="preserve">
     <value>无可用的账号
-登录米游社账号后重试</value>
+登录账号后重试</value>
   </data>
-  <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
-    <value>指定 AID 的账号不存在: "{0}"</value>
+  <data name="ServiceTerminalSupportExceptionNotFindToken" xml:space="preserve">
+    <value>指定账号不存在: "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
     <value>游戏账号未注册: "{0}"</value>
@@ -370,5 +370,38 @@
   <data name="ServiceTerminalHoyolabGameSignContent" xml:space="preserve">
     <value>福利签到: 已签到
 [{0}/{1}] {2} × {3}</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownFullName" xml:space="preserve">
+    <value>E站下载</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownHelp" xml:space="preserve">
+    <value>{0}画廊链接
+{1}ipb_member_id</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiLoginFullName" xml:space="preserve">
+    <value>E站登陆</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiLoginHelp" xml:space="preserve">
+    <value>{0}ipb_member_id
+{1}ipb_pass_hash
+{2}igneous</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiLoginSuccess" xml:space="preserve">
+    <value>账号数据已更新</value>
+  </data>
+  <data name="WebEHentaiDownloadGalleryParserCollectPageInfo" xml:space="preserve">
+    <value>查询第 {0} 页</value>
+  </data>
+  <data name="WebDownloadFileDownloaderTimeoutException" xml:space="preserve">
+    <value>下载 {0} Bytes 超过 {1} 秒</value>
+  </data>
+  <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
+    <value>错误信息: "{0}"</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownloadRetry" xml:space="preserve">
+    <value>下载未完成, 是否重试?</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownloadCanceled" xml:space="preserve">
+    <value>下载任务已取消</value>
   </data>
 </root>

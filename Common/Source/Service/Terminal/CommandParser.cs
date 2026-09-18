@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Service.Terminal.Abstraction;
+using Common.Source.Service.Terminal.Abstract;
 using System.Collections;
 
 namespace Common.Source.Service.Terminal

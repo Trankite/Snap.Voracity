@@ -24,12 +24,7 @@ namespace Common.Source.Web.Request
 
         public async ValueTask<TResult?> DeserializeAsync<TResult>(HttpContent? httpContent, CancellationToken cancellationToken = default)
         {
-            string Json;
-            if (httpContent.IsNull() || string.IsNullOrEmpty(Json = await httpContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)))
-            {
-                return default;
-            }
-            return JsonSerializer.Deserialize<TResult>(Json, JsonSerializerOptions);
+            return httpContent.IsNotNull() ? await JsonSerializer.DeserializeAsync<TResult>(httpContent.ReadAsStream(cancellationToken), JsonSerializerOptions, cancellationToken).ConfigureAwait(false) : default;
         }
     }
 }

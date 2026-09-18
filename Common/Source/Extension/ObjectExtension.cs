@@ -30,6 +30,12 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static T NotNull<T>(this T? value) where T : struct
+        {
+            return value ?? default;
+        }
+
+        [DebuggerStepThrough]
         public static T NotNull<T>(this T? value, T defaultValue)
         {
             return value ?? defaultValue;
@@ -45,6 +51,18 @@ namespace Common.Source.Extension
         public static bool IsEquals<T>(this T? value, T? other)
         {
             return EqualityComparer<T>.Default.Equals(value, other);
+        }
+
+        [DebuggerStepThrough]
+        public static bool IsEquals<T>(this T? value, T? other, IEqualityComparer<T>? comparer)
+        {
+            return (comparer ?? EqualityComparer<T>.Default).Equals(value, other);
+        }
+
+        [DebuggerStepThrough]
+        public static bool TryDispose<T>(this T? value)
+        {
+            return value is IDisposable Disposable && true.Configure(Disposable.Dispose);
         }
 
         [DebuggerStepThrough]

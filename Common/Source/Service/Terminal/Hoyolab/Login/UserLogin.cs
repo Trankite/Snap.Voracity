@@ -1,6 +1,6 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
-using Common.Source.Service.Terminal.Abstraction;
+using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Passport.Exchange;
@@ -19,31 +19,31 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
 
         public override string Help => LocalString.ServiceTerminalHoyolabLoginUserLoginHelp;
 
-        public override string[] RequiredParameters => [MID, STOKEN];
+        public override string[] RequiredParameters => [Param_Mid, Param_Stoken];
 
-        public override string[] OptionalParameters => [GUID];
+        public override string[] OptionalParameters => [Param_Guid];
 
-        private const string MID = "mid";
+        private const string Param_Mid = "mid";
 
-        private const string STOKEN = "stoken";
+        private const string Param_Stoken = "stoken";
 
-        private const string GUID = "guid";
+        private const string Param_Guid = "guid";
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            if (!commandLine.TryGetParameter(GUID, out string? Guid))
+            if (!commandLine.TryGetParameter(Param_Guid, out string? Guid))
             {
                 Guid = HoyolabTokenManage.GetGuid();
             }
-            HoyolabToken HoyolabToken = new(Guid) { Mid = commandLine.GetParameter(MID) };
-            HoyolabToken.SetToken(HoyolabTokenType.SToken, commandLine.GetParameter(STOKEN));
-            return await AsyncInvoke(HoyolabToken, linkedStream, cancellationToken);
+            HoyolabToken HoyolabToken = new(Guid) { Mid = commandLine.GetParameter(Param_Mid) };
+            HoyolabToken.SetToken(HoyolabTokenType.SToken, commandLine.GetParameter(Param_Stoken));
+            return await AsyncInvoke(HoyolabToken, linkedStream, cancellationToken).ConfigureAwait(false);
         }
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabToken hoyolabToken, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetDeviceFp);
-            ITerminalResponse<DeviceFpResponseWrapper> DeviceFpResponse = await DeviceFp.AsyncInvoke(cancellationToken);
+            ITerminalResponse<DeviceFpResponseWrapper> DeviceFpResponse = await DeviceFp.AsyncInvoke(cancellationToken).ConfigureAwait(false);
             if (!DeviceFpResponse.TryGetAnalyzedBody(out DeviceFpResponseWrapper? DeviceFpContent))
             {
                 return DeviceFpResponse;
@@ -56,7 +56,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
                 {
                     ExchangeFactory.SetDestin(TokenType);
                     linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetToken.SafeFormat(TokenType));
-                    FinalizedResponse<ExchangeResponse> ExchangeResponse = await ExchangeFactory.Create().SendAsync<ExchangeResponse>(cancellationToken);
+                    FinalizedResponse<ExchangeResponse> ExchangeResponse = await ExchangeFactory.Create().SendAsync<ExchangeResponse>(cancellationToken).ConfigureAwait(false);
                     if (ExchangeResponse.Body.IsNull() || !ExchangeResponse.Body.TryGetAnalyzedBody(out ExchangeResponseToken? ExchangeAnalyedBody))
                     {
                         return new TerminalResponse(false, ExchangeResponse.ToString());
@@ -66,7 +66,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             }
             GameRoleRequestBuilderFactory GameRoleFactory = new(hoyolabToken);
             linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetUserRole);
-            FinalizedResponse<GameRoleResponse> GameRoleResponse = await GameRoleFactory.Create().SendAsync<GameRoleResponse>(cancellationToken);
+            FinalizedResponse<GameRoleResponse> GameRoleResponse = await GameRoleFactory.Create().SendAsync<GameRoleResponse>(cancellationToken).ConfigureAwait(false);
             if (GameRoleResponse.Body.IsNull() || !GameRoleResponse.Body.TryGetAnalyzedBody(out HoyolabUserRole[]? GameRoleAnalyedBody))
             {
                 return new TerminalResponse(false, GameRoleResponse.ToString());
@@ -75,7 +75,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginTryUpdate);
             try
             {
-                await HoyolabTokenManage.Update(hoyolabToken);
+                await HoyolabTokenManage.Update(hoyolabToken, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception Exception)
             {

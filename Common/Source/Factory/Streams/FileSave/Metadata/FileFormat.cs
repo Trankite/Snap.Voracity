@@ -6,6 +6,8 @@ namespace Common.Source.Factory.Streams.FileSave.Metadata
     {
         None,
 
+        Optimal,
+
         [Description("jpg")]
         Jpeg,
 

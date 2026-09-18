@@ -13,7 +13,7 @@ namespace Common.Source.Web.Request.Builder
         }
 
         [DebuggerStepThrough]
-        public static T SetRequestUri<T>(this T builder, HttpRequestUriBuilder uriBuilder) where T : IHttpRequestUriBuilder
+        public static T SetRequestUri<T>(this T builder, HttpUriBuilder uriBuilder) where T : IHttpRequestUriBuilder
         {
             return builder.SetRequestUri(uriBuilder.GetUri());
         }

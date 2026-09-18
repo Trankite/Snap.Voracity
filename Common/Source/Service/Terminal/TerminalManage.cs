@@ -1,6 +1,5 @@
-﻿using Common.Source.Extension;
-using Common.Source.Resource.Localization;
-using Common.Source.Service.Terminal.Abstraction;
+﻿using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.EHentai;
 using Common.Source.Service.Terminal.Hoyolab.Forum;
 using Common.Source.Service.Terminal.Hoyolab.Game;
 using Common.Source.Service.Terminal.Hoyolab.Login;
@@ -14,21 +13,6 @@ namespace Common.Source.Service.Terminal
     {
         public static readonly FrozenDictionary<string, ITerminalCommand> CommandTable;
 
-        public static TerminalResponse GetUnknownOperationResponse(string commandName)
-        {
-            return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionUnknownOperation.SafeFormat(commandName));
-        }
-
-        public static TerminalResponse GetUnlawfulParameterResponse()
-        {
-            return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionUnlawfulParameter);
-        }
-
-        public static TerminalResponse GetMissingUserInteractionResponse()
-        {
-            return new TerminalResponse(false, LocalString.ServiceTerminalSupportExceptionMissingUserInteraction);
-        }
-
         static TerminalManage()
         {
             CommandTable = new ITerminalCommand[]
@@ -40,6 +24,8 @@ namespace Common.Source.Service.Terminal
                 new TerminalHelp(),
                 new TerminalInvoke(),
                 new TerminalPause(),
+                new EHentaiDown(),
+                new EHentaiLogin(),
                 new ForumNewest(),
                 new ForumDetail(),
                 new ForumShare(),

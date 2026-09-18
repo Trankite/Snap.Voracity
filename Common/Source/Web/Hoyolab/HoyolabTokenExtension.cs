@@ -11,20 +11,7 @@ namespace Common.Source.Web.Hoyolab
 {
     public static class HoyolabTokenExtension
     {
-        private const string Salt = "B9176A0A08605E7EE16428AB13199AC2";
-
-        public static bool TryGetUserRole(this HoyolabToken hoyolabToken, HoyolabApp value, [NotNullWhen(true)] out HoyolabUserRole? userRole)
-        {
-            for (int i = 0; i < hoyolabToken.UserRoles.Length; i++)
-            {
-                userRole = hoyolabToken.UserRoles[i];
-                if (HoyolabAppExtension.TryGetValue(userRole.Game, out HoyolabApp GameType))
-                {
-                    if (value.HasFlag(GameType)) return true;
-                }
-            }
-            return false.Configure(userRole = default);
-        }
+        private const string Salt = "3CD84D1619D4646CA3CC5BC34B4DDDB4";
 
         public static string GetToken(this HoyolabToken hoyolabToken, HoyolabTokenType tokenType)
         {
@@ -45,6 +32,19 @@ namespace Common.Source.Web.Hoyolab
         private static AESAlgorithm GetAlgorithm()
         {
             return new AESAlgorithm(HashMethod.HashData(HashAlgorithmName.SHA256, LocalSetting.GetUserSid() + Salt));
+        }
+
+        public static bool TryGetUserRole(this HoyolabToken hoyolabToken, HoyolabApp value, [NotNullWhen(true)] out HoyolabUserRole? userRole)
+        {
+            for (int i = 0; i < hoyolabToken.UserRoles.Length; i++)
+            {
+                userRole = hoyolabToken.UserRoles[i];
+                if (HoyolabAppExtension.TryGetValue(userRole.Game, out HoyolabApp GameType))
+                {
+                    if (value.HasFlag(GameType)) return true;
+                }
+            }
+            return false.Configure(userRole = default);
         }
     }
 }

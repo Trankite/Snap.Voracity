@@ -45,7 +45,7 @@
             }
         }
 
-        public static async void Start(Action action) => await Run(action);
+        public static async void Start(Action action) => await Run(action).ConfigureAwait(false);
 
         static STAThread()
         {
