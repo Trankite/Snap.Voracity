@@ -75,6 +75,12 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static IList<T> NotNull<T>(this IList<T>? value)
+        {
+            return value ?? [];
+        }
+
+        [DebuggerStepThrough]
         public static T[] NotEmpty<T>(this T[]? value, T defaultValue)
         {
             return value ?? [defaultValue];

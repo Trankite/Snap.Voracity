@@ -2,6 +2,7 @@
 using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Share;
 using Common.Source.Web.Hoyolab.Metadata;
+using Common.Source.Web.Request.Builder.Abstraction;
 
 namespace Common.Source.Web.Hoyolab.Builder
 {
@@ -80,11 +81,6 @@ namespace Common.Source.Web.Hoyolab.Builder
         public static HoyolabHttpUriBuilder SetPostId(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("post_id", value);
-        }
-
-        public static HoyolabHttpUriBuilder SetQuery(this HoyolabHttpUriBuilder builder, string name, string value)
-        {
-            return builder.Configure(builder.Query[name] = value);
         }
     }
 }

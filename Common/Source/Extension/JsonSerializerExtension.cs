@@ -34,7 +34,7 @@ namespace Common.Source.Extension
 
         public static async ValueTask<T?> DeserializeAsync<T>(Stream utf8Json, JsonSerializerOptions? options = default, CancellationToken cancellationToken = default)
         {
-            return await JsonSerializer.DeserializeAsync<T>(utf8Json, options ?? JsonOptions, cancellationToken);
+            return await JsonSerializer.DeserializeAsync<T>(utf8Json, options ?? JsonOptions, cancellationToken).ConfigureAwait(false);
         }
 
         static JsonSerializerExtension()

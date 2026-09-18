@@ -17,9 +17,9 @@ namespace Common.Source.Web.Request
             set => HttpRequestMessage.Method = value;
         }
 
-        public HttpRequestOptions Options { get => HttpRequestMessage.Options; }
+        public HttpRequestOptions Options => HttpRequestMessage.Options;
 
-        public HttpHeaders Headers { get => HttpRequestMessage.Headers; }
+        public HttpHeaders Headers => HttpRequestMessage.Headers;
 
         public HttpContent? Content
         {

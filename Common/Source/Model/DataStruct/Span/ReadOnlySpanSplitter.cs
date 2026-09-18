@@ -39,7 +39,7 @@ namespace Common.Source.Model.DataStruct.Span
         {
             if (Offset < Content.Length)
             {
-                if (Content.TryGetIndexOf(separator, Offset, out int Index))
+                if (Content.TryGetIndexOf(Offset, separator, out int Index))
                 {
                     block = Content[Offset..Index];
                     Offset += block.Length + separator.Length;

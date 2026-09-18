@@ -1,6 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
-using Common.Source.Service.Terminal.Abstraction;
+using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Mission;
 using Common.Source.Web.Hoyolab.Builder;
@@ -19,23 +20,23 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
 
         public override string[] RequiredParameters => [];
 
-        public override string[] OptionalParameters => [AID];
+        public override string[] OptionalParameters => [Param_Aid];
 
-        private const string AID = "aid";
+        private const string Param_Aid = TerminalParameters.Aid;
 
         public override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(AID), cancellationToken);
+            return await AsyncInvoke(commandLine.GetParameter(Param_Aid), cancellationToken).ConfigureAwait(false);
         }
 
         public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
         {
             if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
             {
-                return new TerminalResponse<MissionAnalyzedBody>(HoyolabTerminalResponse.NotFindToken(aid));
+                return new TerminalResponse<MissionAnalyzedBody>(SupportTerminalResponse.NotFindToken(aid));
             }
             MissionRequestBuilderFactory Factory = new MissionRequestBuilderFactory().SetHoyolabToken(Token);
-            FinalizedResponse<MissionResponse> Response = await Factory.Create().SendAsync<MissionResponse>(cancellationToken);
+            FinalizedResponse<MissionResponse> Response = await Factory.Create().SendAsync<MissionResponse>(cancellationToken).ConfigureAwait(false);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out MissionAnalyzedBody? AnalyzedBody))
             {
                 object[] FormatInfo = [AnalyzedBody.TotalPoint, AnalyzedBody.TodayPoint, AnalyzedBody.Mission.GetValueOrDefault(MissionType.Sign), AnalyzedBody.Mission.GetValueOrDefault(MissionType.View), AnalyzedBody.Mission.GetValueOrDefault(MissionType.Upvote), AnalyzedBody.Mission.GetValueOrDefault(MissionType.Share)];

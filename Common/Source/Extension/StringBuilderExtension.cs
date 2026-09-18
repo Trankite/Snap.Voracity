@@ -44,5 +44,15 @@ namespace Common.Source.Extension
         {
             return builder.ToString().Configure(builder.Clear());
         }
+
+        public static string Complete(this StringBuilder builder, ReadOnlySpan<char> span)
+        {
+            return builder.Length > 0 ? Complete(builder.Append(span)) : span.ToString();
+        }
+
+        public static string Discard(this StringBuilder builder)
+        {
+            return builder.Clear().Captured(string.Empty);
+        }
     }
 }

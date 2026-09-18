@@ -25,7 +25,7 @@ namespace Common.Source.Factory.Streams.FileSave.Metadata
 
         public static string ChangeExtension(this FileFormat format, string filePath)
         {
-            return Path.ChangeExtension(filePath, format.GetDescription());
+            return Path.ChangeExtension(filePath, format is FileFormat.None or FileFormat.Optimal ? default : format.GetDescription());
         }
 
         static FileFormatExtension()

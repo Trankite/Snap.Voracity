@@ -1,72 +1,58 @@
 ﻿using Common.Source.Core.Setting;
 using Common.Source.Extension;
-using Common.Source.Factory.Streams.FileOpen;
+using Common.Source.Model.Collection.Token;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab
 {
     public static class HoyolabTokenManage
     {
-        private static HoyolabToken[]? _HoyolabTokens;
+        private static readonly TokenManager<HoyolabToken> Manager;
 
-        public static HoyolabToken[] HoyolabTokens
+        public static HoyolabToken[] Tokens
         {
-            get
-            {
-                if (_HoyolabTokens.IsNull())
-                {
-                    _HoyolabTokens = Load().AsTask().GetAwaiter().GetResult().NotNull();
-                }
-                return _HoyolabTokens;
-            }
-            private set => _HoyolabTokens = value;
+            get => Manager.Tokens;
+            set => Manager.Tokens = value;
         }
 
         public static ValueTask<HoyolabToken[]?> Load(CancellationToken cancellationToken = default)
         {
-            using FileOpenRead FileRead = new(GetFilePath());
-            if (!FileRead.Success) return default;
-            return JsonSerializerExtension.DeserializeAsync<HoyolabToken[]>(FileRead.Stream, default, cancellationToken);
+            return Manager.Load(cancellationToken);
         }
 
-        public static async ValueTask Save(HoyolabToken[] hoyolabTokens, CancellationToken cancellationToken = default)
+        public static ValueTask Save(HoyolabToken[] tokens, CancellationToken cancellationToken = default)
         {
-            using FileOpenWrite FileWrite = FileOpenWrite.Create(GetFilePath());
-            FileWrite.ThrowIfFailed();
-            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, _HoyolabTokens = hoyolabTokens, default, cancellationToken);
+            return Manager.Save(tokens, cancellationToken);
         }
 
-        public static async ValueTask Update(HoyolabToken hoyolabToken)
+        public static ValueTask Update(HoyolabToken token, CancellationToken cancellationToken = default)
         {
-            if (HoyolabTokens.TryGetIndexOf(hoyolabToken, out int Index, HoyolabToken.Comparer))
-            {
-                HoyolabTokens[Index] = hoyolabToken;
-            }
-            else
-            {
-                HoyolabTokens = [.. HoyolabTokens.Append(hoyolabToken).OrderBy(Current => Current.Aid)];
-            }
-            await Save(HoyolabTokens);
+            return Manager.Update(token, cancellationToken);
         }
 
         public static bool TryGetTokenOrFirst(string? aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
-            return string.IsNullOrEmpty(aid) ? HoyolabTokens.TryGetFirst(out hoyolabToken) : TryGetToken(aid, out hoyolabToken);
+            return string.IsNullOrEmpty(aid) ? Manager.Tokens.TryGetFirst(out hoyolabToken) : TryGetToken(aid, out hoyolabToken);
         }
 
         public static bool TryGetToken(string aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
-            return HoyolabTokens.TryGetFirst(Token => Token.Aid == aid, out hoyolabToken);
+            return Manager.Tokens.TryGetFirst(Current => Current.Aid == aid, out hoyolabToken);
         }
 
         public static string GetGuid()
         {
-            return HoyolabTokens.FirstOrDefault()?.Guid ?? Guid.NewGuid().ToString();
+            return Manager.Tokens.FirstOrDefault()?.Guid ?? Guid.NewGuid().ToString();
         }
 
         public static string GetFilePath()
         {
             return Path.Combine(LocalSetting.LocalPath, "HoyolabToken.json");
+        }
+
+        static HoyolabTokenManage()
+        {
+            Manager = new TokenManager<HoyolabToken>(GetFilePath(), HoyolabToken.Comparer);
         }
     }
 }

@@ -25,6 +25,12 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static bool EqualsIgnoreCase<T>(this ReadOnlySpan<char> value, T compare) where T : struct, Enum
+        {
+            return value.EqualsIgnoreCase(compare.GetDescription());
+        }
+
+        [DebuggerStepThrough]
         public static string NotNull(this string? value)
         {
             return value ?? string.Empty;

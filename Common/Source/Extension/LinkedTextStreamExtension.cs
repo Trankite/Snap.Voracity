@@ -1,4 +1,4 @@
-﻿using Common.Source.Service.Terminal.Abstraction;
+﻿using Common.Source.Service.Terminal.Abstract;
 
 namespace Common.Source.Extension
 {
@@ -33,7 +33,7 @@ namespace Common.Source.Extension
         public static async ValueTask<bool> EnquireAsync(this ILinkedTextStream stream, string message, CancellationToken cancellationToken = default)
         {
             ShowEnquireMessage(stream, message);
-            return GetEnquireState(await stream.ReadLineAsync(cancellationToken));
+            return GetEnquireState(await stream.ReadLineAsync(cancellationToken).ConfigureAwait(false));
         }
 
         private static void ShowEnquireMessage(ILinkedTextStream stream, string message)
@@ -58,7 +58,7 @@ namespace Common.Source.Extension
 
         public static async ValueTask<string?> ReadLineAsync(this ILinkedTextStream stream, CancellationToken cancellationToken = default)
         {
-            try { return await stream.Reader.ReadLineAsync(cancellationToken); } catch { return string.Empty; }
+            try { return await stream.Reader.ReadLineAsync(cancellationToken).ConfigureAwait(false); } catch { return string.Empty; }
         }
 
         public static string? ReadLine(this ILinkedTextStream stream, ReadOnlySpan<char> value)

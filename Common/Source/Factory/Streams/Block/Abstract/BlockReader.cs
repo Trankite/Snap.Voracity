@@ -12,42 +12,34 @@ namespace Common.Source.Factory.Streams.Block.Abstract
 
         protected ReadOnlyMemory<T> Buffer;
 
-        protected bool EndOfReader;
+        protected bool EndOfRead;
 
         public int BufferSize => Buffer.Length;
 
         protected BlockReader(ReadOnlyMemory<T> buffer)
         {
             Buffer = buffer;
-            Count = buffer.Length;
+            Offset = Count = buffer.Length;
         }
 
-        public bool IsReadToEnd() => EndOfReader;
-
-        protected MoveBlockResponse<T> MoveNext(ReadBlockResponse<T> response, T element, IEqualityComparer<T>? comparer = default)
-        {
-            if (response.ReadBlock(out ReadOnlyMemory<T> BlockSpan))
-            {
-                if (Buffer.Span.TryGetIndexOf(element, Offset, out int Index, comparer))
-                {
-                    return new MoveBlockResponse<T>(BlockStates.Finish, Buffer[Offset..Index]).Configure(Offset += Index + 1);
-                }
-                else
-                {
-                    return new MoveBlockResponse<T>(BlockStates.Await, BlockSpan).Configure(Offset = Count);
-                }
-            }
-            return new MoveBlockResponse<T>(BlockStates.Ending, BlockSpan).Configure(EndOfReader = true);
-        }
-
-        public MoveBlockResponse<T> MoveNext(T element, IEqualityComparer<T>? comparer = default)
-        {
-            return MoveNext(ReadBlock(), element, comparer);
-        }
+        public bool IsReadToEnd() => EndOfRead;
 
         public ReadBlockResponse<T> ReadBlock()
         {
-            return Offset < Count ? new ReadBlockResponse<T>(true, Buffer[Offset..Count]) : ReadBlockOverride();
+            if (Offset < Count)
+            {
+                return new ReadBlockResponse<T>(true, Buffer[Offset..Count]);
+            }
+            else if (!EndOfRead)
+            {
+                return ReadBlockOverride().Configure(Self => EndOfRead = !Self.IsCanRead);
+            }
+            return default;
+        }
+
+        public bool MoveOffset(int offset)
+        {
+            return (Offset += offset) < Count;
         }
 
         protected virtual ReadBlockResponse<T> ReadBlockOverride() => default;

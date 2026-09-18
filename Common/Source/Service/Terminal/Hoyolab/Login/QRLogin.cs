@@ -4,7 +4,8 @@ using Common.Source.Factory.Streams.FileClean;
 using Common.Source.Factory.Streams.FileSave.Metadata;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Mission;
-using Common.Source.Service.Terminal.Abstraction;
+using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Service.Terminal.Support;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Metadata;
@@ -26,27 +27,27 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
 
         public override string[] RequiredParameters => [];
 
-        public override string[] OptionalParameters => [GUID];
+        public override string[] OptionalParameters => [Param_Guid];
 
-        private const string GUID = "guid";
+        private const string Param_Guid = "guid";
 
         public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(GUID), linkedStream, cancellationToken);
+            return await AsyncInvoke(commandLine.GetParameter(Param_Guid), linkedStream, cancellationToken).ConfigureAwait(false);
         }
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(string? guid = default, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
         {
             if (linkedStream.IsNull())
             {
-                return TerminalManage.GetMissingUserInteractionResponse();
+                return SupportTerminalResponse.MissingUserInteraction();
             }
             if (string.IsNullOrEmpty(guid))
             {
                 guid = HoyolabTokenManage.GetGuid();
             }
             linkedStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
-            ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid, cancellationToken);
+            ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid, cancellationToken).ConfigureAwait(false);
             if (!CreateQRLoginResponse.TryGetAnalyzedBody(out QRLoginResponseWrapper? CreateQRLoginContent))
             {
                 return CreateQRLoginResponse;
@@ -68,7 +69,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             linkedStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
             while (await linkedStream.EnquireAsync(LocalString.ServiceTerminalHoyolabLoginQRLoginCheckLogin, CheckStatusSource.Token))
             {
-                ITerminalResponse<QRLoginStatusResponseWrapper> QRLoginStatusResponse = await CheckStatus(guid, Ticket, CheckStatusSource.Token);
+                ITerminalResponse<QRLoginStatusResponseWrapper> QRLoginStatusResponse = await CheckStatus(guid, Ticket, CheckStatusSource.Token).ConfigureAwait(false);
                 if (!QRLoginStatusResponse.TryGetAnalyzedBody(out QRLoginStatusResponseWrapper? QRLoginStatusContent))
                 {
                     return QRLoginStatusResponse;
@@ -85,7 +86,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
                         linkedStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.SafeFormat(TokenType));
                         HoyolabToken.SetToken(TokenType, TokenSource.Token);
                     }
-                    return await UserLogin.AsyncInvoke(HoyolabToken, linkedStream, cancellationToken);
+                    return await UserLogin.AsyncInvoke(HoyolabToken, linkedStream, cancellationToken).ConfigureAwait(false);
                 }
                 linkedStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCheckStatus.SafeFormat(QRLoginStatusContent.Status));
             }
@@ -95,7 +96,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
         private static async ValueTask<ITerminalResponse<QRLoginResponseWrapper>> CreateQRLogin(string guid, CancellationToken cancellationToken = default)
         {
             QRLoginRequestBuilderFactory Factory = new QRLoginRequestBuilderFactory().SetGuid(guid);
-            FinalizedResponse<QRLoginResponse> Response = await Factory.Create().SendAsync<QRLoginResponse>(cancellationToken);
+            FinalizedResponse<QRLoginResponse> Response = await Factory.Create().SendAsync<QRLoginResponse>(cancellationToken).ConfigureAwait(false);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out QRLoginResponseWrapper? AnalyedBody))
             {
                 return TerminalResponse.Create(true, AnalyedBody);
@@ -106,7 +107,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
         private static async ValueTask<ITerminalResponse<QRLoginStatusResponseWrapper>> CheckStatus(string guid, string ticket, CancellationToken cancellationToken = default)
         {
             QRLoginStatusRequestBuilderFactory Factory = new QRLoginStatusRequestBuilderFactory().SetGuid(guid).SetTicket(ticket);
-            FinalizedResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(cancellationToken);
+            FinalizedResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(cancellationToken).ConfigureAwait(false);
             if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out QRLoginStatusResponseWrapper? AnalyedBody))
             {
                 return TerminalResponse.Create(true, AnalyedBody);

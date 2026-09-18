@@ -8,7 +8,7 @@ namespace Common.Source.Factory.Streams.Block.Interface
 
         ReadBlockResponse<T> ReadBlock();
 
-        MoveBlockResponse<T> MoveNext(T element, IEqualityComparer<T>? comparer = default);
+        bool MoveOffset(int offset);
 
         bool IsReadToEnd();
     }

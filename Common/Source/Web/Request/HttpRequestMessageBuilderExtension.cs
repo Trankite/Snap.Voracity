@@ -1,59 +1,59 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
 using Common.Source.Web.Response;
-using System.Runtime.ExceptionServices;
 
 namespace Common.Source.Web.Request
 {
     public static class HttpRequestMessageBuilderExtension
     {
-        private static readonly HttpClient DefaultHttpClient;
-
-        public static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpClient? httpClient = default)
+        public static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpCompletionOption httpCompletionOption = default, TimeSpan? timeOut = default, HttpClient? httpClient = default)
         {
-            return await builder.SendAsync<TResult>(HttpCompletionOption.ResponseContentRead, cancellationToken, httpClient);
+            using CancellationTokenSource CancellationSource = cancellationToken.CreateLinkedTokenSource();
+            CancellationSource.CancelAfter(timeOut ?? HttpContext.DefaultTimeoutSpan);
+            return await SendAsync<TResult>(builder, CancellationSource.Token, httpCompletionOption, httpClient).ConfigureAwait(false);
         }
 
-        public static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpCompletionOption httpCompletionOption, CancellationToken cancellation, HttpClient? httpClient = default)
+        private static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpCompletionOption httpCompletionOption = default, HttpClient? httpClient = default)
         {
-            using HttpContext HttpContext = new() { HttpClient = httpClient ?? DefaultHttpClient, CompletionOption = httpCompletionOption, Cancellation = cancellation };
-            await SendAsync(builder, HttpContext).ConfigureAwait(false);
-            if (HttpContext.Exception.IsNull() && HttpContext.Response.IsNotNull())
+            using HttpContext HttpContext = new(cancellationToken, httpCompletionOption, httpClient);
+            await SendAsync(builder, HttpContext, cancellationToken).ConfigureAwait(false);
+            if (HttpContext.CapturedException.IsNull() && HttpContext.Response.IsNotNull())
             {
                 try
                 {
-                    return new FinalizedResponse<TResult>(HttpContext.Response.Headers, await builder.HttpContentSerializer.DeserializeAsync<TResult>(HttpContext.Response.Content, cancellation).ConfigureAwait(false));
+                    return new FinalizedResponse<TResult>(HttpContext.Response.Headers, await builder.HttpContentSerializer.DeserializeAsync<TResult>(HttpContext.Response.Content, cancellationToken).ConfigureAwait(false));
                 }
                 catch (OperationCanceledException CanceledException)
                 {
-                    HttpContext.Exception = ExceptionDispatchInfo.Capture(new OperationCanceledException(LocalString.WebRequestExceptionOperationCanceled, CanceledException));
+                    HttpContext.DispatchCapture(new OperationCanceledException(LocalString.WebRequestExceptionOperationCanceled, CanceledException));
                 }
                 catch (Exception Exception)
                 {
-                    HttpContext.Exception = ExceptionDispatchInfo.Capture(Exception);
+                    HttpContext.DispatchCapture(Exception);
                 }
             }
-            return new FinalizedResponse<TResult>(HttpContext.Response?.Headers, HttpContext.Exception);
+            return new FinalizedResponse<TResult>(HttpContext.Response?.Headers, HttpContext.CapturedException);
         }
 
-        public static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpContext context)
+        public static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpContext context, TimeSpan? timeOut = default)
+        {
+            using CancellationTokenSource CancellationSource = context.CancellationToken.CreateLinkedTokenSource();
+            CancellationSource.CancelAfter(timeOut ?? HttpContext.DefaultTimeoutSpan);
+            await SendAsync(builder, context, CancellationSource.Token).ConfigureAwait(false);
+        }
+
+        private static async ValueTask SendAsync(HttpRequestMessageBuilder builder, HttpContext context, CancellationToken cancellationToken)
         {
             try
             {
                 context.Request = builder.HttpRequestMessage;
-                context.Response = await context.HttpClient.SendAsync(context.Request, context.CompletionOption, context.Cancellation).ConfigureAwait(false);
+                context.Response = await context.HttpClient.SendAsync(context.Request, context.CompletionOption, cancellationToken).ConfigureAwait(false);
                 context.Response.EnsureSuccessStatusCode();
             }
             catch (Exception Exception)
             {
-                context.Exception = ExceptionDispatchInfo.Capture(Exception);
+                context.DispatchCapture(Exception);
             }
-        }
-
-        static HttpRequestMessageBuilderExtension()
-        {
-            HttpClientHandler Handler = new() { AllowAutoRedirect = false };
-            DefaultHttpClient = new HttpClient(Handler) { Timeout = TimeSpan.FromSeconds(15) };
         }
     }
 }

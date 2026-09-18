@@ -8,4 +8,11 @@ namespace Common.Source.Web.Request.Builder.Abstraction
 
         ValueTask<TResult?> DeserializeAsync<TResult>(HttpContent? httpContent, CancellationToken cancellationToken = default);
     }
+
+    public interface IHttpContentSerializer<T>
+    {
+        HttpContent Serialize(T content, Encoding? encoding = default);
+
+        ValueTask<T> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default);
+    }
 }

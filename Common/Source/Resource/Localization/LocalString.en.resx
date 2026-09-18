@@ -201,12 +201,12 @@ Share: {5} / 1</value>
     <value>Unlawful Parameter
 Use "Help &lt;Command&gt;" Access Details</value>
   </data>
-  <data name="ServiceTerminalHoyolabExceptionNotFindDefaultToken" xml:space="preserve">
+  <data name="ServiceTerminalSupportExceptionNotFindDefaultToken" xml:space="preserve">
     <value>No Hoyolab account
 Please login and try again</value>
   </data>
-  <data name="ServiceTerminalHoyolabExceptionNotFindToken" xml:space="preserve">
-    <value>No account id found: "{0}"</value>
+  <data name="ServiceTerminalSupportExceptionNotFindToken" xml:space="preserve">
+    <value>No account found: "{0}"</value>
   </data>
   <data name="ServiceTerminalHoyolabExceptionNotFindUserRole" xml:space="preserve">
     <value>No game account found: "{0}"</value>
@@ -370,5 +370,38 @@ Use "{1}" access details</value>
   <data name="ServiceTerminalHoyolabGameSignContent" xml:space="preserve">
     <value>Signed: Success
 [{0}/{1}] {2} × {3}</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownFullName" xml:space="preserve">
+    <value>EHentai download</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownHelp" xml:space="preserve">
+    <value>{0}Gallery link
+{1}ipb_member_id</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiLoginFullName" xml:space="preserve">
+    <value>EHentai login</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiLoginHelp" xml:space="preserve">
+    <value>{0}ipb_member_id
+{1}ipb_pass_hash
+{2}igneous</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiLoginSuccess" xml:space="preserve">
+    <value>The account data has been updated</value>
+  </data>
+  <data name="WebEHentaiDownloadGalleryParserCollectPageInfo" xml:space="preserve">
+    <value>Query page {0}</value>
+  </data>
+  <data name="WebDownloadFileDownloaderTimeoutException" xml:space="preserve">
+    <value>Downloading {0} Bytes for over {1} seconds</value>
+  </data>
+  <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
+    <value>Error message: "{0}"</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownloadRetry" xml:space="preserve">
+    <value>Download is not complete, Retry?</value>
+  </data>
+  <data name="ServiceTerminalEHentaiEHentaiDownloadCanceled" xml:space="preserve">
+    <value>The download task has been canceled</value>
   </data>
 </root>

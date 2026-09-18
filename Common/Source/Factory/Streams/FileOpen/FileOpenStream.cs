@@ -1,4 +1,5 @@
 ﻿using Common.Source.Core.Interface;
+using Common.Source.Extension;
 using Common.Source.Service;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
@@ -9,7 +10,7 @@ namespace Common.Source.Factory.Streams.FileOpen
     {
         private readonly bool LeaveStreamOpen;
 
-        [MemberNotNullWhen(false, nameof(Exception))]
+        [MemberNotNullWhen(false, nameof(CapturedException))]
         [MemberNotNullWhen(true, nameof(Stream), nameof(FileInfo))]
         public bool Success { get; }
 
@@ -19,7 +20,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         public string FullPath => FileInfo?.FullName ?? string.Empty;
 
-        public ExceptionDispatchInfo? Exception { get; }
+        public ExceptionDispatchInfo? CapturedException { get; set; }
 
         public FileOpenStream() { }
 
@@ -38,8 +39,13 @@ namespace Common.Source.Factory.Streams.FileOpen
             }
             catch (Exception Exception)
             {
-                this.Exception = ExceptionDispatchInfo.Capture(Exception);
+                this.DispatchCapture(Exception);
             }
+        }
+
+        public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None, bool leaveOpen = default)
+        {
+            return new FileOpenStream(path, fileMode, fileAccess, fileShare, true, leaveOpen);
         }
 
         [MemberNotNull(nameof(Stream), nameof(FileInfo))]
@@ -47,7 +53,7 @@ namespace Common.Source.Factory.Streams.FileOpen
         {
             if (!Success)
             {
-                Exception.Throw();
+                CapturedException.Throw();
             }
         }
 
@@ -62,7 +68,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         public override string ToString()
         {
-            return Success ? string.Empty : Exception.SourceException.Message;
+            return CapturedException.GetMessage();
         }
     }
 }

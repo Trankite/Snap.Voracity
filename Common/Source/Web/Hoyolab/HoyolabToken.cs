@@ -27,7 +27,7 @@ namespace Common.Source.Web.Hoyolab
 
         static HoyolabToken()
         {
-            Comparer = EqualityComparer<HoyolabToken>.Create((sender, other) => ReferenceEquals(sender, other) || sender?.Aid == other?.Aid, sender => sender.Aid.GetHashCode());
+            Comparer = EqualityComparer<HoyolabToken>.Create((sender, other) => sender?.Aid == other?.Aid, sender => sender.Aid.GetHashCode());
         }
     }
 }
