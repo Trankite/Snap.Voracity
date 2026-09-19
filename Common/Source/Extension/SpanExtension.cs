@@ -143,7 +143,7 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool TyrGetLastIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> predicate, out int index, int endOffset = 0)
+        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> predicate, out int index, int endOffset = 0)
         {
             return (index = LastIndexOf(span, predicate, endOffset)) >= 0;
         }
