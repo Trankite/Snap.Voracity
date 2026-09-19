@@ -7,9 +7,9 @@ namespace Common.Source.Web.EHentai.Download
     {
         public FileDownloader Downloader { get; set; }
 
-        public SerialTicket<string> ImageTicket { get; set; }
+        public QueueTicket<string> ImageTicket { get; set; }
 
-        public EHentaiDownloadInfo(FileDownloader downloader, SerialTicket<string> imageTicket)
+        public EHentaiDownloadInfo(FileDownloader downloader, QueueTicket<string> imageTicket)
         {
             Downloader = downloader;
             ImageTicket = imageTicket;

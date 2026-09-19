@@ -15,7 +15,7 @@ namespace Common.Source.Web.Request
 
         private static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpCompletionOption httpCompletionOption = default, HttpClient? httpClient = default)
         {
-            using HttpContext HttpContext = new(cancellationToken, httpCompletionOption, httpClient);
+            using HttpContext HttpContext = new(httpCompletionOption, httpClient, cancellationToken);
             await SendAsync(builder, HttpContext, cancellationToken).ConfigureAwait(false);
             if (HttpContext.CapturedException.IsNull() && HttpContext.Response.IsNotNull())
             {

@@ -1,21 +1,66 @@
-## 📦 StarRailDamage
-星穹铁道伤害计算器 | Star Rail Damage Calculator
+## 📖 简介 / Introduction
 
-## 📖 简介 Introduction
-StarRailDamage 是一款《崩坏：星穹铁道》伤害计算器，旨在为伤害计算提供便利。使用角色、光锥、遗器、敌人的模板，快速构建实战面板。
+**中文**  
+由于「贪饕」污染，现已移除《崩坏：星穹铁道》相关内容，但其他已开发内容仍保留。
 
-## 📋 计划 Next Plans
-项目仍在开发中，以下是未来的规划。
-- [x] 多语言支持
-- [x] 米游社 API 查询
-- [ ] 数据模板化
-    - [ ] 角色面板数值
-    - [ ] 角色基础数值、行迹、星魂
-    - [ ] 光锥白值、特效
-    - [ ] 遗器、位面饰品套装
-    - [ ] 敌方弱点属性、抗性、韧性值
-- [ ] 米游社 Wiki 提取
-- [ ] 增益效果管理
+**English**  
+Content related to "Honkai: Star Rail" has been removed, but other developed content remains.
 
-## 🚀 安装 Installation
-你可以在 [这里](https://github.com/Trankite/SR-DMG/releases) 下载安装程序，其他资源需另外 [下载]()（来自 米游社 WIKI）。
+---
+
+## 📋 使用 / Usage
+
+**E-Hentai / ExHentai 画廊批量下载**  
+**Batch Download Of E-Hentai / ExHentai Gallery**  
+
+如果要在完成后打开文件夹，将 `[open]` 替换为 `true`  
+If you want to open the folder after completion, replace `[open]` with `true`
+
+`ehdown https://e-hentai.org/g/xxxxxx/xxxxxx [open]`
+
+ExHentai 必须使用有效账号的 Cookie 进行登陆  
+ExHentai requires logging in with a valid account's cookie
+
+`ehlogin [ipb_member_id] [ipb_pass_hash] [igneous]`
+
+---
+
+**米游社：米游币任务**  
+**Hoyolab: Hoyolab Coin Mission**
+> Only Supports Chinese Servers
+
+**使用米游社App扫码登陆**
+
+`qrlogin`  
+
+**使用米哈游账号的 Cookie 进行登陆**
+
+`login [Mid] [Stoken]`
+
+
+**查询体力**
+
+`note`
+
+**每日签到**
+
+`sign`
+
+**社区签到**
+
+`fsign [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏: 星穹铁道,8-绝区零]`
+
+**米游币任务**
+> 由于浏览、点赞、分享任务已下线，只执行社区签到
+
+`coin`
+
+**查询米游币**
+
+`mission`
+
+---
+
+## 🚀 安装 / Installation
+
+你可以在这里查看 [Snap.Voracity](https://github.com/Trankite/Snap.Voracity/releases) 的现有发布版本。

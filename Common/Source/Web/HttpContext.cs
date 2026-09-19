@@ -26,10 +26,15 @@ namespace Common.Source.Web
             HttpClient = httpClient ?? DefaultHttpClient;
         }
 
-        public HttpContext(CancellationToken cancellationToken, HttpCompletionOption completionOption = HttpCompletionOption.ResponseHeadersRead, HttpClient? httpClient = default) : this(httpClient)
+        public HttpContext(HttpCompletionOption completionOption, HttpClient? httpClient = default, CancellationToken cancellationToken = default) : this(httpClient)
         {
             CompletionOption = completionOption;
             CancellationToken = cancellationToken;
+        }
+
+        public static HttpContext CreateHeadersRead(HttpClient? httpClient = default, CancellationToken cancellationToken = default)
+        {
+            return new HttpContext(HttpCompletionOption.ResponseHeadersRead, httpClient, cancellationToken);
         }
 
         public void Dispose()

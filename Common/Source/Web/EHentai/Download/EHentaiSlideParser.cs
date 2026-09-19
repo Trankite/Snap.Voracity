@@ -11,7 +11,7 @@ using Common.Source.Web.Request;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public class EHentaiSlideParser : AsyncGradualTask<Queue<SerialTicket<string>>>, ILinkedTextStreamMessage
+    public class EHentaiSlideParser : AsyncGradualTask<Queue<QueueTicket<string>>>, ILinkedTextStreamMessage
     {
         private int Index;
 
@@ -40,7 +40,7 @@ namespace Common.Source.Web.EHentai.Download
             GradualResult ??= [];
             while (cancellationToken.IsUnCanceledOrThrow())
             {
-                using HttpContext HttpContext = new(cancellationToken);
+                using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
                 LinkedStream?.WriteLine(LocalString.WebEHentaiDownloadGalleryParserCollectPageInfo.SafeFormat(Index + 1));
                 await BuilderFactory.SetPage(Index).Create().SendAsync(HttpContext).ConfigureAwait(false);
                 if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCodeOrThrow())

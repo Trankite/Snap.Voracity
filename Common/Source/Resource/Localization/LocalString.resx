@@ -396,7 +396,7 @@
     <value>下载 {0} Bytes 超过 {1} 秒</value>
   </data>
   <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
-    <value>错误信息: "{0}"</value>
+    <value>错误信息: {0}</value>
   </data>
   <data name="ServiceTerminalEHentaiEHentaiDownloadRetry" xml:space="preserve">
     <value>下载未完成, 是否重试?</value>

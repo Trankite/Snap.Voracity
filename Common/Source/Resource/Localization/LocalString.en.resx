@@ -396,7 +396,7 @@ Use "{1}" access details</value>
     <value>Downloading {0} Bytes for over {1} seconds</value>
   </data>
   <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
-    <value>Error message: "{0}"</value>
+    <value>Error message: {0}</value>
   </data>
   <data name="ServiceTerminalEHentaiEHentaiDownloadRetry" xml:space="preserve">
     <value>Download is not complete, Retry?</value>

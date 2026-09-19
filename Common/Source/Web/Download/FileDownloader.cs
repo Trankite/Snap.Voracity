@@ -41,7 +41,7 @@ namespace Common.Source.Web.Download
 
         private async ValueTask<GradualStates> Download(CancellationToken cancellationToken)
         {
-            using HttpContext HttpContext = new(cancellationToken);
+            using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
             HttpRequestMessageBuilder RequestBuilder = BuilderFactory.Create();
             long Position = !FreshDownload || DownloadBytes > 0 ? DownloadBytes : 0;
             RequestBuilder.HttpRequestMessage.Headers.Range = new RangeHeaderValue(Position, default);
@@ -74,6 +74,7 @@ namespace Common.Source.Web.Download
             {
                 TimeOutSource.Cancel();
             }
+            Dispose();
             return GradualStates.Completed;
         }
 
