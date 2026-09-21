@@ -49,9 +49,4 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
 
         protected abstract ValueTask<GradualStates> RetryAsyncOverride(CancellationToken cancellationToken = default);
     }
-
-    public abstract class AsyncGradualTask<T> : AsyncGradualTask, IAsyncGradualTask<T>
-    {
-        public T? GradualResult { get; protected set; }
-    }
 }

@@ -3,7 +3,7 @@ using System.Runtime.ExceptionServices;
 
 namespace Common.Source.Web
 {
-    public sealed class HttpContext : IExceptionCapture, IDisposable
+    public sealed class HttpContext : IExceptionCapturer, IDisposable
     {
         public static readonly HttpClient DefaultHttpClient;
 

@@ -8,6 +8,4 @@ namespace Common.Source.Service.Mission.Gradual.Interface
 
         ValueTask<GradualStates> RetryAsync(CancellationToken cancellationToken = default);
     }
-
-    public interface IAsyncGradualTask<T> : IAsyncGradualTask, IGradualTask<T> { }
 }

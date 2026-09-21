@@ -54,15 +54,27 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static bool IsNotEquals<T>(this T? value, T? other)
+        {
+            return !IsEquals(value, other);
+        }
+
+        [DebuggerStepThrough]
         public static bool IsEquals<T>(this T? value, T? other, IEqualityComparer<T>? comparer)
         {
             return (comparer ?? EqualityComparer<T>.Default).Equals(value, other);
         }
 
         [DebuggerStepThrough]
-        public static bool TryDispose<T>(this T? value)
+        public static bool IsNotEquals<T>(this T? value, T? other, IEqualityComparer<T>? comparer)
         {
-            return value is IDisposable Disposable && true.Configure(Disposable.Dispose);
+            return !IsEquals(value, other, comparer);
+        }
+
+        [DebuggerStepThrough]
+        public static void TryDispose<T>(this T? value) where T : IDisposable
+        {
+            try { value?.Dispose(); } catch { }
         }
 
         [DebuggerStepThrough]
@@ -98,9 +110,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T Exchange<T>(this T source, ref T destination) where T : allows ref struct
+        public static bool IsExchanged<T>(this T source, ref T destination)
         {
-            return destination.Configure(destination = source);
+            return destination.IsNotEquals(source).Configure(destination = source);
         }
 
         [DebuggerStepThrough]

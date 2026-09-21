@@ -35,7 +35,7 @@ namespace Common.Source.Service.Terminal.EHentai
                 return SupportTerminalResponse.MissingUserInteraction();
             }
             string GalleryLink = commandLine.GetParameter(Param_GalleryLink);
-            if (!Uri.TryCreate(GalleryLink, default, out Uri? GalleryUri))
+            if (!Uri.TryCreate(GalleryLink, UriKind.Absolute, out Uri? GalleryUri))
             {
                 return SupportTerminalResponse.UnlawfulParameter();
             }

@@ -3,7 +3,7 @@ using Common.Source.Service.Mission.Gradual.Metadata;
 
 namespace Common.Source.Service.Mission.Gradual.Interface
 {
-    public interface IGradualTask : IExceptionCapture
+    public interface IGradualTask : IExceptionCapturer
     {
         int RetryCount { get; }
 
@@ -14,10 +14,7 @@ namespace Common.Source.Service.Mission.Gradual.Interface
         GradualStates Retry();
 
         bool Cancel();
-    }
 
-    public interface IGradualTask<T> : IGradualTask
-    {
-        T? GradualResult { get; }
+        void Refresh();
     }
 }

@@ -389,9 +389,6 @@
   <data name="ServiceTerminalEHentaiEHentaiLoginSuccess" xml:space="preserve">
     <value>账号数据已更新</value>
   </data>
-  <data name="WebEHentaiDownloadGalleryParserCollectPageInfo" xml:space="preserve">
-    <value>查询第 {0} 页</value>
-  </data>
   <data name="WebDownloadFileDownloaderTimeoutException" xml:space="preserve">
     <value>下载 {0} Bytes 超过 {1} 秒</value>
   </data>

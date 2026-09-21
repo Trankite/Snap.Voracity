@@ -2,7 +2,7 @@
 
 namespace Common.Source.Core.Interface
 {
-    public interface IExceptionCapture
+    public interface IExceptionCapturer
     {
         ExceptionDispatchInfo? CapturedException { get; set; }
     }

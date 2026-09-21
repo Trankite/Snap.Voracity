@@ -389,9 +389,6 @@ Use "{1}" access details</value>
   <data name="ServiceTerminalEHentaiEHentaiLoginSuccess" xml:space="preserve">
     <value>The account data has been updated</value>
   </data>
-  <data name="WebEHentaiDownloadGalleryParserCollectPageInfo" xml:space="preserve">
-    <value>Query page {0}</value>
-  </data>
   <data name="WebDownloadFileDownloaderTimeoutException" xml:space="preserve">
     <value>Downloading {0} Bytes for over {1} seconds</value>
   </data>

@@ -8,15 +8,15 @@ namespace Common.Source.Extension
     public static class ExceptionExtension
     {
         [DebuggerStepThrough]
-        public static string GetMessage(this IExceptionCapture exceptionCapture)
+        public static string GetMessage(this IExceptionCapturer exceptionCapturer)
         {
-            return GetMessage(exceptionCapture.CapturedException);
+            return GetMessage(exceptionCapturer.CapturedException);
         }
 
         [DebuggerStepThrough]
-        public static string GetMessage(this ExceptionDispatchInfo? dispatchInfo)
+        public static string GetMessage(this ExceptionDispatchInfo? exceptionDispatchInfo)
         {
-            return GetMessage(dispatchInfo?.SourceException);
+            return GetMessage(exceptionDispatchInfo?.SourceException);
         }
 
         [DebuggerStepThrough]
@@ -26,9 +26,28 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static ExceptionDispatchInfo DispatchCapture(this IExceptionCapture exceptionCapture, Exception exception)
+        public static Exception GetException(this IExceptionCapturer exceptionCapturer)
         {
-            return exceptionCapture.CapturedException = ExceptionDispatchInfo.Capture(exception);
+            return GetException(exceptionCapturer.CapturedException);
+        }
+
+        [DebuggerStepThrough]
+        public static Exception GetException(this ExceptionDispatchInfo? exceptionDispatchInfo)
+        {
+            return exceptionDispatchInfo?.SourceException ?? new NullReferenceException();
+        }
+
+        [DebuggerStepThrough]
+        public static T ThrowIfExceptionCaptured<T>(this T exceptionCapturer) where T : IExceptionCapturer
+        {
+            exceptionCapturer.CapturedException?.Throw();
+            return exceptionCapturer;
+        }
+
+        [DebuggerStepThrough]
+        public static ExceptionDispatchInfo DispatchCapture(this IExceptionCapturer exceptionCapturer, Exception exception)
+        {
+            return exceptionCapturer.CapturedException = ExceptionDispatchInfo.Capture(exception);
         }
     }
 }
