@@ -5,24 +5,24 @@ namespace Common.Source.Web.EHentai
 {
     public static class EHentaiUriHelper
     {
-        private const string EHentaiHost = "e-hentai.org";
+        private const string Host_EHentai = "e-hentai.org";
 
-        private const string ExHentaiHost = "exhentai.org";
+        private const string Host_ExHentai = "exhentai.org";
 
         public static EHentaiHost GetHost(Uri uri)
         {
             if (uri.IsAbsoluteUri)
             {
-                if (uri.Host.EqualsIgnoreCase(EHentaiHost))
+                if (uri.Host.EqualsIgnoreCase(Host_EHentai))
                 {
-                    return Metadata.EHentaiHost.EHentai;
+                    return EHentaiHost.EHentai;
                 }
-                else if (uri.Host.EqualsIgnoreCase(ExHentaiHost))
+                else if (uri.Host.EqualsIgnoreCase(Host_ExHentai))
                 {
-                    return Metadata.EHentaiHost.ExHentai;
+                    return EHentaiHost.ExHentai;
                 }
             }
-            return default;
+            return EHentaiHost.None;
         }
     }
 }

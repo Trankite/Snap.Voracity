@@ -53,12 +53,16 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
 
         public bool Cancel()
         {
-            return GradualStates.Faulted.Exchange(ref _States) != GradualStates.Faulted;
+            return GradualStates.Faulted.IsExchanged(ref _States);
         }
-    }
 
-    public abstract class GradualTask<T> : GradualTask, IGradualTask<T>
-    {
-        public T? GradualResult { get; protected set; }
+        public void Refresh()
+        {
+            RefreshOverride();
+            States = GradualStates.Created;
+            RetryCount = 0;
+        }
+
+        protected abstract void RefreshOverride();
     }
 }

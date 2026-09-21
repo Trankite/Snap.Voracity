@@ -1,7 +1,6 @@
 ﻿using Common.Source.Core.Interface;
 using Common.Source.Extension;
 using Common.Source.Model.DataStruct.Ticket;
-using Common.Source.Resource.Localization;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
 using Common.Source.Service.Terminal.Abstract;
@@ -11,11 +10,13 @@ using Common.Source.Web.Request;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public class EHentaiSlideParser : AsyncGradualTask<Queue<QueueTicket<string>>>, ILinkedTextStreamMessage
+    public class EHentaiSlideParser : AsyncGradualTask, ILinkedTextStreamMessage
     {
         private int Index;
 
         public int Count { get; private set; }
+
+        public Queue<QueueTicket<string>> TicketQueue { get; } = new();
 
         private readonly GalleryHttpContentSerializer Serializer = new();
 
@@ -35,14 +36,20 @@ namespace Common.Source.Web.EHentai.Download
             return await ParseGallery(cancellationToken).ConfigureAwait(false);
         }
 
+        protected override void RefreshOverride()
+        {
+            Index = Count = 0;
+            TicketQueue.Clear();
+        }
+
         private async ValueTask<GradualStates> ParseGallery(CancellationToken cancellationToken = default)
         {
-            GradualResult ??= [];
             while (cancellationToken.IsUnCanceledOrThrow())
             {
+                HttpRequestMessageBuilder Request = BuilderFactory.SetPage(Index).Create();
+                LinkedStream?.WriteLine($"[{Index + 1}]{Request.RequestUri}");
                 using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
-                LinkedStream?.WriteLine(LocalString.WebEHentaiDownloadGalleryParserCollectPageInfo.SafeFormat(Index + 1));
-                await BuilderFactory.SetPage(Index).Create().SendAsync(HttpContext).ConfigureAwait(false);
+                await Request.SendAsync(HttpContext).ConfigureAwait(false);
                 if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCodeOrThrow())
                 {
                     return GradualStates.Suspend.Configure(CapturedException = HttpContext.CapturedException);
@@ -50,7 +57,7 @@ namespace Common.Source.Web.EHentai.Download
                 GalleryAnalyzedBody AnalyzedBody = await Serializer.DeserializeAsync(HttpContext.Response.Content, cancellationToken);
                 foreach (string ImageUrl in AnalyzedBody.Images)
                 {
-                    GradualResult.Enqueue(QueueTicket.Create(++Count, ImageUrl));
+                    TicketQueue.Enqueue(QueueTicket.Create(++Count, ImageUrl));
                 }
                 Index++;
                 if (AnalyzedBody.IsEndOfPage)

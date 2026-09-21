@@ -38,11 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Source\UI\Dialog\" />
-    <Folder Include="Source\UI\View\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 

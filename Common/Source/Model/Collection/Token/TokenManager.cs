@@ -23,15 +23,17 @@ namespace Common.Source.Model.Collection.Token
 
         public async ValueTask<T[]?> Load(CancellationToken cancellationToken = default)
         {
-            using FileOpenRead FileRead = new(FilePath);
-            if (!FileRead.Success) return default;
+            using FileOpenRead FileRead = FileOpenRead.Create(FilePath);
+            if (!FileRead.CanReadStream)
+            {
+                return default;
+            }
             return await JsonSerializerExtension.DeserializeAsync<T[]>(FileRead.Stream, default, cancellationToken).ConfigureAwait(false);
         }
 
         public async ValueTask Save(T[] tokens, CancellationToken cancellationToken = default)
         {
-            using FileOpenWrite FileWrite = FileOpenWrite.Create(FilePath);
-            FileWrite.ThrowIfFailed();
+            using FileOpenWrite FileWrite = FileOpenWrite.Create(FilePath).ThrowIfExceptionCaptured();
             await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, Tokens = tokens, default, cancellationToken).ConfigureAwait(false);
         }
 

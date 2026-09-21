@@ -1,4 +1,5 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.FileOpen;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
@@ -14,37 +15,62 @@ namespace Common.Source.Web.Download
     {
         private bool Disposed;
 
-        private readonly Stream Writer;
+        private long _DownloadBytes;
 
-        private readonly bool LeaveStreamOpen;
+        private readonly FileOpenStream FileOpen;
 
         public bool FreshDownload { get; }
 
-        public long DownloadBytes => Writer.Length;
+        public long DownloadBytes
+        {
+            get => FileOpen.CanReadStream ? FileOpen.Stream.Position : _DownloadBytes;
+        }
 
         public long FullFileBytes { get; private set; }
 
         public IHttpRequestMessageBuilderFactory BuilderFactory { get; }
 
-        public FileDownloader(Stream writer, IHttpRequestMessageBuilderFactory builderFactory, bool freshDownload = default, bool leaveOpen = default)
+        private FileDownloader(FileOpenStream fileOpen, IHttpRequestMessageBuilderFactory builderFactory, bool freshDownload = default)
         {
-            Writer = writer;
+            FileOpen = fileOpen;
             BuilderFactory = builderFactory;
             FreshDownload = freshDownload;
-            LeaveStreamOpen = leaveOpen;
+        }
+
+        public static FileDownloader Create(string filePath, IHttpRequestMessageBuilderFactory builderFactory, bool freshDownload = default)
+        {
+            return new FileDownloader(new FileOpenStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, default, true), builderFactory, freshDownload);
         }
 
         protected override async ValueTask<GradualStates> RetryAsyncOverride(CancellationToken cancellationToken = default)
         {
-            return await Download(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                return await Download(cancellationToken).ConfigureAwait(false);
+            }
+            finally
+            {
+                FileOpen.Refresh();
+            }
+        }
+
+        protected override void RefreshOverride()
+        {
+            ObjectDisposedException.ThrowIf(Disposed, this);
+            _DownloadBytes = 0;
         }
 
         private async ValueTask<GradualStates> Download(CancellationToken cancellationToken)
         {
+            FileOpen.StartOrRetry();
+            FileOpen.ThrowIfExceptionCaptured();
             using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
             HttpRequestMessageBuilder RequestBuilder = BuilderFactory.Create();
-            long Position = !FreshDownload || DownloadBytes > 0 ? DownloadBytes : 0;
-            RequestBuilder.HttpRequestMessage.Headers.Range = new RangeHeaderValue(Position, default);
+            if (States == GradualStates.Created)
+            {
+                _DownloadBytes = FreshDownload ? 0 : FileOpen.Stream.Length;
+            }
+            RequestBuilder.HttpRequestMessage.Headers.Range = new RangeHeaderValue(_DownloadBytes, default);
             await RequestBuilder.SendAsync(HttpContext).ConfigureAwait(false);
             if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCodeOrThrow())
             {
@@ -52,7 +78,7 @@ namespace Common.Source.Web.Download
             }
             if (HttpContext.Response.StatusCode == HttpStatusCode.PartialContent)
             {
-                Writer.Position = Position;
+                FileOpen.Stream.Position = _DownloadBytes;
                 FullFileBytes = HttpContext.Response.Content.Headers.ContentRange?.Length ?? -1;
             }
             else
@@ -61,10 +87,10 @@ namespace Common.Source.Web.Download
             }
             using Stream ResponseStream = HttpContext.Response.Content.ReadAsStream(cancellationToken);
             using CancellationTokenSource TimeOutSource = cancellationToken.CreateLinkedTokenSource();
-            StartWatchDog(TimeOutSource, Writer);
+            StartFileDownloadStreamWatchDog(TimeOutSource, FileOpen.Stream);
             try
             {
-                await ResponseStream.CopyToAsync(Writer, TimeOutSource.Token).ConfigureAwait(false);
+                await ResponseStream.CopyToAsync(FileOpen.Stream, TimeOutSource.Token).ConfigureAwait(false);
             }
             catch (Exception Exception)
             {
@@ -72,13 +98,13 @@ namespace Common.Source.Web.Download
             }
             finally
             {
-                TimeOutSource.Cancel();
+                _DownloadBytes = FileOpen.Stream.Position;
+                TimeOutSource.TryCancel();
             }
-            Dispose();
             return GradualStates.Completed;
         }
 
-        private async void StartWatchDog(CancellationTokenSource cancellationSource, Stream stream)
+        private async void StartFileDownloadStreamWatchDog(CancellationTokenSource cancellationSource, Stream stream)
         {
             const int TimeOutSeconds = 15;
             const long MinimumBytesPerSecond = 4 * 1024;
@@ -109,10 +135,7 @@ namespace Common.Source.Web.Download
         {
             if (!Disposed)
             {
-                if (!LeaveStreamOpen)
-                {
-                    Writer.Dispose();
-                }
+                FileOpen.Dispose();
                 Disposed = true;
             }
         }

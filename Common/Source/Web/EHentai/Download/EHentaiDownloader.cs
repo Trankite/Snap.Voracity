@@ -1,7 +1,6 @@
 ﻿using Common.Source.Core.Interface;
 using Common.Source.Core.Setting;
 using Common.Source.Extension;
-using Common.Source.Factory.Streams.FileOpen;
 using Common.Source.Model.DataStruct.Ticket;
 using Common.Source.Service;
 using Common.Source.Service.Mission.Gradual.Abstract;
@@ -16,6 +15,8 @@ namespace Common.Source.Web.EHentai.Download
 {
     public sealed class EHentaiDownloader : AsyncGradualTask, ILinkedTextStreamMessage, IDisposable
     {
+        private bool Disposed;
+
         private const int MaximumDownloadTaskCount = 5;
 
         private readonly EHentaiSlideParser SlideParser;
@@ -51,15 +52,21 @@ namespace Common.Source.Web.EHentai.Download
             return await Download(cancellationToken).ConfigureAwait(false);
         }
 
+        protected override void RefreshOverride()
+        {
+            ObjectDisposedException.ThrowIf(Disposed, this);
+            SlideParser.Refresh();
+            while (DownloaderQueue.Count > 0)
+            {
+                DownloaderQueue.Dequeue().Dispose();
+            }
+        }
+
         private async ValueTask<GradualStates> Download(CancellationToken cancellationToken = default)
         {
             if (SlideParser.States.IsUnCompleted())
             {
                 await SlideParser.StartOrRetryAsync(cancellationToken).ConfigureAwait(false);
-            }
-            if (SlideParser.GradualResult.IsNull())
-            {
-                return GradualStates.Suspend;
             }
             Semaphore.ResetCount(MaximumDownloadTaskCount);
             for (int i = DownloaderQueue.Count; i > 0; i--)
@@ -67,21 +74,21 @@ namespace Common.Source.Web.EHentai.Download
                 EHentaiDownloadInfo DownloadInfo = DownloaderQueue.Dequeue();
                 await CreateDownloadTask(DownloadInfo, cancellationToken).ConfigureAwait(false);
             }
-            for (int i = SlideParser.GradualResult.Count; i > 0; i--)
+            for (int i = SlideParser.TicketQueue.Count; i > 0; i--)
             {
-                QueueTicket<string> SlideTicket = SlideParser.GradualResult.Dequeue();
+                QueueTicket<string> SlideTicket = SlideParser.TicketQueue.Dequeue();
                 try
                 {
                     await DownloadFromSlideTicket(SlideTicket, cancellationToken).ConfigureAwait(false);
                 }
                 catch (Exception Exception)
                 {
-                    SlideParser.GradualResult.Enqueue(SlideTicket);
+                    SlideParser.TicketQueue.Enqueue(SlideTicket);
                     LinkedStream?.WriteLine(GetTicketMessage(SlideTicket.Index, Exception.GetMessage()));
                 }
             }
             await Semaphore.WaitReleaseAsync(MaximumDownloadTaskCount, cancellationToken);
-            return SlideParser.GradualResult.Count > 0 || DownloaderQueue.Count > 0 ? GradualStates.Suspend : GradualStates.Completed;
+            return SlideParser.TicketQueue.Count > 0 || DownloaderQueue.Count > 0 ? GradualStates.Suspend : GradualStates.Completed;
         }
 
         private async ValueTask DownloadFromSlideTicket(QueueTicket<string> slideTicket, CancellationToken cancellationToken = default)
@@ -97,10 +104,8 @@ namespace Common.Source.Web.EHentai.Download
                 QueueTicket<string> ImageTicket = QueueTicket.Create(slideTicket.Index, AnalyzedBody.ImageUrl);
                 Uri ImageUri = new(ImageTicket.Ticket);
                 string FilePath = GetFilePath(FolderPath, ImageUri, ImageTicket.Index);
-                using FileOpenWrite Writer = FileOpenWrite.Create(FilePath, true);
-                Writer.ThrowIfFailed();
                 DefaultRequestBuilderFactory DownloadFactory = new(ImageUri);
-                FileDownloader Downloader = new(Writer.Stream, DownloadFactory);
+                FileDownloader Downloader = FileDownloader.Create(FilePath, DownloadFactory, true);
                 EHentaiDownloadInfo DownloadInfo = new(Downloader, ImageTicket);
                 await CreateDownloadTask(DownloadInfo, cancellationToken).ConfigureAwait(false);
             }
@@ -140,10 +145,14 @@ namespace Common.Source.Web.EHentai.Download
 
         public void Dispose()
         {
-            Semaphore.Dispose();
-            while (DownloaderQueue.Count > 0)
+            if (!Disposed)
             {
-                DownloaderQueue.Dequeue().Dispose();
+                Semaphore.Dispose();
+                while (DownloaderQueue.Count > 0)
+                {
+                    DownloaderQueue.Dequeue().Dispose();
+                }
+                Disposed = true;
             }
         }
     }

@@ -1,69 +1,88 @@
 ﻿using Common.Source.Core.Interface;
 using Common.Source.Extension;
 using Common.Source.Service;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.ExceptionServices;
+using Common.Source.Service.Mission;
+using Common.Source.Service.Mission.Gradual.Abstract;
+using Common.Source.Service.Mission.Gradual.Metadata;
 
 namespace Common.Source.Factory.Streams.FileOpen
 {
-    public class FileOpenStream : IExceptionCapture, IDisposable
+    public class FileOpenStream : GradualTask, IExceptionCapturer, IDisposable
     {
+        private bool Disposed;
+
+        private FileInfo? _FileInfo;
+
+        private FileStream? _Stream;
+
+        private readonly string FilePath;
+
         private readonly bool LeaveStreamOpen;
 
-        [MemberNotNullWhen(false, nameof(CapturedException))]
-        [MemberNotNullWhen(true, nameof(Stream), nameof(FileInfo))]
-        public bool Success { get; }
+        public virtual FileMode FileMode { get; }
 
-        public Stream? Stream { get; }
+        public virtual FileAccess FileAccess { get; }
 
-        public FileInfo? FileInfo { get; }
+        public virtual FileShare FileShare { get; }
 
-        public string FullPath => FileInfo?.FullName ?? string.Empty;
+        protected virtual bool BuildDirectory { get; }
 
-        public ExceptionDispatchInfo? CapturedException { get; set; }
+        public string FullName => FileInfo.FullName;
 
-        public FileOpenStream() { }
+        public FileStream Stream { get => _Stream ?? throw this.GetException(); }
 
-        public FileOpenStream(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None, bool create = default, bool leaveOpen = default)
+        public FileInfo FileInfo { get => _FileInfo ?? throw this.GetException(); }
+
+        public bool CanReadStream => States == GradualStates.Completed;
+
+        protected FileOpenStream(string filePath, bool buildDirectory = default, bool leaveStreamOpen = default)
         {
-            try
-            {
-                LeaveStreamOpen = leaveOpen;
-                FileInfo = new FileInfo(path);
-                if (create)
-                {
-                    FileHelper.BuildFilePath(FullPath);
-                }
-                Stream = FileInfo.Open(fileMode, fileAccess, fileShare);
-                Success = true;
-            }
-            catch (Exception Exception)
-            {
-                this.DispatchCapture(Exception);
-            }
+            FilePath = filePath;
+            BuildDirectory = buildDirectory;
+            LeaveStreamOpen = leaveStreamOpen;
         }
 
-        public static FileOpenStream Create(string path, FileMode fileMode = FileMode.Open, FileAccess fileAccess = FileAccess.ReadWrite, FileShare fileShare = FileShare.None, bool leaveOpen = default)
+        public FileOpenStream(string filePath, FileMode fileMode, FileAccess fileAccess, FileShare fileShare, bool buildDirectory = default, bool leaveStreamOpen = default) : this(filePath, buildDirectory, leaveStreamOpen)
         {
-            return new FileOpenStream(path, fileMode, fileAccess, fileShare, true, leaveOpen);
+            FileMode = fileMode;
+            FileAccess = fileAccess;
+            FileShare = fileShare;
         }
 
-        [MemberNotNull(nameof(Stream), nameof(FileInfo))]
-        public void ThrowIfFailed()
+        public static FileOpenStream Create(string filePath, FileMode fileMode, FileAccess fileAccess, FileShare fileShare, bool buildDirectory = default, bool leaveStreamOpen = default)
         {
-            if (!Success)
+            return new FileOpenStream(filePath, fileMode, fileAccess, fileShare, buildDirectory, leaveStreamOpen).Configure(Self => Self.StartOrRetry());
+        }
+
+        protected override GradualStates RetryOverride()
+        {
+            _FileInfo = new FileInfo(FilePath);
+            if (BuildDirectory)
             {
-                CapturedException.Throw();
+                FileHelper.BuildFilePath(FullName);
             }
+            _Stream = FileInfo.Open(FileMode, FileAccess, FileShare);
+            return GradualStates.Completed;
+        }
+
+        protected override void RefreshOverride()
+        {
+            ObjectDisposedException.ThrowIf(Disposed, this);
+            _FileInfo = default;
+            DisposableHelper.DisposeAndSetNull(ref _Stream);
         }
 
         public void Dispose()
         {
-            if (!LeaveStreamOpen)
+            if (!Disposed)
             {
-                Stream?.Dispose();
+                if (!LeaveStreamOpen)
+                {
+                    _Stream?.Dispose();
+                }
+                GC.SuppressFinalize(this);
+                Disposed = true;
             }
-            GC.SuppressFinalize(this);
         }
 
         public override string ToString()

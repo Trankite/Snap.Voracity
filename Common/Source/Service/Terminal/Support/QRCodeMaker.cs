@@ -97,18 +97,18 @@ namespace Common.Source.Service.Terminal.Support
         public static ITerminalResponse Invoke(string content, string filePath, QRCodeOptions? options = default, bool pathOpen = false, FileFormat format = FileFormat.Svg)
         {
             options ??= new QRCodeOptions();
-            using FileOpenWrite Write = FileOpenWrite.Create(filePath);
-            if (!Write.Success)
+            using FileOpenWrite FileWrite = FileOpenWrite.Create(filePath, true);
+            if (!FileWrite.CanReadStream)
             {
-                return new TerminalResponse(false, Write.ToString());
+                return new TerminalResponse(false, FileWrite.ToString());
             }
             QRCode Qrcode = QRCode.Create(content, options);
             QRCodeSaver Saver = QRCodeSaver.Create(Qrcode, options);
-            if (!Saver.TrySaveToFormat(Write.Stream, format))
+            if (!Saver.TrySaveToFormat(FileWrite.Stream, format))
             {
                 return new TerminalResponse(false, format.UnSupported());
             }
-            FileHelper.PathOpen(Write.FullPath, pathOpen);
+            FileHelper.PathOpen(FileWrite.FullName, pathOpen);
             object[] FormatInfo = [Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType.ToInt()];
             return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeMakerDetails.SafeFormat(FormatInfo));
         }
