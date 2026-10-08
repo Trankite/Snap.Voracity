@@ -1,5 +1,4 @@
-﻿using Common.Source.Core.Interface;
-using Common.Source.Extension;
+﻿using Common.Source.Extension;
 using Common.Source.Service;
 using Common.Source.Service.Mission;
 using Common.Source.Service.Mission.Gradual.Abstract;
@@ -7,7 +6,7 @@ using Common.Source.Service.Mission.Gradual.Metadata;
 
 namespace Common.Source.Factory.Streams.FileOpen
 {
-    public class FileOpenStream : GradualTask, IExceptionCapturer, IDisposable
+    public class FileOpenStream : GradualTask, IDisposable
     {
         private bool Disposed;
 

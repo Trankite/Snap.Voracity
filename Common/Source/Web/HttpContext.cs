@@ -1,9 +1,11 @@
 ﻿using Common.Source.Core.Interface;
+using Common.Source.Extension;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 
 namespace Common.Source.Web
 {
-    public sealed class HttpContext : IExceptionCapturer, IDisposable
+    public sealed class HttpContext : IExceptionCaptureOwner, IDisposable
     {
         public static readonly HttpClient DefaultHttpClient;
 
@@ -35,6 +37,15 @@ namespace Common.Source.Web
         public static HttpContext CreateHeadersRead(HttpClient? httpClient = default, CancellationToken cancellationToken = default)
         {
             return new HttpContext(HttpCompletionOption.ResponseHeadersRead, httpClient, cancellationToken);
+        }
+
+        [MemberNotNull(nameof(Response))]
+        public void ThrowIfFailed()
+        {
+            if (Response.IsNull())
+            {
+                throw this.GetException();
+            }
         }
 
         public void Dispose()

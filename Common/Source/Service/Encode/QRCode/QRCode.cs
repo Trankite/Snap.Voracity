@@ -190,7 +190,7 @@ namespace Common.Source.Service.Encode.QRCode
             int ContentTotalBits = Encoder.GetTotalBitCount(length);
             int ContentPaddingTotalBits = Encoder.Capacity * 8 - ContentTotalBits;
             int ECCodeTotalBits = (ECCodeGroup.BlocksInGroup1 + ECCodeGroup.BlocksInGroup2) * ECCodeGroup.ECCodePerBytes * 8;
-            IEnumerator<SpacePoint> PointArray = GetPoints(QRCodeBitType.Unused).GetEnumerator();
+            using IEnumerator<SpacePoint> PointArray = GetPoints(QRCodeBitType.Unused).GetEnumerator();
             void SetBitTypeFlag(int length, QRCodeBitType type)
             {
                 for (int i = length; i > 0 && PointArray.MoveNext(); i--)
@@ -228,7 +228,7 @@ namespace Common.Source.Service.Encode.QRCode
         {
             BitSet Bits = BitSet.FromBitBytes(Encoder.Encode(data));
             QRCodeBitType[] Types = [QRCodeBitType.Unused, QRCodeBitType.Content, QRCodeBitType.ContentPadding, QRCodeBitType.ECCode];
-            IEnumerator<SpacePoint> PointArray = GetPoints(Types).GetEnumerator();
+            using IEnumerator<SpacePoint> PointArray = GetPoints(Types).GetEnumerator();
             while (PointArray.TryMoveNext(out SpacePoint Point) && Point.Z <= Bits.Count)
             {
                 Content[Point.X, Point.Y].HasBit = Bits[Point.Z];

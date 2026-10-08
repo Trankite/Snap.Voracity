@@ -11,16 +11,16 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool IsUnCanceledOrThrow(this CancellationToken cancellationToken)
+        public static async Task CancelAfterAsync(this CancellationTokenSource cancellationTokenSource, Task waitTask)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            return !cancellationToken.IsCancellationRequested;
-        }
-
-        [DebuggerStepThrough]
-        public static bool TryCancel(this CancellationTokenSource cancellationSource)
-        {
-            try { cancellationSource.Cancel(); return true; } catch { return false; }
+            try
+            {
+                await waitTask.ConfigureAwait(false);
+            }
+            finally
+            {
+                cancellationTokenSource.Cancel();
+            }
         }
     }
 }

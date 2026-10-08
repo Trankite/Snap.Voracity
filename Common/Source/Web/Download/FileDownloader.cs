@@ -1,6 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.FileOpen;
-using Common.Source.Resource.Localization;
+using Common.Source.Model.DataStruct.Disk;
+using Common.Source.Model.DataStruct.Disk.Metadata;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
 using Common.Source.Web.Download.Abstract;
@@ -63,7 +64,7 @@ namespace Common.Source.Web.Download
         private async ValueTask<GradualStates> Download(CancellationToken cancellationToken)
         {
             FileOpen.StartOrRetry();
-            FileOpen.ThrowIfExceptionCaptured();
+            FileOpen.ThrowIfFailed();
             using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
             HttpRequestMessageBuilder RequestBuilder = BuilderFactory.Create();
             if (States == GradualStates.Created)
@@ -72,9 +73,9 @@ namespace Common.Source.Web.Download
             }
             RequestBuilder.HttpRequestMessage.Headers.Range = new RangeHeaderValue(_DownloadBytes, default);
             await RequestBuilder.SendAsync(HttpContext).ConfigureAwait(false);
-            if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCodeOrThrow())
+            if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCode)
             {
-                return GradualStates.Suspend.Configure(CapturedException = HttpContext.CapturedException);
+                return FailedByException(HttpContext.CapturedException);
             }
             if (HttpContext.Response.StatusCode == HttpStatusCode.PartialContent)
             {
@@ -85,49 +86,17 @@ namespace Common.Source.Web.Download
             {
                 FullFileBytes = HttpContext.Response.Content.Headers.ContentLength ?? -1;
             }
-            using Stream ResponseStream = HttpContext.Response.Content.ReadAsStream(cancellationToken);
-            using CancellationTokenSource TimeOutSource = cancellationToken.CreateLinkedTokenSource();
-            StartFileDownloadStreamWatchDog(TimeOutSource, FileOpen.Stream);
             try
             {
-                await ResponseStream.CopyToAsync(FileOpen.Stream, TimeOutSource.Token).ConfigureAwait(false);
-            }
-            catch (Exception Exception)
-            {
-                return GradualStates.Suspend.Configure(this.DispatchCapture(Exception));
+                TimeSpan CheckTimeSpan = TimeSpan.FromSeconds(10);
+                DiskSize BytesPerSecond = DiskSize.Create(DataSize.KB, 4);
+                using Stream ResponseStream = HttpContext.Response.Content.ReadAsStream(cancellationToken);
+                await ResponseStream.CopyToAsync(FileOpen.Stream, BytesPerSecond.Bytes, CheckTimeSpan, cancellationToken).ConfigureAwait(false);
+                return GradualStates.Completed;
             }
             finally
             {
                 _DownloadBytes = FileOpen.Stream.Position;
-                TimeOutSource.TryCancel();
-            }
-            return GradualStates.Completed;
-        }
-
-        private async void StartFileDownloadStreamWatchDog(CancellationTokenSource cancellationSource, Stream stream)
-        {
-            const int TimeOutSeconds = 15;
-            const long MinimumBytesPerSecond = 4 * 1024;
-            try
-            {
-                TimeSpan TimeOutSpan = TimeSpan.FromSeconds(TimeOutSeconds);
-                while (!cancellationSource.IsCancellationRequested)
-                {
-                    long CurrentPosition = stream.Position;
-                    await Task.Delay(TimeOutSpan, cancellationSource.Token).ConfigureAwait(false);
-                    long TimeOutDownloadBytes = stream.Position - CurrentPosition;
-                    if (TimeOutDownloadBytes < MinimumBytesPerSecond * TimeOutSeconds)
-                    {
-                        throw new TimeoutException(LocalString.WebDownloadFileDownloaderTimeoutException.SafeFormat(TimeOutDownloadBytes, TimeOutSeconds));
-                    }
-                }
-            }
-            catch (Exception Exception)
-            {
-                if (Exception is TimeoutException)
-                {
-                    cancellationSource.TryCancel().Configure(this.DispatchCapture(Exception));
-                }
             }
         }
 

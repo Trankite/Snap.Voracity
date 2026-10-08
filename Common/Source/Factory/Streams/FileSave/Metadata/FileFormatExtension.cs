@@ -20,7 +20,7 @@ namespace Common.Source.Factory.Streams.FileSave.Metadata
 
         public static string UnSupported(this FileFormat format)
         {
-            return LocalString.CoreMetadataExceptionUnSupportedFormat.SafeFormat(format.ToString());
+            return LocalString.FactoryStreamsFileSaveMetadataExceptionUnSupportedFormat.SafeFormat(format.ToString());
         }
 
         public static string ChangeExtension(this FileFormat format, string filePath)

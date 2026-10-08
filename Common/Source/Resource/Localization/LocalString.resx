@@ -134,7 +134,7 @@
   <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
     <value>生成二维码</value>
   </data>
-  <data name="CoreMetadataExceptionUnSupportedFormat" xml:space="preserve">
+  <data name="FactoryStreamsFileSaveMetadataExceptionUnSupportedFormat" xml:space="preserve">
     <value>不支持的文件格式 "{0}"</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
@@ -389,8 +389,8 @@
   <data name="ServiceTerminalEHentaiEHentaiLoginSuccess" xml:space="preserve">
     <value>账号数据已更新</value>
   </data>
-  <data name="WebDownloadFileDownloaderTimeoutException" xml:space="preserve">
-    <value>下载 {0} Bytes 超过 {1} 秒</value>
+  <data name="ExtensionStreamCopyTimeoutException" xml:space="preserve">
+    <value>传输 {0} Bytes 超过 {1} 秒</value>
   </data>
   <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
     <value>错误信息: {0}</value>

@@ -14,7 +14,8 @@ namespace Terminal
             TerminalInvoke.Invoke(new CommandParser(options), LinkedStream);
             while (AppSetting.OnTerminal)
             {
-                TerminalInvoke.Invoke(CommandParser.Create(LinkedStream.ReadLine("HOST>\x20")), LinkedStream);
+                ReadOnlySpan<char> CurrentInput = LinkedStream.ReadLine("HOST>\x20");
+                TerminalInvoke.Invoke(CommandParser.Create(CurrentInput), LinkedStream);
             }
         }
 

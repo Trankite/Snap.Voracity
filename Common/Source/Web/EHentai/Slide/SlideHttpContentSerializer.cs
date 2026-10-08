@@ -17,7 +17,7 @@ namespace Common.Source.Web.EHentai.Slide
         {
             SlideAnalyzedBody AnalyzedBody = new();
             using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));
-            IEnumerator<HtmlElement> Enumerator = Reader.GetEnumerator();
+            using IEnumerator<HtmlElement> Enumerator = Reader.GetEnumerator();
             while (Enumerator.TryMoveNext(out HtmlElement? HtmlElement))
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -27,7 +27,7 @@ namespace Common.Source.Web.EHentai.Slide
                 }
                 else if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Id) == "img")
                 {
-                    return AnalyzedBody.Configure(AnalyzedBody.ImageUrl = HtmlElement.GetAttributeOrDefault(HtmlAttribute.Source).NotNull());
+                    return AnalyzedBody.Configure(AnalyzedBody.ImageUrl = HtmlElement.GetAttributeOrDefault(HtmlAttribute.Source, string.Empty));
                 }
             }
             return AnalyzedBody;

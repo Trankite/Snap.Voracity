@@ -2,14 +2,14 @@
 
 namespace Common.Source.Web.EHentai.Builder
 {
-    public class EhentaiHttpUriBuilder : HttpUriBuilder
+    public class EHentaiHttpUriBuilder : HttpUriBuilder
     {
-        public EhentaiHttpUriBuilder() { }
+        public EHentaiHttpUriBuilder() { }
 
-        public EhentaiHttpUriBuilder(Uri uri) : base(uri) { }
+        public EHentaiHttpUriBuilder(Uri uri) : base(uri) { }
 
-        public EhentaiHttpUriBuilder(string uri) : base(uri) { }
+        public EHentaiHttpUriBuilder(string uri) : base(uri) { }
 
-        public EhentaiHttpUriBuilder(UriBuilder uriBuilder) : base(uriBuilder) { }
+        public EHentaiHttpUriBuilder(UriBuilder uriBuilder) : base(uriBuilder) { }
     }
 }

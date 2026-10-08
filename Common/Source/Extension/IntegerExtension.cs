@@ -21,5 +21,17 @@ namespace Common.Source.Extension
         {
             return value >= 0 ? value + offset : defaultValue;
         }
+
+        [DebuggerStepThrough]
+        public static uint Abs(this int value)
+        {
+            return value >= 0 ? (uint)value : (uint)-(value + 1) + 1;
+        }
+
+        [DebuggerStepThrough]
+        public static ulong Abs(this long value)
+        {
+            return value >= 0 ? (ulong)value : (ulong)-(value + 1) + 1;
+        }
     }
 }
