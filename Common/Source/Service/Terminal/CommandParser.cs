@@ -48,7 +48,7 @@ namespace Common.Source.Service.Terminal
             {
                 CommandLine CommandLine = new(Keywords[i]);
                 ITerminalCommand? Command = TerminalManage.CommandTable.GetValueOrDefault(CommandLine.Name);
-                IEnumerator<string>? Enumerator = Command?.RequiredParameters.Concat(Command.OptionalParameters).GetEnumerator();
+                using IEnumerator<string>? Enumerator = Command?.RequiredParameters.Concat(Command.OptionalParameters).GetEnumerator();
                 while (++i < Keywords.Count && Keywords[i] != "&")
                 {
                     if (Keywords[i].StartsWith('-'))

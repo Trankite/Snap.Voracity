@@ -17,40 +17,30 @@ namespace Common.Source.Web.EHentai.Gallery
         {
             GalleryAnalyzedBody AnalyzedBody = new();
             using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));
-            IEnumerator<HtmlElement> Enumerator = Reader.GetEnumerator();
+            using IEnumerator<HtmlElement> Enumerator = Reader.GetEnumerator();
             while (Enumerator.TryMoveNext(out HtmlElement? HtmlElement))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptt")
                 {
-                    SetPageInfoFromHtmlElement(HtmlElement, AnalyzedBody);
+                    if (HtmlElement.Elements.TryGetFirst(out HtmlElement? TableElement))
+                    {
+                        if (TableElement.Elements.TryGetLast(out HtmlElement? EndedElement))
+                        {
+                            AnalyzedBody.IsEndOfPage = EndedElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptdd";
+                        }
+                    }
                 }
                 else if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Id) == "gdt")
                 {
-                    SetImagesFromHtmlElement(HtmlElement, AnalyzedBody);
+                    foreach (HtmlElement CurrentElement in HtmlElement.Elements)
+                    {
+                        AnalyzedBody.Images.Add(CurrentElement.GetAttributeOrDefault(HtmlAttribute.Href, string.Empty));
+                    }
+                    return AnalyzedBody;
                 }
             }
             return AnalyzedBody;
-        }
-
-        private static void SetPageInfoFromHtmlElement(HtmlElement htmlElement, GalleryAnalyzedBody analyzedBody)
-        {
-            if (!htmlElement.Elements.TryGetFirst(out HtmlElement? TableElement))
-            {
-                return;
-            }
-            if (TableElement.Elements.TryGetLast(out HtmlElement? EndedElement))
-            {
-                analyzedBody.IsEndOfPage = EndedElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptdd";
-            }
-        }
-
-        private static void SetImagesFromHtmlElement(HtmlElement htmlElement, GalleryAnalyzedBody analyzedBody)
-        {
-            foreach (HtmlElement CurrentElement in htmlElement.Elements)
-            {
-                analyzedBody.Images.Add(CurrentElement.GetAttributeOrDefault(HtmlAttribute.Href).NotNull());
-            }
         }
     }
 }

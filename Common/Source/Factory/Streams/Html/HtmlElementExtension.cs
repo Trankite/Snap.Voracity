@@ -24,5 +24,10 @@ namespace Common.Source.Factory.Streams.Html
         {
             return element.Attributes.GetValueOrDefault(attribute.GetDescription());
         }
+
+        public static string GetAttributeOrDefault(this HtmlElement element, HtmlAttribute attribute, string defaultValue)
+        {
+            return GetAttributeOrDefault(element, attribute) ?? defaultValue;
+        }
     }
 }

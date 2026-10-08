@@ -6,13 +6,16 @@ namespace Common.Source.Model.Collection.Token
 {
     public class TokenManager<T> : ITokenManager<T>
     {
+        private T[]? _Tokens;
+
         private readonly string FilePath;
 
         private readonly IEqualityComparer<T>? Comparer;
 
         public T[] Tokens
         {
-            get => field ??= Load().AsTask().GetAwaiter().GetResult().NotNull(); set;
+            get => _Tokens ??= Load().AsTask().GetAwaiter().GetResult().NotNull();
+            set => _Tokens = value;
         }
 
         public TokenManager(string filePath, IEqualityComparer<T>? comparer = default)
@@ -33,8 +36,9 @@ namespace Common.Source.Model.Collection.Token
 
         public async ValueTask Save(T[] tokens, CancellationToken cancellationToken = default)
         {
-            using FileOpenWrite FileWrite = FileOpenWrite.Create(FilePath).ThrowIfExceptionCaptured();
-            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, Tokens = tokens, default, cancellationToken).ConfigureAwait(false);
+            using FileOpenWrite FileWrite = FileOpenWrite.Create(FilePath);
+            FileWrite.ThrowIfFailed();
+            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, _Tokens = tokens, default, cancellationToken).ConfigureAwait(false);
         }
 
         public async ValueTask Update(T token, CancellationToken cancellationToken = default)

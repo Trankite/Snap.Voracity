@@ -51,6 +51,16 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
 
         protected abstract GradualStates RetryOverride();
 
+        public virtual void ThrowIfFailed()
+        {
+            this.ThrowIfExceptionCaptured();
+        }
+
+        protected GradualStates FailedByException(ExceptionDispatchInfo? exceptionDispatchInfo = default)
+        {
+            return GradualStates.Suspend.Configure(CapturedException = exceptionDispatchInfo);
+        }
+
         public bool Cancel()
         {
             return GradualStates.Faulted.IsExchanged(ref _States);

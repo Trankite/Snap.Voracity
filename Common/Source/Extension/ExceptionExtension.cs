@@ -8,9 +8,9 @@ namespace Common.Source.Extension
     public static class ExceptionExtension
     {
         [DebuggerStepThrough]
-        public static string GetMessage(this IExceptionCapturer exceptionCapturer)
+        public static string GetMessage(this IExceptionCaptureOwner exceptionCaptureOwner)
         {
-            return GetMessage(exceptionCapturer.CapturedException);
+            return GetMessage(exceptionCaptureOwner.CapturedException);
         }
 
         [DebuggerStepThrough]
@@ -26,9 +26,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static Exception GetException(this IExceptionCapturer exceptionCapturer)
+        public static Exception GetException(this IExceptionCaptureOwner exceptionCaptureOwner)
         {
-            return GetException(exceptionCapturer.CapturedException);
+            return GetException(exceptionCaptureOwner.CapturedException);
         }
 
         [DebuggerStepThrough]
@@ -38,16 +38,16 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T ThrowIfExceptionCaptured<T>(this T exceptionCapturer) where T : IExceptionCapturer
+        public static T ThrowIfExceptionCaptured<T>(this T exceptionCaptureOwner) where T : IExceptionCaptureOwner
         {
-            exceptionCapturer.CapturedException?.Throw();
-            return exceptionCapturer;
+            exceptionCaptureOwner.CapturedException?.Throw();
+            return exceptionCaptureOwner;
         }
 
         [DebuggerStepThrough]
-        public static ExceptionDispatchInfo DispatchCapture(this IExceptionCapturer exceptionCapturer, Exception exception)
+        public static ExceptionDispatchInfo DispatchCapture(this IExceptionCaptureOwner exceptionCaptureOwner, Exception exception)
         {
-            return exceptionCapturer.CapturedException = ExceptionDispatchInfo.Capture(exception);
+            return exceptionCaptureOwner.CapturedException = ExceptionDispatchInfo.Capture(exception);
         }
     }
 }

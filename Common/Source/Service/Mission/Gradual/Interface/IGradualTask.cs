@@ -3,7 +3,7 @@ using Common.Source.Service.Mission.Gradual.Metadata;
 
 namespace Common.Source.Service.Mission.Gradual.Interface
 {
-    public interface IGradualTask : IExceptionCapturer
+    public interface IGradualTask : IExceptionCaptureOwner
     {
         int RetryCount { get; }
 

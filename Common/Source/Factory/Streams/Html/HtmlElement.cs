@@ -2,13 +2,31 @@
 {
     public class HtmlElement
     {
+        private IList<string>? _Contents;
+
+        private IList<HtmlElement>? _Elements;
+
+        private Dictionary<string, string>? _Attributes;
+
         public string Markup { get; set; } = string.Empty;
 
-        public Dictionary<string, string> Attributes { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+        public IList<string> Contents
+        {
+            get => _Contents ??= [];
+            set => _Contents = value;
+        }
 
-        public IList<HtmlElement> Elements { get; set; } = [];
+        public IList<HtmlElement> Elements
+        {
+            get => _Elements ??= [];
+            set => _Elements = value;
+        }
 
-        public IList<string> Contents { get; set; } = [];
+        public Dictionary<string, string> Attributes
+        {
+            get => _Attributes ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            set => _Attributes = value;
+        }
 
         public HtmlElement() { }
 
@@ -19,7 +37,7 @@
 
         public override string ToString()
         {
-            return $"<{Markup} {string.Join('\x20', Attributes.Select(Attribute => $"{Attribute.Key}=\"{Attribute.Value}\""))} />";
+            return $"<{Markup} {string.Join('\x20', Attributes.Select(Current => $"{Current.Key}=\"{Current.Value}\""))} />";
         }
     }
 }

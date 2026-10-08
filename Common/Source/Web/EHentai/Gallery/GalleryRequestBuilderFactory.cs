@@ -18,7 +18,7 @@ namespace Common.Source.Web.EHentai.Gallery
         public override HttpRequestMessageBuilder Create()
         {
             return new EHentaiHttpRequestMessageBuilder()
-            .SetRequestUri(new EhentaiHttpUriBuilder(Uri.ThrowIfNull()).SetPage(Page))
+            .SetRequestUri(new EHentaiHttpUriBuilder(Uri.ThrowIfNull()).SetPage(Page))
             .SetMethod(HttpMethod.Get)
             .SetHeader(new EHentaiCookieBuilder(EHentaiToken).SetIpbMemberId().SetIpbPassHash().SetIgneous());
         }

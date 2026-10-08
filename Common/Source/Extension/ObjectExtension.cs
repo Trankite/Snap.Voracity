@@ -6,7 +6,7 @@ namespace Common.Source.Extension
     public static class ObjectExtension
     {
         [DebuggerStepThrough]
-        public static T ThrowIfNull<T>(this T? value)
+        public static T ThrowIfNull<T>([NotNull] this T? value)
         {
             return value ?? throw new NullReferenceException();
         }

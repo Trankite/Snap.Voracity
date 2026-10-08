@@ -96,19 +96,18 @@ namespace Common.Source.Web.EHentai.Download
             using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
             LinkedStream?.WriteLine(GetTicketMessage(slideTicket.Index, slideTicket.Ticket));
             await BuilderFactory.SetUri(new Uri(slideTicket.Ticket)).Create().SendAsync(HttpContext).ConfigureAwait(false);
-            if (HttpContext.Response.IsNotNull() && HttpContext.Response.IsSuccessStatusCodeOrThrow())
-            {
-                HttpContent HttpContent = HttpContext.Response.Content;
-                SlideAnalyzedBody AnalyzedBody = await Serializer.DeserializeAsync(HttpContent, cancellationToken).ConfigureAwait(false);
-                FolderPath ??= GetFolderPath(AnalyzedBody.Title);
-                QueueTicket<string> ImageTicket = QueueTicket.Create(slideTicket.Index, AnalyzedBody.ImageUrl);
-                Uri ImageUri = new(ImageTicket.Ticket);
-                string FilePath = GetFilePath(FolderPath, ImageUri, ImageTicket.Index);
-                DefaultRequestBuilderFactory DownloadFactory = new(ImageUri);
-                FileDownloader Downloader = FileDownloader.Create(FilePath, DownloadFactory, true);
-                EHentaiDownloadInfo DownloadInfo = new(Downloader, ImageTicket);
-                await CreateDownloadTask(DownloadInfo, cancellationToken).ConfigureAwait(false);
-            }
+            HttpContext.ThrowIfFailed();
+            HttpContext.Response.EnsureSuccessStatusCode();
+            HttpContent HttpContent = HttpContext.Response.Content;
+            SlideAnalyzedBody AnalyzedBody = await Serializer.DeserializeAsync(HttpContent, cancellationToken).ConfigureAwait(false);
+            FolderPath ??= GetFolderPath(AnalyzedBody.Title);
+            QueueTicket<string> ImageTicket = QueueTicket.Create(slideTicket.Index, AnalyzedBody.ImageUrl);
+            Uri ImageUri = new(ImageTicket.Ticket);
+            string FilePath = GetFilePath(FolderPath, ImageUri, ImageTicket.Index);
+            DefaultRequestBuilderFactory DownloadFactory = new(ImageUri);
+            FileDownloader Downloader = FileDownloader.Create(FilePath, DownloadFactory, true);
+            EHentaiDownloadInfo DownloadInfo = new(Downloader, ImageTicket);
+            await CreateDownloadTask(DownloadInfo, cancellationToken).ConfigureAwait(false);
         }
 
         private async ValueTask CreateDownloadTask(EHentaiDownloadInfo downloadInfo, CancellationToken cancellationToken = default)

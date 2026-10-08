@@ -44,15 +44,16 @@ namespace Common.Source.Web.EHentai.Download
 
         private async ValueTask<GradualStates> ParseGallery(CancellationToken cancellationToken = default)
         {
-            while (cancellationToken.IsUnCanceledOrThrow())
+            while (true)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 HttpRequestMessageBuilder Request = BuilderFactory.SetPage(Index).Create();
                 LinkedStream?.WriteLine($"[{Index + 1}]{Request.RequestUri}");
                 using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
                 await Request.SendAsync(HttpContext).ConfigureAwait(false);
-                if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCodeOrThrow())
+                if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCode)
                 {
-                    return GradualStates.Suspend.Configure(CapturedException = HttpContext.CapturedException);
+                    return FailedByException(HttpContext.CapturedException);
                 }
                 GalleryAnalyzedBody AnalyzedBody = await Serializer.DeserializeAsync(HttpContext.Response.Content, cancellationToken);
                 foreach (string ImageUrl in AnalyzedBody.Images)
@@ -65,7 +66,6 @@ namespace Common.Source.Web.EHentai.Download
                     return GradualStates.Completed;
                 }
             }
-            return GradualStates.Suspend;
         }
     }
 }
