@@ -21,7 +21,7 @@ namespace Common.Source.Web.EHentai.Slide
             while (Enumerator.TryMoveNext(out HtmlElement? HtmlElement))
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                if (HtmlElement.Markup.EqualsIgnoreCase(HtmlMarkup.Title))
+                if (HtmlElement.Name.EqualsIgnoreCase(HtmlMarkup.Title))
                 {
                     AnalyzedBody.Title = HtmlElement.Contents.FirstOrDefault().NotNull();
                 }

@@ -1,10 +1,10 @@
-﻿using Common.Source.Factory.Streams.FileSave.Interface;
-using Common.Source.Factory.Streams.FileSave.Metadata;
+﻿using Common.Source.Factory.Streams.FileStore.Interface;
+using Common.Source.Factory.Streams.FileStore.Metadata;
 using System.Collections.Frozen;
 
-namespace Common.Source.Factory.Streams.FileSave.Abstract
+namespace Common.Source.Factory.Streams.FileStore.Abstract
 {
-    public abstract class FileFormatSaver<T> : IFileFormatSaver where T : FileFormatSaver<T>
+    public abstract class FileStore<T> : IFileStore where T : FileStore<T>
     {
         protected abstract T Sender { get; }
 

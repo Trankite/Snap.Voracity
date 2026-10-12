@@ -1,18 +1,19 @@
-﻿using Common.Source.Extension;
+﻿using Common.Source.Factory.Serialize.Interface;
 using Common.Source.Web.Response;
-using System.Diagnostics.CodeAnalysis;
+using Common.Source.Web.Response.Wrapper;
 
 namespace Common.Source.Web.Hoyolab.Takumi.GameRole
 {
-    public class GameRoleResponse : ResponseWrapper<ListWrapper<GameRoleResponseWrapper>, HoyolabUserRole[]>
+    public class GameRoleResponse : ResponseWrapper<ListWrapper<GameRoleResponseWrapper>>, IContentSerializer<IEnumerable<HoyolabUserRole>?>
     {
-        public override bool TryGetAnalyzedBody([NotNullWhen(true)] out HoyolabUserRole[]? analyedBody)
+        public IEnumerable<HoyolabUserRole>? Serialize()
         {
-            if (TryGetAnalyzedBody(out ListWrapper<GameRoleResponseWrapper>? Content))
-            {
-                return true.Configure(analyedBody = [.. Content.List.Select(Current => Current.GetUserRole())]);
-            }
-            return false.Configure(analyedBody = default);
+            return TryGetContent(out ListWrapper<GameRoleResponseWrapper>? Content) ? Content.List.Select(GetUserRole) : default;
+        }
+
+        public static HoyolabUserRole GetUserRole(GameRoleResponseWrapper response)
+        {
+            return new HoyolabUserRole() { Name = response.Nickname, Uid = response.GameUid, Game = response.GameBiz, Server = response.Region };
         }
     }
 }

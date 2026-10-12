@@ -1,11 +1,11 @@
-﻿using Common.Source.Core.Interface;
-using Common.Source.Core.Setting;
+﻿using Common.Source.Core.Setting;
 using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Model.DataStruct.Ticket;
 using Common.Source.Service;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
-using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Web.Download;
 using Common.Source.Web.EHentai.Builder;
 using Common.Source.Web.EHentai.Slide;
@@ -13,7 +13,7 @@ using Common.Source.Web.Request;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public sealed class EHentaiDownloader : AsyncGradualTask, ILinkedTextStreamMessage, IDisposable
+    public sealed class EHentaiDownloader : AsyncGradualTask, ITextStreamOwner, IDisposable
     {
         private bool Disposed;
 
@@ -33,18 +33,18 @@ namespace Common.Source.Web.EHentai.Download
 
         public string? FolderPath { get; private set; }
 
-        public ILinkedTextStream? LinkedStream { get; set; }
+        public ITextStream? TextStream { get; set; }
 
-        private EHentaiDownloader(EHentaiSlideParser slideParser, EHentaiToken? eHentaiToken = default, ILinkedTextStream? linkedStream = default)
+        private EHentaiDownloader(EHentaiSlideParser slideParser, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {
             SlideParser = slideParser;
             BuilderFactory.SetEHentaiToken(eHentaiToken);
-            LinkedStream = linkedStream;
+            TextStream = textStream;
         }
 
-        public static EHentaiDownloader Create(Uri galleryUri, EHentaiToken? eHentaiToken = default, ILinkedTextStream? linkedStream = default)
+        public static EHentaiDownloader Create(Uri galleryUri, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {
-            return new EHentaiDownloader(new EHentaiSlideParser(galleryUri, eHentaiToken, linkedStream), eHentaiToken, linkedStream);
+            return new EHentaiDownloader(new EHentaiSlideParser(galleryUri, eHentaiToken, textStream), eHentaiToken, textStream);
         }
 
         protected override async ValueTask<GradualStates> RetryAsyncOverride(CancellationToken cancellationToken = default)
@@ -84,7 +84,7 @@ namespace Common.Source.Web.EHentai.Download
                 catch (Exception Exception)
                 {
                     SlideParser.TicketQueue.Enqueue(SlideTicket);
-                    LinkedStream?.WriteLine(GetTicketMessage(SlideTicket.Index, Exception.GetMessage()));
+                    WriteMessage(SlideTicket.Index, Exception.GetMessage());
                 }
             }
             await Semaphore.WaitReleaseAsync(MaximumDownloadTaskCount, cancellationToken);
@@ -94,7 +94,7 @@ namespace Common.Source.Web.EHentai.Download
         private async ValueTask DownloadFromSlideTicket(QueueTicket<string> slideTicket, CancellationToken cancellationToken = default)
         {
             using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
-            LinkedStream?.WriteLine(GetTicketMessage(slideTicket.Index, slideTicket.Ticket));
+            WriteMessage(slideTicket.Index, slideTicket.Ticket);
             await BuilderFactory.SetUri(new Uri(slideTicket.Ticket)).Create().SendAsync(HttpContext).ConfigureAwait(false);
             HttpContext.ThrowIfFailed();
             HttpContext.Response.EnsureSuccessStatusCode();
@@ -118,11 +118,11 @@ namespace Common.Source.Web.EHentai.Download
 
         private async void DownloadFormDownloadInfo(EHentaiDownloadInfo downloadInfo, CancellationToken cancellationToken = default)
         {
-            LinkedStream?.WriteLine(GetTicketMessage(downloadInfo.ImageTicket.Index, downloadInfo.ImageTicket.Ticket));
+            WriteMessage(downloadInfo.ImageTicket.Index, downloadInfo.ImageTicket.Ticket);
             if ((await downloadInfo.Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false)).IsUnCompleted())
             {
                 DownloaderQueue.Enqueue(downloadInfo);
-                LinkedStream?.WriteLine(GetTicketMessage(downloadInfo.ImageTicket.Index, downloadInfo.Downloader.GetMessage()));
+                WriteMessage(downloadInfo.ImageTicket.Index, downloadInfo.Downloader.GetMessage());
             }
             Semaphore.Release();
         }
@@ -137,9 +137,9 @@ namespace Common.Source.Web.EHentai.Download
             return Path.Combine(folderPath, $"{index}{uri.GetExtension()}");
         }
 
-        private string GetTicketMessage(int index, string message)
+        private void WriteMessage(int index, string message)
         {
-            return $"[{index}/{Count}]\x20{message}";
+            TextStream?.WriteLine($"[{index}/{Count}]\x20{message}");
         }
 
         public void Dispose()

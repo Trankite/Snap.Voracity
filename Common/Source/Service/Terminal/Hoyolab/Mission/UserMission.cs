@@ -1,7 +1,10 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Hoyolab.Forum;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Newest;
@@ -10,7 +13,7 @@ using Common.Source.Web.Hoyolab.Metadata;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Mission
 {
-    public class UserMission : AsyncTerminalCommand<MissionAnalyzedBody>
+    public class UserMission : AsyncTerminalCommand<MissionInfo>
     {
         public override string Name => "coin";
 
@@ -24,22 +27,22 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
 
         private const string Param_Aid = TerminalParameters.Aid;
 
-        public override async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse<MissionInfo>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvoke(commandLine.GetParameter(Param_Aid), linkedStream, cancellationToken).ConfigureAwait(false);
+            return await AsyncInvoke(commandLine.GetParameter(Param_Aid), textStream, cancellationToken).ConfigureAwait(false);
         }
 
-        public static async ValueTask<ITerminalResponse<MissionAnalyzedBody>> AsyncInvoke(string? aid = default, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public static async ValueTask<ITerminalResponse<MissionInfo>> AsyncInvoke(string? aid = default, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            ITerminalResponse<MissionAnalyzedBody> MissionInfoResponse = await UserMissionInfo.AsyncInvoke(aid, cancellationToken).ConfigureAwait(false);
-            if (!MissionInfoResponse.TryGetAnalyzedBody(out MissionAnalyzedBody? MissionInfoContent) || MissionInfoContent.Surplus == 0)
+            ITerminalResponse<MissionInfo> MissionInfoResponse = await UserMissionInfo.AsyncInvoke(aid, cancellationToken).ConfigureAwait(false);
+            if (!MissionInfoResponse.TryGetContent(out MissionInfo? MissionInfoContent) || MissionInfoContent.Surplus == 0)
             {
                 return MissionInfoResponse;
             }
             bool IsUpdated = false;
             bool VerifyMissionStatus(ITerminalResponse response)
             {
-                linkedStream?.WriteLine(response);
+                textStream?.WriteLine(response);
                 response.Success.OverlayIfTrue(ref IsUpdated);
                 return response.Success;
             }
@@ -54,22 +57,22 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
             const bool MissionViewUpvoteShareEnabled = false;
             if (MissionViewUpvoteShareEnabled && Mission.ExistsKey(MissionType.View, MissionType.Upvote, MissionType.Share))
             {
-                ITerminalResponse<NewestAnalyzedBody[]>? NewestResponse = await ForumNewest.AsyncInvoke(5, ZoneType.StarRailWaitingRoom, default, cancellationToken).ConfigureAwait(false);
-                if (!NewestResponse.TryGetAnalyzedBody(out NewestAnalyzedBody[]? NewsContent) || NewsContent.Length < 5)
+                ITerminalResponse<IEnumerable<NewestAnalyzedBody>> NewestResponse = await ForumNewest.AsyncInvoke(5, ZoneType.StarRailWaitingRoom, default, cancellationToken).ConfigureAwait(false);
+                if (!NewestResponse.TryGetContent(out IEnumerable<NewestAnalyzedBody>? NewestContent) || NewestContent.ToArray().OutSelf(out NewestAnalyzedBody[]? NewestPost).Length < 5)
                 {
-                    return TerminalResponse.Create<MissionAnalyzedBody>(NewestResponse);
+                    return TerminalResponse.Create<MissionInfo>(NewestResponse);
                 }
                 for (int i = 3 - Mission.GetValueOrDefault(MissionType.View) - 1; i >= 0; i--)
                 {
-                    if (!VerifyMissionStatus(await ForumDetail.AsyncInvoke(NewsContent[i].PostId, true, aid, cancellationToken).ConfigureAwait(false))) break;
+                    if (!VerifyMissionStatus(await ForumDetail.AsyncInvoke(NewestPost[i].PostId, true, aid, cancellationToken).ConfigureAwait(false))) break;
                 }
                 for (int i = 5 - Mission.GetValueOrDefault(MissionType.Upvote) - 1; i >= 0; i--)
                 {
-                    if (!VerifyMissionStatus(await ForumUpvote.AsyncInvoke(NewsContent[i].PostId, false, aid, cancellationToken).ConfigureAwait(false))) break;
+                    if (!VerifyMissionStatus(await ForumUpvote.AsyncInvoke(NewestPost[i].PostId, false, aid, cancellationToken).ConfigureAwait(false))) break;
                 }
                 for (int i = 1 - Mission.GetValueOrDefault(MissionType.Share) - 1; i >= 0; i--)
                 {
-                    if (!VerifyMissionStatus(await ForumShare.AsyncInvoke(NewsContent[i].PostId, aid, cancellationToken).ConfigureAwait(false))) break;
+                    if (!VerifyMissionStatus(await ForumShare.AsyncInvoke(NewestPost[i].PostId, aid, cancellationToken).ConfigureAwait(false))) break;
                 }
             }
 

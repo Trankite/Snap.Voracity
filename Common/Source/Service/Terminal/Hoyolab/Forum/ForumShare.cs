@@ -1,6 +1,8 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Share;
@@ -25,7 +27,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         private const string Param_Aid = TerminalParameters.Aid;
 
-        public override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             return await AsyncInvoke(commandLine.GetParameter(Param_PostId), commandLine.GetParameter(Param_Aid), cancellationToken).ConfigureAwait(false);
         }
@@ -37,10 +39,10 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
                 return new TerminalResponse<ShareResponseWrapper>(SupportTerminalResponse.NotFindToken(aid));
             }
             ShareRequestBuilderFactory Factory = new ShareRequestBuilderFactory(Token).SetEntityType(EntityType.Post).SetEntityId(postId);
-            FinalizedResponse<ShareResponse> Response = await Factory.Create().SendAsync<ShareResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out ShareResponseWrapper? AnalyedBody))
+            HttpResponse<ShareResponse> Response = await Factory.Create().SendAsync<ShareResponse>(cancellationToken).ConfigureAwait(false);
+            if (Response.Body.IsNotNull() && Response.Body.TryGetContent(out ShareResponseWrapper? ShareInfo))
             {
-                return TerminalResponse.Create(true, $"{AnalyedBody.Title}\n{AnalyedBody.Url}", AnalyedBody);
+                return TerminalResponse.Create(true, $"{ShareInfo.Title}\n{ShareInfo.Url}", ShareInfo);
             }
             return new TerminalResponse<ShareResponseWrapper>(false, Response.ToString());
         }

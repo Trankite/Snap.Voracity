@@ -6,14 +6,14 @@ namespace Common.Source.Web.Request
 {
     public static class HttpRequestMessageBuilderExtension
     {
-        public static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpCompletionOption httpCompletionOption = default, TimeSpan? timeOut = default, HttpClient? httpClient = default)
+        public static async ValueTask<HttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpCompletionOption httpCompletionOption = default, TimeSpan? timeOut = default, HttpClient? httpClient = default)
         {
             using CancellationTokenSource CancellationSource = cancellationToken.CreateLinkedTokenSource();
             CancellationSource.CancelAfter(timeOut ?? HttpContext.DefaultTimeoutSpan);
             return await SendAsync<TResult>(builder, CancellationSource.Token, httpCompletionOption, httpClient).ConfigureAwait(false);
         }
 
-        private static async ValueTask<FinalizedResponse<TResult>> SendAsync<TResult>(HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpCompletionOption httpCompletionOption = default, HttpClient? httpClient = default)
+        private static async ValueTask<HttpResponse<TResult>> SendAsync<TResult>(HttpRequestMessageBuilder builder, CancellationToken cancellationToken, HttpCompletionOption httpCompletionOption = default, HttpClient? httpClient = default)
         {
             using HttpContext HttpContext = new(httpCompletionOption, httpClient, cancellationToken);
             await SendAsync(builder, HttpContext, cancellationToken).ConfigureAwait(false);
@@ -21,7 +21,7 @@ namespace Common.Source.Web.Request
             {
                 try
                 {
-                    return new FinalizedResponse<TResult>(HttpContext.Response.Headers, await builder.HttpContentSerializer.DeserializeAsync<TResult>(HttpContext.Response.Content, cancellationToken).ConfigureAwait(false));
+                    return new HttpResponse<TResult>(HttpContext.Response.Headers, await builder.HttpContentSerializer.DeserializeAsync<TResult>(HttpContext.Response.Content, cancellationToken).ConfigureAwait(false));
                 }
                 catch (OperationCanceledException CanceledException)
                 {
@@ -32,7 +32,7 @@ namespace Common.Source.Web.Request
                     HttpContext.DispatchCapture(Exception);
                 }
             }
-            return new FinalizedResponse<TResult>(HttpContext.Response?.Headers, HttpContext.CapturedException);
+            return new HttpResponse<TResult>(HttpContext.Response?.Headers, HttpContext.CapturedException);
         }
 
         public static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpContext context, TimeSpan? timeOut = default)

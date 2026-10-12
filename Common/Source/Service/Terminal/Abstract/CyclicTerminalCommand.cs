@@ -1,5 +1,8 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
+using Common.Source.Service.Terminal.Interface;
 
 namespace Common.Source.Service.Terminal.Abstract
 {
@@ -19,28 +22,28 @@ namespace Common.Source.Service.Terminal.Abstract
 
         private const string ENDSYMBOL = "exit";
 
-        protected abstract ITerminalResponse InvokeOverride(string line, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default);
+        protected abstract ITerminalResponse InvokeOverride(string line, ITextStream? textStream = default, CancellationToken cancellationToken = default);
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             string Header = $"{Name.ToUpper()}>\x20";
             bool IsCyclic = !commandLine.TryGetParameter(INPUT, out string? Current);
-            if (linkedStream.IsNull()) IsCyclic = false;
+            if (textStream.IsNull()) IsCyclic = false;
             while (!cancellationToken.IsCancellationRequested && !Current.EqualsIgnoreCase(ENDSYMBOL))
             {
                 if (!string.IsNullOrEmpty(Current))
                 {
                     if (Current.EqualsIgnoreCase(HELPSYMBOL))
                     {
-                        linkedStream?.WriteLine(HelpOverride);
+                        textStream?.WriteLine(HelpOverride);
                     }
                     else
                     {
-                        InvokeOverride(Current, linkedStream, cancellationToken).Configure(Self => linkedStream?.WriteLine(Self));
+                        InvokeOverride(Current, textStream, cancellationToken).Configure(Self => textStream?.WriteLine(Self));
                     }
                 }
                 if (!IsCyclic) break;
-                Current = linkedStream?.ReadLineAsync(Header, cancellationToken).AsTask().GetAwaiter().GetResult();
+                Current = textStream?.ReadLineAsync(Header, cancellationToken).AsTask().GetAwaiter().GetResult();
             }
             return new TerminalResponse(!cancellationToken.IsCancellationRequested);
         }

@@ -89,7 +89,7 @@ namespace Common.Source.Web.Download
             try
             {
                 TimeSpan CheckTimeSpan = TimeSpan.FromSeconds(10);
-                DiskSize BytesPerSecond = DiskSize.Create(DataSize.KB, 4);
+                DiskSize BytesPerSecond = DiskSize.Create(DataSize.KiB, 4);
                 using Stream ResponseStream = HttpContext.Response.Content.ReadAsStream(cancellationToken);
                 await ResponseStream.CopyToAsync(FileOpen.Stream, BytesPerSecond.Bytes, CheckTimeSpan, cancellationToken).ConfigureAwait(false);
                 return GradualStates.Completed;

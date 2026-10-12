@@ -8,7 +8,7 @@
 
         private Dictionary<string, string>? _Attributes;
 
-        public string Markup { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public IList<string> Contents
         {
@@ -30,14 +30,14 @@
 
         public HtmlElement() { }
 
-        public HtmlElement(string markup)
+        public HtmlElement(string name)
         {
-            Markup = markup;
+            Name = name;
         }
 
         public override string ToString()
         {
-            return $"<{Markup} {string.Join('\x20', Attributes.Select(Current => $"{Current.Key}=\"{Current.Value}\""))} />";
+            return $"<{Name} {string.Join('\x20', Attributes.Select(Current => $"{Current.Key}=\"{Current.Value}\""))} />";
         }
     }
 }

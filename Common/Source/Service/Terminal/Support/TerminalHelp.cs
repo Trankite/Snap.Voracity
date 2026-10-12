@@ -1,6 +1,8 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 
 namespace Common.Source.Service.Terminal.Support
@@ -19,7 +21,7 @@ namespace Common.Source.Service.Terminal.Support
 
         private const string Param_CommandName = TerminalParameters.Content;
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             const int Margin = 4;
             const int Padding = 12;

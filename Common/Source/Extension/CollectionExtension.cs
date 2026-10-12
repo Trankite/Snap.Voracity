@@ -17,31 +17,31 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static bool TryGetIndexValue<T>(this IList<T> value, int index, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.GetIndexValue(index));
+            return value.GetIndexValue(index).IsNotNull(out result);
         }
 
         [DebuggerStepThrough]
         public static bool TryGetFirst<T>(this IEnumerable<T> value, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.FirstOrDefault());
+            return value.FirstOrDefault().IsNotNull(out result);
         }
 
         [DebuggerStepThrough]
         public static bool TryGetFirst<T>(this IEnumerable<T> value, Func<T, bool> predicate, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.FirstOrDefault(predicate));
+            return value.FirstOrDefault(predicate).IsNotNull(out result);
         }
 
         [DebuggerStepThrough]
         public static bool TryGetLast<T>(this IEnumerable<T> value, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.LastOrDefault());
+            return value.LastOrDefault().IsNotNull(out result);
         }
 
         [DebuggerStepThrough]
         public static bool TryGetLast<T>(this IEnumerable<T> value, Func<T, bool> predicate, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = value.LastOrDefault(predicate));
+            return value.LastOrDefault(predicate).IsNotNull(out result);
         }
 
         [DebuggerStepThrough]

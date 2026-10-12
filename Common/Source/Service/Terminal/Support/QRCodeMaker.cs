@@ -1,11 +1,13 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.FileOpen;
-using Common.Source.Factory.Streams.FileSave;
-using Common.Source.Factory.Streams.FileSave.Abstract;
-using Common.Source.Factory.Streams.FileSave.Metadata;
+using Common.Source.Factory.Streams.FileStore;
+using Common.Source.Factory.Streams.FileStore.Abstract;
+using Common.Source.Factory.Streams.FileStore.Metadata;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Encode.QRCode;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using System.Drawing;
 
@@ -47,7 +49,7 @@ namespace Common.Source.Service.Terminal.Support
 
         private const string Param_PathOpen = TerminalParameters.PathOpen;
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             string Content = commandLine.GetParameter(Param_Content);
             string FilePath = commandLine.GetParameter(Param_FilePath);
@@ -103,8 +105,8 @@ namespace Common.Source.Service.Terminal.Support
                 return new TerminalResponse(false, FileWrite.ToString());
             }
             QRCode Qrcode = QRCode.Create(content, options);
-            QRCodeSaver Saver = QRCodeSaver.Create(Qrcode, options);
-            if (!Saver.TrySaveToFormat(FileWrite.Stream, format))
+            QRCodeStore Store = QRCodeStore.Create(Qrcode, options);
+            if (!Store.TrySaveToFormat(FileWrite.Stream, format))
             {
                 return new TerminalResponse(false, format.UnSupported());
             }

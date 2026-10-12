@@ -1,25 +1,13 @@
-﻿using Common.Source.Extension;
+﻿using Common.Source.Factory.Serialize.Interface;
 using Common.Source.Web.Response;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab.Takumi.Sign.Home
 {
-    public class SignHomeResponse : ResponseWrapper<SignHomeResponseWrapper, SignHomeAnalyzedBody[]>
+    public class SignHomeResponse : ResponseWrapper<SignHomeResponseWrapper>, IContentSerializer<IEnumerable<SignHomeAnalyzedBody>?>
     {
-        public override bool TryGetAnalyzedBody([NotNullWhen(true)] out SignHomeAnalyzedBody[]? analyedBody)
+        public IEnumerable<SignHomeAnalyzedBody>? Serialize()
         {
-            if (TryGetAnalyzedBody(out SignHomeResponseWrapper? Content))
-            {
-                int Count = Content.Awards.Length;
-                analyedBody = new SignHomeAnalyzedBody[Count];
-                for (int i = 0; i < Count; i++)
-                {
-                    SignHomeResponseAward Current = Content.Awards[i];
-                    analyedBody[i] = new SignHomeAnalyzedBody(i + 1, Current.Count, Current.Name, Current.Icon);
-                }
-                return Count > 0;
-            }
-            return false.Configure(analyedBody = default);
+            return TryGetContent(out SignHomeResponseWrapper? Content) ? Content.Awards.Select((Current, Index) => new SignHomeAnalyzedBody(Index + 1, Current.Count, Current.Name, Current.Icon)) : default;
         }
     }
 }

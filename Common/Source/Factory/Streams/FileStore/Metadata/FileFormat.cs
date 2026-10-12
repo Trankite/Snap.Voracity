@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Common.Source.Factory.Streams.FileSave.Metadata
+namespace Common.Source.Factory.Streams.FileStore.Metadata
 {
     public enum FileFormat
     {

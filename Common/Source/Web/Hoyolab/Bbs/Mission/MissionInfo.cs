@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Web.Hoyolab.Bbs.Mission
 {
-    public class MissionAnalyzedBody
+    public class MissionInfo
     {
         public int TotalPoint { get; set; }
 
@@ -10,9 +10,9 @@
 
         public Dictionary<MissionType, int> Mission { get; set; } = [];
 
-        public MissionAnalyzedBody() { }
+        public MissionInfo() { }
 
-        public MissionAnalyzedBody(int totalPoint, int todayPoint, int surplus)
+        public MissionInfo(int totalPoint, int todayPoint, int surplus)
         {
             TotalPoint = totalPoint;
             TodayPoint = todayPoint;

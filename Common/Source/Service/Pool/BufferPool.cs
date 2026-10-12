@@ -18,7 +18,7 @@ namespace Common.Source.Service.Pool
 
         static BufferPool()
         {
-            DefaultSize = Convert.ToInt32(DiskSize.Create(DataSize.KB, 4).Bytes / Unsafe.SizeOf<T>());
+            DefaultSize = Convert.ToInt32(DiskSize.Create(DataSize.KiB, 4).Bytes / Unsafe.SizeOf<T>());
         }
     }
 }

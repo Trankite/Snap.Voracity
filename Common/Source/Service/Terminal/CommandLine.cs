@@ -1,4 +1,4 @@
-﻿using Common.Source.Service.Terminal.Abstract;
+﻿using Common.Source.Service.Terminal.Interface;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Service.Terminal

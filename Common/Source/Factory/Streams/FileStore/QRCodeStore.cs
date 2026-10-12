@@ -1,37 +1,37 @@
-﻿using Common.Source.Factory.Streams.FileSave.Abstract;
-using Common.Source.Factory.Streams.FileSave.Metadata;
+﻿using Common.Source.Factory.Streams.FileStore.Abstract;
+using Common.Source.Factory.Streams.FileStore.Metadata;
 using Common.Source.Service.Encode.QRCode;
 using System.Collections.Frozen;
 using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Common.Source.Factory.Streams.FileSave
+namespace Common.Source.Factory.Streams.FileStore
 {
-    public class QRCodeSaver : FileFormatSaver<QRCodeSaver>
+    public class QRCodeStore : FileStore<QRCodeStore>
     {
-        protected override QRCodeSaver Sender => this;
+        protected override QRCodeStore Sender => this;
 
-        private static readonly FrozenDictionary<FileFormat, Action<QRCodeSaver, Stream>> _FileSaveActionTable;
+        private static readonly FrozenDictionary<FileFormat, Action<QRCodeStore, Stream>> _FileSaveActionTable;
 
-        protected override FrozenDictionary<FileFormat, Action<QRCodeSaver, Stream>> FileSaveActionTable => _FileSaveActionTable;
+        protected override FrozenDictionary<FileFormat, Action<QRCodeStore, Stream>> FileSaveActionTable => _FileSaveActionTable;
 
         private readonly QRCode QRCode;
 
         private readonly QRCodeOptions Options;
 
-        public QRCodeSaver(QRCode qrcode, QRCodeOptions options)
+        public QRCodeStore(QRCode qrcode, QRCodeOptions options)
         {
             QRCode = qrcode;
             Options = options;
         }
 
-        public static QRCodeSaver Create(QRCode qrcode, QRCodeOptions? options = default)
+        public static QRCodeStore Create(QRCode qrcode, QRCodeOptions? options = default)
         {
-            return new QRCodeSaver(qrcode, options ?? new QRCodeOptions());
+            return new QRCodeStore(qrcode, options ?? new QRCodeOptions());
         }
 
-        private static void SaveToSvg(QRCodeSaver saver, Stream stream)
+        private static void SaveToSvg(QRCodeStore saver, Stream stream)
         {
             const string LINKNAME = "i";
             const string WIDTHNAME = "width";
@@ -81,7 +81,7 @@ namespace Common.Source.Factory.Streams.FileSave
             Writer.WriteEndElement();
         }
 
-        public static void SaveToCsv(QRCodeSaver saver, Stream stream)
+        public static void SaveToCsv(QRCodeStore saver, Stream stream)
         {
             using StreamWriter Writer = new(stream, leaveOpen: true);
             ReadOnlySpan<char> BlackSpan = [',', '1'];
@@ -98,7 +98,7 @@ namespace Common.Source.Factory.Streams.FileSave
             }
         }
 
-        static QRCodeSaver()
+        static QRCodeStore()
         {
             _FileSaveActionTable = FrozenDictionary.Create(
                 KeyValuePair.Create(FileFormat.Svg, SaveToSvg),

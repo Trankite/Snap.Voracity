@@ -1,5 +1,7 @@
-﻿using Common.Source.Resource.Localization;
+﻿using Common.Source.Factory.Streams.Text.Interface;
+using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.EHentai;
 
@@ -23,7 +25,7 @@ namespace Common.Source.Service.Terminal.EHentai
 
         private const string Param_Igneous = "pass";
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = null, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = null, CancellationToken cancellationToken = default)
         {
             if (!commandLine.TryGetParameter(Param_IpbMemberId, out string? IpbMemberId))
             {

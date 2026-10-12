@@ -1,6 +1,9 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Forum.FullPost;
@@ -27,7 +30,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         private const string Param_Aid = TerminalParameters.Aid;
 
-        public override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             return await AsyncInvoke(commandLine.GetParameter(Param_PostId), commandLine.GetBoolParameter(Param_NeedSign), commandLine.GetParameter(Param_Aid), cancellationToken).ConfigureAwait(false);
         }
@@ -39,15 +42,12 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
             {
                 return new TerminalResponse<FullPostResponseWrapper>(SupportTerminalResponse.NotFindToken(aid));
             }
-            if (Token.IsNull())
-            {
-                Token = new HoyolabToken();
-            }
+            Token ??= new HoyolabToken();
             FullPostRequestBuilderFactory Factory = new FullPostRequestBuilderFactory(Token).SetPostId(postId);
-            FinalizedResponse<FullPostResponse> Response = await Factory.Create().SendAsync<FullPostResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out FullPostResponseWrapper? AnalyedBody))
+            HttpResponse<FullPostResponse> Response = await Factory.Create().SendAsync<FullPostResponse>(cancellationToken).ConfigureAwait(false);
+            if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out FullPostResponseWrapper? FullPost))
             {
-                return TerminalResponse.Create(true, $"[{AnalyedBody.Post.PostId}] {AnalyedBody.Post.Subject}", AnalyedBody);
+                return TerminalResponse.Create(true, $"[{FullPost.Post.PostId}]\x20{FullPost.Post.Subject}", FullPost);
             }
             return new TerminalResponse<FullPostResponseWrapper>(false, Response.ToString());
         }

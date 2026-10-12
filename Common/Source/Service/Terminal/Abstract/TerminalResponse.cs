@@ -1,4 +1,5 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Service.Terminal.Interface;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Service.Terminal.Abstract
@@ -66,9 +67,9 @@ namespace Common.Source.Service.Terminal.Abstract
             Content = content;
         }
 
-        public bool TryGetAnalyzedBody([NotNullWhen(true)] out TContent? analyedBody)
+        public bool TryGetContent([NotNullWhen(true)] out TContent? content)
         {
-            return (analyedBody = Content).IsNotNull() && Success;
+            return Content.IsNotNull(out content) && Success;
         }
     }
 }

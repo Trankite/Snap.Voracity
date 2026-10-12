@@ -4,16 +4,16 @@
     {
         Byte,
 
-        KB,
+        KiB,
 
-        MB,
+        MiB,
 
-        GB,
+        GiB,
 
-        TB,
+        TiB,
 
-        PB,
+        PiB,
 
-        EB
+        EiB
     }
 }

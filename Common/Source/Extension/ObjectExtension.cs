@@ -18,9 +18,21 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
+        public static bool IsNull<T>([NotNullWhen(false)] this T? value, [NotNullWhen(false)] out T? other)
+        {
+            return IsNull(other = value);
+        }
+
+        [DebuggerStepThrough]
         public static bool IsNotNull<T>([NotNullWhen(true)] this T? value)
         {
             return value is not null;
+        }
+
+        [DebuggerStepThrough]
+        public static bool IsNotNull<T>([NotNullWhen(true)] this T? value, [NotNullWhen(true)] out T? other)
+        {
+            return IsNotNull(other = value);
         }
 
         [DebuggerStepThrough]

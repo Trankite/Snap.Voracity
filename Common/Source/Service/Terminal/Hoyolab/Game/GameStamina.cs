@@ -1,6 +1,9 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Metadata;
@@ -24,7 +27,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Game
 
         private const string Param_Aid = TerminalParameters.Aid;
 
-        public override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             return await AsyncInvoke(commandLine.GetParameter(Param_Aid), cancellationToken).ConfigureAwait(false);
         }
@@ -40,8 +43,8 @@ namespace Common.Source.Service.Terminal.Hoyolab.Game
                 return new TerminalResponse<NoteAnalyzedBody>(HoyolabTerminalResponse.NotFindUserRole(Game));
             }
             NoteRequestBuilderFactory Factory = new NoteRequestBuilderFactory(Token).SetUserRole(UserRole);
-            FinalizedResponse<NoteResponse> Response = await Factory.Create().SendAsync<NoteResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetAnalyzedBody(out NoteAnalyzedBody? Body))
+            HttpResponse<NoteResponse> Response = await Factory.Create().SendAsync<NoteResponse>(cancellationToken).ConfigureAwait(false);
+            if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out NoteAnalyzedBody? Body))
             {
                 TimeSpan Offset = Body.FullTime.Subtract(DateTimeOffset.Now);
                 return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabGameStaminaContent.SafeFormat(Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);

@@ -1,16 +1,16 @@
-﻿using Common.Source.Core.Interface;
-using Common.Source.Extension;
+﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Model.DataStruct.Ticket;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
-using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Web.EHentai.Builder;
 using Common.Source.Web.EHentai.Gallery;
 using Common.Source.Web.Request;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public class EHentaiSlideParser : AsyncGradualTask, ILinkedTextStreamMessage
+    public class EHentaiSlideParser : AsyncGradualTask, ITextStreamOwner
     {
         private int Index;
 
@@ -22,11 +22,11 @@ namespace Common.Source.Web.EHentai.Download
 
         private readonly GalleryRequestBuilderFactory BuilderFactory = new();
 
-        public ILinkedTextStream? LinkedStream { get; set; }
+        public ITextStream? TextStream { get; set; }
 
-        public EHentaiSlideParser(Uri galleryUri, EHentaiToken? eHentaiToken = default, ILinkedTextStream? linkedStream = default)
+        public EHentaiSlideParser(Uri galleryUri, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {
-            LinkedStream = linkedStream;
+            TextStream = textStream;
             BuilderFactory.SetEHentaiToken(eHentaiToken);
             BuilderFactory.SetUrl(galleryUri);
         }
@@ -48,7 +48,7 @@ namespace Common.Source.Web.EHentai.Download
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 HttpRequestMessageBuilder Request = BuilderFactory.SetPage(Index).Create();
-                LinkedStream?.WriteLine($"[{Index + 1}]{Request.RequestUri}");
+                TextStream?.WriteLine($"[{Index + 1}]{Request.RequestUri}");
                 using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
                 await Request.SendAsync(HttpContext).ConfigureAwait(false);
                 if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCode)

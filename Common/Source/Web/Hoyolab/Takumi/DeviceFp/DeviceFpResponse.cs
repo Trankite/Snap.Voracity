@@ -1,5 +1,4 @@
-﻿using Common.Source.Extension;
-using Common.Source.Web.Response;
+﻿using Common.Source.Web.Response;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab.Takumi.DeviceFp
@@ -8,7 +7,7 @@ namespace Common.Source.Web.Hoyolab.Takumi.DeviceFp
     {
         public bool TryGetDeviceFp([NotNullWhen(true)] out string? deviceFp)
         {
-            return Content.IsNotNull() && !string.IsNullOrEmpty(Content.DeviceFp) ? true.Configure(deviceFp = Content.DeviceFp) : false.Configure(deviceFp = default);
+            return !string.IsNullOrEmpty(deviceFp = Content?.DeviceFp);
         }
     }
 }
