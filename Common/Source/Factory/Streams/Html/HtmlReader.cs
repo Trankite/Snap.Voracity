@@ -28,7 +28,7 @@ namespace Common.Source.Factory.Streams.Html
             {
                 if (MoveNextMarkup(out HtmlElement HtmlElement))
                 {
-                    yield return ClosingMarkup(HtmlElement.Markup);
+                    yield return ClosingMarkup(HtmlElement.Name);
                 }
             }
             while (ElementStack.Count > 0)
@@ -171,7 +171,7 @@ namespace Common.Source.Factory.Streams.Html
                     {
                         Reader.MoveOffset(i + 1);
                         Builder.Clear();
-                        return FormQuotationMark();
+                        return FromQuotationMark();
                     }
                     else if (BlockSpan[i] == '>')
                     {
@@ -186,7 +186,7 @@ namespace Common.Source.Factory.Streams.Html
             return Builder.Complete();
         }
 
-        private string FormQuotationMark()
+        private string FromQuotationMark()
         {
             while (Reader.TryRead(out ReadOnlyMemory<char> BlockMemory))
             {
@@ -210,7 +210,7 @@ namespace Common.Source.Factory.Streams.Html
             return isSelfClosed = index > 0 ? span[index - 1] == '/' : Builder.EndsWith('/');
         }
 
-        private HtmlElement ClosingMarkup(ReadOnlySpan<char> markup)
+        private HtmlElement ClosingMarkup(ReadOnlySpan<char> name)
         {
             bool IsClosing = false;
             HtmlElement? HtmlElement = default;
@@ -224,7 +224,7 @@ namespace Common.Source.Factory.Streams.Html
                 {
                     return HtmlElement;
                 }
-                IsClosing = HtmlElement.Markup.EqualsIgnoreCase(markup);
+                IsClosing = HtmlElement.Name.EqualsIgnoreCase(name);
             }
             return HtmlElement ?? new HtmlElement();
         }

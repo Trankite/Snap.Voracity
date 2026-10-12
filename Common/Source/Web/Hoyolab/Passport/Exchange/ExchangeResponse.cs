@@ -1,14 +1,13 @@
-﻿using Common.Source.Extension;
+﻿using Common.Source.Factory.Serialize.Interface;
 using Common.Source.Web.Response;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab.Passport.Exchange
 {
-    public class ExchangeResponse : ResponseWrapper<ExchangeResponseWrapper, ExchangeResponseToken>
+    public class ExchangeResponse : ResponseWrapper<ExchangeResponseWrapper>, IContentSerializer<ExchangeResponseToken?>
     {
-        public override bool TryGetAnalyzedBody([NotNullWhen(true)] out ExchangeResponseToken? analyedBody)
+        public ExchangeResponseToken? Serialize()
         {
-            return TryGetAnalyzedBody(out ExchangeResponseWrapper? Content) ? true.Configure(analyedBody = Content.Token) : false.Configure(analyedBody = default);
+            return TryGetContent(out ExchangeResponseWrapper? Content) ? Content.Token : default;
         }
     }
 }

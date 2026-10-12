@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Common.Source.Service.Terminal.Abstract
+namespace Common.Source.Service.Terminal.Interface
 {
     public interface ITerminalCommandLine
     {

@@ -1,28 +1,22 @@
-﻿using Common.Source.Extension;
+﻿using Common.Source.Factory.Serialize.Interface;
 using Common.Source.Web.Response;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab.Bbs.Mission
 {
-    public class MissionResponse : ResponseWrapper<MissionResponseWrapper, MissionAnalyzedBody>
+    public class MissionResponse : ResponseWrapper<MissionResponseWrapper>, IContentSerializer<MissionInfo?>
     {
-        public override bool TryGetAnalyzedBody([NotNullWhen(true)] out MissionAnalyzedBody? analyedBody)
+        public MissionInfo? Serialize()
         {
-            if (TryGetAnalyzedBody(out MissionResponseWrapper? Content))
+            MissionInfo? MissionInfo = default;
+            if (TryGetContent(out MissionResponseWrapper? Content))
             {
-                analyedBody = new MissionAnalyzedBody(Content.TotalPoints, Content.AlreadyReceivedPoints, Content.CanGetPoints);
+                MissionInfo = new MissionInfo(Content.TotalPoints, Content.AlreadyReceivedPoints, Content.CanGetPoints);
                 foreach (MissionResponseState State in Content.States)
                 {
-                    analyedBody.Mission[(MissionType)State.MissionId] = State.HappenedTimes;
+                    MissionInfo.Mission[(MissionType)State.MissionId] = State.HappenedTimes;
                 }
-                return true;
             }
-            return false.Configure(analyedBody = default);
-        }
-
-        public bool TryGetAnalyzedBody(out object analyzedBody)
-        {
-            throw new NotImplementedException();
+            return MissionInfo;
         }
     }
 }

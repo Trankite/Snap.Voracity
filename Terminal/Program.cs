@@ -1,5 +1,5 @@
 ﻿using Common.Source.Core.Setting;
-using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Abstract;
 using Common.Source.Service.Terminal;
 using Common.Source.Service.Terminal.Support;
 
@@ -10,12 +10,12 @@ namespace Terminal
         [MTAThread]
         public static void Main(string[] options)
         {
-            LinkedTextStream LinkedStream = new(Console.Out, Console.In);
-            TerminalInvoke.Invoke(new CommandParser(options), LinkedStream);
+            TextStream TextStream = new(Console.Out, Console.In);
+            TerminalInvoke.Invoke(new CommandParser(options), TextStream);
             while (AppSetting.OnTerminal)
             {
-                ReadOnlySpan<char> CurrentInput = LinkedStream.ReadLine("HOST>\x20");
-                TerminalInvoke.Invoke(CommandParser.Create(CurrentInput), LinkedStream);
+                ReadOnlySpan<char> CurrentInput = TextStream.ReadLine("HOST>\x20");
+                TerminalInvoke.Invoke(CommandParser.Create(CurrentInput), TextStream);
             }
         }
 

@@ -1,6 +1,10 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Passport.Exchange;
@@ -29,7 +33,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
 
         private const string Param_Guid = "guid";
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             if (!commandLine.TryGetParameter(Param_Guid, out string? Guid))
             {
@@ -37,14 +41,14 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             }
             HoyolabToken HoyolabToken = new(Guid) { Mid = commandLine.GetParameter(Param_Mid) };
             HoyolabToken.SetToken(HoyolabTokenType.SToken, commandLine.GetParameter(Param_Stoken));
-            return await AsyncInvoke(HoyolabToken, linkedStream, cancellationToken).ConfigureAwait(false);
+            return await AsyncInvoke(HoyolabToken, textStream, cancellationToken).ConfigureAwait(false);
         }
 
-        public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabToken hoyolabToken, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabToken hoyolabToken, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetDeviceFp);
+            textStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetDeviceFp);
             ITerminalResponse<DeviceFpResponseWrapper> DeviceFpResponse = await DeviceFp.AsyncInvoke(cancellationToken).ConfigureAwait(false);
-            if (!DeviceFpResponse.TryGetAnalyzedBody(out DeviceFpResponseWrapper? DeviceFpContent))
+            if (!DeviceFpResponse.TryGetContent(out DeviceFpResponseWrapper? DeviceFpContent))
             {
                 return DeviceFpResponse;
             }
@@ -55,24 +59,24 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
                 if (!hoyolabToken.Tokens.ContainsKey(TokenType))
                 {
                     ExchangeFactory.SetDestin(TokenType);
-                    linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetToken.SafeFormat(TokenType));
-                    FinalizedResponse<ExchangeResponse> ExchangeResponse = await ExchangeFactory.Create().SendAsync<ExchangeResponse>(cancellationToken).ConfigureAwait(false);
-                    if (ExchangeResponse.Body.IsNull() || !ExchangeResponse.Body.TryGetAnalyzedBody(out ExchangeResponseToken? ExchangeAnalyedBody))
+                    textStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetToken.SafeFormat(TokenType));
+                    HttpResponse<ExchangeResponse> ExchangeResponse = await ExchangeFactory.Create().SendAsync<ExchangeResponse>(cancellationToken).ConfigureAwait(false);
+                    if (ExchangeResponse.Body.IsNull() || !ExchangeResponse.Body.TrySerialize(out ExchangeResponseToken? ExchangeToken))
                     {
                         return new TerminalResponse(false, ExchangeResponse.ToString());
                     }
-                    hoyolabToken.SetToken(TokenType, ExchangeAnalyedBody.Token);
+                    hoyolabToken.SetToken(TokenType, ExchangeToken.Token);
                 }
             }
             GameRoleRequestBuilderFactory GameRoleFactory = new(hoyolabToken);
-            linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetUserRole);
-            FinalizedResponse<GameRoleResponse> GameRoleResponse = await GameRoleFactory.Create().SendAsync<GameRoleResponse>(cancellationToken).ConfigureAwait(false);
-            if (GameRoleResponse.Body.IsNull() || !GameRoleResponse.Body.TryGetAnalyzedBody(out HoyolabUserRole[]? GameRoleAnalyedBody))
+            textStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginGetUserRole);
+            HttpResponse<GameRoleResponse> GameRoleResponse = await GameRoleFactory.Create().SendAsync<GameRoleResponse>(cancellationToken).ConfigureAwait(false);
+            if (GameRoleResponse.Body.IsNull() || !GameRoleResponse.Body.TrySerialize(out IEnumerable<HoyolabUserRole>? UserRoleEnumerable))
             {
                 return new TerminalResponse(false, GameRoleResponse.ToString());
             }
-            hoyolabToken.UserRoles = GameRoleAnalyedBody;
-            linkedStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginTryUpdate);
+            hoyolabToken.UserRoles = [.. UserRoleEnumerable];
+            textStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginTryUpdate);
             try
             {
                 await HoyolabTokenManage.Update(hoyolabToken, cancellationToken).ConfigureAwait(false);

@@ -1,5 +1,5 @@
 ﻿using Common.Source.Web.Hoyolab.Bbs.Forum.FullPost;
-using Common.Source.Web.Response;
+using Common.Source.Web.Response.Wrapper;
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 

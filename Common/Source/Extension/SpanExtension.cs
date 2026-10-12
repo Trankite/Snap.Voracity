@@ -158,7 +158,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static bool TryGetIndexValue<T>(this ReadOnlySpan<T> span, int index, [NotNullWhen(true)] out T? result)
         {
-            return ObjectExtension.IsNotNull(result = span.GetIndexValue(index));
+            return span.GetIndexValue(index).IsNotNull(out result);
         }
     }
 }

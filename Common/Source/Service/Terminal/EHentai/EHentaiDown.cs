@@ -1,8 +1,11 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.EHentai;
 using Common.Source.Web.EHentai.Download;
@@ -28,9 +31,9 @@ namespace Common.Source.Service.Terminal.EHentai
 
         private const string Param_PathOpen = TerminalParameters.PathOpen;
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = null, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = null, CancellationToken cancellationToken = default)
         {
-            if (linkedStream.IsNull())
+            if (textStream.IsNull())
             {
                 return SupportTerminalResponse.MissingUserInteraction();
             }
@@ -41,10 +44,10 @@ namespace Common.Source.Service.Terminal.EHentai
             }
             string IpbMemberId = commandLine.GetParameter(Param_IpbMemberId);
             bool PathOpen = commandLine.GetBoolParameter(Param_PathOpen);
-            return await AsyncInvoke(GalleryUri, linkedStream, IpbMemberId, PathOpen, cancellationToken).ConfigureAwait(false);
+            return await AsyncInvoke(GalleryUri, textStream, IpbMemberId, PathOpen, cancellationToken).ConfigureAwait(false);
         }
 
-        public static async ValueTask<ITerminalResponse> AsyncInvoke(Uri galleryUri, ILinkedTextStream linkedStream, string? ipbMemberId = default, bool pathOpen = default, CancellationToken cancellationToken = default)
+        public static async ValueTask<ITerminalResponse> AsyncInvoke(Uri galleryUri, ITextStream textStream, string? ipbMemberId = default, bool pathOpen = default, CancellationToken cancellationToken = default)
         {
             EHentaiHost EHentaiHost = EHentaiUriHelper.GetHost(galleryUri);
             if (EHentaiHost == EHentaiHost.None)
@@ -56,10 +59,10 @@ namespace Common.Source.Service.Terminal.EHentai
             {
                 return SupportTerminalResponse.NotFindToken(ipbMemberId);
             }
-            using EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, linkedStream);
+            using EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, textStream);
             while ((await Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false)).IsUnCompleted())
             {
-                if (!await linkedStream.EnquireAsync(LocalString.ServiceTerminalEHentaiEHentaiDownloadRetry, cancellationToken).ConfigureAwait(false))
+                if (!await textStream.EnquireAsync(LocalString.ServiceTerminalEHentaiEHentaiDownloadRetry, cancellationToken).ConfigureAwait(false))
                 {
                     return new TerminalResponse(false, LocalString.ServiceTerminalEHentaiEHentaiDownloadCanceled);
                 }

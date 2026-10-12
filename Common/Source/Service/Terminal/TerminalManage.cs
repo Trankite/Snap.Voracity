@@ -1,9 +1,9 @@
-﻿using Common.Source.Service.Terminal.Abstract;
-using Common.Source.Service.Terminal.EHentai;
+﻿using Common.Source.Service.Terminal.EHentai;
 using Common.Source.Service.Terminal.Hoyolab.Forum;
 using Common.Source.Service.Terminal.Hoyolab.Game;
 using Common.Source.Service.Terminal.Hoyolab.Login;
 using Common.Source.Service.Terminal.Hoyolab.Mission;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Support;
 using System.Collections.Frozen;
 

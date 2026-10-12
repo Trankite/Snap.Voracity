@@ -8,21 +8,21 @@ namespace Common.Source.Extension
     public static class ExceptionExtension
     {
         [DebuggerStepThrough]
-        public static string GetMessage(this IExceptionCaptureOwner exceptionCaptureOwner)
+        public static string GetMessage(this IExceptionCaptureOwner exceptionCaptureOwner, object? message = default)
         {
-            return GetMessage(exceptionCaptureOwner.CapturedException);
+            return GetMessage(exceptionCaptureOwner.CapturedException, message);
         }
 
         [DebuggerStepThrough]
-        public static string GetMessage(this ExceptionDispatchInfo? exceptionDispatchInfo)
+        public static string GetMessage(this ExceptionDispatchInfo? exceptionDispatchInfo, object? message = default)
         {
-            return GetMessage(exceptionDispatchInfo?.SourceException);
+            return GetMessage(exceptionDispatchInfo?.SourceException, message);
         }
 
         [DebuggerStepThrough]
-        public static string GetMessage(this Exception? exception)
+        public static string GetMessage(this Exception? exception, object? message = default)
         {
-            return LocalString.ExtensionExceptionMessageDescription.SafeFormat(exception?.Message);
+            return LocalString.ExtensionExceptionMessageDescription.SafeFormat(exception?.Message ?? message);
         }
 
         [DebuggerStepThrough]

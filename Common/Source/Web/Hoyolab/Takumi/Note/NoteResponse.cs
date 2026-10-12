@@ -1,14 +1,13 @@
-﻿using Common.Source.Extension;
+﻿using Common.Source.Factory.Serialize.Interface;
 using Common.Source.Web.Response;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab.Takumi.Note
 {
-    public class NoteResponse : ResponseWrapper<NoteResponseWrapper, NoteAnalyzedBody>
+    public class NoteResponse : ResponseWrapper<NoteResponseWrapper>, IContentSerializer<NoteAnalyzedBody?>
     {
-        public override bool TryGetAnalyzedBody([NotNullWhen(true)] out NoteAnalyzedBody? analyedBody)
+        public NoteAnalyzedBody? Serialize()
         {
-            return TryGetAnalyzedBody(out NoteResponseWrapper? Content) ? true.Configure(analyedBody = new(Content.CurrentStamina, Content.MaxStamina, DateTimeOffset.FromUnixTimeSeconds(Content.StaminaFullTs).ToLocalTime())) : false.Configure(analyedBody = default);
+            return TryGetContent(out NoteResponseWrapper? Content) ? new NoteAnalyzedBody(Content.CurrentStamina, Content.MaxStamina, DateTimeOffset.FromUnixTimeSeconds(Content.StaminaFullTs).ToLocalTime()) : default;
         }
     }
 }

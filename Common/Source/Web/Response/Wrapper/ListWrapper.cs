@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
-namespace Common.Source.Web.Response
+namespace Common.Source.Web.Response.Wrapper
 {
     public class ListWrapper<T>
     {

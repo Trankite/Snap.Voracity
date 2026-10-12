@@ -1,27 +1,30 @@
-﻿namespace Common.Source.Service.Terminal.Abstract
+﻿using Common.Source.Factory.Streams.Text.Interface;
+using Common.Source.Service.Terminal.Interface;
+
+namespace Common.Source.Service.Terminal.Abstract
 {
     public abstract class AsyncTerminalCommand : TerminalCommand, IAsyncTerminalCommand
     {
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            return AsyncInvoke(commandLine, linkedStream, cancellationToken).AsTask().GetAwaiter().GetResult();
+            return AsyncInvoke(commandLine, textStream, cancellationToken).AsTask().GetAwaiter().GetResult();
         }
 
-        public abstract ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default);
+        public abstract ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default);
     }
 
     public abstract class AsyncTerminalCommand<TContent> : AsyncTerminalCommand, IAsyncTerminalCommand<TContent>
     {
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            return await AsyncInvokeOverride(commandLine, linkedStream, cancellationToken).ConfigureAwait(false);
+            return await AsyncInvokeOverride(commandLine, textStream, cancellationToken).ConfigureAwait(false);
         }
 
-        public ITerminalResponse<TContent> InvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public ITerminalResponse<TContent> InvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            return AsyncInvokeOverride(commandLine, linkedStream, cancellationToken).AsTask().GetAwaiter().GetResult();
+            return AsyncInvokeOverride(commandLine, textStream, cancellationToken).AsTask().GetAwaiter().GetResult();
         }
 
-        public abstract ValueTask<ITerminalResponse<TContent>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default);
+        public abstract ValueTask<ITerminalResponse<TContent>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default);
     }
 }

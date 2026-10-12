@@ -1,6 +1,8 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Sign;
@@ -26,7 +28,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         private const string Param_Aid = TerminalParameters.Aid;
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             return await AsyncInvoke((HoyolabGroup)commandLine.GetIntParameter(Param_Group), commandLine.GetParameter(Param_Aid), cancellationToken).ConfigureAwait(false);
         }
@@ -38,8 +40,8 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
                 return SupportTerminalResponse.NotFindToken(aid);
             }
             SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetGroup(group);
-            FinalizedResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.IsSuccess())
+            HttpResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(cancellationToken).ConfigureAwait(false);
+            if (Response.Body.IsNotNull() && Response.Body.Success)
             {
                 return new TerminalResponse(true, LocalString.ServiceTerminalHoyolabForumSignSuccess);
             }

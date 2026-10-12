@@ -1,6 +1,9 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
+using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 
 namespace Common.Source.Service.Terminal.Support
@@ -19,12 +22,12 @@ namespace Common.Source.Service.Terminal.Support
 
         private const string Param_Content = TerminalParameters.Content;
 
-        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ILinkedTextStream? linkedStream = default, CancellationToken cancellationToken = default)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            return Invoke(CommandParser.Create(commandLine.GetParameter(Param_Content)), linkedStream);
+            return Invoke(CommandParser.Create(commandLine.GetParameter(Param_Content)), textStream);
         }
 
-        public static ITerminalResponse Invoke(CommandParser parser, ILinkedTextStream? linkedStream = default)
+        public static ITerminalResponse Invoke(CommandParser parser, ITextStream? textStream = default)
         {
             foreach (CommandLine Current in parser)
             {
@@ -32,16 +35,16 @@ namespace Common.Source.Service.Terminal.Support
                 {
                     if (Command.RequiredParameters.All(Current.HasParameter))
                     {
-                        Command.Invoke(Current, linkedStream).Configure(Self => linkedStream?.WriteLine(Self));
+                        Command.Invoke(Current, textStream).Configure(Self => textStream?.WriteLine(Self));
                     }
                     else
                     {
-                        linkedStream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
+                        textStream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
                     }
                 }
                 else
                 {
-                    linkedStream?.WriteLine(SupportTerminalResponse.UnknownOperation(Current.Name));
+                    textStream?.WriteLine(SupportTerminalResponse.UnknownOperation(Current.Name));
                 }
             }
             return new TerminalResponse(true);

@@ -1,4 +1,4 @@
-﻿using Common.Source.Web.Response;
+﻿using Common.Source.Web.Response.Wrapper;
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 

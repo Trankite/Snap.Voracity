@@ -1,6 +1,6 @@
-﻿namespace Common.Source.Service.Terminal.Abstract
+﻿namespace Common.Source.Factory.Streams.Text.Interface
 {
-    public interface ILinkedTextStream
+    public interface ITextStream
     {
         TextWriter Writer { get; set; }
 

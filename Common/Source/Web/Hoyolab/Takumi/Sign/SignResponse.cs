@@ -4,9 +4,6 @@ namespace Common.Source.Web.Hoyolab.Takumi.Sign
 {
     public class SignResponse : ResponseWrapper<SignResponseWrapper>
     {
-        public override bool IsSuccess()
-        {
-            return base.IsSuccess() || Code == -5003;
-        }
+        public override bool Success => base.Success || Code == -5003;
     }
 }
