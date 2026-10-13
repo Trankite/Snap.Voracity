@@ -10,7 +10,7 @@ using Common.Source.Web.Request;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public class EHentaiSlideParser : AsyncGradualTask, ITextStreamOwner
+    public class EHentaiSlideParser : AsyncGradualTask
     {
         private int Index;
 
@@ -22,7 +22,7 @@ namespace Common.Source.Web.EHentai.Download
 
         private readonly GalleryRequestBuilderFactory BuilderFactory = new();
 
-        public ITextStream? TextStream { get; set; }
+        private readonly ITextStream? TextStream;
 
         public EHentaiSlideParser(Uri galleryUri, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {
@@ -48,7 +48,7 @@ namespace Common.Source.Web.EHentai.Download
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 HttpRequestMessageBuilder Request = BuilderFactory.SetPage(Index).Create();
-                TextStream?.WriteLine($"[{Index + 1}]{Request.RequestUri}");
+                TextStream?.WriteLine($"[{Index + 1}]\x20{Request.RequestUri}");
                 using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
                 await Request.SendAsync(HttpContext).ConfigureAwait(false);
                 if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCode)

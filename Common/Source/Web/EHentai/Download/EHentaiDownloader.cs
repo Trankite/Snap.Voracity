@@ -2,18 +2,21 @@
 using Common.Source.Extension;
 using Common.Source.Factory.Streams.Text.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
+using Common.Source.Factory.Streams.Text.Write;
 using Common.Source.Model.DataStruct.Ticket;
 using Common.Source.Service;
+using Common.Source.Service.Dispose;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
 using Common.Source.Web.Download;
 using Common.Source.Web.EHentai.Builder;
 using Common.Source.Web.EHentai.Slide;
 using Common.Source.Web.Request;
+using Common.Source.Web.Request.Builder;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public sealed class EHentaiDownloader : AsyncGradualTask, ITextStreamOwner, IDisposable
+    public sealed class EHentaiDownloader : AsyncGradualTask, IDisposable
     {
         private bool Disposed;
 
@@ -29,13 +32,13 @@ namespace Common.Source.Web.EHentai.Download
 
         private readonly SemaphoreSlim Semaphore = new(MaximumDownloadTaskCount);
 
+        private readonly TextStreamSource<ITextReader, StopTextWriter>? TextStream;
+
         public int Count => SlideParser.Count;
 
         public string? FolderPath { get; private set; }
 
-        public ITextStream? TextStream { get; set; }
-
-        private EHentaiDownloader(EHentaiSlideParser slideParser, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
+        private EHentaiDownloader(EHentaiSlideParser slideParser, EHentaiToken? eHentaiToken = default, TextStreamSource<ITextReader, StopTextWriter>? textStream = default)
         {
             SlideParser = slideParser;
             BuilderFactory.SetEHentaiToken(eHentaiToken);
@@ -44,7 +47,12 @@ namespace Common.Source.Web.EHentai.Download
 
         public static EHentaiDownloader Create(Uri galleryUri, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {
-            return new EHentaiDownloader(new EHentaiSlideParser(galleryUri, eHentaiToken, textStream), eHentaiToken, textStream);
+            TextStreamSource<ITextReader, StopTextWriter>? StopTextStream = default;
+            if (textStream.IsNotNull())
+            {
+                StopTextStream = TextStreamSource.Create(textStream.Reader, new StopTextWriter(textStream.Writer));
+            }
+            return new EHentaiDownloader(new EHentaiSlideParser(galleryUri, eHentaiToken, StopTextStream), eHentaiToken, StopTextStream);
         }
 
         protected override async ValueTask<GradualStates> RetryAsyncOverride(CancellationToken cancellationToken = default)
@@ -56,6 +64,7 @@ namespace Common.Source.Web.EHentai.Download
         {
             ObjectDisposedException.ThrowIf(Disposed, this);
             SlideParser.Refresh();
+            TextStream?.SourceWriter.Watch.Reset();
             while (DownloaderQueue.Count > 0)
             {
                 DownloaderQueue.Dequeue().Dispose();
@@ -64,6 +73,7 @@ namespace Common.Source.Web.EHentai.Download
 
         private async ValueTask<GradualStates> Download(CancellationToken cancellationToken = default)
         {
+            using StopwatchOwner? WatchOwner = StopwatchOwner.Create(TextStream?.SourceWriter.Watch);
             if (SlideParser.States.IsUnCompleted())
             {
                 await SlideParser.StartOrRetryAsync(cancellationToken).ConfigureAwait(false);
@@ -88,14 +98,14 @@ namespace Common.Source.Web.EHentai.Download
                 }
             }
             await Semaphore.WaitReleaseAsync(MaximumDownloadTaskCount, cancellationToken);
-            return SlideParser.TicketQueue.Count > 0 || DownloaderQueue.Count > 0 ? GradualStates.Suspend : GradualStates.Completed;
+            return SlideParser.States.IsUnCompleted() || SlideParser.TicketQueue.Count > 0 || DownloaderQueue.Count > 0 ? GradualStates.Suspend : GradualStates.Completed;
         }
 
         private async ValueTask DownloadFromSlideTicket(QueueTicket<string> slideTicket, CancellationToken cancellationToken = default)
         {
             using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
             WriteMessage(slideTicket.Index, slideTicket.Ticket);
-            await BuilderFactory.SetUri(new Uri(slideTicket.Ticket)).Create().SendAsync(HttpContext).ConfigureAwait(false);
+            await BuilderFactory.SetRequestUri(slideTicket.Ticket).Create().SendAsync(HttpContext).ConfigureAwait(false);
             HttpContext.ThrowIfFailed();
             HttpContext.Response.EnsureSuccessStatusCode();
             HttpContent HttpContent = HttpContext.Response.Content;

@@ -1,35 +1,23 @@
-﻿using Common.Source.Extension;
-using Common.Source.Web.Request.Builder;
+﻿using Common.Source.Web.Request.Builder;
 using Common.Source.Web.Request.Builder.Abstraction;
 
 namespace Common.Source.Web.Request
 {
-    public class DefaultRequestBuilderFactory : IHttpRequestMessageBuilderFactory
+    public class DefaultRequestBuilderFactory : IHttpRequestMessageBuilderFactory, IHttpRequestUriBuilder, IHttpMethodBuilder
     {
-        public Uri? Uri { get; set; }
+        public Uri? RequestUri { get; set; }
 
-        public DefaultRequestBuilderFactory() { }
+        public HttpMethod Method { get; set; }
 
-        public DefaultRequestBuilderFactory(Uri? uri)
+        public DefaultRequestBuilderFactory(Uri? requestUri = default, HttpMethod? httpMethod = default)
         {
-            Uri = uri;
-        }
-
-        public DefaultRequestBuilderFactory(string url) : this(new Uri(url)) { }
-
-        public DefaultRequestBuilderFactory SetUri(Uri? uri)
-        {
-            return this.Configure(Uri = uri);
-        }
-
-        public DefaultRequestBuilderFactory SetUri(string url)
-        {
-            return this.Configure(Uri = new Uri(url));
+            RequestUri = requestUri;
+            Method = httpMethod ?? HttpMethod.Get;
         }
 
         public HttpRequestMessageBuilder Create()
         {
-            return new HttpRequestMessageBuilder().SetRequestUri(Uri).SetMethod(HttpMethod.Get);
+            return new HttpRequestMessageBuilder().SetRequestUri(RequestUri).SetMethod(Method);
         }
     }
 }

@@ -2,18 +2,32 @@
 
 namespace Common.Source.Factory.Streams.Text.Abstract
 {
-    public class TextStream : ITextStream
+    public sealed class TextStream : ITextStream
     {
-        public TextWriter Writer { get; set; } = TextWriter.Null;
+        public ITextReader Reader { get; }
 
-        public TextReader Reader { get; set; } = TextReader.Null;
+        public ITextWriter Writer { get; }
 
-        public TextStream() { }
-
-        public TextStream(TextWriter writer, TextReader reader)
+        public TextStream(ITextReader reader, ITextWriter writer)
         {
-            Writer = writer;
             Reader = reader;
+            Writer = writer;
+        }
+
+        public static TextStream FromConsole()
+        {
+            return Create(Console.In, Console.Out);
+        }
+
+        public static TextStream Create(TextReader reader, TextWriter writer)
+        {
+            return new TextStream(new TextReaderOwner(reader), new TextWriterOwner(writer));
+        }
+
+        public void Dispose()
+        {
+            Reader.Dispose();
+            Writer.Dispose();
         }
     }
 }

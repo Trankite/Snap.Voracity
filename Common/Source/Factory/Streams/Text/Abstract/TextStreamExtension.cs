@@ -22,7 +22,10 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 
         public static void WriteLine(this ITextStream stream, ReadOnlySpan<char> value)
         {
-            if (value.Length > 0) stream.Writer.WriteLine(value);
+            if (value.Length > 0)
+            {
+                stream.Writer.WriteLine(value);
+            }
         }
 
         public static bool Enquire(this ITextStream stream, string message)
@@ -39,7 +42,7 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 
         private static void ShowEnquireMessage(ITextStream stream, string message)
         {
-            stream.WriteLine($"{message} (Y/N)");
+            stream.WriteLine($"{message}\x20(Y/N)");
         }
 
         private static bool GetEnquireState(string? value)

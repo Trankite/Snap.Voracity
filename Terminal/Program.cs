@@ -10,7 +10,7 @@ namespace Terminal
         [MTAThread]
         public static void Main(string[] options)
         {
-            TextStream TextStream = new(Console.Out, Console.In);
+            TextStream TextStream = TextStream.FromConsole();
             TerminalInvoke.Invoke(new CommandParser(options), TextStream);
             while (AppSetting.OnTerminal)
             {
