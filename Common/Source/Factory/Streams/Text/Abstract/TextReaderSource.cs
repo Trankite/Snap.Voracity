@@ -1,0 +1,40 @@
+﻿using Common.Source.Factory.Streams.Text.Interface;
+
+namespace Common.Source.Factory.Streams.Text.Abstract
+{
+    public class TextReaderSource : ITextReader
+    {
+        protected readonly ITextReader Source;
+
+        public TextReaderSource(ITextReader source)
+        {
+            Source = source;
+        }
+
+        public virtual int Read()
+        {
+            return Source.Read();
+        }
+
+        public virtual ValueTask<int> ReadAsync(Memory<char> buffer, CancellationToken cancellationToken = default)
+        {
+            return Source.ReadAsync(buffer, cancellationToken);
+        }
+
+        public virtual string? ReadLine()
+        {
+            return Source.ReadLine();
+        }
+
+        public virtual ValueTask<string?> ReadLineAsync(CancellationToken cancellationToken = default)
+        {
+            return Source.ReadLineAsync(cancellationToken);
+        }
+
+        public virtual void Dispose()
+        {
+            Source.Dispose();
+            GC.SuppressFinalize(this);
+        }
+    }
+}

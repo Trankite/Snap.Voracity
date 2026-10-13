@@ -1,9 +1,9 @@
 ﻿namespace Common.Source.Factory.Streams.Text.Interface
 {
-    public interface ITextStream
+    public interface ITextStream : IDisposable
     {
-        TextWriter Writer { get; set; }
+        ITextReader Reader { get; }
 
-        TextReader Reader { get; set; }
+        ITextWriter Writer { get; }
     }
 }
