@@ -10,9 +10,9 @@
 
     public readonly struct QueueTicket<T>
     {
-        public readonly int Index;
+        public T Ticket { get; }
 
-        public readonly T Ticket;
+        public int Index { get; }
 
         public QueueTicket(int index, T ticket)
         {

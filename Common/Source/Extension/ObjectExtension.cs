@@ -122,12 +122,6 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool IsExchanged<T>(this T source, ref T destination)
-        {
-            return destination.IsNotEquals(source).Configure(destination = source);
-        }
-
-        [DebuggerStepThrough]
         public static T OutSelf<T>(this T value, out T self) where T : allows ref struct
         {
             return self = value;

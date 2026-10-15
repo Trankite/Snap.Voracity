@@ -12,14 +12,5 @@ namespace Common.Source.Extension
                 semaphore.Release(count - semaphore.CurrentCount);
             }
         }
-
-        [DebuggerStepThrough]
-        public static async Task WaitReleaseAsync(this SemaphoreSlim semaphore, int count, CancellationToken cancellationToken)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                await semaphore.WaitAsync(cancellationToken);
-            }
-        }
     }
 }

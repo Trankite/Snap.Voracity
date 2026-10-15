@@ -38,16 +38,21 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T ThrowIfExceptionCaptured<T>(this T exceptionCaptureOwner) where T : IExceptionCaptureOwner
+        public static void ThrowIfExceptionCaptured(this IExceptionCaptureOwner exceptionCaptureOwner)
         {
             exceptionCaptureOwner.CapturedException?.Throw();
-            return exceptionCaptureOwner;
+        }
+
+        [DebuggerStepThrough]
+        public static ExceptionDispatchInfo DispatchCapture(this Exception exception)
+        {
+            return ExceptionDispatchInfo.Capture(exception);
         }
 
         [DebuggerStepThrough]
         public static ExceptionDispatchInfo DispatchCapture(this IExceptionCaptureOwner exceptionCaptureOwner, Exception exception)
         {
-            return exceptionCaptureOwner.CapturedException = ExceptionDispatchInfo.Capture(exception);
+            return exceptionCaptureOwner.CapturedException = DispatchCapture(exception);
         }
     }
 }

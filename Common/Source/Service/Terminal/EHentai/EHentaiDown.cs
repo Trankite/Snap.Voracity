@@ -60,14 +60,15 @@ namespace Common.Source.Service.Terminal.EHentai
                 return SupportTerminalResponse.NotFindToken(ipbMemberId);
             }
             using EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, textStream);
-            while ((await Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false)).IsUnCompleted())
+            while (Downloader.Status.IsRunnable())
             {
+                await Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false);
                 if (!await textStream.EnquireAsync(LocalString.ServiceTerminalEHentaiEHentaiDownloadRetry, cancellationToken).ConfigureAwait(false))
                 {
                     return new TerminalResponse(false, LocalString.ServiceTerminalEHentaiEHentaiDownloadCanceled);
                 }
             }
-            if (Downloader.States == GradualStates.Completed)
+            if (Downloader.Status.IsCompleted())
             {
                 return new TerminalResponse(true, FileHelper.PathOpen(Downloader.FolderPath, pathOpen));
             }

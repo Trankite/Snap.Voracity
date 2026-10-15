@@ -43,7 +43,7 @@ namespace Common.Source.Web.Download
             return new FileDownloader(new FileOpenStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, default, true), builderFactory, freshDownload);
         }
 
-        protected override async ValueTask<GradualStates> RetryAsyncOverride(CancellationToken cancellationToken = default)
+        protected override async ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default)
         {
             try
             {
@@ -61,13 +61,13 @@ namespace Common.Source.Web.Download
             _DownloadBytes = 0;
         }
 
-        private async ValueTask<GradualStates> Download(CancellationToken cancellationToken)
+        private async ValueTask<GradualStatus> Download(CancellationToken cancellationToken)
         {
             FileOpen.StartOrRetry();
             FileOpen.ThrowIfFailed();
-            using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
             HttpRequestMessageBuilder RequestBuilder = BuilderFactory.Create();
-            if (States == GradualStates.Created)
+            using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
+            if (Status.IsCreated())
             {
                 _DownloadBytes = FreshDownload ? 0 : FileOpen.Stream.Length;
             }
@@ -92,7 +92,7 @@ namespace Common.Source.Web.Download
                 DiskSize BytesPerSecond = DiskSize.Create(DataSize.KiB, 4);
                 using Stream ResponseStream = HttpContext.Response.Content.ReadAsStream(cancellationToken);
                 await ResponseStream.CopyToAsync(FileOpen.Stream, BytesPerSecond.Bytes, CheckTimeSpan, cancellationToken).ConfigureAwait(false);
-                return GradualStates.Completed;
+                return GradualStatus.Completed;
             }
             finally
             {

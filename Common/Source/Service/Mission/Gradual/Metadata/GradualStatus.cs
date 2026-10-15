@@ -1,12 +1,14 @@
 ﻿namespace Common.Source.Service.Mission.Gradual.Metadata
 {
-    public enum GradualStates
+    public enum GradualStatus
     {
         Created,
 
-        Suspend,
+        Running,
 
         Completed,
+
+        Canceled,
 
         Faulted
     }

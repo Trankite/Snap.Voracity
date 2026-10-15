@@ -7,13 +7,13 @@ namespace Common.Source.Service.Mission.Gradual.Interface
     {
         int RetryCount { get; }
 
-        GradualStates States { get; }
+        GradualStatus Status { get; }
 
-        GradualStates Start();
+        void Start();
 
-        GradualStates Retry();
+        void Retry();
 
-        bool Cancel();
+        void Cancel();
 
         void Refresh();
     }

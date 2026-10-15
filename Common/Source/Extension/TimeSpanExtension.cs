@@ -7,7 +7,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static string GetHourSecondString(this TimeSpan timeSpan)
         {
-            return $"{timeSpan.TotalHours:00}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
+            return $"{(int)timeSpan.TotalHours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
         }
     }
 }

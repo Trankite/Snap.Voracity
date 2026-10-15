@@ -32,7 +32,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         public FileInfo FileInfo { get => _FileInfo ?? throw this.GetException(); }
 
-        public bool CanReadStream => States == GradualStates.Completed;
+        public bool CanReadStream => Status.IsCompleted();
 
         protected FileOpenStream(string filePath, bool buildDirectory = default, bool leaveStreamOpen = default)
         {
@@ -53,7 +53,7 @@ namespace Common.Source.Factory.Streams.FileOpen
             return new FileOpenStream(filePath, fileMode, fileAccess, fileShare, buildDirectory, leaveStreamOpen).Configure(Self => Self.StartOrRetry());
         }
 
-        protected override GradualStates RetryOverride()
+        protected override GradualStatus RetryOverride()
         {
             _FileInfo = new FileInfo(FilePath);
             if (BuildDirectory)
@@ -61,7 +61,7 @@ namespace Common.Source.Factory.Streams.FileOpen
                 FileHelper.BuildFilePath(FullName);
             }
             _Stream = FileInfo.Open(FileMode, FileAccess, FileShare);
-            return GradualStates.Completed;
+            return GradualStatus.Completed;
         }
 
         protected override void RefreshOverride()

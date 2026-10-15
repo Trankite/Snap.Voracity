@@ -8,17 +8,17 @@ namespace Common.Source.Service.Dispose
     {
         public Stopwatch Stopwatch { get; }
 
-        public StopwatchOwner(Stopwatch stopwatch)
+        private StopwatchOwner(Stopwatch stopwatch)
         {
             Stopwatch = stopwatch;
         }
 
         [return: NotNullIfNotNull(nameof(stopwatch))]
-        public static StopwatchOwner? Create(Stopwatch? stopwatch, bool leaveStop = default)
+        public static StopwatchOwner? Create(Stopwatch? stopwatch, bool delayedStart = default)
         {
             if (stopwatch.IsNotNull())
             {
-                if (!leaveStop)
+                if (!delayedStart)
                 {
                     stopwatch.Start();
                 }
