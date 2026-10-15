@@ -1,7 +1,7 @@
 ﻿namespace Common.Source.Factory.Streams.Block.Metadata
 {
     [Flags]
-    public enum BlockStates
+    public enum BlockStatus
     {
         Await = 0x01,
         Finish = 0x02,

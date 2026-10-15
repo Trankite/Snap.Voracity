@@ -7,6 +7,8 @@ namespace Common.Source.Factory.Streams.Text.Write
 {
     public class StopTextWriter : TextWriterSource
     {
+        private readonly Lock SyncLock = new();
+
         public Stopwatch Watch { get; } = new Stopwatch();
 
         private readonly Func<TimeSpan, string> Formatter;
@@ -26,16 +28,31 @@ namespace Common.Source.Factory.Streams.Text.Write
             return $"[{timeSpan.GetHourSecondString()}]\x20";
         }
 
+        public override void WriteLine()
+        {
+            lock (SyncLock)
+            {
+                WriteTime();
+                base.WriteLine();
+            }
+        }
+
         public override void WriteLine(char value)
         {
-            WriteTime();
-            base.WriteLine(value);
+            lock (SyncLock)
+            {
+                WriteTime();
+                base.WriteLine(value);
+            }
         }
 
         public override void WriteLine(ReadOnlySpan<char> buffer)
         {
-            WriteTime();
-            base.WriteLine(buffer);
+            lock (SyncLock)
+            {
+                WriteTime();
+                base.WriteLine(buffer);
+            }
         }
 
         private void WriteTime()

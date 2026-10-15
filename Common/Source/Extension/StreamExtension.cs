@@ -10,7 +10,7 @@ namespace Common.Source.Extension
         {
             using CancellationTokenSource LinkedTokenSource = cancellationToken.CreateLinkedTokenSource();
             Task StreamTrackTask = TrackStreamSpeed(destination, bytesPerSecond, checkTimeSpan, LinkedTokenSource.Token);
-            Task TrackCancelTask = LinkedTokenSource.CancelAfterAsync(StreamTrackTask);
+            Task TrackCancelTask = LinkedTokenSource.CancelAfterTaskCompletedAsync(StreamTrackTask);
             try
             {
                 await source.CopyToAsync(destination, LinkedTokenSource.Token).ConfigureAwait(false);

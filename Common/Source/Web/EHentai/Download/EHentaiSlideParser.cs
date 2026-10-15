@@ -31,7 +31,7 @@ namespace Common.Source.Web.EHentai.Download
             BuilderFactory.SetUrl(galleryUri);
         }
 
-        protected override async ValueTask<GradualStates> RetryAsyncOverride(CancellationToken cancellationToken = default)
+        protected override async ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default)
         {
             return await ParseGallery(cancellationToken).ConfigureAwait(false);
         }
@@ -42,11 +42,10 @@ namespace Common.Source.Web.EHentai.Download
             TicketQueue.Clear();
         }
 
-        private async ValueTask<GradualStates> ParseGallery(CancellationToken cancellationToken = default)
+        private async ValueTask<GradualStatus> ParseGallery(CancellationToken cancellationToken = default)
         {
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                cancellationToken.ThrowIfCancellationRequested();
                 HttpRequestMessageBuilder Request = BuilderFactory.SetPage(Index).Create();
                 TextStream?.WriteLine($"[{Index + 1}]\x20{Request.RequestUri}");
                 using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
@@ -63,9 +62,10 @@ namespace Common.Source.Web.EHentai.Download
                 Index++;
                 if (AnalyzedBody.IsEndOfPage)
                 {
-                    return GradualStates.Completed;
+                    return GradualStatus.Completed;
                 }
             }
+            throw new OperationCanceledException(cancellationToken);
         }
     }
 }

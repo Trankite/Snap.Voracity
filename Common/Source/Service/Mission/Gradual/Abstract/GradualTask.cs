@@ -7,69 +7,82 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
 {
     public abstract class GradualTask : IGradualTask
     {
-        private GradualStates _States;
-
         public int RetryCount { get; protected set; }
 
         public ExceptionDispatchInfo? CapturedException { get; set; }
 
-        public GradualStates States
-        {
-            get => _States;
-            protected set => _States = value;
-        }
+        public GradualStatus Status { get; protected set; }
 
         protected GradualTask() { }
 
-        public GradualStates Start()
+        public void Start()
         {
+            if (!Status.IsCreated())
+            {
+                return;
+            }
             CapturedException = default;
             try
             {
-                return States == GradualStates.Created ? States = StartOverride() : States;
+                Status = StartOverride();
             }
             catch (Exception Exception)
             {
-                return States = GradualStates.Suspend.Configure(this.DispatchCapture(Exception));
+                Status = FailedByException(Exception.DispatchCapture());
             }
         }
 
-        protected virtual GradualStates StartOverride() => RetryOverride();
+        protected virtual GradualStatus StartOverride() => RetryOverride();
 
-        public GradualStates Retry()
+        public void Retry()
         {
+            if (!Status.IsRunning())
+            {
+                return;
+            }
             CapturedException = default;
             try
             {
-                return States == GradualStates.Suspend ? States = RetryOverride().Configure(RetryCount++) : States;
+                Status = RetryOverride();
             }
             catch (Exception Exception)
             {
-                return States = GradualStates.Suspend.Configure(this.DispatchCapture(Exception));
+                Status = FailedByException(Exception.DispatchCapture());
+            }
+            finally
+            {
+                RetryCount++;
             }
         }
 
-        protected abstract GradualStates RetryOverride();
+        protected abstract GradualStatus RetryOverride();
 
         public virtual void ThrowIfFailed()
         {
             this.ThrowIfExceptionCaptured();
         }
 
-        protected GradualStates FailedByException(ExceptionDispatchInfo? exceptionDispatchInfo = default)
+        protected GradualStatus FailedByException(ExceptionDispatchInfo? exceptionDispatchInfo = default)
         {
-            return GradualStates.Suspend.Configure(CapturedException = exceptionDispatchInfo);
+            if (exceptionDispatchInfo.IsNotNull())
+            {
+                CapturedException = exceptionDispatchInfo;
+            }
+            return GradualStatus.Running;
         }
 
-        public bool Cancel()
+        public void Cancel()
         {
-            return GradualStates.Faulted.IsExchanged(ref _States);
+            CancelOverride();
+            Status = GradualStatus.Canceled;
         }
+
+        protected virtual void CancelOverride() { }
 
         public void Refresh()
         {
             RefreshOverride();
-            States = GradualStates.Created;
+            Status = GradualStatus.Created;
             RetryCount = 0;
         }
 

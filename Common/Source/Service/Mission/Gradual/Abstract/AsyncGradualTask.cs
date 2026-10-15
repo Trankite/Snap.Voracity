@@ -6,47 +6,59 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
 {
     public abstract class AsyncGradualTask : GradualTask, IAsyncGradualTask
     {
-        public async ValueTask<GradualStates> StartAsync(CancellationToken cancellationToken = default)
+        public async ValueTask StartAsync(CancellationToken cancellationToken = default)
         {
+            if (!Status.IsCreated())
+            {
+                return;
+            }
             CapturedException = default;
             try
             {
-                return States == GradualStates.Created ? States = await StartAsyncOverride(cancellationToken).ConfigureAwait(false) : States;
+                Status = await StartAsyncOverride(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception Exception)
             {
-                return States = GradualStates.Suspend.Configure(this.DispatchCapture(Exception));
+                Status = FailedByException(Exception.DispatchCapture());
             }
         }
 
-        protected override GradualStates StartOverride()
+        protected override GradualStatus StartOverride()
         {
-            return StartAsync().AsTask().GetAwaiter().GetResult();
+            return StartAsyncOverride().AsTask().GetAwaiter().GetResult();
         }
 
-        protected virtual async ValueTask<GradualStates> StartAsyncOverride(CancellationToken cancellationToken = default)
+        protected virtual async ValueTask<GradualStatus> StartAsyncOverride(CancellationToken cancellationToken = default)
         {
             return await RetryAsyncOverride(cancellationToken).ConfigureAwait(false);
         }
 
-        public async ValueTask<GradualStates> RetryAsync(CancellationToken cancellationToken = default)
+        public async ValueTask RetryAsync(CancellationToken cancellationToken = default)
         {
+            if (!Status.IsRunning())
+            {
+                return;
+            }
             CapturedException = default;
             try
             {
-                return States == GradualStates.Suspend ? States = (await RetryAsyncOverride(cancellationToken).ConfigureAwait(false)).Configure(RetryCount++) : States;
+                Status = await RetryAsyncOverride(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception Exception)
             {
-                return States = GradualStates.Suspend.Configure(this.DispatchCapture(Exception));
+                Status = FailedByException(Exception.DispatchCapture());
+            }
+            finally
+            {
+                RetryCount++;
             }
         }
 
-        protected override GradualStates RetryOverride()
+        protected override GradualStatus RetryOverride()
         {
-            return RetryAsync().AsTask().GetAwaiter().GetResult();
+            return RetryAsyncOverride().AsTask().GetAwaiter().GetResult();
         }
 
-        protected abstract ValueTask<GradualStates> RetryAsyncOverride(CancellationToken cancellationToken = default);
+        protected abstract ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default);
     }
 }

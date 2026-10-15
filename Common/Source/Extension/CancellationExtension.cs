@@ -11,7 +11,7 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static async Task CancelAfterAsync(this CancellationTokenSource cancellationTokenSource, Task waitTask)
+        public static async Task CancelAfterTaskCompletedAsync(this CancellationTokenSource cancellationTokenSource, Task waitTask)
         {
             try
             {
