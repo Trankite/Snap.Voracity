@@ -1,5 +1,6 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.Html;
+using Common.Source.Factory.Streams.Html.Metadata;
 using Common.Source.Web.Request.Builder.Abstraction;
 using System.Text;
 using System.Text.Json;
@@ -17,8 +18,8 @@ namespace Common.Source.Web.EHentai.Slide
         {
             SlideAnalyzedBody AnalyzedBody = new();
             using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));
-            using IEnumerator<HtmlElement> Enumerator = Reader.GetEnumerator();
-            while (Enumerator.TryMoveNext(out HtmlElement? HtmlElement))
+            await using IAsyncEnumerator<HtmlElement> AsyncEnumerator = Reader.GetAsyncEnumerator(cancellationToken);
+            while ((await AsyncEnumerator.MoveAsync().ConfigureAwait(false)).TryGetValue(out HtmlElement? HtmlElement))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 if (HtmlElement.Name.EqualsIgnoreCase(HtmlMarkup.Title))
@@ -27,7 +28,7 @@ namespace Common.Source.Web.EHentai.Slide
                 }
                 else if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Id) == "img")
                 {
-                    return AnalyzedBody.Configure(AnalyzedBody.ImageUrl = HtmlElement.GetAttributeOrDefault(HtmlAttribute.Source, string.Empty));
+                    return AnalyzedBody.Configure(AnalyzedBody.ImageUrl = HtmlElement.GetAttributeOrDefault(HtmlAttribute.Source).NotNull());
                 }
             }
             return AnalyzedBody;

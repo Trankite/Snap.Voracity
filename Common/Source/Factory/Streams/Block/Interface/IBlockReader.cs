@@ -1,15 +1,11 @@
-﻿using Common.Source.Factory.Streams.Block.Metadata;
-
-namespace Common.Source.Factory.Streams.Block.Interface
+﻿namespace Common.Source.Factory.Streams.Block.Interface
 {
     public interface IBlockReader<T>
     {
-        int BufferSize { get; }
+        bool IsReadToEnd { get; }
 
-        ReadBlockResponse<T> ReadBlock();
+        ReadOnlyMemory<T> ReadBlock();
 
-        bool MoveOffset(int offset);
-
-        bool IsReadToEnd();
+        void MoveOffset(int offset);
     }
 }

@@ -1,6 +1,4 @@
-﻿using Common.Source.Extension;
-using Common.Source.Factory.Streams.Block.Abstract;
-using Common.Source.Factory.Streams.Block.Metadata;
+﻿using Common.Source.Factory.Streams.Block.Abstract;
 using System.Text;
 
 namespace Common.Source.Factory.Streams.Block
@@ -14,9 +12,13 @@ namespace Common.Source.Factory.Streams.Block
             Enumerator = stringBuilder.GetChunks();
         }
 
-        protected override ReadBlockResponse<char> ReadBlockOverride()
+        protected override ReadOnlyMemory<char> ReadBlockOverride()
         {
-            return Enumerator.MoveNext() ? new ReadBlockResponse<char>(true, Buffer = Enumerator.Current).Configure(Count = Buffer.Length).Configure(Offset = 0) : base.ReadBlockOverride();
+            if (Enumerator.MoveNext())
+            {
+                return Enumerator.Current;
+            }
+            return base.ReadBlockOverride();
         }
     }
 }

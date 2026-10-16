@@ -81,7 +81,7 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T[] NotEmpty<T>(this T[]? value, T defaultValue)
+        public static T[] NotNull<T>(this T[]? value, T defaultValue)
         {
             return value ?? [defaultValue];
         }

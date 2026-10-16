@@ -10,7 +10,7 @@ namespace Common.Source.Model.DataStruct.Ticket
             return Create(true, ticket);
         }
 
-        public static CheckTicket<T> Create<T>(bool success, T? ticket)
+        public static CheckTicket<T> Create<T>(bool success, T? ticket = default)
         {
             return CheckTicket<T>.Create(success, ticket);
         }
@@ -36,7 +36,7 @@ namespace Common.Source.Model.DataStruct.Ticket
             return Success.Configure(value = Ticket);
         }
 
-        public static CheckTicket<T> Create(bool success, T? ticket)
+        public static CheckTicket<T> Create(bool success, T? ticket = default)
         {
             if (success)
             {

@@ -1,6 +1,4 @@
-﻿using Common.Source.Extension;
-using Common.Source.Factory.Streams.Block.Interface;
-using Common.Source.Factory.Streams.Block.Metadata;
+﻿using Common.Source.Factory.Streams.Block.Interface;
 
 namespace Common.Source.Factory.Streams.Block.Abstract
 {
@@ -8,40 +6,50 @@ namespace Common.Source.Factory.Streams.Block.Abstract
     {
         protected int Count;
 
-        protected int Offset;
+        protected int Position;
 
         protected ReadOnlyMemory<T> Buffer;
 
-        protected bool EndOfRead;
-
-        public int BufferSize => Buffer.Length;
+        public bool IsReadToEnd { get; private set; }
 
         protected BlockReader(ReadOnlyMemory<T> buffer)
         {
             Buffer = buffer;
-            Offset = Count = buffer.Length;
+            Position = Count = buffer.Length;
         }
 
-        public bool IsReadToEnd() => EndOfRead;
-
-        public ReadBlockResponse<T> ReadBlock()
+        public ReadOnlyMemory<T> ReadBlock()
         {
-            if (Offset < Count)
+            if (Position < Count)
             {
-                return new ReadBlockResponse<T>(true, Buffer[Offset..Count]);
+                return ReadBlockFromBuffer();
             }
-            else if (!EndOfRead)
+            else if (!IsReadToEnd)
             {
-                return ReadBlockOverride().Configure(Self => EndOfRead = !Self.IsCanRead);
+                return ReadNextBlock(ReadBlockOverride());
             }
             return default;
         }
 
-        public bool MoveOffset(int offset)
+        protected ReadOnlyMemory<T> ReadBlockFromBuffer()
         {
-            return (Offset += offset) < Count;
+            return Buffer[Position..Count];
         }
 
-        protected virtual ReadBlockResponse<T> ReadBlockOverride() => default;
+        protected ReadOnlyMemory<T> ReadNextBlock(ReadOnlyMemory<T> blockMemory)
+        {
+            Position = 0;
+            Count = blockMemory.Length;
+            IsReadToEnd = blockMemory.IsEmpty;
+            return Buffer = blockMemory;
+        }
+
+        public void MoveOffset(int offset)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegative(offset);
+            Position = checked(Position + offset);
+        }
+
+        protected virtual ReadOnlyMemory<T> ReadBlockOverride() => default;
     }
 }
