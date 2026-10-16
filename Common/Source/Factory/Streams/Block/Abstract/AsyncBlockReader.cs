@@ -1,6 +1,4 @@
-﻿using Common.Source.Extension;
-using Common.Source.Factory.Streams.Block.Interface;
-using Common.Source.Factory.Streams.Block.Metadata;
+﻿using Common.Source.Factory.Streams.Block.Interface;
 
 namespace Common.Source.Factory.Streams.Block.Abstract
 {
@@ -8,19 +6,19 @@ namespace Common.Source.Factory.Streams.Block.Abstract
     {
         public AsyncBlockReader(ReadOnlyMemory<T> buffer) : base(buffer) { }
 
-        public async ValueTask<ReadBlockResponse<T>> ReadBlockAsync(CancellationToken cancellationToken = default)
+        public async ValueTask<ReadOnlyMemory<T>> ReadBlockAsync(CancellationToken cancellationToken = default)
         {
-            if (Offset < Count)
+            if (Position < Count)
             {
-                return new ReadBlockResponse<T>(true, Buffer[Offset..Count]);
+                return ReadBlockFromBuffer();
             }
-            else if (!EndOfRead)
+            else if (!IsReadToEnd)
             {
-                return (await ReadBlockAsyncOverride(cancellationToken).ConfigureAwait(false)).Configure(Self => EndOfRead = !Self.IsCanRead);
+                return ReadNextBlock(await ReadBlockAsyncOverride(cancellationToken).ConfigureAwait(false));
             }
             return default;
         }
 
-        protected virtual async ValueTask<ReadBlockResponse<T>> ReadBlockAsyncOverride(CancellationToken cancellationToken) => default;
+        protected virtual async ValueTask<ReadOnlyMemory<T>> ReadBlockAsyncOverride(CancellationToken cancellationToken) => default;
     }
 }

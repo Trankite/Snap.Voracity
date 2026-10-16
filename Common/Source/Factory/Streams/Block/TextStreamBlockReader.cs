@@ -1,5 +1,4 @@
 ﻿using Common.Source.Factory.Streams.Block.Abstract;
-using Common.Source.Factory.Streams.Block.Metadata;
 using Common.Source.Service.Pool;
 using System.Text;
 
@@ -28,25 +27,25 @@ namespace Common.Source.Factory.Streams.Block
 
         public static TextStreamBlockReader Create(Stream stream, Encoding? encoding = default, bool leaveOpen = default)
         {
-            encoding ??= Encoding.UTF8;
+            encoding ??= Encoding.Default;
             PoolOwner<byte> BytesOwner = BufferPool<byte>.GetBuffer();
             PoolOwner<char> CharsOwner = BufferPool<char>.GetBuffer(encoding.GetMaxCharCount(BytesOwner.Length));
             return new TextStreamBlockReader(stream, encoding.GetDecoder(), BytesOwner, CharsOwner, leaveOpen);
         }
 
-        protected override ReadBlockResponse<char> ReadBlockOverride()
+        protected override ReadOnlyMemory<char> ReadBlockOverride()
         {
-            return ReadBlock(Reader.Read(BytesOwner.Span));
+            return ReadCharsBlock(Reader.Read(BytesOwner.Span));
         }
 
-        protected override async ValueTask<ReadBlockResponse<char>> ReadBlockAsyncOverride(CancellationToken cancellationToken)
+        protected override async ValueTask<ReadOnlyMemory<char>> ReadBlockAsyncOverride(CancellationToken cancellationToken)
         {
-            return ReadBlock(await Reader.ReadAsync(BytesOwner.Memory, cancellationToken).ConfigureAwait(false));
+            return ReadCharsBlock(await Reader.ReadAsync(BytesOwner.Memory, cancellationToken).ConfigureAwait(false));
         }
 
-        private ReadBlockResponse<char> ReadBlock(int bytesCount)
+        private ReadOnlyMemory<char> ReadCharsBlock(int bytesCount)
         {
-            return new ReadBlockResponse<char>((Count = Decoder.GetChars(BytesOwner.Span[..bytesCount], CharsOwner.Span, bytesCount <= 0)) > 0, Buffer[(Offset = 0)..Count]);
+            return CharsOwner.Memory[..Decoder.GetChars(BytesOwner.Span[..bytesCount], CharsOwner.Span, bytesCount == 0)];
         }
 
         public void Dispose()

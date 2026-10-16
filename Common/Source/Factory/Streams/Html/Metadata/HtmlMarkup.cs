@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Common.Source.Factory.Streams.Html
+namespace Common.Source.Factory.Streams.Html.Metadata
 {
     public enum HtmlMarkup
     {

@@ -2,7 +2,7 @@
 
 namespace Common.Source.Factory.Streams.Text.Abstract
 {
-    public class TextWriterSource : ITextWriter
+    public abstract class TextWriterSource : ITextWriter
     {
         protected readonly ITextWriter Source;
 

@@ -1,5 +1,6 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.Html;
+using Common.Source.Factory.Streams.Html.Metadata;
 using Common.Source.Web.Request.Builder.Abstraction;
 using System.Text;
 using System.Text.Json;
@@ -17,8 +18,8 @@ namespace Common.Source.Web.EHentai.Gallery
         {
             GalleryAnalyzedBody AnalyzedBody = new();
             using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));
-            using IEnumerator<HtmlElement> Enumerator = Reader.GetEnumerator();
-            while (Enumerator.TryMoveNext(out HtmlElement? HtmlElement))
+            await using IAsyncEnumerator<HtmlElement> AsyncEnumerator = Reader.GetAsyncEnumerator(cancellationToken);
+            while ((await AsyncEnumerator.MoveAsync().ConfigureAwait(false)).TryGetValue(out HtmlElement? HtmlElement))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptt")
@@ -35,7 +36,7 @@ namespace Common.Source.Web.EHentai.Gallery
                 {
                     foreach (HtmlElement CurrentElement in HtmlElement.Elements)
                     {
-                        AnalyzedBody.Images.Add(CurrentElement.GetAttributeOrDefault(HtmlAttribute.Href, string.Empty));
+                        AnalyzedBody.Images.Add(CurrentElement.GetAttributeOrDefault(HtmlAttribute.Href).NotNull());
                     }
                     return AnalyzedBody;
                 }

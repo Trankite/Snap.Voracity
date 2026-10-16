@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Factory.Streams.Html
+﻿namespace Common.Source.Factory.Streams.Html.Metadata
 {
     public class HtmlElement
     {
@@ -35,9 +35,19 @@
             Name = name;
         }
 
+        private HtmlElement(IList<string>? contents)
+        {
+            _Contents = contents;
+        }
+
+        public static HtmlElement FromContent(params IList<string>? contents)
+        {
+            return new HtmlElement(contents);
+        }
+
         public override string ToString()
         {
-            return $"<{Name} {string.Join('\x20', Attributes.Select(Current => $"{Current.Key}=\"{Current.Value}\""))} />";
+            return $"<{Name}{(Attributes.Count == 0 ? string.Empty : $"\x20{string.Join('\x20', Attributes.Select(Current => $"{Current.Key}=\"{Current.Value}\""))}")}{(Contents.Count == 0 && Elements.Count == 0 ? "\x20/>" : $">{string.Join(string.Empty, Elements)}{string.Join(string.Empty, Contents)}</{Name}>")}";
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Common.Source.Factory.Streams.Text.Abstract
 {
-    public class TextReaderSource : ITextReader
+    public abstract class TextReaderSource : ITextReader
     {
         protected readonly ITextReader Source;
 

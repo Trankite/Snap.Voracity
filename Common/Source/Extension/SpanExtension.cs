@@ -10,32 +10,32 @@ namespace Common.Source.Extension
         [return: NotNullIfNotNull(nameof(defaultValue))]
         public static T? FirstOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
         {
-            return span.Length == 0 ? defaultValue : span[0];
+            return span.IsEmpty ? defaultValue : span[0];
         }
 
         [DebuggerStepThrough]
         [return: NotNullIfNotNull(nameof(defaultValue))]
         public static T? LastOrDefault<T>(this ReadOnlySpan<T> span, T? defaultValue = default)
         {
-            return span.Length == 0 ? defaultValue : span[^1];
+            return span.IsEmpty ? defaultValue : span[^1];
         }
 
         [DebuggerStepThrough]
         public static DyadicReadOnlySpan<T> FirstSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
         {
-            return TryGetIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, []);
+            return TryGetIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, default);
         }
 
         [DebuggerStepThrough]
         public static DyadicReadOnlySpan<T> LastSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
         {
-            return TryGetLastIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, []);
+            return TryGetLastIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, default);
         }
 
         [DebuggerStepThrough]
         public static DyadicReadOnlySpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index)
         {
-            return span.Length > index ? new DyadicReadOnlySpan<T>(span[..index], span[index..]) : new DyadicReadOnlySpan<T>(span, []);
+            return span.Length > index ? new DyadicReadOnlySpan<T>(span[..index], span[index..]) : new DyadicReadOnlySpan<T>(span, default);
         }
 
         [DebuggerStepThrough]
@@ -158,7 +158,11 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static bool TryGetIndexValue<T>(this ReadOnlySpan<T> span, int index, [NotNullWhen(true)] out T? result)
         {
-            return span.GetIndexValue(index).IsNotNull(out result);
+            if (index >= 0 && index < span.Length)
+            {
+                return true.Configure(result = span[index]);
+            }
+            return false.Configure(result = default);
         }
     }
 }
