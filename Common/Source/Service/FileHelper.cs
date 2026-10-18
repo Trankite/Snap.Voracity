@@ -51,13 +51,13 @@ namespace Common.Source.Service
         [DebuggerStepThrough]
         public static string GetExtensionName(string? filePath)
         {
-            return Path.GetExtension(filePath).Captured(Extension => Extension.IsNotNull() && Extension.Length >= 1 ? Extension[1..] : string.Empty);
+            return Path.GetExtension(filePath).Captured(extension => extension.IsNotNull() && extension.Length >= 1 ? extension[1..] : string.Empty);
         }
 
         [DebuggerStepThrough]
         public static string GetSafeFileName(string filePath)
         {
-            return new string(filePath.Where(Current => !InvalidFileNameTable.Contains(Current)).ToArray().AsSpan().Trim());
+            return new string(filePath.Where(current => !InvalidFileNameTable.Contains(current)).ToArray().AsSpan().Trim());
         }
 
         static FileHelper()

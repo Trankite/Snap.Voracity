@@ -32,14 +32,14 @@ namespace Common.Source.Service.Terminal.Support
                     return SupportTerminalResponse.UnknownOperation(CommandName);
                 }
                 string[] Parameters = [.. Command.RequiredParameters, .. Command.OptionalParameters];
-                int Maximum = Parameters.Length > 0 ? Parameters.Max(Current => Current.Length) + Margin : Margin;
+                int Maximum = Parameters.Length > 0 ? Parameters.Max(current => current.Length) + Margin : Margin;
                 for (int i = 0; i < Parameters.Length; i++)
                 {
                     Parameters[i] = $"-{Parameters[i]}{new string('\x20', Maximum - Parameters[i].Length)}{(i < Command.RequiredParameters.Length ? '*' : string.Empty)}";
                 }
                 return new TerminalResponse(true, Command.Help.SafeFormat(Parameters));
             }
-            IEnumerable<string> Commands = TerminalManage.CommandTable.GetValues().Select(Current => Current.Name.PadRight(Padding) + Current.FullName);
+            IEnumerable<string> Commands = TerminalManage.CommandTable.GetValues().Select(current => current.Name.PadRight(Padding) + current.FullName);
             return new TerminalResponse(true, string.Join(Environment.NewLine, Commands));
         }
     }

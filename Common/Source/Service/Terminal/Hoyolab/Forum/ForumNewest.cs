@@ -43,7 +43,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
             HttpResponse<NewestResponse> Response = await Factory.Create().SendAsync<NewestResponse>(cancellationToken).ConfigureAwait(false);
             if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out IEnumerable<NewestAnalyzedBody>? AnalyzedBody))
             {
-                return TerminalResponse.Create(true, string.Join('\n', AnalyzedBody.Select(Current => $"[{Current.PostId}]\x20{Current.Title}")), AnalyzedBody);
+                return TerminalResponse.Create(true, string.Join('\n', AnalyzedBody.Select(current => $"[{current.PostId}]\x20{current.Title}")), AnalyzedBody);
             }
             return new TerminalResponse<IEnumerable<NewestAnalyzedBody>>(false, Response.ToString());
         }

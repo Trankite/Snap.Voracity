@@ -38,7 +38,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Game
             {
                 return new TerminalResponse<NoteAnalyzedBody>(SupportTerminalResponse.NotFindToken(aid));
             }
-            if (!Token.TryGetUserRole(HoyolabApp.StarRailChina.OutSelf(out HoyolabApp Game), out HoyolabUserRole? UserRole))
+            if (!Token.TryGetUserRole(HoyolabApp.StarRailChina.OutSender(out HoyolabApp Game), out HoyolabUserRole? UserRole))
             {
                 return new TerminalResponse<NoteAnalyzedBody>(HoyolabTerminalResponse.NotFindUserRole(Game));
             }

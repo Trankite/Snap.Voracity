@@ -8,7 +8,7 @@ namespace Common.Source.Web.Request.Builder
 
         public override string ToString()
         {
-            return string.Join(';', Collection.Select(Cookie => $"{Cookie.Name}={Cookie.Value}"));
+            return string.Join(';', Collection.Select(cookie => $"{cookie.Name}={cookie.Value}"));
         }
     }
 }

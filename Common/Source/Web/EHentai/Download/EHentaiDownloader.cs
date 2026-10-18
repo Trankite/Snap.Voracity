@@ -2,10 +2,8 @@
 using Common.Source.Extension;
 using Common.Source.Factory.Streams.Text.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
-using Common.Source.Factory.Streams.Text.Write;
 using Common.Source.Model.DataStruct.Ticket;
 using Common.Source.Service;
-using Common.Source.Service.Dispose;
 using Common.Source.Service.Mission;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
@@ -19,7 +17,7 @@ using System.Threading.Channels;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public sealed class EHentaiDownloader : AsyncGradualTask, IDisposable
+    public sealed class EHentaiDownloader : AsyncGradualTask, ITextStreamOwner, IDisposable
     {
         private bool Disposed;
 
@@ -33,13 +31,13 @@ namespace Common.Source.Web.EHentai.Download
 
         private readonly ConcurrentQueue<EHentaiDownloadInfo> DownloadQueue = new();
 
-        private readonly TextStreamSource<ITextReader, StopTextWriter>? TextStream;
+        public ITextStream? TextStream { get; set; }
 
         public int Count => SlideParser.Count;
 
         public string? FolderPath { get; private set; }
 
-        private EHentaiDownloader(EHentaiSlideParser slideParser, EHentaiToken? eHentaiToken = default, TextStreamSource<ITextReader, StopTextWriter>? textStream = default)
+        private EHentaiDownloader(EHentaiSlideParser slideParser, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {
             SlideParser = slideParser;
             BuilderFactory.SetEHentaiToken(eHentaiToken);
@@ -48,12 +46,7 @@ namespace Common.Source.Web.EHentai.Download
 
         public static EHentaiDownloader Create(Uri galleryUri, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {
-            TextStreamSource<ITextReader, StopTextWriter>? StopTextStream = default;
-            if (textStream.IsNotNull())
-            {
-                StopTextStream = TextStreamSource.Create(textStream.Reader, new StopTextWriter(textStream.Writer));
-            }
-            return new EHentaiDownloader(new EHentaiSlideParser(galleryUri, eHentaiToken, StopTextStream), eHentaiToken, StopTextStream);
+            return new EHentaiDownloader(new EHentaiSlideParser(galleryUri, eHentaiToken, textStream), eHentaiToken, textStream);
         }
 
         protected override async ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default)
@@ -65,13 +58,11 @@ namespace Common.Source.Web.EHentai.Download
         {
             ObjectDisposedException.ThrowIf(Disposed, this);
             SlideParser.Refresh();
-            TextStream?.SourceWriter.Watch.Reset();
             ClearDownloadQueue();
         }
 
         private async ValueTask<GradualStatus> Download(CancellationToken cancellationToken = default)
         {
-            using StopwatchOwner? WatchOwner = StopwatchOwner.Create(TextStream?.SourceWriter.Watch);
             if (SlideParser.Status.IsRunnable())
             {
                 await SlideParser.StartOrRetryAsync(cancellationToken).ConfigureAwait(false);

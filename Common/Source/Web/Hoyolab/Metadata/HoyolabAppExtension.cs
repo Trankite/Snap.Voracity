@@ -14,7 +14,7 @@ namespace Common.Source.Web.Hoyolab.Metadata
 
         static HoyolabAppExtension()
         {
-            GameTypeTable = Enum.GetValues<HoyolabApp>().Select(Current => KeyValuePair.Create(Current.GetDescription(), Current)).ToFrozenDictionary();
+            GameTypeTable = Enum.GetValues<HoyolabApp>().Select(current => KeyValuePair.Create(current.GetDescription(), current)).ToFrozenDictionary();
         }
     }
 }

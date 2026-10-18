@@ -50,7 +50,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         public static FileOpenStream Create(string filePath, FileMode fileMode, FileAccess fileAccess, FileShare fileShare, bool buildDirectory = default, bool leaveStreamOpen = default)
         {
-            return new FileOpenStream(filePath, fileMode, fileAccess, fileShare, buildDirectory, leaveStreamOpen).Configure(Self => Self.StartOrRetry());
+            return new FileOpenStream(filePath, fileMode, fileAccess, fileShare, buildDirectory, leaveStreamOpen).StartOrRetry();
         }
 
         protected override GradualStatus RetryOverride()

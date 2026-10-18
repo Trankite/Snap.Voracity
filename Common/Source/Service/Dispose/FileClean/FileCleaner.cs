@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Factory.Streams.FileClean
+﻿namespace Common.Source.Service.Dispose.FileClean
 {
     public class FileCleaner : PathCleaner
     {

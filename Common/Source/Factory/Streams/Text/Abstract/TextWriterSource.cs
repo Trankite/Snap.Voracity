@@ -4,11 +4,14 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 {
     public abstract class TextWriterSource : ITextWriter
     {
+        protected readonly bool LeaveStreamOpen;
+
         protected readonly ITextWriter Source;
 
-        public TextWriterSource(ITextWriter source)
+        public TextWriterSource(ITextWriter source, bool leaveOpen = default)
         {
             Source = source;
+            LeaveStreamOpen = leaveOpen;
         }
 
         public virtual void Write(char value)
@@ -38,7 +41,10 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 
         public virtual void Dispose()
         {
-            Source.Dispose();
+            if (!LeaveStreamOpen)
+            {
+                Source.Dispose();
+            }
             GC.SuppressFinalize(this);
         }
     }

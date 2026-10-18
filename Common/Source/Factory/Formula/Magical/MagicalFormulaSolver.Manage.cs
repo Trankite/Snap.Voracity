@@ -11,7 +11,7 @@ namespace Common.Source.Factory.Formula.Magical
         public static MagicalFormulaSymbol? SearchSymbol(ReadOnlySpan<char> target)
         {
             ReadOnlySpan<char> StartString = target.SplitAt(1).Former;
-            int Index = SymbolTable.BinarySearch(0, SymbolTable.Length, (Self, Index) => Self[Index].Name, target, (Content, Search) => Content.CompareTo(Search, Comparison));
+            int Index = SymbolTable.BinarySearch(0, SymbolTable.Length, (sender, index) => sender[index].Name, target, (content, search) => content.CompareTo(search, Comparison));
             Index = Index < 0 ? ~Index : Index + 1;
             while (--Index >= 0 && SymbolTable[Index].Name.StartsWith(StartString, Comparison))
             {
@@ -22,7 +22,7 @@ namespace Common.Source.Factory.Formula.Magical
 
         private static MagicalFormulaSymbol[] GetSymbolTable(params MagicalFormulaSymbol[] symbols)
         {
-            return symbols.Configure(Self => Array.Sort(Self, (Current, Compare) => Current.Name.CompareTo(Compare.Name, Comparison)));
+            return symbols.Configure(Self => Array.Sort(Self, (current, compare) => current.Name.CompareTo(compare.Name, Comparison)));
         }
 
         static MagicalFormulaSolver()

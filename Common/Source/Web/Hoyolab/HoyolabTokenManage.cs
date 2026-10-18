@@ -37,7 +37,7 @@ namespace Common.Source.Web.Hoyolab
 
         public static bool TryGetToken(string aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)
         {
-            return Manager.Tokens.TryGetFirst(Current => Current.Aid == aid, out hoyolabToken);
+            return Manager.Tokens.TryGetFirst(current => current.Aid == aid, out hoyolabToken);
         }
 
         public static string GetGuid()

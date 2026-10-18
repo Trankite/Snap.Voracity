@@ -109,7 +109,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static int BinarySearch<TArray, TContent>(this TArray array, int start, int length, Func<TArray, int, TContent> predicate, TContent value) where TArray : IEnumerable where TContent : IComparable<TContent>
         {
-            return BinarySearch(array, start, length, predicate, value, (Content, Search) => Content.CompareTo(Search));
+            return BinarySearch(array, start, length, predicate, value, (content, search) => content.CompareTo(search));
         }
 
         public static int BinarySearch<TArray, TContent, TSearch>(this TArray array, int start, int length, Func<TArray, int, TContent> predicate, TSearch value, Func<TContent, TSearch, int> comparison) where TArray : IEnumerable where TSearch : allows ref struct

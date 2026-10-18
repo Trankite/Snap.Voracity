@@ -58,7 +58,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
             if (MissionViewUpvoteShareEnabled && Mission.ExistsKey(MissionType.View, MissionType.Upvote, MissionType.Share))
             {
                 ITerminalResponse<IEnumerable<NewestAnalyzedBody>> NewestResponse = await ForumNewest.AsyncInvoke(5, ZoneType.StarRailWaitingRoom, default, cancellationToken).ConfigureAwait(false);
-                if (!NewestResponse.TryGetContent(out IEnumerable<NewestAnalyzedBody>? NewestContent) || NewestContent.ToArray().OutSelf(out NewestAnalyzedBody[]? NewestPost).Length < 5)
+                if (!NewestResponse.TryGetContent(out IEnumerable<NewestAnalyzedBody>? NewestContent) || NewestContent.ToArray().OutSender(out NewestAnalyzedBody[]? NewestPost).Length < 5)
                 {
                     return TerminalResponse.Create<MissionInfo>(NewestResponse);
                 }

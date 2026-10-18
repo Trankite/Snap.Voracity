@@ -39,7 +39,7 @@ namespace Common.Source.Service.Terminal.Abstract
                     }
                     else
                     {
-                        InvokeOverride(Current, textStream, cancellationToken).Configure(Self => textStream?.WriteLine(Self));
+                        InvokeOverride(Current, textStream, cancellationToken).Configure(sender => textStream?.WriteLine(sender));
                     }
                 }
                 if (!IsCyclic) break;

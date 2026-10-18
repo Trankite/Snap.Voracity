@@ -25,7 +25,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static bool IsClamp<T>(this T value, T minimum, T maximum) where T : IComparable
         {
-            return value.CompareTo(minimum).OutSelf(out int Compare) == 0 || Compare > 0 && value.CompareTo(maximum) <= 0;
+            return value.CompareTo(minimum).OutSender(out int Compare) == 0 || Compare > 0 && value.CompareTo(maximum) <= 0;
         }
     }
 }
