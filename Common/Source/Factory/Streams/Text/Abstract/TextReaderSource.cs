@@ -4,11 +4,14 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 {
     public abstract class TextReaderSource : ITextReader
     {
+        protected readonly bool LeaveStreamOpen;
+
         protected readonly ITextReader Source;
 
-        public TextReaderSource(ITextReader source)
+        public TextReaderSource(ITextReader source, bool leaveOpen = default)
         {
             Source = source;
+            LeaveStreamOpen = leaveOpen;
         }
 
         public virtual int Read()
@@ -33,7 +36,10 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 
         public virtual void Dispose()
         {
-            Source.Dispose();
+            if (!LeaveStreamOpen)
+            {
+                Source.Dispose();
+            }
             GC.SuppressFinalize(this);
         }
     }

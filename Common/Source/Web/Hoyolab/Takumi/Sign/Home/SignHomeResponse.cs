@@ -7,7 +7,7 @@ namespace Common.Source.Web.Hoyolab.Takumi.Sign.Home
     {
         public IEnumerable<SignHomeAnalyzedBody>? Serialize()
         {
-            return TryGetContent(out SignHomeResponseWrapper? Content) ? Content.Awards.Select((Current, Index) => new SignHomeAnalyzedBody(Index + 1, Current.Count, Current.Name, Current.Icon)) : default;
+            return TryGetContent(out SignHomeResponseWrapper? Content) ? Content.Awards.Select((current, index) => new SignHomeAnalyzedBody(index + 1, current.Count, current.Name, current.Icon)) : default;
         }
     }
 }

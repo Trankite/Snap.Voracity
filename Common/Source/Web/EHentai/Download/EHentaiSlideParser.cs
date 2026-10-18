@@ -10,7 +10,7 @@ using Common.Source.Web.Request;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public class EHentaiSlideParser : AsyncGradualTask
+    public class EHentaiSlideParser : AsyncGradualTask, ITextStreamOwner
     {
         private int Index;
 
@@ -22,7 +22,7 @@ namespace Common.Source.Web.EHentai.Download
 
         private readonly GalleryRequestBuilderFactory BuilderFactory = new();
 
-        private readonly ITextStream? TextStream;
+        public ITextStream? TextStream { get; set; }
 
         public EHentaiSlideParser(Uri galleryUri, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
         {

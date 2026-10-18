@@ -342,7 +342,7 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return ObjectExtension.OutSelf(GetValue(context.FirstOrDefault(), getter, setter).ToInt() + 1, out int Maximum) > 0 ? Random.Shared.Next(Maximum) : double.NaN;
+                return ObjectExtension.OutSender(GetValue(context.FirstOrDefault(), getter, setter).ToInt() + 1, out int Maximum) > 0 ? Random.Shared.Next(Maximum) : double.NaN;
             }
         }
 
@@ -378,7 +378,7 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.GetIndexValue(1), getter, setter).ToInt().OutSelf(out int Digits).IsClamp(0, 15) ? Math.Round(GetValue(context.FirstOrDefault(), getter, setter), Digits, MidpointRounding.AwayFromZero) : double.NaN;
+                return GetValue(context.GetIndexValue(1), getter, setter).ToInt().OutSender(out int Digits).IsClamp(0, 15) ? Math.Round(GetValue(context.FirstOrDefault(), getter, setter), Digits, MidpointRounding.AwayFromZero) : double.NaN;
             }
         }
 
@@ -414,7 +414,7 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.GetIndexValue(1), getter, setter).OutSelf(out double Minimum) < GetValue(context.GetIndexValue(2), getter, setter).OutSelf(out double Maximum) ? Math.Clamp(GetValue(context.FirstOrDefault(), getter, setter), Minimum, Maximum) : double.NaN;
+                return GetValue(context.GetIndexValue(1), getter, setter).OutSender(out double Minimum) < GetValue(context.GetIndexValue(2), getter, setter).OutSender(out double Maximum) ? Math.Clamp(GetValue(context.FirstOrDefault(), getter, setter), Minimum, Maximum) : double.NaN;
             }
         }
     }

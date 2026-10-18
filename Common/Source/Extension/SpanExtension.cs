@@ -47,7 +47,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, T value, IEqualityComparer<T>? comparer = default)
         {
-            return span[startIndex..].IndexOf(value, comparer).OutSelf(out int Index) > 0 ? startIndex + Index : -1;
+            return span[startIndex..].IndexOf(value, comparer).OutSender(out int Index) > 0 ? startIndex + Index : -1;
         }
 
         [DebuggerStepThrough]
@@ -65,7 +65,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
         {
-            return span[startIndex..].IndexOf(values, comparer).OutSelf(out int Index) > 0 ? startIndex + Index : -1;
+            return span[startIndex..].IndexOf(values, comparer).OutSender(out int Index) > 0 ? startIndex + Index : -1;
         }
 
         [DebuggerStepThrough]

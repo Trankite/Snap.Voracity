@@ -4,11 +4,14 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 {
     public sealed class TextWriterOwner : ITextWriter
     {
+        private readonly bool LeaveStreamOpen;
+
         private readonly TextWriter Writer;
 
-        public TextWriterOwner(TextWriter writer)
+        public TextWriterOwner(TextWriter writer, bool leaveOpen = default)
         {
             Writer = writer;
+            LeaveStreamOpen = leaveOpen;
         }
 
         public void Write(char value)
@@ -38,7 +41,10 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 
         public void Dispose()
         {
-            Writer.Dispose();
+            if (!LeaveStreamOpen)
+            {
+                Writer.Dispose();
+            }
         }
     }
 }

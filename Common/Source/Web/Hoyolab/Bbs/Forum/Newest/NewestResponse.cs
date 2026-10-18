@@ -7,7 +7,7 @@ namespace Common.Source.Web.Hoyolab.Bbs.Forum.Newest
     {
         public IEnumerable<NewestAnalyzedBody>? Serialize()
         {
-            return TryGetContent(out NewestResponseWrapper? Content) ? Content.List.Select(Current => new NewestAnalyzedBody(Current.Post.PostId, Current.Post.Subject)) : default;
+            return TryGetContent(out NewestResponseWrapper? Content) ? Content.List.Select(current => new NewestAnalyzedBody(current.Post.PostId, current.Post.Subject)) : default;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Common.Source.Service.Terminal
                 new QRLogin(),
                 new UserLogin()
             }
-            .ToFrozenDictionary(Command => Command.Name, StringComparer.OrdinalIgnoreCase);
+            .ToFrozenDictionary(command => command.Name, StringComparer.OrdinalIgnoreCase);
         }
     }
 }

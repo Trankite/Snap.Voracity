@@ -122,9 +122,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T OutSelf<T>(this T value, out T self) where T : allows ref struct
+        public static T OutSender<T>(this T value, out T sender) where T : allows ref struct
         {
-            return self = value;
+            return sender = value;
         }
     }
 }

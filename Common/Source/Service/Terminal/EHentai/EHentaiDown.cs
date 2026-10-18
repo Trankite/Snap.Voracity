@@ -1,6 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.Text.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
+using Common.Source.Factory.Streams.Text.Write;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
@@ -10,6 +11,7 @@ using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.EHentai;
 using Common.Source.Web.EHentai.Download;
 using Common.Source.Web.EHentai.Metadata;
+using System.Diagnostics;
 
 namespace Common.Source.Service.Terminal.EHentai
 {
@@ -59,14 +61,20 @@ namespace Common.Source.Service.Terminal.EHentai
             {
                 return SupportTerminalResponse.NotFindToken(ipbMemberId);
             }
-            using EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, textStream);
-            while (Downloader.Status.IsRunnable())
+            TextStreamSource<ITextReader, StopTextWriter>? StopTextStream = default;
+            if (textStream.IsNotNull())
             {
-                await Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false);
+                StopTextStream = TextStreamSource.Create(textStream.Reader, new StopTextWriter(textStream.Writer, Stopwatch.StartNew()));
+            }
+            using EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, StopTextStream);
+            while ((await Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false)).Status.IsRunnable())
+            {
+                StopTextStream?.SourceWriter.Stopwatch.Stop();
                 if (!await textStream.EnquireAsync(LocalString.ServiceTerminalEHentaiEHentaiDownloadRetry, cancellationToken).ConfigureAwait(false))
                 {
                     return new TerminalResponse(false, LocalString.ServiceTerminalEHentaiEHentaiDownloadCanceled);
                 }
+                StopTextStream?.SourceWriter.Stopwatch.Start();
             }
             if (Downloader.Status.IsCompleted())
             {

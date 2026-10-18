@@ -7,7 +7,7 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
     public static class GradualTaskExtension
     {
         [DebuggerStepThrough]
-        public static void StartOrRetry(this IGradualTask gradualTask)
+        public static T StartOrRetry<T>(this T gradualTask) where T : IGradualTask
         {
             if (gradualTask.Status.IsCreated())
             {
@@ -17,10 +17,11 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             {
                 gradualTask.Retry();
             }
+            return gradualTask;
         }
 
         [DebuggerStepThrough]
-        public static async ValueTask StartOrRetryAsync(this IAsyncGradualTask gradualTask, CancellationToken cancellationToken = default)
+        public static async ValueTask<T> StartOrRetryAsync<T>(this T gradualTask, CancellationToken cancellationToken = default) where T : IAsyncGradualTask
         {
             if (gradualTask.Status.IsCreated())
             {
@@ -30,6 +31,7 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             {
                 await gradualTask.RetryAsync(cancellationToken).ConfigureAwait(false);
             }
+            return gradualTask;
         }
     }
 }

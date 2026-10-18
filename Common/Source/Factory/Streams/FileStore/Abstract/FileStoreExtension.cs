@@ -10,7 +10,7 @@ namespace Common.Source.Factory.Streams.FileStore.Abstract
         [DebuggerStepThrough]
         public static bool TrySaveToFormat(this IFileStore saver, Stream stream, FileFormat format)
         {
-            if (saver.IsSupported(format).OutSelf(out bool IsSupported))
+            if (saver.IsSupported(format).OutSender(out bool IsSupported))
             {
                 saver.SaveToFormat(stream, format);
             }

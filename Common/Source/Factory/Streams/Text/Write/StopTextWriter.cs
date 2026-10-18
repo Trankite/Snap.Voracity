@@ -9,23 +9,23 @@ namespace Common.Source.Factory.Streams.Text.Write
     {
         private readonly Lock SyncLock = new();
 
-        public Stopwatch Watch { get; } = new Stopwatch();
+        public Stopwatch Stopwatch { get; } = new Stopwatch();
 
         private readonly Func<TimeSpan, string> Formatter;
 
-        public StopTextWriter(ITextWriter source, Func<TimeSpan, string>? formatter = default) : base(source)
+        public StopTextWriter(ITextWriter source, Func<TimeSpan, string>? formatter = default, bool leaveOpen = default) : base(source, leaveOpen)
         {
-            Formatter = formatter ?? DefaultFormatter;
+            Formatter = formatter ?? DefaultTimeFormat;
         }
 
-        public StopTextWriter(ITextWriter source, Stopwatch watch, Func<TimeSpan, string>? formatter = default) : this(source, formatter)
+        public StopTextWriter(ITextWriter source, Stopwatch stopwatch, Func<TimeSpan, string>? formatter = default, bool leaveOpen = default) : this(source, formatter, leaveOpen)
         {
-            Watch = watch;
+            Stopwatch = stopwatch;
         }
 
-        private static string DefaultFormatter(TimeSpan timeSpan)
+        private static string DefaultTimeFormat(TimeSpan timeSpan)
         {
-            return $"[{timeSpan.GetHourSecondString()}]\x20";
+            return $"[{timeSpan.GetMinuteMicrosecondString()}]\x20";
         }
 
         public override void WriteLine()
@@ -57,7 +57,7 @@ namespace Common.Source.Factory.Streams.Text.Write
 
         private void WriteTime()
         {
-            Write(Formatter.Invoke(Watch.Elapsed));
+            Write(Formatter.Invoke(Stopwatch.Elapsed));
         }
     }
 }

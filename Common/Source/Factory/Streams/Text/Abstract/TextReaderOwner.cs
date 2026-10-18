@@ -4,11 +4,14 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 {
     public sealed class TextReaderOwner : ITextReader
     {
+        private readonly bool LeaveStreamOpen;
+
         private readonly TextReader Reader;
 
-        public TextReaderOwner(TextReader reader)
+        public TextReaderOwner(TextReader reader, bool leaveOpen = default)
         {
             Reader = reader;
+            LeaveStreamOpen = leaveOpen;
         }
 
         public int Read()
@@ -33,7 +36,10 @@ namespace Common.Source.Factory.Streams.Text.Abstract
 
         public void Dispose()
         {
-            Reader.Dispose();
+            if (!LeaveStreamOpen)
+            {
+                Reader.Dispose();
+            }
         }
     }
 }

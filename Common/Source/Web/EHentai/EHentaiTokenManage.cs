@@ -37,7 +37,7 @@ namespace Common.Source.Web.EHentai
 
         public static bool TryGetToken(string id, [NotNullWhen(true)] out EHentaiToken? eHentaiToken)
         {
-            return Manager.Tokens.TryGetFirst(Current => Current.IpbMemberId == id, out eHentaiToken);
+            return Manager.Tokens.TryGetFirst(current => current.IpbMemberId == id, out eHentaiToken);
         }
 
         public static string GetFilePath()

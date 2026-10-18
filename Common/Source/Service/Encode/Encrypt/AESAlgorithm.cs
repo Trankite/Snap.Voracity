@@ -65,12 +65,12 @@ namespace Common.Source.Service.Encode.Encrypt
 
         public AESAlgorithm SetNonce(byte[] value)
         {
-            return this.Configure(Self => value.FillTo(Self.Nonce));
+            return this.Configure(sender => value.FillTo(sender.Nonce));
         }
 
         public AESAlgorithm SetTag(byte[] value)
         {
-            return this.Configure(Self => value.FillTo(Self.Tag));
+            return this.Configure(sender => value.FillTo(sender.Tag));
         }
 
         public void Dispose()

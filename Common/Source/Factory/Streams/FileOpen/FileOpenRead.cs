@@ -1,5 +1,4 @@
-﻿using Common.Source.Extension;
-using Common.Source.Service.Mission.Gradual.Abstract;
+﻿using Common.Source.Service.Mission.Gradual.Abstract;
 
 namespace Common.Source.Factory.Streams.FileOpen
 {
@@ -15,7 +14,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         public static FileOpenRead Create(string filePath, bool leaveOpen = default)
         {
-            return new FileOpenRead(filePath, leaveOpen).Configure(Self => Self.StartOrRetry());
+            return new FileOpenRead(filePath, leaveOpen).StartOrRetry();
         }
     }
 }

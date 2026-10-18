@@ -10,7 +10,7 @@ namespace Common.Source.Factory.Streams.Block.Abstract
         [DebuggerStepThrough]
         public static bool TryRead<T>(this IBlockReader<T> blockReader, out ReadOnlyMemory<T> blockMemory)
         {
-            return !blockReader.ReadBlock().OutSelf(out blockMemory).IsEmpty;
+            return !blockReader.ReadBlock().OutSender(out blockMemory).IsEmpty;
         }
 
         [DebuggerStepThrough]

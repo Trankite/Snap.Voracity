@@ -35,7 +35,7 @@ namespace Common.Source.Service.Terminal.Support
                 {
                     if (Command.RequiredParameters.All(Current.HasParameter))
                     {
-                        Command.Invoke(Current, textStream).Configure(Self => textStream?.WriteLine(Self));
+                        Command.Invoke(Current, textStream).Configure(sender => textStream?.WriteLine(sender));
                     }
                     else
                     {

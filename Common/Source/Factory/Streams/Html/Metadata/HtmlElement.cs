@@ -47,7 +47,7 @@
 
         public override string ToString()
         {
-            return $"<{Name}{(Attributes.Count == 0 ? string.Empty : $"\x20{string.Join('\x20', Attributes.Select(Current => $"{Current.Key}=\"{Current.Value}\""))}")}{(Contents.Count == 0 && Elements.Count == 0 ? "\x20/>" : $">{string.Join(string.Empty, Elements)}{string.Join(string.Empty, Contents)}</{Name}>")}";
+            return $"<{Name}{(Attributes.Count == 0 ? string.Empty : $"\x20{string.Join('\x20', Attributes.Select(current => $"{current.Key}=\"{current.Value}\""))}")}{(Contents.Count == 0 && Elements.Count == 0 ? "\x20/>" : $">{string.Join(string.Empty, Elements)}{string.Join(string.Empty, Contents)}</{Name}>")}";
         }
     }
 }

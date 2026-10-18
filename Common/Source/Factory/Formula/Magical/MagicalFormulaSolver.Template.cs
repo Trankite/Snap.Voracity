@@ -104,7 +104,7 @@ namespace Common.Source.Factory.Formula.Magical
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetMethodContext(context.Ended).OutSelf(out List<MagicalFormula> MethodContext).Count >= MinCount ? MethodOverride(MethodContext, getter, setter) : double.NaN;
+                return GetMethodContext(context.Ended).OutSender(out List<MagicalFormula> MethodContext).Count >= MinCount ? MethodOverride(MethodContext, getter, setter) : double.NaN;
             }
 
             public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
