@@ -1,5 +1,6 @@
 ﻿using Common.Source.Core.Interface;
 using Common.Source.Extension;
+using Common.Source.Resource.Localization;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 
@@ -7,45 +8,53 @@ namespace Common.Source.Web
 {
     public sealed class HttpContext : IExceptionCaptureOwner, IDisposable
     {
-        public static readonly HttpClient DefaultHttpClient;
+        public static TimeSpan DefaultTimeoutSpan { get; }
 
-        public static readonly TimeSpan DefaultTimeoutSpan = TimeSpan.FromSeconds(15);
+        public static HttpClient DefaultHttpClient { get; }
 
-        public HttpClient HttpClient { get; init; }
+        public HttpClient HttpClient { get; }
 
-        public HttpCompletionOption CompletionOption { get; init; }
+        public HttpRequestMessage Request { get; }
 
-        public CancellationToken CancellationToken { get; init; }
-
-        public HttpRequestMessage? Request { get; set; }
+        public HttpCompletionOption CompletionOption { get; }
 
         public HttpResponseMessage? Response { get; set; }
 
-        public ExceptionDispatchInfo? CapturedException { get; set; }
+        public ExceptionDispatchInfo? CapturedException { get; private set; }
 
-        public HttpContext(HttpClient? httpClient = default)
+        public HttpContext(HttpRequestMessage request, HttpClient? httpClient = default)
         {
+            Request = request;
             HttpClient = httpClient ?? DefaultHttpClient;
         }
 
-        public HttpContext(HttpCompletionOption completionOption, HttpClient? httpClient = default, CancellationToken cancellationToken = default) : this(httpClient)
+        public HttpContext(HttpRequestMessage request, HttpCompletionOption httpCompletionOption, HttpClient? httpClient = default) : this(request, httpClient)
         {
-            CompletionOption = completionOption;
-            CancellationToken = cancellationToken;
+            CompletionOption = httpCompletionOption;
         }
 
-        public static HttpContext CreateHeadersRead(HttpClient? httpClient = default, CancellationToken cancellationToken = default)
+        public async ValueTask SendAsync(CancellationToken cancellationToken = default)
         {
-            return new HttpContext(HttpCompletionOption.ResponseHeadersRead, httpClient, cancellationToken);
+            try
+            {
+                Response = await HttpClient.SendAsync(Request, CompletionOption, cancellationToken).ConfigureAwait(false);
+                Response.EnsureSuccessStatusCode();
+            }
+            catch (OperationCanceledException CanceledException)
+            {
+                CapturedException = new OperationCanceledException(LocalString.WebRequestExceptionOperationCanceled, CanceledException, cancellationToken).DispatchCapture(true);
+            }
+            catch (Exception Exception)
+            {
+                CapturedException = Exception.DispatchCapture();
+            }
         }
 
         [MemberNotNull(nameof(Response))]
         public void ThrowIfFailed()
         {
-            if (Response.IsNull())
-            {
-                throw this.GetException();
-            }
+            CapturedException?.Throw();
+            ArgumentNullException.ThrowIfNull(Response);
         }
 
         public void Dispose()
@@ -58,6 +67,7 @@ namespace Common.Source.Web
         {
             HttpClientHandler Handler = new() { AllowAutoRedirect = false };
             DefaultHttpClient = new HttpClient(Handler) { Timeout = Timeout.InfiniteTimeSpan };
+            DefaultTimeoutSpan = TimeSpan.FromSeconds(15);
         }
     }
 }

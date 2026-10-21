@@ -112,7 +112,7 @@ namespace Common.Source.Model.DataStruct.Disk
 
         public override string ToString()
         {
-            return $"{GetSize(GetDataSize().OutSender(out DataSize Current)):0.##}\x20{Current}";
+            return $"{GetSize(GetDataSize().OutSender(out DataSize dataSize)):0.##}\x20{dataSize}";
         }
     }
 }

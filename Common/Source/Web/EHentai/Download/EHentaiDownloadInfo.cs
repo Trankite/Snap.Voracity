@@ -3,7 +3,7 @@ using Common.Source.Web.Download;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public sealed class EHentaiDownloadInfo : IDisposable
+    public sealed class EHentaiDownloadInfo
     {
         public FileDownloader Downloader { get; set; }
 
@@ -13,11 +13,6 @@ namespace Common.Source.Web.EHentai.Download
         {
             Downloader = downloader;
             ImageTicket = imageTicket;
-        }
-
-        public void Dispose()
-        {
-            Downloader.Dispose();
         }
     }
 }

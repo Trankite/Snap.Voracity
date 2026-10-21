@@ -66,7 +66,7 @@ namespace Common.Source.Service.Terminal.EHentai
             {
                 StopTextStream = TextStreamSource.Create(textStream.Reader, new StopTextWriter(textStream.Writer, Stopwatch.StartNew()));
             }
-            using EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, StopTextStream);
+            EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, StopTextStream);
             while ((await Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false)).Status.IsRunnable())
             {
                 StopTextStream?.SourceWriter.Stopwatch.Stop();
@@ -80,7 +80,7 @@ namespace Common.Source.Service.Terminal.EHentai
             {
                 return new TerminalResponse(true, FileHelper.PathOpen(Downloader.FolderPath, pathOpen));
             }
-            return new TerminalResponse(false, Downloader.GetMessage());
+            return new TerminalResponse(false, Downloader.GetExceptionMessage());
         }
     }
 }

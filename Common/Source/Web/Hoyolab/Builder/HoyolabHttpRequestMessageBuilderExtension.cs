@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Web.Hoyolab.DataSign;
 using Common.Source.Web.Hoyolab.Metadata;
-using Common.Source.Web.Request.Builder;
+using Common.Source.Web.Request.Builder.Abstract;
 
 namespace Common.Source.Web.Hoyolab.Builder
 {

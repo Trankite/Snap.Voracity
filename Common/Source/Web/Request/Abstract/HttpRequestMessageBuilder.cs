@@ -1,10 +1,12 @@
-﻿using Common.Source.Web.Request.Builder.Abstraction;
+﻿using Common.Source.Web.Request.Interface;
 using System.Net.Http.Headers;
 
-namespace Common.Source.Web.Request
+namespace Common.Source.Web.Request.Abstract
 {
-    public class HttpRequestMessageBuilder : IHttpRequestUriBuilder, IHttpMethodBuilder, IHttpRequestOptionsBuilder, IHttpHeadersBuilder<HttpHeaders>, IHttpContentBuilder
+    public class HttpRequestMessageBuilder : IHttpRequestMessageBuilder<HttpHeaders>, IDisposable
     {
+        private bool Disposed;
+
         public Uri? RequestUri
         {
             get => HttpRequestMessage.RequestUri;
@@ -49,6 +51,16 @@ namespace Common.Source.Web.Request
         public override string ToString()
         {
             return HttpRequestMessage.ToString();
+        }
+
+        public void Dispose()
+        {
+            if (!Disposed)
+            {
+                HttpRequestMessage.Dispose();
+                GC.SuppressFinalize(this);
+                Disposed = true;
+            }
         }
     }
 }

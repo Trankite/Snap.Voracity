@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Web.EHentai.Builder;
-using Common.Source.Web.Request;
-using Common.Source.Web.Request.Builder;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Request.Builder.Abstract;
 
 namespace Common.Source.Web.EHentai.Gallery
 {
@@ -17,7 +17,7 @@ namespace Common.Source.Web.EHentai.Gallery
 
         public override HttpRequestMessageBuilder Create()
         {
-            return new EHentaiHttpRequestMessageBuilder()
+            return new EHentaiHttpRequestMessageBuilder(new GalleryHttpContentSerializer())
             .SetRequestUri(new EHentaiHttpUriBuilder(Uri.ThrowIfNull()).SetPage(Page))
             .SetMethod(HttpMethod.Get)
             .SetHeader(new EHentaiCookieBuilder(EHentaiToken).SetIpbMemberId().SetIpbPassHash().SetIgneous());

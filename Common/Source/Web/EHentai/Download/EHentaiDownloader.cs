@@ -10,22 +10,19 @@ using Common.Source.Service.Mission.Gradual.Metadata;
 using Common.Source.Web.Download;
 using Common.Source.Web.EHentai.Builder;
 using Common.Source.Web.EHentai.Slide;
-using Common.Source.Web.Request;
-using Common.Source.Web.Request.Builder;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Request.Builder.Abstract;
+using Common.Source.Web.Response;
 using System.Collections.Concurrent;
 using System.Threading.Channels;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public sealed class EHentaiDownloader : AsyncGradualTask, ITextStreamOwner, IDisposable
+    public sealed class EHentaiDownloader : AsyncGradualTask, ITextStreamOwner
     {
-        private bool Disposed;
-
         private const int MaximumDownloadTaskCount = 5;
 
         private readonly EHentaiSlideParser SlideParser;
-
-        private readonly SlideHttpContentSerializer Serializer = new();
 
         private readonly SlideRequestBuilderFactory BuilderFactory = new();
 
@@ -56,9 +53,7 @@ namespace Common.Source.Web.EHentai.Download
 
         protected override void RefreshOverride()
         {
-            ObjectDisposedException.ThrowIf(Disposed, this);
             SlideParser.Refresh();
-            ClearDownloadQueue();
         }
 
         private async ValueTask<GradualStatus> Download(CancellationToken cancellationToken = default)
@@ -68,14 +63,17 @@ namespace Common.Source.Web.EHentai.Download
                 await SlideParser.StartOrRetryAsync(cancellationToken).ConfigureAwait(false);
             }
             Channel<EHentaiDownloadInfo> DownloadChannel = Channel.CreateBounded<EHentaiDownloadInfo>(MaximumDownloadTaskCount);
-            IAsyncEnumerable<EHentaiDownloadInfo> DownloadSource = DownloadChannel.Reader.ReadAllAsync(cancellationToken);
+            IAsyncEnumerable<EHentaiDownloadInfo> DownloadSource = DownloadChannel.Reader.ReadAllAsync(CancellationToken.None);
             ParallelOptions ParallelOptions = ParallelHelper.CreateOptions(MaximumDownloadTaskCount, default, cancellationToken);
             Task DownloadTask = Parallel.ForEachAsync(DownloadSource, ParallelOptions, DownloadFormDownloadInfo);
-            for (int i = DownloadQueue.Count; i > 0 && DownloadQueue.TryDequeue(out EHentaiDownloadInfo? DownloadInfo); i--)
+            for (int i = DownloadQueue.Count; i > 0 && !cancellationToken.IsCancellationRequested; i--)
             {
-                await CreateDownloadTask(DownloadChannel.Writer, DownloadInfo, cancellationToken).ConfigureAwait(false);
+                if (DownloadQueue.TryDequeue(out EHentaiDownloadInfo? DownloadInfo))
+                {
+                    await CreateDownloadTask(DownloadChannel.Writer, DownloadInfo, cancellationToken).ConfigureAwait(false);
+                }
             }
-            for (int i = SlideParser.TicketQueue.Count; i > 0; i--)
+            for (int i = SlideParser.TicketQueue.Count; i > 0 && !cancellationToken.IsCancellationRequested; i--)
             {
                 QueueTicket<string> SlideTicket = SlideParser.TicketQueue.Dequeue();
                 try
@@ -85,27 +83,25 @@ namespace Common.Source.Web.EHentai.Download
                 catch (Exception Exception)
                 {
                     SlideParser.TicketQueue.Enqueue(SlideTicket);
-                    WriteMessage(SlideTicket.Index, Exception.GetMessage());
+                    WriteMessage(SlideTicket.Index, Exception.GetExceptionMessage());
                 }
             }
             DownloadChannel.Writer.Complete();
-            await DownloadTask;
+            await DownloadTask.ConfigureAwait(false);
             return SlideParser.TicketQueue.Count + DownloadQueue.Count > 0 ? GradualStatus.Running : SlideParser.Status;
         }
 
         private async ValueTask DownloadFromSlideTicket(ChannelWriter<EHentaiDownloadInfo> channelWriter, QueueTicket<string> slideTicket, CancellationToken cancellationToken = default)
         {
+            BuilderFactory.SetRequestUri(slideTicket.Ticket);
             WriteMessage(slideTicket.Index, slideTicket.Ticket);
-            using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
-            await BuilderFactory.SetRequestUri(slideTicket.Ticket).Create().SendAsync(HttpContext).ConfigureAwait(false);
-            HttpContext.ThrowIfFailed();
-            HttpContext.Response.EnsureSuccessStatusCode();
-            HttpContent HttpContent = HttpContext.Response.Content;
-            SlideAnalyzedBody AnalyzedBody = await Serializer.DeserializeAsync(HttpContent, cancellationToken).ConfigureAwait(false);
-            Uri ImageUri = new(AnalyzedBody.ImageUrl);
-            QueueTicket<string> ImageTicket = QueueTicket.Create(slideTicket.Index, AnalyzedBody.ImageUrl);
-            string FilePath = GetFilePath(FolderPath ??= GetFolderPath(AnalyzedBody.Title), ImageUri, ImageTicket.Index);
-            DefaultRequestBuilderFactory DownloadFactory = new(ImageUri);
+            HttpResponse<SlideAnalyzedBody> Response = await BuilderFactory.Create().SendAsync<SlideAnalyzedBody>(cancellationToken).ConfigureAwait(false);
+            Response.ThrowIfFailed();
+            ArgumentNullException.ThrowIfNull(Response.Body);
+            Uri ImageUri = new(Response.Body.ImageUrl);
+            QueueTicket<string> ImageTicket = QueueTicket.Create(slideTicket.Index, Response.Body.ImageUrl);
+            string FilePath = GetFilePath(FolderPath ??= GetFolderPath(Response.Body.Title), ImageUri, ImageTicket.Index);
+            HttpRequestMessageBuilderFactory DownloadFactory = new HttpRequestMessageBuilderFactory().SetRequestUri(ImageUri);
             FileDownloader Downloader = FileDownloader.Create(FilePath, DownloadFactory, true);
             EHentaiDownloadInfo DownloadInfo = new(Downloader, ImageTicket);
             await CreateDownloadTask(channelWriter, DownloadInfo, cancellationToken).ConfigureAwait(false);
@@ -114,7 +110,7 @@ namespace Common.Source.Web.EHentai.Download
         private async ValueTask CreateDownloadTask(ChannelWriter<EHentaiDownloadInfo> channelWriter, EHentaiDownloadInfo downloadInfo, CancellationToken cancellationToken = default)
         {
             WriteMessage(downloadInfo.ImageTicket.Index, downloadInfo.ImageTicket.Ticket);
-            await channelWriter.WriteAsync(downloadInfo, cancellationToken);
+            await channelWriter.WriteAsync(downloadInfo, cancellationToken).ConfigureAwait(false);
         }
 
         private async ValueTask DownloadFormDownloadInfo(EHentaiDownloadInfo downloadInfo, CancellationToken cancellationToken = default)
@@ -123,7 +119,7 @@ namespace Common.Source.Web.EHentai.Download
             if (downloadInfo.Downloader.Status.IsRunnable())
             {
                 DownloadQueue.Enqueue(downloadInfo);
-                WriteMessage(downloadInfo.ImageTicket.Index, downloadInfo.Downloader.GetMessage());
+                WriteMessage(downloadInfo.ImageTicket.Index, downloadInfo.Downloader.GetExceptionMessage());
             }
         }
 
@@ -140,23 +136,6 @@ namespace Common.Source.Web.EHentai.Download
         private void WriteMessage(int index, string message)
         {
             TextStream?.WriteLine($"[{index}/{Count}]\x20{message}");
-        }
-
-        private void ClearDownloadQueue()
-        {
-            while (DownloadQueue.TryDequeue(out EHentaiDownloadInfo? DownloadInfo))
-            {
-                DownloadInfo.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            if (!Disposed)
-            {
-                ClearDownloadQueue();
-                Disposed = true;
-            }
         }
     }
 }

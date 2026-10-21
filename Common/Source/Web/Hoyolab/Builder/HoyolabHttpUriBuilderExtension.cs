@@ -2,7 +2,7 @@
 using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Share;
 using Common.Source.Web.Hoyolab.Metadata;
-using Common.Source.Web.Request.Builder.Abstraction;
+using Common.Source.Web.Request.Builder;
 
 namespace Common.Source.Web.Hoyolab.Builder
 {

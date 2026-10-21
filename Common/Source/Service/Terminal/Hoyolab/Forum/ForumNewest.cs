@@ -6,7 +6,7 @@ using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Newest;
-using Common.Source.Web.Request;
+using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Forum

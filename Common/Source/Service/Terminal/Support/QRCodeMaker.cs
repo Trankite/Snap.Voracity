@@ -110,7 +110,7 @@ namespace Common.Source.Service.Terminal.Support
             {
                 return new TerminalResponse(false, format.UnSupported());
             }
-            FileHelper.PathOpen(FileWrite.FullName, pathOpen);
+            FileHelper.PathOpen(FileWrite.FileInfo.FullName, pathOpen);
             object[] FormatInfo = [Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType.ToInt()];
             return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeMakerDetails.SafeFormat(FormatInfo));
         }

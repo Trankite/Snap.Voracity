@@ -1,5 +1,5 @@
 ﻿using Common.Source.Service.Mission.Gradual.Interface;
-using Common.Source.Web.Request.Builder.Abstraction;
+using Common.Source.Web.Request.Interface;
 
 namespace Common.Source.Web.Download.Abstract
 {

@@ -1,7 +1,7 @@
 ﻿using Common.Source.Web.Hoyolab.Builder;
-using Common.Source.Web.Request;
-using Common.Source.Web.Request.Builder;
-using Common.Source.Web.Request.Builder.Abstraction;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Request.Builder.Abstract;
+using Common.Source.Web.Request.Interface;
 using System.Text.Json;
 
 namespace Common.Source.Web.Hoyolab.Passport.QRLogin.Status

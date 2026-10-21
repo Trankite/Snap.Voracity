@@ -1,20 +1,13 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.Html;
 using Common.Source.Factory.Streams.Html.Metadata;
-using Common.Source.Web.Request.Builder.Abstraction;
-using System.Text;
-using System.Text.Json;
+using Common.Source.Web.Request.Abstract;
 
 namespace Common.Source.Web.EHentai.Slide
 {
-    public class SlideHttpContentSerializer : IHttpContentSerializer<SlideAnalyzedBody>
+    public class SlideHttpContentSerializer : HttpContentSerializer<SlideAnalyzedBody>
     {
-        public HttpContent Serialize(SlideAnalyzedBody content, Encoding? encoding = null)
-        {
-            return new StringContent(JsonSerializer.Serialize(content), encoding);
-        }
-
-        public async ValueTask<SlideAnalyzedBody> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
+        public override async ValueTask<SlideAnalyzedBody?> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
         {
             SlideAnalyzedBody AnalyzedBody = new();
             using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));

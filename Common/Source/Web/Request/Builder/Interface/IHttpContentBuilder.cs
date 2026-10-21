@@ -1,4 +1,6 @@
-﻿namespace Common.Source.Web.Request.Builder.Abstraction
+﻿using Common.Source.Web.Request.Interface;
+
+namespace Common.Source.Web.Request.Builder.Interface
 {
     public interface IHttpContentBuilder
     {

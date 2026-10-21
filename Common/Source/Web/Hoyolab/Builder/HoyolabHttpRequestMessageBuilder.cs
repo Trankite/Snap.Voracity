@@ -1,4 +1,4 @@
-﻿using Common.Source.Web.Request;
+﻿using Common.Source.Web.Request.Abstract;
 
 namespace Common.Source.Web.Hoyolab.Builder
 {

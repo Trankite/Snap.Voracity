@@ -4,7 +4,7 @@ namespace Common.Source.Core.Interface
 {
     public interface IExceptionCaptureOwner
     {
-        ExceptionDispatchInfo? CapturedException { get; set; }
+        ExceptionDispatchInfo? CapturedException { get; }
 
         void ThrowIfFailed();
     }

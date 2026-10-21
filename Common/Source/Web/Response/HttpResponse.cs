@@ -12,7 +12,7 @@ namespace Common.Source.Web.Response
 
         public HttpResponseHeaders? Headers { get; }
 
-        public ExceptionDispatchInfo? CapturedException { get; set; }
+        public ExceptionDispatchInfo? CapturedException { get; }
 
         public HttpResponse() { }
 
@@ -34,13 +34,13 @@ namespace Common.Source.Web.Response
         [MemberNotNull(nameof(Headers))]
         public void ThrowIfFailed()
         {
-            this.ThrowIfExceptionCaptured();
+            CapturedException?.Throw();
             ArgumentNullException.ThrowIfNull(Headers);
         }
 
         public override string ToString()
         {
-            return this.GetMessage(Body);
+            return CapturedException.GetExceptionMessage(Body);
         }
     }
 }

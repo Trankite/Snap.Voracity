@@ -9,7 +9,7 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
     {
         public int RetryCount { get; protected set; }
 
-        public ExceptionDispatchInfo? CapturedException { get; set; }
+        public ExceptionDispatchInfo? CapturedException { get; protected set; }
 
         public GradualStatus Status { get; protected set; }
 
@@ -28,7 +28,7 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             }
             catch (Exception Exception)
             {
-                Status = FailedByException(Exception.DispatchCapture());
+                Status = FailedByException(Exception);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             }
             catch (Exception Exception)
             {
-                Status = FailedByException(Exception.DispatchCapture());
+                Status = FailedByException(Exception);
             }
             finally
             {
@@ -59,22 +59,30 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
 
         public virtual void ThrowIfFailed()
         {
-            this.ThrowIfExceptionCaptured();
+            CapturedException?.Throw();
         }
 
-        protected GradualStatus FailedByException(ExceptionDispatchInfo? exceptionDispatchInfo = default)
+        protected GradualStatus FailedByException(Exception exception, bool isFaulted = default)
+        {
+            return FailedByException(exception.DispatchCapture(), isFaulted);
+        }
+
+        protected GradualStatus FailedByException(ExceptionDispatchInfo? exceptionDispatchInfo = default, bool isFaulted = default)
         {
             if (exceptionDispatchInfo.IsNotNull())
             {
                 CapturedException = exceptionDispatchInfo;
             }
-            return GradualStatus.Running;
+            return isFaulted ? GradualStatus.Faulted : GradualStatus.Running;
         }
 
         public void Cancel()
         {
-            CancelOverride();
-            Status = GradualStatus.Canceled;
+            if (Status.IsRunnable())
+            {
+                CancelOverride();
+                Status = GradualStatus.Canceled;
+            }
         }
 
         protected virtual void CancelOverride() { }
