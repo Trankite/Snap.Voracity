@@ -1,7 +1,7 @@
 ﻿using Common.Source.Web.EHentai.Builder;
-using Common.Source.Web.Request;
-using Common.Source.Web.Request.Builder;
-using Common.Source.Web.Request.Builder.Abstraction;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Request.Builder.Abstract;
+using Common.Source.Web.Request.Builder.Interface;
 
 namespace Common.Source.Web.EHentai.Slide
 {
@@ -15,7 +15,7 @@ namespace Common.Source.Web.EHentai.Slide
 
         public override HttpRequestMessageBuilder Create()
         {
-            return new EHentaiHttpRequestMessageBuilder()
+            return new EHentaiHttpRequestMessageBuilder(new SlideHttpContentSerializer())
             .SetRequestUri(RequestUri)
             .SetMethod(HttpMethod.Get)
             .SetHeader(new EHentaiCookieBuilder(EHentaiToken).SetIpbMemberId().SetIpbPassHash().SetIgneous());

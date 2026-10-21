@@ -390,7 +390,7 @@ Use "{1}" access details</value>
     <value>The account data has been updated</value>
   </data>
   <data name="ExtensionStreamCopyTimeoutException" xml:space="preserve">
-    <value>Transmitting {0} Bytes for more than {1} seconds</value>
+    <value>Transmit {0} for more than {1} seconds</value>
   </data>
   <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
     <value>Error message: {0}</value>

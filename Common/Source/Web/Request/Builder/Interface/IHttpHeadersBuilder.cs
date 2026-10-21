@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace Common.Source.Web.Request.Builder.Abstraction
+namespace Common.Source.Web.Request.Builder.Interface
 {
     public interface IHttpHeadersBuilder<out T> where T : HttpHeaders
     {

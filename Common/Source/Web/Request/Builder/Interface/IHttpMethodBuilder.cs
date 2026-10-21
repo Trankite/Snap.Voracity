@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Web.Request.Builder.Abstraction
+﻿namespace Common.Source.Web.Request.Builder.Interface
 {
     public interface IHttpMethodBuilder
     {

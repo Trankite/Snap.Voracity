@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
 using System.Diagnostics;
 
-namespace Common.Source.Web.Request.Builder.Abstraction
+namespace Common.Source.Web.Request.Builder
 {
     public static class HttpUriBuilderExtension
     {

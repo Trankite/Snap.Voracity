@@ -1,8 +1,8 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Web.Request.Builder.Abstraction;
+using Common.Source.Web.Request.Builder.Interface;
 using System.Diagnostics;
 
-namespace Common.Source.Web.Request.Builder
+namespace Common.Source.Web.Request.Builder.Abstract
 {
     public static class HttpRequestUriBuilderExtension
     {

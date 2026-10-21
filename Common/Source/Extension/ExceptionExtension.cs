@@ -8,19 +8,19 @@ namespace Common.Source.Extension
     public static class ExceptionExtension
     {
         [DebuggerStepThrough]
-        public static string GetMessage(this IExceptionCaptureOwner exceptionCaptureOwner, object? message = default)
+        public static string GetExceptionMessage(this IExceptionCaptureOwner exceptionCaptureOwner, object? message = default)
         {
-            return GetMessage(exceptionCaptureOwner.CapturedException, message);
+            return GetExceptionMessage(exceptionCaptureOwner.CapturedException, message);
         }
 
         [DebuggerStepThrough]
-        public static string GetMessage(this ExceptionDispatchInfo? exceptionDispatchInfo, object? message = default)
+        public static string GetExceptionMessage(this ExceptionDispatchInfo? exceptionDispatchInfo, object? message = default)
         {
-            return GetMessage(exceptionDispatchInfo?.SourceException, message);
+            return GetExceptionMessage(exceptionDispatchInfo?.SourceException, message);
         }
 
         [DebuggerStepThrough]
-        public static string GetMessage(this Exception? exception, object? message = default)
+        public static string GetExceptionMessage(this Exception? exception, object? message = default)
         {
             return LocalString.ExtensionExceptionMessageDescription.SafeFormat(exception?.Message ?? message);
         }
@@ -37,22 +37,11 @@ namespace Common.Source.Extension
             return exceptionDispatchInfo?.SourceException ?? new NullReferenceException();
         }
 
+        [StackTraceHidden]
         [DebuggerStepThrough]
-        public static void ThrowIfExceptionCaptured(this IExceptionCaptureOwner exceptionCaptureOwner)
+        public static ExceptionDispatchInfo DispatchCapture(this Exception exception, bool setStackTrace = default)
         {
-            exceptionCaptureOwner.CapturedException?.Throw();
-        }
-
-        [DebuggerStepThrough]
-        public static ExceptionDispatchInfo DispatchCapture(this Exception exception)
-        {
-            return ExceptionDispatchInfo.Capture(exception);
-        }
-
-        [DebuggerStepThrough]
-        public static ExceptionDispatchInfo DispatchCapture(this IExceptionCaptureOwner exceptionCaptureOwner, Exception exception)
-        {
-            return exceptionCaptureOwner.CapturedException = DispatchCapture(exception);
+            return ExceptionDispatchInfo.Capture(setStackTrace ? ExceptionDispatchInfo.SetCurrentStackTrace(exception) : exception);
         }
     }
 }

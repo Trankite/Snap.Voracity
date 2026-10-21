@@ -2,20 +2,19 @@
 using Common.Source.Factory.Streams.FileOpen;
 using Common.Source.Model.DataStruct.Disk;
 using Common.Source.Model.DataStruct.Disk.Metadata;
+using Common.Source.Service.Mission.Gradual;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
 using Common.Source.Web.Download.Abstract;
-using Common.Source.Web.Request;
-using Common.Source.Web.Request.Builder.Abstraction;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Request.Interface;
 using System.Net;
 using System.Net.Http.Headers;
 
 namespace Common.Source.Web.Download
 {
-    public sealed class FileDownloader : AsyncGradualTask, IFileDownloader, IDisposable
+    public sealed class FileDownloader : AsyncGradualTask, IFileDownloader
     {
-        private bool Disposed;
-
         private long _DownloadBytes;
 
         private readonly FileOpenStream FileOpen;
@@ -45,35 +44,26 @@ namespace Common.Source.Web.Download
 
         protected override async ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                return await Download(cancellationToken).ConfigureAwait(false);
-            }
-            finally
-            {
-                FileOpen.Refresh();
-            }
+            return await StartDownload(cancellationToken).ConfigureAwait(false);
         }
 
         protected override void RefreshOverride()
         {
-            ObjectDisposedException.ThrowIf(Disposed, this);
             _DownloadBytes = 0;
         }
 
-        private async ValueTask<GradualStatus> Download(CancellationToken cancellationToken)
+        private async ValueTask<GradualStatus> StartDownload(CancellationToken cancellationToken)
         {
-            FileOpen.StartOrRetry();
+            using GradualRefresher Refresher = new(FileOpen.StartOrRetry());
             FileOpen.ThrowIfFailed();
-            HttpRequestMessageBuilder RequestBuilder = BuilderFactory.Create();
-            using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
+            using HttpContext HttpContext = BuilderFactory.Create().CreateHttpContext(true);
             if (Status.IsCreated())
             {
                 _DownloadBytes = FreshDownload ? 0 : FileOpen.Stream.Length;
             }
-            RequestBuilder.HttpRequestMessage.Headers.Range = new RangeHeaderValue(_DownloadBytes, default);
-            await RequestBuilder.SendAsync(HttpContext).ConfigureAwait(false);
-            if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCode)
+            HttpContext.Request.Headers.Range = new RangeHeaderValue(_DownloadBytes, default);
+            await HttpContext.SendAsync(cancellationToken).ConfigureAwait(false);
+            if (HttpContext.Response.IsNull())
             {
                 return FailedByException(HttpContext.CapturedException);
             }
@@ -97,15 +87,6 @@ namespace Common.Source.Web.Download
             finally
             {
                 _DownloadBytes = FileOpen.Stream.Position;
-            }
-        }
-
-        public void Dispose()
-        {
-            if (!Disposed)
-            {
-                FileOpen.Dispose();
-                Disposed = true;
             }
         }
     }

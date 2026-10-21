@@ -1,4 +1,5 @@
-﻿using Common.Source.Resource.Localization;
+﻿using Common.Source.Model.DataStruct.Disk;
+using Common.Source.Resource.Localization;
 using System.Diagnostics;
 
 namespace Common.Source.Extension
@@ -38,7 +39,7 @@ namespace Common.Source.Extension
                 catch { return; }
                 if (CurrentPosition < bytesPerSecond * checkTimeSpan.TotalSeconds)
                 {
-                    throw new TimeoutException(LocalString.ExtensionStreamCopyTimeoutException.SafeFormat(CurrentPosition, checkTimeSpan.TotalSeconds));
+                    throw new TimeoutException(LocalString.ExtensionStreamCopyTimeoutException.SafeFormat(new DiskSize(CurrentPosition), checkTimeSpan.TotalSeconds));
                 }
             }
         }

@@ -1,20 +1,13 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.Html;
 using Common.Source.Factory.Streams.Html.Metadata;
-using Common.Source.Web.Request.Builder.Abstraction;
-using System.Text;
-using System.Text.Json;
+using Common.Source.Web.Request.Abstract;
 
 namespace Common.Source.Web.EHentai.Gallery
 {
-    public class GalleryHttpContentSerializer : IHttpContentSerializer<GalleryAnalyzedBody>
+    public class GalleryHttpContentSerializer : HttpContentSerializer<GalleryAnalyzedBody>
     {
-        public HttpContent Serialize(GalleryAnalyzedBody content, Encoding? encoding = null)
-        {
-            return new StringContent(JsonSerializer.Serialize(content), encoding);
-        }
-
-        public async ValueTask<GalleryAnalyzedBody> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
+        public override async ValueTask<GalleryAnalyzedBody?> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
         {
             GalleryAnalyzedBody AnalyzedBody = new();
             using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));

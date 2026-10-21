@@ -1,9 +1,9 @@
 ﻿using Common.Source.Web.Hoyolab.Builder;
 using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Takumi.Wiki.Detail;
-using Common.Source.Web.Request;
-using Common.Source.Web.Request.Builder;
-using Common.Source.Web.Request.Builder.Abstraction;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Request.Builder.Abstract;
+using Common.Source.Web.Request.Interface;
 
 namespace Common.Source.Web.Hoyolab.Takumi.Wiki.Detail
 {

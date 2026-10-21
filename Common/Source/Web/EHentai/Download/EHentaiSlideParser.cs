@@ -6,7 +6,8 @@ using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
 using Common.Source.Web.EHentai.Builder;
 using Common.Source.Web.EHentai.Gallery;
-using Common.Source.Web.Request;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Response;
 
 namespace Common.Source.Web.EHentai.Download
 {
@@ -17,8 +18,6 @@ namespace Common.Source.Web.EHentai.Download
         public int Count { get; private set; }
 
         public Queue<QueueTicket<string>> TicketQueue { get; } = new();
-
-        private readonly GalleryHttpContentSerializer Serializer = new();
 
         private readonly GalleryRequestBuilderFactory BuilderFactory = new();
 
@@ -46,26 +45,31 @@ namespace Common.Source.Web.EHentai.Download
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                HttpRequestMessageBuilder Request = BuilderFactory.SetPage(Index).Create();
-                TextStream?.WriteLine($"[{Index + 1}]\x20{Request.RequestUri}");
-                using HttpContext HttpContext = HttpContext.CreateHeadersRead(default, cancellationToken);
-                await Request.SendAsync(HttpContext).ConfigureAwait(false);
-                if (HttpContext.Response.IsNull() || !HttpContext.Response.IsSuccessStatusCode)
+                BuilderFactory.SetPage(Index);
+                using HttpRequestMessageBuilder Builder = BuilderFactory.Create();
+                WriteMessage(Builder.RequestUri?.ToString());
+                HttpResponse<GalleryAnalyzedBody> Response = await Builder.SendAsync<GalleryAnalyzedBody>(cancellationToken).ConfigureAwait(false);
+                if (Response.Body.IsNull())
                 {
-                    return FailedByException(HttpContext.CapturedException);
+                    WriteMessage(Response.GetExceptionMessage());
+                    return FailedByException(Response.CapturedException);
                 }
-                GalleryAnalyzedBody AnalyzedBody = await Serializer.DeserializeAsync(HttpContext.Response.Content, cancellationToken);
-                foreach (string ImageUrl in AnalyzedBody.Images)
+                foreach (string ImageUrl in Response.Body.Images)
                 {
                     TicketQueue.Enqueue(QueueTicket.Create(++Count, ImageUrl));
                 }
                 Index++;
-                if (AnalyzedBody.IsEndOfPage)
+                if (Response.Body.IsEndOfPage)
                 {
                     return GradualStatus.Completed;
                 }
             }
             throw new OperationCanceledException(cancellationToken);
+        }
+
+        private void WriteMessage(string? message)
+        {
+            TextStream?.WriteLine($"[{Index + 1}]\x20{message}");
         }
     }
 }

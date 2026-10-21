@@ -4,7 +4,7 @@ using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Web.Hoyolab.Takumi.DeviceFp;
-using Common.Source.Web.Request;
+using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Login

@@ -8,7 +8,7 @@ using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Mission;
 using Common.Source.Web.Hoyolab.Builder;
-using Common.Source.Web.Request;
+using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Mission

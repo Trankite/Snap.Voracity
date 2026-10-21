@@ -1,5 +1,4 @@
-﻿using Common.Source.Extension;
-using Common.Source.Web.Request.Builder.Abstraction;
+﻿using Common.Source.Web.Request.Interface;
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
@@ -17,14 +16,14 @@ namespace Common.Source.Web.Request
             JsonSerializerOptions = jsonSerializerOptions;
         }
 
-        public HttpContent? Serialize<TContent>(TContent? content, Encoding? encoding = default)
+        public HttpContent? Serialize<TSender>(TSender sender, Encoding? encoding = default)
         {
-            return new StringContent(JsonSerializer.Serialize(content, JsonSerializerOptions), encoding, MediaTypeNames.Application.Json);
+            return new StringContent(JsonSerializer.Serialize(sender, JsonSerializerOptions), encoding, MediaTypeNames.Application.Json);
         }
 
-        public async ValueTask<TResult?> DeserializeAsync<TResult>(HttpContent? httpContent, CancellationToken cancellationToken = default)
+        public async ValueTask<TResult?> DeserializeAsync<TResult>(HttpContent httpContent, CancellationToken cancellationToken = default)
         {
-            return httpContent.IsNotNull() ? await JsonSerializer.DeserializeAsync<TResult>(httpContent.ReadAsStream(cancellationToken), JsonSerializerOptions, cancellationToken).ConfigureAwait(false) : default;
+            return await JsonSerializer.DeserializeAsync<TResult>(httpContent.ReadAsStream(cancellationToken), JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
         }
     }
 }

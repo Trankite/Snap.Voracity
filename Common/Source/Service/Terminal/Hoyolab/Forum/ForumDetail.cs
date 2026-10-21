@@ -7,7 +7,7 @@ using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Forum.FullPost;
-using Common.Source.Web.Request;
+using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Forum

@@ -2,8 +2,8 @@
 using Common.Source.Web.Hoyolab.Builder;
 using Common.Source.Web.Hoyolab.DataSign;
 using Common.Source.Web.Hoyolab.Metadata;
-using Common.Source.Web.Request;
-using Common.Source.Web.Request.Builder;
+using Common.Source.Web.Request.Abstract;
+using Common.Source.Web.Request.Builder.Abstract;
 using System.Text.Json;
 
 namespace Common.Source.Web.Hoyolab.Bbs.Sign

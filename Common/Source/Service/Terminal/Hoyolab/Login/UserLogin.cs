@@ -10,7 +10,7 @@ using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Passport.Exchange;
 using Common.Source.Web.Hoyolab.Takumi.DeviceFp;
 using Common.Source.Web.Hoyolab.Takumi.GameRole;
-using Common.Source.Web.Request;
+using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Login

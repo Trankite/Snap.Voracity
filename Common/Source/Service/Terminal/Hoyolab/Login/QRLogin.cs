@@ -14,7 +14,7 @@ using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Hoyolab.Passport.QRLogin;
 using Common.Source.Web.Hoyolab.Passport.QRLogin.Status;
-using Common.Source.Web.Request;
+using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
 using System.Diagnostics;
 

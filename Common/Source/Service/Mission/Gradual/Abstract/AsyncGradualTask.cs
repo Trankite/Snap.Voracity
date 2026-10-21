@@ -1,5 +1,4 @@
-﻿using Common.Source.Extension;
-using Common.Source.Service.Mission.Gradual.Interface;
+﻿using Common.Source.Service.Mission.Gradual.Interface;
 using Common.Source.Service.Mission.Gradual.Metadata;
 
 namespace Common.Source.Service.Mission.Gradual.Abstract
@@ -19,7 +18,7 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             }
             catch (Exception Exception)
             {
-                Status = FailedByException(Exception.DispatchCapture());
+                Status = FailedByException(Exception);
             }
         }
 
@@ -46,7 +45,7 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             }
             catch (Exception Exception)
             {
-                Status = FailedByException(Exception.DispatchCapture());
+                Status = FailedByException(Exception);
             }
             finally
             {
