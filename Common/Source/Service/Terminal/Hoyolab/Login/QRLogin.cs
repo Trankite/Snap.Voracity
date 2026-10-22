@@ -16,6 +16,7 @@ using Common.Source.Web.Hoyolab.Passport.QRLogin;
 using Common.Source.Web.Hoyolab.Passport.QRLogin.Status;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
+using System.Collections.Immutable;
 using System.Diagnostics;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Login
@@ -28,9 +29,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
 
         public override string Help => LocalString.ServiceTerminalHoyolabLoginQRLoginHelp;
 
-        public override string[] RequiredParameters => [];
+        public override ImmutableArray<string> RequiredParameters { get; } = [];
 
-        public override string[] OptionalParameters => [Param_Guid];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_Guid];
 
         private const string Param_Guid = "guid";
 

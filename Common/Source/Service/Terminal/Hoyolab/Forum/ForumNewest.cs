@@ -8,6 +8,7 @@ using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Newest;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Forum
 {
@@ -19,9 +20,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         public override string Help => LocalString.ServiceTerminalHoyolabForumNewsHelp;
 
-        public override string[] RequiredParameters => [Param_PageSize, Param_ZoneType];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_PageSize, Param_ZoneType];
 
-        public override string[] OptionalParameters => [Param_SortType];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_SortType];
 
         private const string Param_PageSize = "size";
 

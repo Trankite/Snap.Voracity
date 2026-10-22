@@ -9,6 +9,7 @@ using Common.Source.Web.Hoyolab.Bbs.Sign;
 using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Forum
 {
@@ -20,9 +21,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         public override string Help => LocalString.ServiceTerminalHoyolabForumSignHelp;
 
-        public override string[] RequiredParameters => [Param_Group];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_Group];
 
-        public override string[] OptionalParameters => [Param_Aid];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_Aid];
 
         private const string Param_Group = "group";
 

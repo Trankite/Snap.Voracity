@@ -12,6 +12,7 @@ using Common.Source.Web.Hoyolab.Takumi.DeviceFp;
 using Common.Source.Web.Hoyolab.Takumi.GameRole;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Login
 {
@@ -23,9 +24,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
 
         public override string Help => LocalString.ServiceTerminalHoyolabLoginUserLoginHelp;
 
-        public override string[] RequiredParameters => [Param_Mid, Param_Stoken];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_Mid, Param_Stoken];
 
-        public override string[] OptionalParameters => [Param_Guid];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_Guid];
 
         private const string Param_Mid = "mid";
 

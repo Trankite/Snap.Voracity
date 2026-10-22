@@ -1,5 +1,6 @@
 ﻿using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Service.Terminal.Interface;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Abstract
 {
@@ -11,9 +12,9 @@ namespace Common.Source.Service.Terminal.Abstract
 
         public abstract string Help { get; }
 
-        public abstract string[] RequiredParameters { get; }
+        public abstract ImmutableArray<string> RequiredParameters { get; }
 
-        public abstract string[] OptionalParameters { get; }
+        public abstract ImmutableArray<string> OptionalParameters { get; }
 
         public abstract ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default);
     }

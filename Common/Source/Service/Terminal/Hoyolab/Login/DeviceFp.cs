@@ -6,6 +6,7 @@ using Common.Source.Service.Terminal.Interface;
 using Common.Source.Web.Hoyolab.Takumi.DeviceFp;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Login
 {
@@ -17,9 +18,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
 
         public override string Help => string.Empty;
 
-        public override string[] RequiredParameters => [];
+        public override ImmutableArray<string> RequiredParameters { get; } = [];
 
-        public override string[] OptionalParameters => [];
+        public override ImmutableArray<string> OptionalParameters { get; } = [];
 
         public override async ValueTask<ITerminalResponse<DeviceFpResponseWrapper>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {

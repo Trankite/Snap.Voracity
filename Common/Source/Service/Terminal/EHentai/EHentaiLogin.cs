@@ -4,6 +4,7 @@ using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.EHentai;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.EHentai
 {
@@ -15,9 +16,9 @@ namespace Common.Source.Service.Terminal.EHentai
 
         public override string Help => LocalString.ServiceTerminalEHentaiEHentaiLoginHelp;
 
-        public override string[] RequiredParameters => [Param_IpbMemberId, Param_IpbPassHash, Param_Igneous];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_IpbMemberId, Param_IpbPassHash, Param_Igneous];
 
-        public override string[] OptionalParameters => [];
+        public override ImmutableArray<string> OptionalParameters { get; } = [];
 
         private const string Param_IpbMemberId = TerminalParameters.Id;
 
