@@ -24,7 +24,7 @@ namespace Common.Source.Service.Terminal
                 new TerminalHelp(),
                 new TerminalInvoke(),
                 new TerminalPause(),
-                new EHentaiDown(),
+                new EHentaiDownload(),
                 new EHentaiLogin(),
                 new ForumNewest(),
                 new ForumDetail(),

@@ -355,8 +355,8 @@ Use "{1}" access details</value>
   <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
     <value>Login has been canceled or timed out</value>
   </data>
-  <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
-    <value>The network request has been canceled</value>
+  <data name="WebHttpRequestExceptionOperationTimeoutOrCanceled" xml:space="preserve">
+    <value>Network request timed out or canceled</value>
   </data>
   <data name="ServiceTerminalSupportExceptionMissingUserInteraction" xml:space="preserve">
     <value>Missing user interaction environment</value>
@@ -371,10 +371,10 @@ Use "{1}" access details</value>
     <value>Signed: Success
 [{0}/{1}] {2} × {3}</value>
   </data>
-  <data name="ServiceTerminalEHentaiEHentaiDownFullName" xml:space="preserve">
+  <data name="ServiceTerminalEHentaiEHentaiDownloadFullName" xml:space="preserve">
     <value>EHentai download</value>
   </data>
-  <data name="ServiceTerminalEHentaiEHentaiDownHelp" xml:space="preserve">
+  <data name="ServiceTerminalEHentaiEHentaiDownloadHelp" xml:space="preserve">
     <value>{0}Gallery link
 {1}ipb_member_id</value>
   </data>

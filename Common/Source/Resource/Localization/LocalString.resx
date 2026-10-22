@@ -355,8 +355,8 @@
   <data name="ServiceTerminalHoyolabLoginQRLoginExceptionCanceled" xml:space="preserve">
     <value>登录已取消或超时</value>
   </data>
-  <data name="WebRequestExceptionOperationCanceled" xml:space="preserve">
-    <value>网络请求已取消</value>
+  <data name="WebHttpRequestExceptionOperationTimeoutOrCanceled" xml:space="preserve">
+    <value>网络请求超时或已取消</value>
   </data>
   <data name="ServiceTerminalSupportExceptionMissingUserInteraction" xml:space="preserve">
     <value>缺少用户交互环境</value>
@@ -371,10 +371,10 @@
     <value>福利签到: 已签到
 [{0}/{1}] {2} × {3}</value>
   </data>
-  <data name="ServiceTerminalEHentaiEHentaiDownFullName" xml:space="preserve">
+  <data name="ServiceTerminalEHentaiEHentaiDownloadFullName" xml:space="preserve">
     <value>E站下载</value>
   </data>
-  <data name="ServiceTerminalEHentaiEHentaiDownHelp" xml:space="preserve">
+  <data name="ServiceTerminalEHentaiEHentaiDownloadHelp" xml:space="preserve">
     <value>{0}画廊链接
 {1}ipb_member_id</value>
   </data>

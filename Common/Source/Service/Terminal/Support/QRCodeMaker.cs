@@ -9,6 +9,7 @@ using Common.Source.Service.Encode.QRCode;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
+using System.Collections.Immutable;
 using System.Drawing;
 
 namespace Common.Source.Service.Terminal.Support
@@ -21,9 +22,9 @@ namespace Common.Source.Service.Terminal.Support
 
         public override string Help => LocalString.ServiceTerminalSupportQRCodeMakerHelp;
 
-        public override string[] RequiredParameters => [Param_Content, Param_FilePath];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_Content, Param_FilePath];
 
-        public override string[] OptionalParameters => [Param_FileFormat, Param_Foreground, Param_Background, Param_PixelSize, Param_Padding, Param_Version, Param_EncodeMode, Param_ECCodeLevel, Param_MaskType, Param_PathOpen];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_FileFormat, Param_Foreground, Param_Background, Param_PixelSize, Param_Padding, Param_Version, Param_EncodeMode, Param_ECCodeLevel, Param_MaskType, Param_PathOpen];
 
         private const string Param_Content = TerminalParameters.Content;
 

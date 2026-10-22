@@ -42,7 +42,7 @@ namespace Common.Source.Web
             }
             catch (OperationCanceledException CanceledException)
             {
-                CapturedException = new OperationCanceledException(LocalString.WebRequestExceptionOperationCanceled, CanceledException, cancellationToken).DispatchCapture(true);
+                CapturedException = new OperationCanceledException(LocalString.WebHttpRequestExceptionOperationTimeoutOrCanceled, CanceledException, cancellationToken).DispatchCapture(true);
             }
             catch (Exception Exception)
             {

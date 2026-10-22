@@ -5,6 +5,7 @@ using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Support
 {
@@ -16,9 +17,9 @@ namespace Common.Source.Service.Terminal.Support
 
         public override string Help => LocalString.ServiceTerminalSupportConsoleInvokeHelp;
 
-        public override string[] RequiredParameters => [Param_Content];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_Content];
 
-        public override string[] OptionalParameters => [];
+        public override ImmutableArray<string> OptionalParameters { get; } = [];
 
         private const string Param_Content = TerminalParameters.Content;
 

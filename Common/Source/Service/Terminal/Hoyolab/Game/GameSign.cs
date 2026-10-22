@@ -12,6 +12,7 @@ using Common.Source.Web.Hoyolab.Takumi.Sign.Home;
 using Common.Source.Web.Hoyolab.Takumi.Sign.Info;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Game
 {
@@ -23,9 +24,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Game
 
         public override string Help => LocalString.ServiceTerminalHoyolabGameSignHelp;
 
-        public override string[] RequiredParameters => [];
+        public override ImmutableArray<string> RequiredParameters { get; } = [];
 
-        public override string[] OptionalParameters => [Param_Aid];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_Aid];
 
         private const string Param_Aid = TerminalParameters.Aid;
 

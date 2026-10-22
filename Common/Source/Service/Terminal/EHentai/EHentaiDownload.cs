@@ -11,21 +11,22 @@ using Common.Source.Service.Terminal.Metadata;
 using Common.Source.Web.EHentai;
 using Common.Source.Web.EHentai.Download;
 using Common.Source.Web.EHentai.Metadata;
+using System.Collections.Immutable;
 using System.Diagnostics;
 
 namespace Common.Source.Service.Terminal.EHentai
 {
-    public class EHentaiDown : AsyncTerminalCommand
+    public class EHentaiDownload : AsyncTerminalCommand
     {
         public override string Name => "ehdown";
 
-        public override string FullName => LocalString.ServiceTerminalEHentaiEHentaiDownFullName;
+        public override string FullName => LocalString.ServiceTerminalEHentaiEHentaiDownloadFullName;
 
-        public override string Help => LocalString.ServiceTerminalEHentaiEHentaiDownHelp;
+        public override string Help => LocalString.ServiceTerminalEHentaiEHentaiDownloadHelp;
 
-        public override string[] RequiredParameters => [Param_GalleryLink];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_GalleryLink];
 
-        public override string[] OptionalParameters => [Param_IpbMemberId, Param_PathOpen];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_IpbMemberId, Param_PathOpen];
 
         private const string Param_GalleryLink = "link";
 

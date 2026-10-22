@@ -10,6 +10,7 @@ using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Newest;
 using Common.Source.Web.Hoyolab.Bbs.Mission;
 using Common.Source.Web.Hoyolab.Metadata;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Mission
 {
@@ -21,9 +22,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
 
         public override string Help => LocalString.ServiceTerminalHoyolabUserMissionHelp;
 
-        public override string[] RequiredParameters => [];
+        public override ImmutableArray<string> RequiredParameters { get; } = [];
 
-        public override string[] OptionalParameters => [Param_Aid];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_Aid];
 
         private const string Param_Aid = TerminalParameters.Aid;
 

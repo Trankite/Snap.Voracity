@@ -8,6 +8,7 @@ using Common.Source.Web.Hoyolab;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Share;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Response;
+using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Forum
 {
@@ -19,9 +20,9 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         public override string Help => LocalString.ServiceTerminalHoyolabForumShareHelp;
 
-        public override string[] RequiredParameters => [Param_PostId];
+        public override ImmutableArray<string> RequiredParameters { get; } = [Param_PostId];
 
-        public override string[] OptionalParameters => [Param_Aid];
+        public override ImmutableArray<string> OptionalParameters { get; } = [Param_Aid];
 
         private const string Param_PostId = TerminalParameters.Id;
 
