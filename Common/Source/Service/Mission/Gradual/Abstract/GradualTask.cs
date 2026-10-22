@@ -57,11 +57,6 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
 
         protected abstract GradualStatus RetryOverride();
 
-        public virtual void ThrowIfFailed()
-        {
-            CapturedException?.Throw();
-        }
-
         protected GradualStatus FailedByException(Exception exception, bool isFaulted = default)
         {
             return FailedByException(exception.DispatchCapture(), isFaulted);

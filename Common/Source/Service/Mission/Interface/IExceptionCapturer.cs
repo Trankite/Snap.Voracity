@@ -1,11 +1,9 @@
 ﻿using System.Runtime.ExceptionServices;
 
-namespace Common.Source.Core.Interface
+namespace Common.Source.Service.Mission.Interface
 {
-    public interface IExceptionCaptureOwner
+    public interface IExceptionCapturer
     {
         ExceptionDispatchInfo? CapturedException { get; }
-
-        void ThrowIfFailed();
     }
 }

@@ -17,6 +17,11 @@ namespace Common.Source.Extension
             return JsonSerializer.Serialize(content, options ?? JsonOptions);
         }
 
+        public static void Serialize<T>(Stream utf8Json, T value, JsonSerializerOptions? options = default)
+        {
+            JsonSerializer.Serialize(utf8Json, value, options ?? JsonOptions);
+        }
+
         public static Task SerializeAsync<T>(Stream utf8Json, T value, JsonSerializerOptions? options = default, CancellationToken cancellationToken = default)
         {
             return JsonSerializer.SerializeAsync(utf8Json, value, options ?? JsonOptions, cancellationToken);

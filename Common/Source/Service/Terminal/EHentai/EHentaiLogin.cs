@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.EHentai
 {
-    public class EHentaiLogin : AsyncTerminalCommand
+    public class EHentaiLogin : TerminalCommand
     {
         public override string Name => "ehlogin";
 
@@ -26,7 +26,7 @@ namespace Common.Source.Service.Terminal.EHentai
 
         private const string Param_Igneous = "pass";
 
-        public override async ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = null, CancellationToken cancellationToken = default)
+        public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = null, CancellationToken cancellationToken = default)
         {
             if (!commandLine.TryGetParameter(Param_IpbMemberId, out string? IpbMemberId))
             {
@@ -38,14 +38,14 @@ namespace Common.Source.Service.Terminal.EHentai
             }
             EHentaiToken EHentaiToken = new EHentaiToken(IpbMemberId).SetToken(IpbPassHash);
             EHentaiToken.Igneous = commandLine.GetParameter(Param_Igneous);
-            return await AsyncInvoke(EHentaiToken, cancellationToken).ConfigureAwait(false);
+            return Invoke(EHentaiToken);
         }
 
-        public static async ValueTask<ITerminalResponse> AsyncInvoke(EHentaiToken eHentaiToken, CancellationToken cancellationToken = default)
+        public static ITerminalResponse Invoke(EHentaiToken eHentaiToken)
         {
             try
             {
-                await EHentaiTokenManage.Update(eHentaiToken, cancellationToken).ConfigureAwait(false);
+                EHentaiTokenManage.Update(eHentaiToken);
             }
             catch (Exception Exception)
             {

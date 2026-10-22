@@ -18,7 +18,7 @@ namespace Common.Source.Service.Terminal
             CommandTable = new ITerminalCommand[]
             {
                 new FormulaCycle(),
-                new QRCodeMaker(),
+                new QRCodeGenerator(),
                 new TerminalEcho(),
                 new TerminalExit(),
                 new TerminalHelp(),

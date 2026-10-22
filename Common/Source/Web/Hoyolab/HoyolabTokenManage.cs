@@ -15,19 +15,19 @@ namespace Common.Source.Web.Hoyolab
             set => Manager.Tokens = value;
         }
 
-        public static ValueTask<HoyolabToken[]?> Load(CancellationToken cancellationToken = default)
+        public static HoyolabToken[] Load()
         {
-            return Manager.Load(cancellationToken);
+            return Manager.Load();
         }
 
-        public static ValueTask Save(HoyolabToken[] tokens, CancellationToken cancellationToken = default)
+        public static void Save(HoyolabToken[] tokens)
         {
-            return Manager.Save(tokens, cancellationToken);
+            Manager.Save(tokens);
         }
 
-        public static ValueTask Update(HoyolabToken token, CancellationToken cancellationToken = default)
+        public static void Update(HoyolabToken token)
         {
-            return Manager.Update(token, cancellationToken);
+            Manager.Update(token);
         }
 
         public static bool TryGetTokenOrFirst(string? aid, [NotNullWhen(true)] out HoyolabToken? hoyolabToken)

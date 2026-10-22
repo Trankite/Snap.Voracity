@@ -14,7 +14,21 @@ namespace Common.Source.Model.Collection.Token
 
         public T[] Tokens
         {
-            get => _Tokens ??= Load().AsTask().GetAwaiter().GetResult().NotNull();
+            get
+            {
+                if (_Tokens.IsNull())
+                {
+                    try
+                    {
+                        _Tokens = Load();
+                    }
+                    catch
+                    {
+                        _Tokens = [];
+                    }
+                }
+                return _Tokens;
+            }
             set => _Tokens = value;
         }
 
@@ -24,24 +38,21 @@ namespace Common.Source.Model.Collection.Token
             Comparer = comparer;
         }
 
-        public async ValueTask<T[]?> Load(CancellationToken cancellationToken = default)
+        public T[] Load()
         {
             using FileOpenRead FileRead = FileOpenRead.Create(FilePath);
-            if (!FileRead.CanReadStream)
-            {
-                return default;
-            }
-            return await JsonSerializerExtension.DeserializeAsync<T[]>(FileRead.Stream, default, cancellationToken).ConfigureAwait(false);
+            FileRead.ThrowIfFailed();
+            return JsonSerializerExtension.Deserialize<T[]>(FileRead.Stream) ?? [];
         }
 
-        public async ValueTask Save(T[] tokens, CancellationToken cancellationToken = default)
+        public void Save(T[] tokens)
         {
             using FileOpenWrite FileWrite = FileOpenWrite.Create(FilePath);
             FileWrite.ThrowIfFailed();
-            await JsonSerializerExtension.SerializeAsync(FileWrite.Stream, _Tokens = tokens, default, cancellationToken).ConfigureAwait(false);
+            JsonSerializerExtension.Serialize(FileWrite.Stream, _Tokens = tokens);
         }
 
-        public async ValueTask Update(T token, CancellationToken cancellationToken = default)
+        public void Update(T token)
         {
             if (Tokens.TryGetIndexOf(token, out int Index, Comparer))
             {
@@ -51,7 +62,7 @@ namespace Common.Source.Model.Collection.Token
             {
                 Tokens = [.. Tokens, token];
             }
-            await Save(Tokens, cancellationToken).ConfigureAwait(false);
+            Save(Tokens);
         }
     }
 }

@@ -25,9 +25,9 @@ namespace Common.Source.Web.Request.Abstract
         {
             using HttpContext HttpContext = builder.CreateHttpContext(isHeadersRead, httpClient);
             await HttpContext.SendAsync(cancellationToken).ConfigureAwait(false);
-            if (HttpContext.Response.IsNull())
+            if (HttpContext.CapturedException.IsNotNull() || HttpContext.Response.IsNull())
             {
-                return new HttpResponse<TResult>(default, HttpContext.CapturedException);
+                return new HttpResponse<TResult>(HttpContext.Response?.Headers, HttpContext.CapturedException);
             }
             try
             {

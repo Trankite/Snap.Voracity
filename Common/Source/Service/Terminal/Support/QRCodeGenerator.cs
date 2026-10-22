@@ -14,13 +14,13 @@ using System.Drawing;
 
 namespace Common.Source.Service.Terminal.Support
 {
-    public class QRCodeMaker : TerminalCommand
+    public class QRCodeGenerator : TerminalCommand
     {
         public override string Name => "qrcode";
 
-        public override string FullName => LocalString.ServiceTerminalSupportQRCodeMakerFullName;
+        public override string FullName => LocalString.ServiceTerminalSupportQRCodeGeneratorFullName;
 
-        public override string Help => LocalString.ServiceTerminalSupportQRCodeMakerHelp;
+        public override string Help => LocalString.ServiceTerminalSupportQRCodeGeneratorHelp;
 
         public override ImmutableArray<string> RequiredParameters { get; } = [Param_Content, Param_FilePath];
 
@@ -101,7 +101,7 @@ namespace Common.Source.Service.Terminal.Support
         {
             options ??= new QRCodeOptions();
             using FileOpenWrite FileWrite = FileOpenWrite.Create(filePath, true);
-            if (!FileWrite.CanReadStream)
+            if (!FileWrite.IsReady)
             {
                 return new TerminalResponse(false, FileWrite.ToString());
             }
@@ -113,7 +113,7 @@ namespace Common.Source.Service.Terminal.Support
             }
             FileHelper.PathOpen(FileWrite.FileInfo.FullName, pathOpen);
             object[] FormatInfo = [Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType.ToInt()];
-            return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeMakerDetails.SafeFormat(FormatInfo));
+            return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeGeneratorDetails.SafeFormat(FormatInfo));
         }
     }
 }

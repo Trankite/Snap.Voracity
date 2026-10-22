@@ -23,7 +23,7 @@ namespace Common.Source.Web.Download
 
         public long DownloadBytes
         {
-            get => FileOpen.CanReadStream ? FileOpen.Stream.Position : _DownloadBytes;
+            get => FileOpen.IsReady ? FileOpen.Stream.Position : _DownloadBytes;
         }
 
         public long FullFileBytes { get; private set; }
@@ -63,7 +63,7 @@ namespace Common.Source.Web.Download
             }
             HttpContext.Request.Headers.Range = new RangeHeaderValue(_DownloadBytes, default);
             await HttpContext.SendAsync(cancellationToken).ConfigureAwait(false);
-            if (HttpContext.Response.IsNull())
+            if (!HttpContext.IsReady)
             {
                 return FailedByException(HttpContext.CapturedException);
             }
