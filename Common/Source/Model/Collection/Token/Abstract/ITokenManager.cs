@@ -4,10 +4,10 @@
     {
         T[] Tokens { get; set; }
 
-        ValueTask<T[]?> Load(CancellationToken cancellationToken = default);
+        T[] Load();
 
-        ValueTask Save(T[] tokens, CancellationToken cancellationToken = default);
+        void Save(T[] tokens);
 
-        ValueTask Update(T token, CancellationToken cancellationToken = default);
+        void Update(T token);
     }
 }

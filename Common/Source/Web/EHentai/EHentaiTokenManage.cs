@@ -15,19 +15,19 @@ namespace Common.Source.Web.EHentai
             set => Manager.Tokens = value;
         }
 
-        public static ValueTask<EHentaiToken[]?> Load(CancellationToken cancellationToken = default)
+        public static EHentaiToken[] Load()
         {
-            return Manager.Load(cancellationToken);
+            return Manager.Load();
         }
 
-        public static ValueTask Save(EHentaiToken[] tokens, CancellationToken cancellationToken = default)
+        public static void Save(EHentaiToken[] tokens)
         {
-            return Manager.Save(tokens, cancellationToken);
+            Manager.Save(tokens);
         }
 
-        public static ValueTask Update(EHentaiToken token, CancellationToken cancellationToken = default)
+        public static void Update(EHentaiToken token)
         {
-            return Manager.Update(token, cancellationToken);
+            Manager.Update(token);
         }
 
         public static bool TryGetTokenOrFirst(string? id, [NotNullWhen(true)] out EHentaiToken? eHentaiToken)

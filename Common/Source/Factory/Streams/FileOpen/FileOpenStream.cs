@@ -3,11 +3,12 @@ using Common.Source.Service;
 using Common.Source.Service.Mission;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
+using Common.Source.Service.Mission.Interface;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Factory.Streams.FileOpen
 {
-    public class FileOpenStream : GradualTask, IDisposable
+    public class FileOpenStream : GradualTask, IExceptionThrower, IDisposable
     {
         private bool Disposed;
 
@@ -29,7 +30,7 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         [MemberNotNullWhen(true, nameof(Stream))]
         [MemberNotNullWhen(true, nameof(FileInfo))]
-        public bool CanReadStream => Status.IsCompleted();
+        public bool IsReady => Status.IsCompleted();
 
         protected FileOpenStream(string filePath, bool buildDirectory = default, bool leaveOpen = default)
         {
@@ -77,9 +78,9 @@ namespace Common.Source.Factory.Streams.FileOpen
 
         [MemberNotNull(nameof(Stream))]
         [MemberNotNull(nameof(FileInfo))]
-        public override void ThrowIfFailed()
+        public void ThrowIfFailed()
         {
-            base.ThrowIfFailed();
+            CapturedException?.Throw();
             ArgumentNullException.ThrowIfNull(Stream);
             ArgumentNullException.ThrowIfNull(FileInfo);
         }

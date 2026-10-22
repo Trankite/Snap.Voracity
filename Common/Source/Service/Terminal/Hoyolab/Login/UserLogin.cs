@@ -80,7 +80,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             textStream?.WriteLine(LocalString.ServiceTerminalHoyolabLoginUserLoginTryUpdate);
             try
             {
-                await HoyolabTokenManage.Update(hoyolabToken, cancellationToken).ConfigureAwait(false);
+                HoyolabTokenManage.Update(hoyolabToken);
             }
             catch (Exception Exception)
             {

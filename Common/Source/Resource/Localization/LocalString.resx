@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeGeneratorHelp" xml:space="preserve">
     <value>{0}内容文本
 {1}保存路径
 {2}文件格式 [Svg|Csv]
@@ -131,13 +131,13 @@
 {10}掩码图案 [1-8]
 {11}是否跳转 [True|False]</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeGeneratorFullName" xml:space="preserve">
     <value>生成二维码</value>
   </data>
   <data name="FactoryStreamsFileSaveMetadataExceptionUnSupportedFormat" xml:space="preserve">
     <value>不支持的文件格式 "{0}"</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeGeneratorDetails" xml:space="preserve">
     <value>模式-{0}, 版本-{1}, 纠错-{2}, 掩码-{3}</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">

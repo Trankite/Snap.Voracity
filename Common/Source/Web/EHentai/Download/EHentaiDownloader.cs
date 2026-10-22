@@ -96,7 +96,6 @@ namespace Common.Source.Web.EHentai.Download
             BuilderFactory.SetRequestUri(slideTicket.Ticket);
             WriteMessage(slideTicket.Index, slideTicket.Ticket);
             HttpResponse<SlideAnalyzedBody> Response = await BuilderFactory.Create().SendAsync<SlideAnalyzedBody>(cancellationToken).ConfigureAwait(false);
-            Response.ThrowIfFailed();
             ArgumentNullException.ThrowIfNull(Response.Body);
             Uri ImageUri = new(Response.Body.ImageUrl);
             QueueTicket<string> ImageTicket = QueueTicket.Create(slideTicket.Index, Response.Body.ImageUrl);

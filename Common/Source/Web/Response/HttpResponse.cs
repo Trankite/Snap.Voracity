@@ -1,12 +1,11 @@
-﻿using Common.Source.Core.Interface;
-using Common.Source.Extension;
-using System.Diagnostics.CodeAnalysis;
+﻿using Common.Source.Extension;
+using Common.Source.Service.Mission.Interface;
 using System.Net.Http.Headers;
 using System.Runtime.ExceptionServices;
 
 namespace Common.Source.Web.Response
 {
-    public class HttpResponse<TResult> : IExceptionCaptureOwner
+    public class HttpResponse<TResult> : IExceptionCapturer
     {
         public TResult? Body { get; }
 
@@ -29,13 +28,6 @@ namespace Common.Source.Web.Response
         public HttpResponse(HttpResponseHeaders? headers, ExceptionDispatchInfo? capturedException) : this(headers)
         {
             CapturedException = capturedException;
-        }
-
-        [MemberNotNull(nameof(Headers))]
-        public void ThrowIfFailed()
-        {
-            CapturedException?.Throw();
-            ArgumentNullException.ThrowIfNull(Headers);
         }
 
         public override string ToString()

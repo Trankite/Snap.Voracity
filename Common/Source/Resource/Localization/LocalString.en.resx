@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ServiceTerminalSupportQRCodeMakerHelp" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeGeneratorHelp" xml:space="preserve">
     <value>{0}Content
 {1}Saving path
 {2}File format [Svg|Csv]
@@ -131,13 +131,13 @@
 {10}Mask pattern [1-8]
 {11}Open the path [True|False]</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeMakerFullName" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeGeneratorFullName" xml:space="preserve">
     <value>Generate QR code</value>
   </data>
   <data name="FactoryStreamsFileSaveMetadataExceptionUnSupportedFormat" xml:space="preserve">
     <value>Unsupported file format "{0}"</value>
   </data>
-  <data name="ServiceTerminalSupportQRCodeMakerDetails" xml:space="preserve">
+  <data name="ServiceTerminalSupportQRCodeGeneratorDetails" xml:space="preserve">
     <value>Mode-{0}, Version-{1}, Error correction-{2}, Mask-{3}</value>
   </data>
   <data name="ServiceTerminalSupportConsoleExitFullName" xml:space="preserve">

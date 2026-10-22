@@ -1,12 +1,12 @@
-﻿using Common.Source.Core.Interface;
-using Common.Source.Extension;
+﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
+using Common.Source.Service.Mission.Interface;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 
 namespace Common.Source.Web
 {
-    public sealed class HttpContext : IExceptionCaptureOwner, IDisposable
+    public sealed class HttpContext : IExceptionCapturer, IExceptionThrower, IDisposable
     {
         public static TimeSpan DefaultTimeoutSpan { get; }
 
@@ -22,6 +22,9 @@ namespace Common.Source.Web
 
         public ExceptionDispatchInfo? CapturedException { get; private set; }
 
+        [MemberNotNullWhen(true, nameof(Response))]
+        public bool IsReady => CapturedException.IsNull() && Response.IsNotNull();
+
         public HttpContext(HttpRequestMessage request, HttpClient? httpClient = default)
         {
             Request = request;
@@ -35,6 +38,7 @@ namespace Common.Source.Web
 
         public async ValueTask SendAsync(CancellationToken cancellationToken = default)
         {
+            CapturedException = default;
             try
             {
                 Response = await HttpClient.SendAsync(Request, CompletionOption, cancellationToken).ConfigureAwait(false);

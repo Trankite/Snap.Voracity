@@ -61,7 +61,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
             FileFormat QRCodeFormat = FileFormat.Svg;
             string QRCodeName = QRCodeFormat.ChangeExtension(nameof(QRLogin));
             string QRCodePath = Path.Combine(LocalSetting.GetTempPath(), QRCodeName);
-            ITerminalResponse CreateQRCodeResponse = QRCodeMaker.Invoke(Url, QRCodePath);
+            ITerminalResponse CreateQRCodeResponse = QRCodeGenerator.Invoke(Url, QRCodePath);
             if (!CreateQRCodeResponse.Success)
             {
                 return CreateQRCodeResponse;

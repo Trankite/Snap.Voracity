@@ -1,7 +1,6 @@
 ﻿using Common.Source.Factory.Streams.Text.Interface;
-using Common.Source.Service.Terminal.Interface;
 
-namespace Common.Source.Service.Terminal.Abstract
+namespace Common.Source.Service.Terminal.Interface
 {
     public interface IAsyncTerminalCommand : ITerminalCommand
     {
