@@ -6,6 +6,7 @@ using Common.Source.Factory.Streams.FileStore.Metadata;
 using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Encode.QRCode;
+using Common.Source.Service.Encode.QRCode.Metadata;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;

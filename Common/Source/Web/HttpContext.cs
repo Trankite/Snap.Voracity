@@ -1,12 +1,12 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Model.Interface;
 using Common.Source.Resource.Localization;
-using Common.Source.Service.Mission.Interface;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 
 namespace Common.Source.Web
 {
-    public sealed class HttpContext : IExceptionCapturer, IExceptionThrower, IDisposable
+    public sealed class HttpContext : IExceptionable, IExceptionThrowable, IDisposable
     {
         public static TimeSpan DefaultTimeoutSpan { get; }
 

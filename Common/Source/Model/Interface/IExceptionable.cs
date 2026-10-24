@@ -1,8 +1,8 @@
 ﻿using System.Runtime.ExceptionServices;
 
-namespace Common.Source.Service.Mission.Interface
+namespace Common.Source.Model.Interface
 {
-    public interface IExceptionCapturer
+    public interface IExceptionable
     {
         ExceptionDispatchInfo? CapturedException { get; }
     }

@@ -1,19 +1,201 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Model.DataStruct;
+using Common.Source.Model.Exceptions;
+using Common.Source.Model.Interface;
+using Common.Source.Service.Encode.QRCode.Metadata;
 
-namespace Common.Source.Service.Encode.QRCode
+namespace Common.Source.Service.Encode.QRCode.Encoder
 {
-    public static class ECCodeInfo
+    public abstract class QRCodeEncoder : IFreezable
     {
-        private static readonly ECCodeGroup[,] ECCodeTable;
+        private static readonly int[,] QRCodeCapacityTable;
 
-        public static ECCodeGroup GetECCodeInfo(int version, ECCodeLevel level)
+        private static readonly ECCodeGroup[,] ECCodeGroupTable;
+
+        public int Capacity { get; private set; }
+
+        public int Version
         {
-            return ECCodeTable[version - 1, level.ToInt()];
+            get;
+            set
+            {
+                ObjectFrozenException.ThrowIf(this);
+                field = value;
+            }
         }
 
-        static ECCodeInfo()
+        public ECCodeLevel ECCodeLevel
         {
-            ECCodeTable = new ECCodeGroup[,]
+            get;
+            set
+            {
+                ObjectFrozenException.ThrowIf(this);
+                field = value;
+            }
+        }
+
+        public ECCodeGroup ECCodeGroup { get; private set; }
+
+        public abstract EncodeMode EncodeMode { get; }
+
+        protected abstract int BitsOfContent { get; }
+
+        public bool IsFrozen { get; private set; }
+
+        protected abstract BitSet BinaryEncode(ReadOnlySpan<byte> content);
+
+        protected abstract int GetUsedBitCount(int length);
+
+        protected abstract int[,] GetCapacityTable();
+
+        public int GetMaxCapacity()
+        {
+            return GetCapacityTable()[Version - 1, ECCodeLevel.ToInt()];
+        }
+
+        public void SetOptimalVersion(ReadOnlySpan<byte> content, int value = 0)
+        {
+            ObjectFrozenException.ThrowIf(this);
+            int Level = ECCodeLevel.ToInt();
+            int[,] CapacityTable = GetCapacityTable();
+            int Neutral = CapacityTable.BinarySearch(0, CapacityTable.GetLength(0), (sender, index) => CapacityTable[index, Level], content.Length).GetInsert();
+            Version = Math.Clamp(Neutral + 1, value, 40);
+        }
+
+        public void Freeze()
+        {
+            ObjectFrozenException.ThrowIf(this);
+            Capacity = QRCodeCapacityTable[Version - 1, ECCodeLevel.ToInt()];
+            ECCodeGroup = ECCodeGroupTable[Version - 1, ECCodeLevel.ToInt()];
+            IsFrozen = true;
+        }
+
+        public byte[] Encode(ReadOnlySpan<byte> content)
+        {
+            int Offset = 0;
+            BitSet EncodedData = ContentEncode(content);
+            int TotalBlockCount = ECCodeGroup.BlocksInGroup1 + ECCodeGroup.BlocksInGroup2;
+            byte[][] Content = new byte[TotalBlockCount][];
+            byte[] RSEncode(int index, int length)
+            {
+                Span<byte> SubData = EncodedData.Bytes.AsSpan(Offset, length);
+                Content[index] = SubData.ToArray();
+                return GaloisField.RSEncode(SubData, ECCodeGroup.ECCodePerBytes);
+            }
+            byte[][] ECCode = new byte[TotalBlockCount][];
+            for (int i = 0; i < ECCodeGroup.BlocksInGroup1; i++, Offset += ECCodeGroup.CodewordsInGroup1)
+            {
+                ECCode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup1);
+            }
+            for (int i = ECCodeGroup.BlocksInGroup1; i < TotalBlockCount; i++, Offset += ECCodeGroup.CodewordsInGroup2)
+            {
+                ECCode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup2);
+            }
+            return Interlock(Content, ECCode);
+        }
+
+        private BitSet ContentEncode(ReadOnlySpan<byte> content)
+        {
+            BitSet Binary = BinaryEncode(content);
+            BitSet FinalContent = BitSet.FromBitCount(Capacity * 8);
+            FinalContent.Write(0, 1 << (EncodeMode.ToInt() - 1), 4);
+            FinalContent.Write(4, content.Length, BitsOfContent);
+            FinalContent.Write(4 + BitsOfContent, Binary, 0, Binary.Count);
+            int Index = (GetTotalBitCount(content.Length) + 7) & ~7;
+            while (Index < FinalContent.Count)
+            {
+                FinalContent.Write(Index, 0b11101100, 8);
+                if ((Index += 8) < FinalContent.Count)
+                {
+                    FinalContent.Write(Index, 0b00010001, 8);
+                    Index += 8;
+                }
+            }
+            return FinalContent;
+        }
+
+        public int GetTotalBitCount(int length)
+        {
+            int UsedBitCount = 4 + BitsOfContent + GetUsedBitCount(length);
+            return UsedBitCount + Math.Min(4, Capacity * 8 - UsedBitCount);
+        }
+
+        private byte[] Interlock(byte[][] content, byte[][] eccode)
+        {
+            int Offset = -1;
+            int ECCodeCount = ECCodeGroup.ECCodePerBytes * eccode.Length;
+            int ContentCount = ECCodeGroup.BlocksInGroup1 * ECCodeGroup.CodewordsInGroup1 + ECCodeGroup.BlocksInGroup2 * ECCodeGroup.CodewordsInGroup2;
+            byte[] FinalContent = new byte[ContentCount + ECCodeCount];
+            for (int x = 0; x < ECCodeGroup.CodewordsInGroup1; x++)
+            {
+                for (int y = 0; y < content.Length; y++)
+                {
+                    FinalContent[++Offset] = content[y][x];
+                }
+            }
+            for (int x = ECCodeGroup.CodewordsInGroup1; x < ECCodeGroup.CodewordsInGroup2; x++)
+            {
+                for (int y = ECCodeGroup.BlocksInGroup1; y < content.Length; y++)
+                {
+                    FinalContent[++Offset] = content[y][x];
+                }
+            }
+            for (int x = 0; x < ECCodeGroup.ECCodePerBytes; x++)
+            {
+                for (int y = 0; y < eccode.Length; y++)
+                {
+                    FinalContent[++Offset] = eccode[y][x];
+                }
+            }
+            return FinalContent;
+        }
+
+        static QRCodeEncoder()
+        {
+            QRCodeCapacityTable = new int[40, 4]
+            {
+                {19,    16,     13,     9},
+                {34,    28,     22,     16},
+                {55,    44,     34,     26},
+                {80,    64,     48,     36},
+                {108,   86,     62,     46},
+                {136,   108,    76,     60},
+                {156,   124,    88,     66},
+                {194,   154,    110,    86},
+                {232,   182,    132,    100},
+                {274,   216,    154,    122},
+                {324,   254,    180,    140},
+                {370,   290,    206,    158},
+                {428,   334,    244,    180},
+                {461,   365,    261,    197},
+                {523,   415,    295,    223},
+                {589,   453,    325,    253},
+                {647,   507,    367,    283},
+                {721,   563,    397,    313},
+                {795,   627,    445,    341},
+                {861,   669,    485,    385},
+                {932,   714,    512,    406},
+                {1006,  782,    568,    442},
+                {1094,  860,    614,    464},
+                {1174,  914,    664,    514},
+                {1276,  1000,   718,    538},
+                {1370,  1062,   754,    596},
+                {1468,  1128,   808,    628},
+                {1531,  1193,   871,    661},
+                {1631,  1267,   911,    701},
+                {1735,  1373,   985,    745},
+                {1843,  1455,   1033,   793},
+                {1955,  1541,   1115,   845},
+                {2071,  1631,   1171,   901},
+                {2191,  1725,   1231,   961},
+                {2306,  1812,   1286,   986},
+                {2434,  1914,   1354,   1054},
+                {2566,  1992,   1426,   1096},
+                {2702,  2102,   1502,   1142},
+                {2812,  2216,   1582,   1222},
+                {2956,  2334,   1666,   1276},
+            };
+            ECCodeGroupTable = new ECCodeGroup[,]
             {
                 {
                     new ECCodeGroup(7,      1,      19,     0,      0),

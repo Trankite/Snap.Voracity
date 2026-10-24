@@ -1,11 +1,11 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Service.Mission.Interface;
+using Common.Source.Model.Interface;
 using System.Net.Http.Headers;
 using System.Runtime.ExceptionServices;
 
 namespace Common.Source.Web.Response
 {
-    public class HttpResponse<TResult> : IExceptionCapturer
+    public class HttpResponse<TResult> : IExceptionable
     {
         public TResult? Body { get; }
 

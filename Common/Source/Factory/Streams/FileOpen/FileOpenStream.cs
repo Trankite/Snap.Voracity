@@ -1,14 +1,14 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Model.Interface;
 using Common.Source.Service;
 using Common.Source.Service.Mission;
 using Common.Source.Service.Mission.Gradual.Abstract;
 using Common.Source.Service.Mission.Gradual.Metadata;
-using Common.Source.Service.Mission.Interface;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Factory.Streams.FileOpen
 {
-    public class FileOpenStream : GradualTask, IExceptionThrower, IDisposable
+    public class FileOpenStream : GradualTask, IExceptionThrowable, IDisposable
     {
         private bool Disposed;
 

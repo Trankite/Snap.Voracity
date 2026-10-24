@@ -1,16 +1,16 @@
 ﻿namespace Common.Source.Service.Encode.QRCode
 {
-    public struct ECCodeGroup
+    public readonly struct ECCodeGroup
     {
-        public int ECCodePerBytes;
+        public int ECCodePerBytes { get; }
 
-        public int BlocksInGroup1;
+        public int BlocksInGroup1 { get; }
 
-        public int CodewordsInGroup1;
+        public int CodewordsInGroup1 { get; }
 
-        public int BlocksInGroup2;
+        public int BlocksInGroup2 { get; }
 
-        public int CodewordsInGroup2;
+        public int CodewordsInGroup2 { get; }
 
         public ECCodeGroup(int eCCodePerBytes, int blocksInGroup1, int codewordsInGroup1, int blocksInGroup2, int codewordsInGroup2)
         {

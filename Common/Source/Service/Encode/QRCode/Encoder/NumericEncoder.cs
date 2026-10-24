@@ -1,4 +1,5 @@
 ﻿using Common.Source.Model.DataStruct;
+using Common.Source.Service.Encode.QRCode.Metadata;
 
 namespace Common.Source.Service.Encode.QRCode.Encoder
 {

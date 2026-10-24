@@ -1,6 +1,6 @@
 ﻿using Common.Source.Extension;
 
-namespace Common.Source.Service.Encode.QRCode
+namespace Common.Source.Service.Encode.QRCode.Metadata
 {
     public static class MaskTypeExtension
     {
