@@ -65,12 +65,6 @@ namespace Common.Source.Factory.Streams.Text.Abstract
             try { return await stream.Reader.ReadLineAsync(cancellationToken).ConfigureAwait(false); } catch { return string.Empty; }
         }
 
-        public static string? ReadLine(this ITextStream stream, ReadOnlySpan<char> value)
-        {
-            stream.Write(value);
-            return stream.ReadLine();
-        }
-
         public static ValueTask<string?> ReadLineAsync(this ITextStream stream, string value, CancellationToken cancellationToken = default)
         {
             stream.Write(value);

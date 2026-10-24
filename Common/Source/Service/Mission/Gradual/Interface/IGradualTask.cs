@@ -1,9 +1,9 @@
-﻿using Common.Source.Service.Mission.Gradual.Metadata;
-using Common.Source.Service.Mission.Interface;
+﻿using Common.Source.Model.Interface;
+using Common.Source.Service.Mission.Gradual.Metadata;
 
 namespace Common.Source.Service.Mission.Gradual.Interface
 {
-    public interface IGradualTask : IExceptionCapturer
+    public interface IGradualTask : IExceptionable
     {
         int RetryCount { get; }
 

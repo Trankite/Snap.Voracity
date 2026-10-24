@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Common.Source.Service.Encode.QRCode.Metadata;
+using System.Drawing;
 
 namespace Common.Source.Service.Encode.QRCode
 {

@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Service.Encode.QRCode
 {
-    public struct QRCodeBit
+    public struct QRCodePoint
     {
         private byte Bits;
 
@@ -10,17 +10,20 @@
             set => Bits = (byte)(value ? Bits | 1 : Bits & 0xfe);
         }
 
-        public QRCodeBitType Type
+        public QRCodePointType Type
         {
-            readonly get => (QRCodeBitType)(Bits >> 1);
+            readonly get => (QRCodePointType)(Bits >> 1);
             set => Bits = (byte)(((int)value << 1) | (Bits & 1));
         }
 
-        public void SetValue(bool hasBit, QRCodeBitType type)
+        public void SetValue(bool hasBit, QRCodePointType type)
         {
             Bits = (byte)(((int)type << 1) | (hasBit ? 1 : 0));
         }
 
-        public static implicit operator byte(QRCodeBit value) => value.Bits;
+        public static implicit operator byte(QRCodePoint qrcodePoint)
+        {
+            return qrcodePoint.Bits;
+        }
     }
 }

@@ -54,6 +54,7 @@ namespace Common.Source.Web.EHentai.Download
         protected override void RefreshOverride()
         {
             SlideParser.Refresh();
+            DownloadQueue.Clear();
         }
 
         private async ValueTask<GradualStatus> Download(CancellationToken cancellationToken = default)

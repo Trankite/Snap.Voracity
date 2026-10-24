@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Service.Encode.QRCode
 {
-    public enum QRCodeBitType : byte
+    public enum QRCodePointType : byte
     {
         Unused,
         Fixed,

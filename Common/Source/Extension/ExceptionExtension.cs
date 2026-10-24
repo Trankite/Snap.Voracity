@@ -1,5 +1,5 @@
-﻿using Common.Source.Resource.Localization;
-using Common.Source.Service.Mission.Interface;
+﻿using Common.Source.Model.Interface;
+using Common.Source.Resource.Localization;
 using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 
@@ -8,9 +8,9 @@ namespace Common.Source.Extension
     public static class ExceptionExtension
     {
         [DebuggerStepThrough]
-        public static string GetExceptionMessage(this IExceptionCapturer exceptionCapturer, object? message = default)
+        public static string GetExceptionMessage(this IExceptionable exceptionable, object? message = default)
         {
-            return GetExceptionMessage(exceptionCapturer.CapturedException, message);
+            return GetExceptionMessage(exceptionable.CapturedException, message);
         }
 
         [DebuggerStepThrough]
@@ -26,9 +26,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static void ThrowIfExceptionCaptured(this IExceptionCapturer exceptionCapturer)
+        public static void ThrowIfExceptionCaptured(this IExceptionable exceptionable)
         {
-            exceptionCapturer.CapturedException?.Throw();
+            exceptionable.CapturedException?.Throw();
         }
 
         [StackTraceHidden]
