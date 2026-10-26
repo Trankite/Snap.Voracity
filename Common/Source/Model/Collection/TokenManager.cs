@@ -1,10 +1,9 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Factory.Streams.FileOpen;
-using Common.Source.Model.Collection.Token.Abstract;
 
-namespace Common.Source.Model.Collection.Token
+namespace Common.Source.Model.Collection
 {
-    public class TokenManager<T> : ITokenManager<T>
+    public class TokenManager<T>
     {
         private T[]? _Tokens;
 

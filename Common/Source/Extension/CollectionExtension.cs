@@ -1,5 +1,4 @@
 ﻿using Common.Source.Extension;
-using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
@@ -69,24 +68,6 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static T[] NotNull<T>(this T[]? value)
-        {
-            return value ?? [];
-        }
-
-        [DebuggerStepThrough]
-        public static IList<T> NotNull<T>(this IList<T>? value)
-        {
-            return value ?? [];
-        }
-
-        [DebuggerStepThrough]
-        public static T[] NotNull<T>(this T[]? value, T defaultValue)
-        {
-            return value ?? [defaultValue];
-        }
-
-        [DebuggerStepThrough]
         public static void FillTo(this Array soure, Array destination, int soureIndex = 0, int destinationIndex = 0, int length = int.MaxValue)
         {
             Array.Copy(soure, soureIndex, destination, destinationIndex, Math.Min(Math.Min(soure.Length - soureIndex, destination.Length - destinationIndex), length));
@@ -104,37 +85,6 @@ namespace Common.Source.Extension
                 Item.FillTo(soure, 0, Offset);
                 Offset += Item.Length;
             }
-        }
-
-        [DebuggerStepThrough]
-        public static int BinarySearch<TArray, TContent>(this TArray array, int start, int length, Func<TArray, int, TContent> predicate, TContent value) where TArray : IEnumerable where TContent : IComparable<TContent>
-        {
-            return BinarySearch(array, start, length, predicate, value, (content, search) => content.CompareTo(search));
-        }
-
-        public static int BinarySearch<TArray, TContent, TSearch>(this TArray array, int start, int length, Func<TArray, int, TContent> predicate, TSearch value, Func<TContent, TSearch, int> comparison) where TArray : IEnumerable where TSearch : allows ref struct
-        {
-            int Start = start;
-            int Ended = length - 1;
-            while (Start <= Ended)
-            {
-                int Middle = Start + (Ended - Start) / 2;
-                TContent Current = predicate(array, Middle);
-                int Compare = comparison(Current, value);
-                if (Compare == 0)
-                {
-                    return Middle;
-                }
-                if (Compare < 0)
-                {
-                    Start = Middle + 1;
-                }
-                else
-                {
-                    Ended = Middle - 1;
-                }
-            }
-            return ~Start;
         }
 
         [DebuggerStepThrough]

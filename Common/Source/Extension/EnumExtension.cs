@@ -19,15 +19,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int ToInt<TEnum>(this TEnum value) where TEnum : Enum
-        {
-            return Convert.ToInt32(value);
-        }
-
-        [DebuggerStepThrough]
         public static string GetIntString<TEnum>(this TEnum value) where TEnum : Enum
         {
-            return value.ToInt().ToString();
+            return Convert.ToInt32(value).ToString();
         }
 
         [DebuggerStepThrough]
@@ -36,7 +30,7 @@ namespace Common.Source.Extension
             int Flags = 0;
             foreach (TEnum value in values)
             {
-                Flags |= 1 << value.ToInt();
+                Flags |= 1 << Convert.ToInt32(value);
             }
             return Flags;
         }

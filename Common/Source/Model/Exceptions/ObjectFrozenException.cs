@@ -12,7 +12,7 @@ namespace Common.Source.Model.Exceptions
         public ObjectFrozenException(string? message, Exception? innerException) : base(message, innerException) { }
 
         [StackTraceHidden]
-        public static void ThrowIf(IFreezable freezable)
+        public static void ThrowIfFrozen(IFreezable freezable)
         {
             if (freezable.IsFrozen)
             {

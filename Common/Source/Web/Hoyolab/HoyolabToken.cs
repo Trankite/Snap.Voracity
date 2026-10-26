@@ -2,10 +2,8 @@
 
 namespace Common.Source.Web.Hoyolab
 {
-    public class HoyolabToken
+    public class HoyolabToken : IEquatable<HoyolabToken>
     {
-        public static IEqualityComparer<HoyolabToken> Comparer { get; }
-
         public string Aid { get; set; } = string.Empty;
 
         public string Mid { get; set; } = string.Empty;
@@ -25,9 +23,19 @@ namespace Common.Source.Web.Hoyolab
             Guid = guid;
         }
 
-        static HoyolabToken()
+        public bool Equals(HoyolabToken? other)
         {
-            Comparer = EqualityComparer<HoyolabToken>.Create((sender, other) => sender?.Aid == other?.Aid, sender => sender.Aid.GetHashCode());
+            return Aid.Equals(other?.Aid);
+        }
+
+        public override bool Equals(object? other)
+        {
+            return Equals(other as HoyolabToken);
+        }
+
+        public override int GetHashCode()
+        {
+            return Aid.GetHashCode();
         }
     }
 }

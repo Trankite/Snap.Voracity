@@ -1,17 +1,21 @@
-﻿using Common.Source.Model.DataStruct;
+﻿using Common.Source.Model.Collection;
+using Common.Source.Model.DataStruct.Span;
 using Common.Source.Service.Encode.QRCode.Metadata;
 
 namespace Common.Source.Service.Encode.QRCode.Encoder
 {
     internal class NumericEncoder : QRCodeEncoder
     {
-        private static readonly int[,] CapacityTable;
-
         private static readonly int[] SurplusTable = [0, 4, 7];
+
+        private static readonly SortedArray<int>[] CapacityTable;
 
         public override EncodeMode EncodeMode => EncodeMode.Numeric;
 
-        protected override int[,] GetCapacityTable() => CapacityTable;
+        protected override SortedArray<int> GetCapacityTable(ECCodeLevel eccodeLevel)
+        {
+            return CapacityTable[(int)eccodeLevel];
+        }
 
         protected override int BitsOfContent => Version >= 10 ? Version >= 27 ? 14 : 12 : 10;
 
@@ -44,49 +48,13 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         static NumericEncoder()
         {
-            CapacityTable = new int[40, 4]
-            {
-                {41,    34,     27,     17},
-                {77,    63,     48,     34},
-                {127,   101,    77,     58},
-                {187,   149,    111,    82},
-                {255,   202,    144,    106},
-                {322,   255,    178,    139},
-                {370,   293,    207,    154},
-                {461,   365,    259,    202},
-                {552,   432,    312,    235},
-                {652,   513,    364,    288},
-                {772,   604,    427,    331},
-                {883,   691,    489,    374},
-                {1022,  796,    580,    427},
-                {1101,  871,    621,    468},
-                {1250,  991,    703,    530},
-                {1408,  1082,   775,    602},
-                {1548,  1212,   876,    674},
-                {1725,  1346,   948,    746},
-                {1903,  1500,   1063,   813},
-                {2061,  1600,   1159,   919},
-                {2232,  1708,   1224,   969},
-                {2409,  1872,   1358,   1056},
-                {2620,  2059,   1468,   1108},
-                {2812,  2188,   1588,   1228},
-                {3057,  2395,   1718,   1286},
-                {3283,  2544,   1804,   1425},
-                {3517,  2701,   1933,   1501},
-                {3669,  2857,   2085,   1581},
-                {3909,  3035,   2181,   1677},
-                {4158,  3289,   2358,   1782},
-                {4417,  3486,   2473,   1897},
-                {4686,  3693,   2670,   2022},
-                {4965,  3909,   2805,   2157},
-                {5253,  4134,   2949,   2301},
-                {5529,  4343,   3081,   2361},
-                {5836,  4588,   3244,   2524},
-                {6153,  4775,   3417,   2625},
-                {6479,  5039,   3599,   2735},
-                {6743,  5313,   3791,   2927},
-                {7089,  5596,   3993,   3057}
-            };
+            CapacityTable =
+            [
+                new SortedArray<int>([41, 77, 127, 187, 255, 322, 370, 461, 552, 652, 772, 883, 1022, 1101, 1250, 1408, 1548, 1725, 1903, 2061, 2232, 2409, 2620, 2812, 3057, 3283, 3517, 3669, 3909, 4158, 4417, 4686, 4965, 5253, 5529, 5836, 6153, 6479, 6743, 7089]),
+                new SortedArray<int>([34, 63, 101, 149, 202, 255, 293, 365, 432, 513, 604, 691, 796,  871,  991,  1082, 1212, 1346, 1500, 1600, 1708, 1872, 2059, 2188, 2395, 2544, 2701, 2857, 3035, 3289, 3486, 3693, 3909, 4134, 4343, 4588, 4775, 5039, 5313, 5596]),
+                new SortedArray<int>([27, 48, 77,  111, 144, 178, 207, 259, 312, 364, 427, 489, 580,  621,  703,  775,  876,  948,  1063, 1159, 1224, 1358, 1468, 1588, 1718, 1804, 1933, 2085, 2181, 2358, 2473, 2670, 2805, 2949, 3081, 3244, 3417, 3599, 3791, 3993]),
+                new SortedArray<int>([17, 34, 58,  82,  106, 139, 154, 202, 235, 288, 331, 374, 427,  468,  530,  602,  674,  746,  813,  919,  969,  1056, 1108, 1228, 1286, 1425, 1501, 1581, 1677, 1782, 1897, 2022, 2157, 2301, 2361, 2524, 2625, 2735, 2927, 3057])
+            ];
         }
     }
 }

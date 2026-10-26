@@ -1,34 +1,52 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Model.Collection;
 
 namespace Common.Source.Factory.Formula.Magical
 {
     public partial class MagicalFormulaSolver
     {
-        private static readonly MagicalFormulaSymbol[] SymbolTable;
+        private static readonly SortedArray<MagicalFormulaSymbol> SymbolTable;
 
-        private const StringComparison Comparison = StringComparison.OrdinalIgnoreCase;
+        private const StringComparison ComparisonType = StringComparison.OrdinalIgnoreCase;
 
         public static MagicalFormulaSymbol? SearchSymbol(ReadOnlySpan<char> target)
         {
-            ReadOnlySpan<char> StartString = target.SplitAt(1).Former;
-            int Index = SymbolTable.BinarySearch(0, SymbolTable.Length, (sender, index) => sender[index].Name, target, (content, search) => content.CompareTo(search, Comparison));
-            Index = Index < 0 ? ~Index : Index + 1;
-            while (--Index >= 0 && SymbolTable[Index].Name.StartsWith(StartString, Comparison))
+            ReadOnlySpan<char> StartString = target.SplitAt(1).Front;
+            static int Comparison(MagicalFormulaSymbol sender, ReadOnlySpan<char> other)
             {
-                if (target.StartsWith(SymbolTable[Index].Name, Comparison)) return SymbolTable[Index];
+                return MemoryExtensions.CompareTo(sender.Name, other, ComparisonType);
             }
-            return null;
+            int Index = SymbolTable.Search(target, Comparison).GetInsert(1);
+            while (--Index >= 0 && SymbolTable[Index].Name.StartsWith(StartString, ComparisonType))
+            {
+                if (target.StartsWith(SymbolTable[Index].Name, ComparisonType))
+                {
+                    return SymbolTable[Index];
+                }
+            }
+            return default;
         }
 
-        private static MagicalFormulaSymbol[] GetSymbolTable(params MagicalFormulaSymbol[] symbols)
+        private class SymbolComparer : IComparer<MagicalFormulaSymbol>
         {
-            return symbols.Configure(Self => Array.Sort(Self, (current, compare) => current.Name.CompareTo(compare.Name, Comparison)));
+            private readonly StringComparer Comparer;
+
+            public SymbolComparer()
+            {
+                Comparer = StringComparer.FromComparison(ComparisonType);
+            }
+
+            public int Compare(MagicalFormulaSymbol? sender, MagicalFormulaSymbol? other)
+            {
+                return Comparer.Compare(sender?.Name, other?.Name);
+            }
         }
 
         static MagicalFormulaSolver()
         {
-            SymbolTable = GetSymbolTable
+            SymbolTable = SortedArray.Create
             (
+                new SymbolComparer(),
                 new StartSymbol(),
                 new EndedSymbol(),
                 new SeparatorSymbol(),

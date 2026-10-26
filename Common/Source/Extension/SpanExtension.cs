@@ -21,27 +21,27 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<T> FirstSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
+        public static DyadicSpan<T> FirstSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
         {
-            return TryGetIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, default);
+            return TryGetIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicSpan<T>(span, default);
         }
 
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<T> LastSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
+        public static DyadicSpan<T> LastSplit<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
         {
-            return TryGetLastIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicReadOnlySpan<T>(span, default);
+            return TryGetLastIndexOf(span, values, out int index, comparer) ? span.SplitAt(index, values.Length) : new DyadicSpan<T>(span, default);
         }
 
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index)
+        public static DyadicSpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index)
         {
-            return span.Length > index ? new DyadicReadOnlySpan<T>(span[..index], span[index..]) : new DyadicReadOnlySpan<T>(span, default);
+            return span.Length > index ? new DyadicSpan<T>(span[..index], span[index..]) : new DyadicSpan<T>(span, default);
         }
 
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index, int offset)
+        public static DyadicSpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index, int offset)
         {
-            return new DyadicReadOnlySpan<T>(span[..index], span[(index + offset)..]);
+            return new DyadicSpan<T>(span[..index], span[(index + offset)..]);
         }
 
         [DebuggerStepThrough]

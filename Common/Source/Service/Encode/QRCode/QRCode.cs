@@ -1,6 +1,6 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Model.DataStruct;
 using Common.Source.Model.DataStruct.Point;
+using Common.Source.Model.DataStruct.Span;
 using Common.Source.Service.Encode.QRCode.Encoder;
 using Common.Source.Service.Encode.QRCode.Metadata;
 using System.Reflection;
@@ -58,7 +58,7 @@ namespace Common.Source.Service.Encode.QRCode
             Encoder.ECCodeLevel = options.ECCodeLevel;
             Encoder.SetOptimalVersion(content, options.Version);
             Encoder.Freeze();
-            return new QRCode(Encoder, options.MaskType, content.SplitAt(Encoder.GetMaxCapacity()).Former);
+            return new QRCode(Encoder, options.MaskType, content.SplitAt(Encoder.GetMaxCapacity()).Front);
         }
 
         private void Initialize(ReadOnlySpan<byte> content)
@@ -158,7 +158,7 @@ namespace Common.Source.Service.Encode.QRCode
 
         private void SetFormatInformation()
         {
-            int FormatBinary = ((ECCodeLevel.ToInt() ^ 1) << 13) | ((MaskType.ToInt() - 1) << 10);
+            int FormatBinary = (((int)ECCodeLevel ^ 1) << 13) | (((int)MaskType - 1) << 10);
             FormatBinary = (FormatBinary | GaloisField.PolynomMod(FormatBinary, 0b10100110111)) ^ 0b101010000010010;
             WriteFormatInformation(FormatBinary);
             SetBitType(GetAbsolutePoint(8, -8), true, QRCodePointType.FixedPoint);

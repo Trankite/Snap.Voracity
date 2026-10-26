@@ -7,13 +7,13 @@ namespace Common.Source.Extension
     public static class StringExtension
     {
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<char> FirstSplit(this ReadOnlySpan<char> value, char separator)
+        public static DyadicSpan<char> FirstSplit(this ReadOnlySpan<char> value, char separator)
         {
             return value.FirstSplit(separator.ToString());
         }
 
         [DebuggerStepThrough]
-        public static DyadicReadOnlySpan<char> LastSplit(this ReadOnlySpan<char> value, char separator)
+        public static DyadicSpan<char> LastSplit(this ReadOnlySpan<char> value, char separator)
         {
             return value.LastSplit(separator.ToString());
         }

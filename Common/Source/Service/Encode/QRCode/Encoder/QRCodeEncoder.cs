@@ -1,37 +1,28 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Model.DataStruct;
+using Common.Source.Model.Abstract;
+using Common.Source.Model.Collection;
+using Common.Source.Model.DataStruct.Span;
 using Common.Source.Model.Exceptions;
-using Common.Source.Model.Interface;
 using Common.Source.Service.Encode.QRCode.Metadata;
 
 namespace Common.Source.Service.Encode.QRCode.Encoder
 {
-    public abstract class QRCodeEncoder : IFreezable
+    public abstract class QRCodeEncoder : Freezable
     {
-        private static readonly int[,] QRCodeCapacityTable;
+        private static readonly uint[][] ECCodeGroupTable;
 
-        private static readonly ECCodeGroup[,] ECCodeGroupTable;
+        private static readonly SortedArray<int>[] QRCodeCapacityTable;
 
         public int Capacity { get; private set; }
 
         public int Version
         {
-            get;
-            set
-            {
-                ObjectFrozenException.ThrowIf(this);
-                field = value;
-            }
+            get; set => SetValue(ref field, value);
         }
 
         public ECCodeLevel ECCodeLevel
         {
-            get;
-            set
-            {
-                ObjectFrozenException.ThrowIf(this);
-                field = value;
-            }
+            get; set => SetValue(ref field, value);
         }
 
         public ECCodeGroup ECCodeGroup { get; private set; }
@@ -40,34 +31,28 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         protected abstract int BitsOfContent { get; }
 
-        public bool IsFrozen { get; private set; }
-
         protected abstract BitSet BinaryEncode(ReadOnlySpan<byte> content);
 
         protected abstract int GetUsedBitCount(int length);
 
-        protected abstract int[,] GetCapacityTable();
+        protected abstract SortedArray<int> GetCapacityTable(ECCodeLevel eccodeLevel);
 
         public int GetMaxCapacity()
         {
-            return GetCapacityTable()[Version - 1, ECCodeLevel.ToInt()];
+            return GetCapacityTable(ECCodeLevel)[Version - 1];
         }
 
         public void SetOptimalVersion(ReadOnlySpan<byte> content, int value = 0)
         {
-            ObjectFrozenException.ThrowIf(this);
-            int Level = ECCodeLevel.ToInt();
-            int[,] CapacityTable = GetCapacityTable();
-            int Neutral = CapacityTable.BinarySearch(0, CapacityTable.GetLength(0), (sender, index) => CapacityTable[index, Level], content.Length).GetInsert();
-            Version = Math.Clamp(Neutral + 1, value, 40);
+            ObjectFrozenException.ThrowIfFrozen(this);
+            int Index = GetCapacityTable(ECCodeLevel).Search(content.Length).GetInsert();
+            Version = Math.Clamp(Index + 1, value, 40);
         }
 
-        public void Freeze()
+        protected override void FreezeOverride()
         {
-            ObjectFrozenException.ThrowIf(this);
-            Capacity = QRCodeCapacityTable[Version - 1, ECCodeLevel.ToInt()];
-            ECCodeGroup = ECCodeGroupTable[Version - 1, ECCodeLevel.ToInt()];
-            IsFrozen = true;
+            Capacity = QRCodeCapacityTable[(int)ECCodeLevel][Version - 1];
+            ECCodeGroup = ECCodeGroup.Create(ECCodeGroupTable[(int)ECCodeLevel][Version - 1]);
         }
 
         public byte[] Encode(ReadOnlySpan<byte> content)
@@ -98,7 +83,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
         {
             BitSet Binary = BinaryEncode(content);
             BitSet FinalContent = BitSet.FromBitCount(Capacity * 8);
-            FinalContent.Write(0, 1 << (EncodeMode.ToInt() - 1), 4);
+            FinalContent.Write(0, 1 << ((int)EncodeMode - 1), 4);
             FinalContent.Write(4, content.Length, BitsOfContent);
             FinalContent.Write(4 + BitsOfContent, Binary, 0, Binary.Count);
             int Index = (GetTotalBitCount(content.Length) + 7) & ~7;
@@ -152,292 +137,20 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         static QRCodeEncoder()
         {
-            QRCodeCapacityTable = new int[40, 4]
-            {
-                {19,    16,     13,     9},
-                {34,    28,     22,     16},
-                {55,    44,     34,     26},
-                {80,    64,     48,     36},
-                {108,   86,     62,     46},
-                {136,   108,    76,     60},
-                {156,   124,    88,     66},
-                {194,   154,    110,    86},
-                {232,   182,    132,    100},
-                {274,   216,    154,    122},
-                {324,   254,    180,    140},
-                {370,   290,    206,    158},
-                {428,   334,    244,    180},
-                {461,   365,    261,    197},
-                {523,   415,    295,    223},
-                {589,   453,    325,    253},
-                {647,   507,    367,    283},
-                {721,   563,    397,    313},
-                {795,   627,    445,    341},
-                {861,   669,    485,    385},
-                {932,   714,    512,    406},
-                {1006,  782,    568,    442},
-                {1094,  860,    614,    464},
-                {1174,  914,    664,    514},
-                {1276,  1000,   718,    538},
-                {1370,  1062,   754,    596},
-                {1468,  1128,   808,    628},
-                {1531,  1193,   871,    661},
-                {1631,  1267,   911,    701},
-                {1735,  1373,   985,    745},
-                {1843,  1455,   1033,   793},
-                {1955,  1541,   1115,   845},
-                {2071,  1631,   1171,   901},
-                {2191,  1725,   1231,   961},
-                {2306,  1812,   1286,   986},
-                {2434,  1914,   1354,   1054},
-                {2566,  1992,   1426,   1096},
-                {2702,  2102,   1502,   1142},
-                {2812,  2216,   1582,   1222},
-                {2956,  2334,   1666,   1276},
-            };
-            ECCodeGroupTable = new ECCodeGroup[,]
-            {
-                {
-                    new ECCodeGroup(7,      1,      19,     0,      0),
-                    new ECCodeGroup(10,     1,      16,     0,      0),
-                    new ECCodeGroup(13,     1,      13,     0,      0),
-                    new ECCodeGroup(17,     1,      9,      0,      0)
-                },
-                {
-                    new ECCodeGroup(10,     1,      34,     0,      0),
-                    new ECCodeGroup(16,     1,      28,     0,      0),
-                    new ECCodeGroup(22,     1,      22,     0,      0),
-                    new ECCodeGroup(28,     1,      16,     0,      0)
-                },
-                {
-                    new ECCodeGroup(15,     1,      55,     0,      0),
-                    new ECCodeGroup(26,     1,      44,     0,      0),
-                    new ECCodeGroup(18,     2,      17,     0,      0),
-                    new ECCodeGroup(22,     2,      13,     0,      0)
-                },
-                {
-                    new ECCodeGroup(20,     1,      80,     0,      0),
-                    new ECCodeGroup(18,     2,      32,     0,      0),
-                    new ECCodeGroup(26,     2,      24,     0,      0),
-                    new ECCodeGroup(16,     4,      9,      0,      0)
-                },
-                {
-                    new ECCodeGroup(26,     1,      108,    0,      0),
-                    new ECCodeGroup(24,     2,      43,     0,      0),
-                    new ECCodeGroup(18,     2,      15,     2,      16),
-                    new ECCodeGroup(22,     2,      11,     2,      12)
-                },
-                {
-                    new ECCodeGroup(18,     2,      68,     0,      0),
-                    new ECCodeGroup(16,     4,      27,     0,      0),
-                    new ECCodeGroup(24,     4,      19,     0,      0),
-                    new ECCodeGroup(28,     4,      15,     0,      0)
-                },
-                {
-                    new ECCodeGroup(20,     2,      78,     0,      0),
-                    new ECCodeGroup(18,     4,      31,     0,      0),
-                    new ECCodeGroup(18,     2,      14,     4,      15),
-                    new ECCodeGroup(26,     4,      13,     1,      14)
-                },
-                {
-                    new ECCodeGroup(24,     2,      97,     0,      0),
-                    new ECCodeGroup(22,     2,      38,     2,      39),
-                    new ECCodeGroup(22,     4,      18,     2,      19),
-                    new ECCodeGroup(26,     4,      14,     2,      15)
-                },
-                {
-                    new ECCodeGroup(30,     2,      116,    0,      0),
-                    new ECCodeGroup(22,     3,      36,     2,      37),
-                    new ECCodeGroup(20,     4,      16,     4,      17),
-                    new ECCodeGroup(24,     4,      12,     4,      13)
-                },
-                {
-                    new ECCodeGroup(18,     2,      68,     2,      69),
-                    new ECCodeGroup(26,     4,      43,     1,      44),
-                    new ECCodeGroup(24,     6,      19,     2,      20),
-                    new ECCodeGroup(28,     6,      15,     2,      16)
-                },
-                {
-                    new ECCodeGroup(20,     4,      81,     0,      0),
-                    new ECCodeGroup(30,     1,      50,     4,      51),
-                    new ECCodeGroup(28,     4,      22,     4,      23),
-                    new ECCodeGroup(24,     3,      12,     8,      13)
-                },
-                {
-                    new ECCodeGroup(24,     2,      92,     2,      93),
-                    new ECCodeGroup(22,     6,      36,     2,      37),
-                    new ECCodeGroup(26,     4,      20,     6,      21),
-                    new ECCodeGroup(28,     7,      14,     4,      15)
-                },
-                {
-                    new ECCodeGroup(26,     4,      107,    0,      0),
-                    new ECCodeGroup(22,     8,      37,     1,      38),
-                    new ECCodeGroup(24,     8,      20,     4,      21),
-                    new ECCodeGroup(22,     12,     11,     4,      12)
-                },
-                {
-                    new ECCodeGroup(30,     3,      115,    1,      116),
-                    new ECCodeGroup(24,     4,      40,     5,      41),
-                    new ECCodeGroup(20,     11,     16,     5,      17),
-                    new ECCodeGroup(24,     11,     12,     5,      13)
-                },
-                {
-                    new ECCodeGroup(22,     5,      87,     1,      88),
-                    new ECCodeGroup(24,     5,      41,     5,      42),
-                    new ECCodeGroup(30,     5,      24,     7,      25),
-                    new ECCodeGroup(24,     11,     12,     7,      13)
-                },
-                {
-                    new ECCodeGroup(24,     5,      98,     1,      99),
-                    new ECCodeGroup(28,     7,      45,     3,      46),
-                    new ECCodeGroup(24,     15,     19,     2,      20),
-                    new ECCodeGroup(30,     3,      15,     13,     16)
-                },
-                {
-                    new ECCodeGroup(28,     1,      107,    5,      108),
-                    new ECCodeGroup(28,     10,     46,     1,      47),
-                    new ECCodeGroup(28,     1,      22,     15,     23),
-                    new ECCodeGroup(28,     2,      14,     17,     15)
-                },
-                {
-                    new ECCodeGroup(30,     5,      120,    1,      121),
-                    new ECCodeGroup(26,     9,      43,     4,      44),
-                    new ECCodeGroup(28,     17,     22,     1,      23),
-                    new ECCodeGroup(28,     2,      14,     19,     15)
-                },
-                {
-                    new ECCodeGroup(28,     3,      113,    4,      114),
-                    new ECCodeGroup(26,     3,      44,     11,     45),
-                    new ECCodeGroup(26,     17,     21,     4,      22),
-                    new ECCodeGroup(26,     9,      13,     16,     14)
-                },
-                {
-                    new ECCodeGroup(28,     3,      107,    5,      108),
-                    new ECCodeGroup(26,     3,      41,     13,     42),
-                    new ECCodeGroup(30,     15,     24,     5,      25),
-                    new ECCodeGroup(28,     15,     15,     10,     16)
-                },
-                {
-                    new ECCodeGroup(28,     4,      116,    4,      117),
-                    new ECCodeGroup(26,     17,     42,     0,      0),
-                    new ECCodeGroup(28,     17,     22,     6,      23),
-                    new ECCodeGroup(30,     19,     16,     6,      17)
-                },
-                {
-                    new ECCodeGroup(28,     2,      111,    7,      112),
-                    new ECCodeGroup(28,     17,     46,     0,      0),
-                    new ECCodeGroup(30,     7,      24,     16,     25),
-                    new ECCodeGroup(24,     34,     13,     0,      0)
-                },
-                {
-                    new ECCodeGroup(30,     4,      121,    5,      122),
-                    new ECCodeGroup(28,     4,      47,     14,     48),
-                    new ECCodeGroup(30,     11,     24,     14,     25),
-                    new ECCodeGroup(30,     16,     15,     14,     16)
-                },
-                {
-                    new ECCodeGroup(30,     6,      117,    4,      118),
-                    new ECCodeGroup(28,     6,      45,     14,     46),
-                    new ECCodeGroup(30,     11,     24,     16,     25),
-                    new ECCodeGroup(30,     30,     16,     2,      17)
-                },
-                {
-                    new ECCodeGroup(26,     8,      106,    4,      107),
-                    new ECCodeGroup(28,     8,      47,     13,     48),
-                    new ECCodeGroup(30,     7,      24,     22,     25),
-                    new ECCodeGroup(30,     22,     15,     13,     16)
-                },
-                {
-                    new ECCodeGroup(28,     10,     114,    2,      115),
-                    new ECCodeGroup(28,     19,     46,     4,      47),
-                    new ECCodeGroup(28,     28,     22,     6,      23),
-                    new ECCodeGroup(30,     33,     16,     4,      17)
-                },
-                {
-                    new ECCodeGroup(30,     8,      122,    4,      123),
-                    new ECCodeGroup(28,     22,     45,     3,      46),
-                    new ECCodeGroup(30,     8,      23,     26,     24),
-                    new ECCodeGroup(30,     12,     15,     28,     16)
-                },
-                {
-                    new ECCodeGroup(30,     3,      117,    10,     118),
-                    new ECCodeGroup(28,     3,      45,     23,     46),
-                    new ECCodeGroup(30,     4,      24,     31,     25),
-                    new ECCodeGroup(30,     11,     15,     31,     16)
-                },
-                {
-                    new ECCodeGroup(30,     7,      116,    7,      117),
-                    new ECCodeGroup(28,     21,     45,     7,      46),
-                    new ECCodeGroup(30,     1,      23,     37,     24),
-                    new ECCodeGroup(30,     19,     15,     26,     16)
-                },
-                {
-                    new ECCodeGroup(30,     5,      115,    10,     116),
-                    new ECCodeGroup(28,     19,     47,     10,     48),
-                    new ECCodeGroup(30,     15,     24,     25,     25),
-                    new ECCodeGroup(30,     23,     15,     25,     16)
-                },
-                {
-                    new ECCodeGroup(30,     13,     115,    3,      116),
-                    new ECCodeGroup(28,     2,      46,     29,     47),
-                    new ECCodeGroup(30,     42,     24,     1,      25),
-                    new ECCodeGroup(30,     23,     15,     28,     16)
-                },
-                {
-                    new ECCodeGroup(30,     17,     115,    0,      0),
-                    new ECCodeGroup(28,     10,     46,     23,     47),
-                    new ECCodeGroup(30,     10,     24,     35,     25),
-                    new ECCodeGroup(30,     19,     15,     35,     16)
-                },
-                {
-                    new ECCodeGroup(30,     17,     115,    1,      116),
-                    new ECCodeGroup(28,     14,     46,     21,     47),
-                    new ECCodeGroup(30,     29,     24,     19,     25),
-                    new ECCodeGroup(30,     11,     15,     46,     16)
-                },
-                {
-                    new ECCodeGroup(30,     13,     115,    6,      116),
-                    new ECCodeGroup(28,     14,     46,     23,     47),
-                    new ECCodeGroup(30,     44,     24,     7,      25),
-                    new ECCodeGroup(30,     59,     16,     1,      17)
-                },
-                {
-                    new ECCodeGroup(30,     12,     121,    7,      122),
-                    new ECCodeGroup(28,     12,     47,     26,     48),
-                    new ECCodeGroup(30,     39,     24,     14,     25),
-                    new ECCodeGroup(30,     22,     15,     41,     16)
-                },
-                {
-                    new ECCodeGroup(30,     6,      121,    14,     122),
-                    new ECCodeGroup(28,     6,      47,     34,     48),
-                    new ECCodeGroup(30,     46,     24,     10,     25),
-                    new ECCodeGroup(30,     2,      15,     64,     16)
-                },
-                {
-                    new ECCodeGroup(30,     17,     122,    4,      123),
-                    new ECCodeGroup(28,     29,     46,     14,     47),
-                    new ECCodeGroup(30,     49,     24,     10,     25),
-                    new ECCodeGroup(30,     24,     15,     46,     16)
-                },
-                {
-                    new ECCodeGroup(30,     4,      122,    18,     123),
-                    new ECCodeGroup(28,     13,     46,     32,     47),
-                    new ECCodeGroup(30,     48,     24,     14,     25),
-                    new ECCodeGroup(30,     42,     15,     32,     16)
-                },
-                {
-                    new ECCodeGroup(30,     20,     117,    4,      118),
-                    new ECCodeGroup(28,     40,     47,     7,      48),
-                    new ECCodeGroup(30,     43,     24,     22,     25),
-                    new ECCodeGroup(30,     10,     15,     67,     16)
-                },
-                {
-                    new ECCodeGroup(30,     19,     118,    6,      119),
-                    new ECCodeGroup(28,     18,     47,     31,     48),
-                    new ECCodeGroup(30,     34,     24,     34,     25),
-                    new ECCodeGroup(30,     20,     15,     61,     16)
-                }
-            };
+            QRCodeCapacityTable =
+            [
+                new SortedArray<int>([19, 34, 55, 80, 108, 136, 156, 194, 232, 274, 324, 370, 428, 461, 523, 589, 647, 721, 795, 861, 932, 1006, 1094, 1174, 1276, 1370, 1468, 1531, 1631, 1735, 1843, 1955, 2071, 2191, 2306, 2434, 2566, 2702, 2812, 2956]),
+                new SortedArray<int>([16, 28, 44, 64, 86,  108, 124, 154, 182, 216, 254, 290, 334, 365, 415, 453, 507, 563, 627, 669, 714, 782,  860,  914,  1000, 1062, 1128, 1193, 1267, 1373, 1455, 1541, 1631, 1725, 1812, 1914, 1992, 2102, 2216, 2334]),
+                new SortedArray<int>([13, 22, 34, 48, 62,  76,  88,  110, 132, 154, 180, 206, 244, 261, 295, 325, 367, 397, 445, 485, 512, 568,  614,  664,  718,  754,  808,  871,  911,  985,  1033, 1115, 1171, 1231, 1286, 1354, 1426, 1502, 1582, 1666]),
+                new SortedArray<int>([9,  16, 26, 36, 46,  60,  66,  86,  100, 122, 140, 158, 180, 197, 223, 253, 283, 313, 341, 385, 406, 442,  464,  514,  538,  596,  628,  661,  701,  745,  793,  845,  901,  961,  986,  1054, 1096, 1142, 1222, 1276])
+            ];
+            ECCodeGroupTable =
+            [
+                [0x3824C000, 0x50288000, 0x782DC000, 0xA0340000, 0xD03B0000, 0x90510000, 0xA0538000, 0xC0584000, 0xF05D0000, 0x90510145, 0xA0944000, 0xC057015D, 0xD09AC000, 0xF07CC0F4, 0xB0B5C0D8, 0xC0B880E3, 0xE03AC2EC, 0xF0BE00F9, 0xE07C4272, 0xE07AC2EC, 0xE09D0275, 0xE05BC3F0, 0xF09E42FA, 0xF0DD4276, 0xD11A826B, 0xE15C8173, 0xF11E827B, 0xF07D4576, 0xF0FD03F5, 0xF0BCC574, 0xF1BCC1F4, 0xF23CC000, 0xF23CC0F4, 0xF1BCC374, 0xF19E43FA, 0xF0DE477A, 0xF23E827B, 0xF09E897B, 0xF29D4276, 0xF27D8377],
+                [0x50240000, 0x80270000, 0xD02B0000, 0x90480000, 0xC04AC000, 0x8086C000, 0x9087C000, 0xB0498127, 0xB0690125, 0xD08AC0AC, 0xF02C8233, 0xB0C90125, 0xB10940A6, 0xC08A02A9, 0xC0AA42AA, 0xE0EB41AE, 0xE14B80AF, 0xD12AC22C, 0xD06B05AD, 0xD06A46AA, 0xD22A8000, 0xE22B8000, 0xE08BC730, 0xE0CB472E, 0xE10BC6B0, 0xE26B822F, 0xE2CB41AE, 0xE06B4BAE, 0xE2AB43AE, 0xE26BC530, 0xE04B8EAF, 0xE14B8BAF, 0xE1CB8AAF, 0xE1CB8BAF, 0xE18BCD30, 0xE0CBD130, 0xE3AB872F, 0xE1AB902F, 0xE50BC3B0, 0xE24BCFB0],
+                [0x68234000, 0xB0258000, 0x90444000, 0xD0460000, 0x9043C110, 0xC084C000, 0x9043820F, 0xB0848113, 0xA0840211, 0xC0C4C114, 0xE0858217, 0xD0850315, 0xC1050215, 0xA1640291, 0xF0A60399, 0xC1E4C114, 0xE0258797, 0xE2258097, 0xD2254216, 0xF1E60299, 0xE2258317, 0xF0E60819, 0xF1660719, 0xF1660819, 0xF0E60B19, 0xE3858317, 0xF105CD18, 0xF0860F99, 0xF025D298, 0xF1E60C99, 0xF5460099, 0xF1461199, 0xF3A60999, 0xF5860399, 0xF4E60719, 0xF5C60519, 0xF6260519, 0xF6060719, 0xF5660B19, 0xF4461119],
+                [0x88224000, 0xE0240000, 0xB0434000, 0x80824000, 0xB042C10C, 0xE083C000, 0xD083408E, 0xD083810F, 0xC083020D, 0xE0C3C110, 0xC063040D, 0xE0E3820F, 0xB182C20C, 0xC163028D, 0xC163038D, 0xF063C690, 0xE043888F, 0xE043898F, 0xD123480E, 0xE1E3C510, 0xF2640311, 0xC4434000, 0xF203C710, 0xF3C40111, 0xF2C3C690, 0xF4240211, 0xF183CE10, 0xF163CF90, 0xF263CD10, 0xF2E3CC90, 0xF2E3CE10, 0xF263D190, 0xF163D710, 0xF7640091, 0xF2C3D490, 0xF043E010, 0xF303D710, 0xF543D010, 0xF143E190, 0xF283DE90]
+            ];
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Common.Source.Extension;
-
-namespace Common.Source.Service.Encode.QRCode.Metadata
+﻿namespace Common.Source.Service.Encode.QRCode.Metadata
 {
     public static class MaskTypeExtension
     {
@@ -8,7 +6,7 @@ namespace Common.Source.Service.Encode.QRCode.Metadata
 
         public static Func<int, int, bool> GetMethod(this MaskType mask)
         {
-            return MaskMethod[mask.ToInt() - 1];
+            return MaskMethod[(int)mask - 1];
         }
 
         private static bool Mask000(int x, int y) => (x + y) % 2 == 0;

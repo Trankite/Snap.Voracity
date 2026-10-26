@@ -402,7 +402,7 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.AsSpan().SplitAt(1).Latter.GetIndexValue(GetValue(context.FirstOrDefault(), getter, setter).ToInt()), getter, setter);
+                return GetValue(context.AsSpan().SplitAt(1).Back.GetIndexValue(GetValue(context.FirstOrDefault(), getter, setter).ToInt()), getter, setter);
             }
         }
 

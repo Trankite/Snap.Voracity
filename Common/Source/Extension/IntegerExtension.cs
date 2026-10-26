@@ -17,7 +17,7 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int Unsigned(this int value, int defaultValue = default, int offset = default)
+        public static int GetInsert(this int value, int defaultValue, int offset = default)
         {
             return value >= 0 ? value + offset : defaultValue;
         }

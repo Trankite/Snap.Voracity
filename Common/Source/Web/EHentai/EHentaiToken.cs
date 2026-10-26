@@ -1,9 +1,7 @@
 ﻿namespace Common.Source.Web.EHentai
 {
-    public class EHentaiToken
+    public class EHentaiToken : IEquatable<EHentaiToken>
     {
-        public static IEqualityComparer<EHentaiToken> Comparer { get; }
-
         public string IpbMemberId { get; set; } = string.Empty;
 
         public string IpbPassHash { get; set; } = string.Empty;
@@ -17,9 +15,19 @@
             IpbMemberId = ipbMemberId;
         }
 
-        static EHentaiToken()
+        public bool Equals(EHentaiToken? other)
         {
-            Comparer = EqualityComparer<EHentaiToken>.Create((sender, other) => sender?.IpbMemberId == other?.IpbMemberId, sender => sender.IpbMemberId.GetHashCode());
+            return IpbMemberId.Equals(other?.IpbMemberId);
+        }
+
+        public override bool Equals(object? other)
+        {
+            return Equals(other as EHentaiToken);
+        }
+
+        public override int GetHashCode()
+        {
+            return IpbMemberId.GetHashCode();
         }
     }
 }

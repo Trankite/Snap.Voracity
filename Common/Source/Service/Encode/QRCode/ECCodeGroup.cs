@@ -1,4 +1,6 @@
-﻿namespace Common.Source.Service.Encode.QRCode
+﻿using Common.Source.Model.DataStruct.Span;
+
+namespace Common.Source.Service.Encode.QRCode
 {
     public readonly struct ECCodeGroup
     {
@@ -12,13 +14,24 @@
 
         public int CodewordsInGroup2 { get; }
 
-        public ECCodeGroup(int eCCodePerBytes, int blocksInGroup1, int codewordsInGroup1, int blocksInGroup2, int codewordsInGroup2)
+        public ECCodeGroup(int eccodePerBytes, int blocksInGroup1, int codewordsInGroup1, int blocksInGroup2, int codewordsInGroup2)
         {
-            ECCodePerBytes = eCCodePerBytes;
+            ECCodePerBytes = eccodePerBytes;
             BlocksInGroup1 = blocksInGroup1;
             CodewordsInGroup1 = codewordsInGroup1;
             BlocksInGroup2 = blocksInGroup2;
             CodewordsInGroup2 = codewordsInGroup2;
+        }
+
+        public static ECCodeGroup Create(uint bits)
+        {
+            Bitwise<int> bitwise = new((int)bits);
+            int eccodePerBytes = bitwise.HighPop(5);
+            int blocksInGroup1 = bitwise.HighPop(6);
+            int codewordsInGroup1 = bitwise.HighPop(7);
+            int blocksInGroup2 = bitwise.HighPop(7);
+            int codewordsInGroup2 = bitwise.HighPop(7);
+            return new ECCodeGroup(eccodePerBytes, blocksInGroup1, codewordsInGroup1, blocksInGroup2, codewordsInGroup2);
         }
     }
 }

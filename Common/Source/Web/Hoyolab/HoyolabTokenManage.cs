@@ -1,6 +1,6 @@
 ﻿using Common.Source.Core.Setting;
 using Common.Source.Extension;
-using Common.Source.Model.Collection.Token;
+using Common.Source.Model.Collection;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.Hoyolab
@@ -52,7 +52,7 @@ namespace Common.Source.Web.Hoyolab
 
         static HoyolabTokenManage()
         {
-            Manager = new TokenManager<HoyolabToken>(GetFilePath(), HoyolabToken.Comparer);
+            Manager = new TokenManager<HoyolabToken>(GetFilePath());
         }
     }
 }

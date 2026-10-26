@@ -1,17 +1,21 @@
-﻿using Common.Source.Model.DataStruct;
+﻿using Common.Source.Model.Collection;
+using Common.Source.Model.DataStruct.Span;
 using Common.Source.Service.Encode.QRCode.Metadata;
 
 namespace Common.Source.Service.Encode.QRCode.Encoder
 {
     public class ByteEncoder : QRCodeEncoder
     {
-        private static readonly int[,] CapacityTable;
+        private static readonly SortedArray<int>[] CapacityTable;
 
         public override EncodeMode EncodeMode => EncodeMode.Byte;
 
         protected override int BitsOfContent => Version >= 10 ? 16 : 8;
 
-        protected override int[,] GetCapacityTable() => CapacityTable;
+        protected override SortedArray<int> GetCapacityTable(ECCodeLevel eccodeLevel)
+        {
+            return CapacityTable[(int)eccodeLevel];
+        }
 
         protected override int GetUsedBitCount(int length)
         {
@@ -25,49 +29,13 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         static ByteEncoder()
         {
-            CapacityTable = new int[40, 4]
-            {
-                {17,    14,     11,     7},
-                {32,    26,     20,     14},
-                {53,    42,     32,     24},
-                {78,    62,     46,     34},
-                {106,   84,     60,     44},
-                {134,   106,    74,     58},
-                {154,   122,    86,     64},
-                {192,   152,    108,    84},
-                {230,   180,    130,    98},
-                {271,   213,    151,    119},
-                {321,   251,    177,    137},
-                {367,   287,    203,    155},
-                {425,   331,    241,    177},
-                {458,   362,    258,    194},
-                {520,   412,    292,    220},
-                {586,   450,    322,    250},
-                {644,   504,    364,    280},
-                {718,   560,    394,    310},
-                {792,   624,    442,    338},
-                {858,   666,    482,    382},
-                {929,   711,    509,    403},
-                {1003,  779,    565,    439},
-                {1091,  857,    611,    461},
-                {1171,  911,    661,    511},
-                {1273,  997,    715,    535},
-                {1367,  1059,   751,    593},
-                {1465,  1125,   805,    625},
-                {1528,  1190,   868,    658},
-                {1628,  1264,   908,    698},
-                {1732,  1370,   982,    742},
-                {1840,  1452,   1030,   790},
-                {1952,  1538,   1112,   842},
-                {2068,  1628,   1168,   898},
-                {2188,  1722,   1228,   958},
-                {2303,  1809,   1283,   983},
-                {2431,  1911,   1351,   1051},
-                {2563,  1989,   1423,   1093},
-                {2699,  2099,   1499,   1139},
-                {2809,  2213,   1579,   1219},
-                {2953,  2331,   1663,   1273}
-            };
+            CapacityTable =
+            [
+                new SortedArray<int>([17, 32, 53, 78, 106, 134, 154, 192, 230, 271, 321, 367, 425, 458, 520, 586, 644, 718, 792, 858, 929, 1003, 1091, 1171, 1273, 1367, 1465, 1528, 1628, 1732, 1840, 1952, 2068, 2188, 2303, 2431, 2563, 2699, 2809, 2953]),
+                new SortedArray<int>([14, 26, 42, 62, 84,  106, 122, 152, 180, 213, 251, 287, 331, 362, 412, 450, 504, 560, 624, 666, 711, 779,  857,  911,  997,  1059, 1125, 1190, 1264, 1370, 1452, 1538, 1628, 1722, 1809, 1911, 1989, 2099, 2213, 2331]),
+                new SortedArray<int>([11, 20, 32, 46, 60,  74,  86,  108, 130, 151, 177, 203, 241, 258, 292, 322, 364, 394, 442, 482, 509, 565,  611,  661,  715,  751,  805,  868,  908,  982,  1030, 1112, 1168, 1228, 1283, 1351, 1423, 1499, 1579, 1663]),
+                new SortedArray<int>([7,  14, 24, 34, 44,  58,  64,  84,  98,  119, 137, 155, 177, 194, 220, 250, 280, 310, 338, 382, 403, 439,  461,  511,  535,  593,  625,  658,  698,  742,  790,  842,  898,  958,  983,  1051, 1093, 1139, 1219, 1273])
+            ];
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Model.DataStruct
+﻿namespace Common.Source.Model.DataStruct.Span
 {
     public class BitSet
     {

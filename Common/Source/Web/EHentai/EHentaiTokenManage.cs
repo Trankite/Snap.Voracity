@@ -1,6 +1,6 @@
 ﻿using Common.Source.Core.Setting;
 using Common.Source.Extension;
-using Common.Source.Model.Collection.Token;
+using Common.Source.Model.Collection;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Source.Web.EHentai
@@ -47,7 +47,7 @@ namespace Common.Source.Web.EHentai
 
         static EHentaiTokenManage()
         {
-            Manager = new TokenManager<EHentaiToken>(GetFilePath(), EHentaiToken.Comparer);
+            Manager = new TokenManager<EHentaiToken>(GetFilePath());
         }
     }
 }

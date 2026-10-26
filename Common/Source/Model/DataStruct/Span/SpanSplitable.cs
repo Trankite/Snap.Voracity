@@ -2,20 +2,20 @@
 
 namespace Common.Source.Model.DataStruct.Span
 {
-    public static class ReadOnlySpanSplitter
+    public static class SpanSplitable
     {
-        public static ReadOnlySpanSplitter<T> Create<T>(ReadOnlySpan<T> content)
+        public static SpanSplitable<T> Create<T>(ReadOnlySpan<T> content)
         {
-            return new ReadOnlySpanSplitter<T>(content);
+            return new SpanSplitable<T>(content);
         }
 
-        public static ReadOnlySpanSplitter<T> Create<T>(ReadOnlySpan<T> content, ReadOnlySpan<T> separator)
+        public static SpanSplitable<T> Create<T>(ReadOnlySpan<T> content, ReadOnlySpan<T> separator)
         {
-            return new ReadOnlySpanSplitter<T>(content, separator);
+            return new SpanSplitable<T>(content, separator);
         }
     }
 
-    public ref struct ReadOnlySpanSplitter<T>
+    public ref struct SpanSplitable<T>
     {
         private int Offset;
 
@@ -23,12 +23,12 @@ namespace Common.Source.Model.DataStruct.Span
 
         private readonly ReadOnlySpan<T> Separator;
 
-        public ReadOnlySpanSplitter(ReadOnlySpan<T> content)
+        public SpanSplitable(ReadOnlySpan<T> content)
         {
             Content = content;
         }
 
-        public ReadOnlySpanSplitter(ReadOnlySpan<T> content, ReadOnlySpan<T> separator) : this(content)
+        public SpanSplitable(ReadOnlySpan<T> content, ReadOnlySpan<T> separator) : this(content)
         {
             Separator = separator;
         }

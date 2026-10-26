@@ -1,17 +1,21 @@
-﻿using Common.Source.Model.DataStruct;
+﻿using Common.Source.Model.Collection;
+using Common.Source.Model.DataStruct.Span;
 using Common.Source.Service.Encode.QRCode.Metadata;
 
 namespace Common.Source.Service.Encode.QRCode.Encoder
 {
     public sealed class AlphanumericEncoder : QRCodeEncoder
     {
-        private static readonly int[,] CapacityTable;
-
         private static readonly int[] AlphanumericTable;
+
+        private static readonly SortedArray<int>[] CapacityTable;
 
         public override EncodeMode EncodeMode => EncodeMode.Alphanumeric;
 
-        protected override int[,] GetCapacityTable() => CapacityTable;
+        protected override SortedArray<int> GetCapacityTable(ECCodeLevel eccodeLevel)
+        {
+            return CapacityTable[(int)eccodeLevel];
+        }
 
         protected override int BitsOfContent => Version >= 10 ? Version >= 27 ? 13 : 11 : 9;
 
@@ -60,49 +64,13 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
             {
                 AlphanumericTable[OtherChars[i] - 0x20] = Index++;
             }
-            CapacityTable = new int[40, 4]
-            {
-                {25,    20,     16,     10},
-                {47,    38,     29,     20},
-                {77,    61,     47,     35},
-                {114,   90,     67,     50},
-                {154,   122,    87,     64},
-                {195,   154,    108,    84},
-                {224,   178,    125,    93},
-                {279,   221,    157,    122},
-                {335,   262,    189,    143},
-                {395,   311,    221,    174},
-                {468,   366,    259,    200},
-                {535,   419,    296,    227},
-                {619,   483,    352,    259},
-                {667,   528,    376,    283},
-                {758,   600,    426,    321},
-                {854,   656,    470,    365},
-                {938,   734,    531,    408},
-                {1046,  816,    574,    452},
-                {1153,  909,    644,    493},
-                {1249,  970,    702,    557},
-                {1352,  1035,   742,    587},
-                {1460,  1134,   823,    640},
-                {1588,  1248,   890,    672},
-                {1704,  1326,   963,    744},
-                {1853,  1451,   1041,   779},
-                {1990,  1542,   1094,   864},
-                {2132,  1637,   1172,   910},
-                {2223,  1732,   1263,   958},
-                {2369,  1839,   1322,   1016},
-                {2520,  1994,   1429,   1080},
-                {2677,  2113,   1499,   1150},
-                {2840,  2238,   1618,   1226},
-                {3009,  2369,   1700,   1307},
-                {3183,  2506,   1787,   1394},
-                {3351,  2632,   1867,   1431},
-                {3537,  2780,   1966,   1530},
-                {3729,  2894,   2071,   1591},
-                {3927,  3054,   2181,   1658},
-                {4087,  3220,   2298,   1774},
-                {4296,  3391,   2420,   1852}
-            };
+            CapacityTable =
+            [
+                new SortedArray<int>([25, 47, 77, 114, 154, 195, 224, 279, 335, 395, 468, 535, 619, 667, 758, 854, 938, 1046, 1153, 1249, 1352, 1460, 1588, 1704, 1853, 1990, 2132, 2223, 2369, 2520, 2677, 2840, 3009, 3183, 3351, 3537, 3729, 3927, 4087, 4296]),
+                new SortedArray<int>([20, 38, 61, 90,  122, 154, 178, 221, 262, 311, 366, 419, 483, 528, 600, 656, 734, 816,  909,  970,  1035, 1134, 1248, 1326, 1451, 1542, 1637, 1732, 1839, 1994, 2113, 2238, 2369, 2506, 2632, 2780, 2894, 3054, 3220, 3391]),
+                new SortedArray<int>([16, 29, 47, 67,  87,  108, 125, 157, 189, 221, 259, 296, 352, 376, 426, 470, 531, 574,  644,  702,  742,  823,  890,  963,  1041, 1094, 1172, 1263, 1322, 1429, 1499, 1618, 1700, 1787, 1867, 1966, 2071, 2181, 2298, 2420]),
+                new SortedArray<int>([10, 20, 35, 50,  64,  84,  93,  122, 143, 174, 200, 227, 259, 283, 321, 365, 408, 452,  493,  557,  587,  640,  672,  744,  779,  864,  910,  958,  1016, 1080, 1150, 1226, 1307, 1394, 1431, 1530, 1591, 1658, 1774, 1852])
+            ];
         }
     }
 }
