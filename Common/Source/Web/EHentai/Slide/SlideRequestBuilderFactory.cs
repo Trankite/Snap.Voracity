@@ -11,7 +11,7 @@ namespace Common.Source.Web.EHentai.Slide
 
         public SlideRequestBuilderFactory() { }
 
-        public SlideRequestBuilderFactory(EHentaiToken eHentaiToken) : base(eHentaiToken) { }
+        public SlideRequestBuilderFactory(EHentaiToken ehentaiToken) : base(ehentaiToken) { }
 
         public override HttpRequestMessageBuilder Create()
         {

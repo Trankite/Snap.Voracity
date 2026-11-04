@@ -13,7 +13,7 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static async ValueTask<CheckTicket<T>> MoveAsync<T>(this IAsyncEnumerator<T> asyncEnumerator)
+        public static async ValueTask<CheckTicket<T>> TryMoveNextAsync<T>(this IAsyncEnumerator<T> asyncEnumerator)
         {
             return await asyncEnumerator.MoveNextAsync().ConfigureAwait(false) ? CheckTicket.Create(asyncEnumerator.Current) : default;
         }

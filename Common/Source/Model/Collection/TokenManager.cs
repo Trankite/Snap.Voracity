@@ -39,23 +39,23 @@ namespace Common.Source.Model.Collection
 
         public T[] Load()
         {
-            using FileOpenRead FileRead = FileOpenRead.Create(FilePath);
-            FileRead.ThrowIfFailed();
-            return JsonSerializerExtension.Deserialize<T[]>(FileRead.Stream) ?? [];
+            using FileOpenRead fileRead = FileOpenRead.Create(FilePath);
+            fileRead.ThrowIfFailed();
+            return JsonSerializerExtension.Deserialize<T[]>(fileRead.Stream) ?? [];
         }
 
         public void Save(T[] tokens)
         {
-            using FileOpenWrite FileWrite = FileOpenWrite.Create(FilePath);
-            FileWrite.ThrowIfFailed();
-            JsonSerializerExtension.Serialize(FileWrite.Stream, _Tokens = tokens);
+            using FileOpenWrite fileWrite = FileOpenWrite.Create(FilePath);
+            fileWrite.ThrowIfFailed();
+            JsonSerializerExtension.Serialize(fileWrite.Stream, _Tokens = tokens);
         }
 
         public void Update(T token)
         {
-            if (Tokens.TryGetIndexOf(token, out int Index, Comparer))
+            if (Tokens.TryGetIndexOf(token, out int index, Comparer))
             {
-                Tokens[Index] = token;
+                Tokens[index] = token;
             }
             else
             {

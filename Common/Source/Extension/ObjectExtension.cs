@@ -1,14 +1,35 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Common.Source.Extension
 {
     public static class ObjectExtension
     {
+        [StackTraceHidden]
         [DebuggerStepThrough]
-        public static T ThrowIfNull<T>([NotNull] this T? value)
+        public static T ThrowIfNull<T>([NotNull] this T? value, [CallerArgumentExpression(nameof(value))] string? name = default)
         {
-            return value ?? throw new NullReferenceException();
+            return value ?? throw new ArgumentNullException(name);
+        }
+
+        [StackTraceHidden]
+        [DebuggerStepThrough]
+        public static TDestination Cast<TSource, TDestination>(this TSource value)
+        {
+            return value is TDestination destination ? destination : throw new InvalidCastException();
+        }
+
+        [DebuggerStepThrough]
+        public static TDestination CastOrDefault<TSource, TDestination>(this TSource value, TDestination defaultValue)
+        {
+            return value is TDestination destination ? destination : defaultValue;
+        }
+
+        [DebuggerStepThrough]
+        public static T Swap<T>(this T value, ref T other)
+        {
+            return other.Configure(other = value);
         }
 
         [DebuggerStepThrough]

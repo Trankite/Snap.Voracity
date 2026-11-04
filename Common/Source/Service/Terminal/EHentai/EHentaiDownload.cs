@@ -40,48 +40,48 @@ namespace Common.Source.Service.Terminal.EHentai
             {
                 return SupportTerminalResponse.MissingUserInteraction();
             }
-            string GalleryLink = commandLine.GetParameter(Param_GalleryLink);
-            if (!Uri.TryCreate(GalleryLink, UriKind.Absolute, out Uri? GalleryUri))
+            string galleryLink = commandLine.GetParameter(Param_GalleryLink);
+            if (!Uri.TryCreate(galleryLink, UriKind.Absolute, out Uri? galleryUri))
             {
                 return SupportTerminalResponse.UnlawfulParameter();
             }
-            string IpbMemberId = commandLine.GetParameter(Param_IpbMemberId);
-            bool PathOpen = commandLine.GetBoolParameter(Param_PathOpen);
-            return await AsyncInvoke(GalleryUri, textStream, IpbMemberId, PathOpen, cancellationToken).ConfigureAwait(false);
+            string ipbMemberId = commandLine.GetParameter(Param_IpbMemberId);
+            bool pathOpen = commandLine.GetBoolParameter(Param_PathOpen);
+            return await AsyncInvoke(galleryUri, textStream, ipbMemberId, pathOpen, cancellationToken).ConfigureAwait(false);
         }
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(Uri galleryUri, ITextStream textStream, string? ipbMemberId = default, bool pathOpen = default, CancellationToken cancellationToken = default)
         {
-            EHentaiHost EHentaiHost = EHentaiUriHelper.GetHost(galleryUri);
-            if (EHentaiHost == EHentaiHost.None)
+            EHentaiHost ehentaiHost = EHentaiUriHelper.GetHost(galleryUri);
+            if (ehentaiHost == EHentaiHost.None)
             {
                 return SupportTerminalResponse.UnlawfulParameter();
             }
-            EHentaiToken? EHentaiToken = default;
-            if (EHentaiHost == EHentaiHost.ExHentai && !EHentaiTokenManage.TryGetTokenOrFirst(ipbMemberId, out EHentaiToken))
+            EHentaiToken? ehentaiToken = default;
+            if (ehentaiHost == EHentaiHost.ExHentai && !EHentaiTokenManage.TryGetTokenOrFirst(ipbMemberId, out ehentaiToken))
             {
                 return SupportTerminalResponse.NotFindToken(ipbMemberId);
             }
-            TextStreamSource<ITextReader, StopTextWriter>? StopTextStream = default;
+            TextStreamSource<ITextReader, StopTextWriter>? stopTextStream = default;
             if (textStream.IsNotNull())
             {
-                StopTextStream = TextStreamSource.Create(textStream.Reader, new StopTextWriter(textStream.Writer, Stopwatch.StartNew()));
+                stopTextStream = TextStreamSource.Create(textStream.Reader, new StopTextWriter(textStream.Writer, Stopwatch.StartNew()));
             }
-            EHentaiDownloader Downloader = EHentaiDownloader.Create(galleryUri, EHentaiToken, StopTextStream);
-            while ((await Downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false)).Status.IsRunnable())
+            EHentaiDownloader downloader = EHentaiDownloader.Create(galleryUri, ehentaiToken, stopTextStream);
+            while ((await downloader.StartOrRetryAsync(cancellationToken).ConfigureAwait(false)).Status.IsRunnable())
             {
-                StopTextStream?.SourceWriter.Stopwatch.Stop();
+                stopTextStream?.SourceWriter.Stopwatch.Stop();
                 if (!await textStream.EnquireAsync(LocalString.ServiceTerminalEHentaiEHentaiDownloadRetry, cancellationToken).ConfigureAwait(false))
                 {
                     return new TerminalResponse(false, LocalString.ServiceTerminalEHentaiEHentaiDownloadCanceled);
                 }
-                StopTextStream?.SourceWriter.Stopwatch.Start();
+                stopTextStream?.SourceWriter.Stopwatch.Start();
             }
-            if (Downloader.Status.IsCompleted())
+            if (downloader.Status.IsCompleted())
             {
-                return new TerminalResponse(true, FileHelper.PathOpen(Downloader.FolderPath, pathOpen));
+                return new TerminalResponse(true, FileHelper.PathOpen(downloader.FolderPath, pathOpen));
             }
-            return new TerminalResponse(false, Downloader.GetExceptionMessage());
+            return new TerminalResponse(false, downloader.GetExceptionMessage());
         }
     }
 }

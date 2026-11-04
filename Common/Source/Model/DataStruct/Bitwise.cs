@@ -1,14 +1,11 @@
 ﻿using Common.Source.Extension;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
-namespace Common.Source.Model.DataStruct.Span
+namespace Common.Source.Model.DataStruct
 {
     public struct Bitwise<T> where T : struct, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
     {
-        public static int BitsCount { get; }
-
-        public T Bits { get; set; }
+        public T Bits { get; private set; }
 
         public Bitwise(T bits)
         {
@@ -25,14 +22,14 @@ namespace Common.Source.Model.DataStruct.Span
             return HighPeek(length).Configure(Bits <<= length);
         }
 
-        public readonly T Push(T value, int length)
+        public T Push(T value, int length)
         {
-            return Bits << length | value;
+            return Bits = Bits << length | value;
         }
 
-        public readonly T HighPush(T value, int length)
+        public T HighPush(T value, int length)
         {
-            return Bits >>> length | value << BitsCount - length;
+            return Bits = Bits >>> length | value << TypeSize<T>.BitSize - length;
         }
 
         public readonly T Peek(int length)
@@ -47,12 +44,12 @@ namespace Common.Source.Model.DataStruct.Span
 
         public readonly T HighPeek(int length)
         {
-            return Bits >>> BitsCount - length;
+            return Bits >>> TypeSize<T>.BitSize - length;
         }
 
         public readonly T HighPeek(int length, int offset)
         {
-            return Bits << offset >>> BitsCount - length;
+            return Bits << offset >>> TypeSize<T>.BitSize - length;
         }
 
         public static T GetMask(int length)
@@ -73,11 +70,6 @@ namespace Common.Source.Model.DataStruct.Span
         public static T GetHighMask(int length, int offset)
         {
             return GetHighMask(length) >>> offset;
-        }
-
-        static Bitwise()
-        {
-            BitsCount = Unsafe.SizeOf<T>() * 8;
         }
     }
 }

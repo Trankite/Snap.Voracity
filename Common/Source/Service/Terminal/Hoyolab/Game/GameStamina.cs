@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Serialize.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
@@ -14,7 +14,7 @@ using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Game
 {
-    public class GameStamina : AsyncTerminalCommand<NoteAnalyzedBody>
+    public class GameStamina : AsyncTerminalCommand<NoteStamina>
     {
         public override string Name => "note";
 
@@ -28,29 +28,30 @@ namespace Common.Source.Service.Terminal.Hoyolab.Game
 
         private const string Param_Aid = TerminalParameters.Aid;
 
-        public override async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse<NoteStamina>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             return await AsyncInvoke(commandLine.GetParameter(Param_Aid), cancellationToken).ConfigureAwait(false);
         }
 
-        public static async ValueTask<ITerminalResponse<NoteAnalyzedBody>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
+        public static async ValueTask<ITerminalResponse<NoteStamina>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
         {
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? hoyolabToken))
             {
-                return new TerminalResponse<NoteAnalyzedBody>(SupportTerminalResponse.NotFindToken(aid));
+                return new TerminalResponse<NoteStamina>(SupportTerminalResponse.NotFindToken(aid));
             }
-            if (!Token.TryGetUserRole(HoyolabApp.StarRailChina.OutSender(out HoyolabApp Game), out HoyolabUserRole? UserRole))
+            if (!hoyolabToken.TryGetUserRole(HoyolabApp.StarRailChina.OutSender(out HoyolabApp hoyolabApp), out HoyolabUserRole? userRole))
             {
-                return new TerminalResponse<NoteAnalyzedBody>(HoyolabTerminalResponse.NotFindUserRole(Game));
+                return new TerminalResponse<NoteStamina>(HoyolabTerminalResponse.NotFindUserRole(hoyolabApp));
             }
-            NoteRequestBuilderFactory Factory = new NoteRequestBuilderFactory(Token).SetUserRole(UserRole);
-            HttpResponse<NoteResponse> Response = await Factory.Create().SendAsync<NoteResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out NoteAnalyzedBody? Body))
+            NoteRequestBuilderFactory factory = new NoteRequestBuilderFactory(hoyolabToken).SetUserRole(userRole);
+            HttpResponse<NoteResponse> response = await factory.Create().SendAsync<NoteResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TrySerialize(out NoteStamina? noteStamina))
             {
-                TimeSpan Offset = Body.FullTime.Subtract(DateTimeOffset.Now);
-                return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabGameStaminaContent.SafeFormat(Body.Current, Body.Maximum, (int)Offset.TotalHours, Offset.Minutes), Body);
+                TimeSpan timeSpan = noteStamina.FullTime.Subtract(DateTimeOffset.Now);
+                object?[] formatInfo = [noteStamina.Current, noteStamina.Maximum, (int)timeSpan.TotalHours, timeSpan.Minutes];
+                return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabGameStaminaContent.SafeFormat(formatInfo), noteStamina);
             }
-            return new TerminalResponse<NoteAnalyzedBody>(false, Response.ToString());
+            return new TerminalResponse<NoteStamina>(false, response.ToString());
         }
     }
 }

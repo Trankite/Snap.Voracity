@@ -38,11 +38,11 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static string GetDescription<T>(this T value) where T : struct, Enum
         {
-            if (!DescriptionCache.TryGetValue(value, out string? Description))
+            if (!DescriptionCache.TryGetValue(value, out string? description))
             {
-                DescriptionCache[value] = Description = typeof(T).GetDescription(Enum.GetName(value).ThrowIfNull());
+                DescriptionCache[value] = description = typeof(T).GetDescription(Enum.GetName(value).ThrowIfNull());
             }
-            return Description;
+            return description;
         }
 
         private static int EnumGetHashCode(Enum sender)

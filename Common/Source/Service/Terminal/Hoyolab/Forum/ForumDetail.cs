@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Serialize.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
@@ -38,19 +38,19 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         public static async ValueTask<ITerminalResponse<FullPostResponseWrapper>> AsyncInvoke(string postId, bool needSign = false, string? aid = default, CancellationToken cancellationToken = default)
         {
-            HoyolabToken? Token = default;
-            if (needSign && !HoyolabTokenManage.TryGetTokenOrFirst(aid, out Token))
+            HoyolabToken? hoyolabToken = default;
+            if (needSign && !HoyolabTokenManage.TryGetTokenOrFirst(aid, out hoyolabToken))
             {
                 return new TerminalResponse<FullPostResponseWrapper>(SupportTerminalResponse.NotFindToken(aid));
             }
-            Token ??= new HoyolabToken();
-            FullPostRequestBuilderFactory Factory = new FullPostRequestBuilderFactory(Token).SetPostId(postId);
-            HttpResponse<FullPostResponse> Response = await Factory.Create().SendAsync<FullPostResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out FullPostResponseWrapper? FullPost))
+            hoyolabToken ??= new HoyolabToken();
+            FullPostRequestBuilderFactory factory = new FullPostRequestBuilderFactory(hoyolabToken).SetPostId(postId);
+            HttpResponse<FullPostResponse> response = await factory.Create().SendAsync<FullPostResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TrySerialize(out FullPostResponseWrapper? fullPost))
             {
-                return TerminalResponse.Create(true, $"[{FullPost.Post.PostId}]\x20{FullPost.Post.Subject}", FullPost);
+                return TerminalResponse.Create(true, $"[{fullPost.Post.PostId}]\x20{fullPost.Post.Subject}", fullPost);
             }
-            return new TerminalResponse<FullPostResponseWrapper>(false, Response.ToString());
+            return new TerminalResponse<FullPostResponseWrapper>(false, response.ToString());
         }
     }
 }

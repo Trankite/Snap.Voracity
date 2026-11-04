@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Web.Hoyolab.Takumi.Sign.Home
 {
-    public class SignHomeAnalyzedBody
+    public class SignAward
     {
         public int Today { get; set; }
 
@@ -10,9 +10,9 @@
 
         public string Icon { get; set; } = string.Empty;
 
-        public SignHomeAnalyzedBody() { }
+        public SignAward() { }
 
-        public SignHomeAnalyzedBody(int today, int count, string name, string icon)
+        public SignAward(int today, int count, string name, string icon)
         {
             Today = today;
             Count = count;

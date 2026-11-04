@@ -5,36 +5,36 @@ using Common.Source.Web.Request.Abstract;
 
 namespace Common.Source.Web.EHentai.Gallery
 {
-    public class GalleryHttpContentSerializer : HttpContentSerializer<GalleryAnalyzedBody>
+    public class GalleryHttpContentSerializer : HttpContentSerializer<GalleryFragment>
     {
-        public override async ValueTask<GalleryAnalyzedBody?> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
+        public override async ValueTask<GalleryFragment?> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
         {
-            GalleryAnalyzedBody AnalyzedBody = new();
-            using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));
-            await using IAsyncEnumerator<HtmlElement> AsyncEnumerator = Reader.GetAsyncEnumerator(cancellationToken);
-            while ((await AsyncEnumerator.MoveAsync().ConfigureAwait(false)).TryGetValue(out HtmlElement? HtmlElement))
+            GalleryFragment galleryFragment = new();
+            using HtmlReader reader = new(httpContent.ReadAsStream(cancellationToken));
+            await using IAsyncEnumerator<HtmlElement> asyncEnumerator = reader.GetAsyncEnumerator(cancellationToken);
+            while ((await asyncEnumerator.TryMoveNextAsync().ConfigureAwait(false)).TryGetValue(out HtmlElement? htmlElement))
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptt")
+                if (htmlElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptt")
                 {
-                    if (HtmlElement.Elements.TryGetFirst(out HtmlElement? TableElement))
+                    if (htmlElement.Elements.TryGetFirst(out HtmlElement? tableElement))
                     {
-                        if (TableElement.Elements.TryGetLast(out HtmlElement? EndedElement))
+                        if (tableElement.Elements.TryGetLast(out HtmlElement? endedElement))
                         {
-                            AnalyzedBody.IsEndOfPage = EndedElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptdd";
+                            galleryFragment.IsEndOfPage = endedElement.GetAttributeOrDefault(HtmlAttribute.Class) == "ptdd";
                         }
                     }
                 }
-                else if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Id) == "gdt")
+                else if (htmlElement.GetAttributeOrDefault(HtmlAttribute.Id) == "gdt")
                 {
-                    foreach (HtmlElement CurrentElement in HtmlElement.Elements)
+                    foreach (HtmlElement currentElement in htmlElement.Elements)
                     {
-                        AnalyzedBody.Images.Add(CurrentElement.GetAttributeOrDefault(HtmlAttribute.Href).NotNull());
+                        galleryFragment.Images.Add(currentElement.GetAttributeOrDefault(HtmlAttribute.Href).NotNull());
                     }
-                    return AnalyzedBody;
+                    return galleryFragment;
                 }
             }
-            return AnalyzedBody;
+            return galleryFragment;
         }
     }
 }

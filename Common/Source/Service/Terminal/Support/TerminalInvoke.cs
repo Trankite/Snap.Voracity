@@ -30,13 +30,13 @@ namespace Common.Source.Service.Terminal.Support
 
         public static ITerminalResponse Invoke(CommandParser parser, ITextStream? textStream = default)
         {
-            foreach (CommandLine Current in parser)
+            foreach (CommandLine current in parser)
             {
-                if (TerminalManage.CommandTable.TryGetValue(Current.Name, out ITerminalCommand? Command))
+                if (TerminalManage.CommandTable.TryGetValue(current.Name, out ITerminalCommand? command))
                 {
-                    if (Command.RequiredParameters.All(Current.HasParameter))
+                    if (command.RequiredParameters.All(current.HasParameter))
                     {
-                        Command.Invoke(Current, textStream).Configure(sender => textStream?.WriteLine(sender));
+                        command.Invoke(current, textStream).Configure(sender => textStream?.WriteLine(sender));
                     }
                     else
                     {
@@ -45,7 +45,7 @@ namespace Common.Source.Service.Terminal.Support
                 }
                 else
                 {
-                    textStream?.WriteLine(SupportTerminalResponse.UnknownOperation(Current.Name));
+                    textStream?.WriteLine(SupportTerminalResponse.UnknownOperation(current.Name));
                 }
             }
             return new TerminalResponse(true);

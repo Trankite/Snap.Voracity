@@ -44,13 +44,13 @@ namespace Common.Source.Web
                 Response = await HttpClient.SendAsync(Request, CompletionOption, cancellationToken).ConfigureAwait(false);
                 Response.EnsureSuccessStatusCode();
             }
-            catch (OperationCanceledException CanceledException)
+            catch (OperationCanceledException canceledException)
             {
-                CapturedException = new OperationCanceledException(LocalString.WebHttpRequestExceptionOperationTimeoutOrCanceled, CanceledException, cancellationToken).DispatchCapture(true);
+                CapturedException = new OperationCanceledException(LocalString.WebHttpRequestExceptionOperationTimeoutOrCanceled, canceledException, cancellationToken).DispatchCapture(true);
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                CapturedException = Exception.DispatchCapture();
+                CapturedException = exception.DispatchCapture();
             }
         }
 
@@ -69,8 +69,8 @@ namespace Common.Source.Web
 
         static HttpContext()
         {
-            HttpClientHandler Handler = new() { AllowAutoRedirect = false };
-            DefaultHttpClient = new HttpClient(Handler) { Timeout = Timeout.InfiniteTimeSpan };
+            HttpClientHandler handler = new() { AllowAutoRedirect = false };
+            DefaultHttpClient = new HttpClient(handler) { Timeout = Timeout.InfiniteTimeSpan };
             DefaultTimeoutSpan = TimeSpan.FromSeconds(15);
         }
     }

@@ -28,7 +28,7 @@ namespace Common.Source.Factory.Formula.Magical
             }
             else
             {
-                return double.TryParse(content, out double Number) ? new MagicalFormulaContent(Number) : null;
+                return double.TryParse(content, out double result) ? new MagicalFormulaContent(result) : null;
             }
         }
 

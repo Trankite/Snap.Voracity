@@ -17,14 +17,14 @@ namespace UIDesign.Source.UI.Control
 
         protected override void OnThumbDragCompleted(DragCompletedEventArgs e)
         {
-            double Target = GetTickValue(Value);
-            DoubleAnimation Animation = new(Target, ThumbDuration);
-            Animation.Completed += (sender, e) =>
+            double target = GetTickValue(Value);
+            DoubleAnimation animation = new(target, ThumbDuration);
+            animation.Completed += (sender, e) =>
             {
-                Value = Target;
+                Value = target;
                 BeginAnimation(ValueProperty, null);
             };
-            BeginAnimation(ValueProperty, Animation);
+            BeginAnimation(ValueProperty, animation);
         }
 
         protected override void OnValueChanged(double oldValue, double newValue)
@@ -66,9 +66,9 @@ namespace UIDesign.Source.UI.Control
 
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(Slider), new PropertyMetadata(default(string), TitleChangedCallback));
 
-        private static void TitleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void TitleChangedCallback(DependencyObject dependency, DependencyPropertyChangedEventArgs eventArguments)
         {
-            if (d is Slider ScopedSlider)
+            if (dependency is Slider ScopedSlider)
             {
                 ScopedSlider.Model.Title = ScopedSlider.Title;
             }

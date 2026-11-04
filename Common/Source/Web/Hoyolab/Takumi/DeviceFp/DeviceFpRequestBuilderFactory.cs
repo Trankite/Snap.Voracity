@@ -38,24 +38,24 @@ namespace Common.Source.Web.Hoyolab.Takumi.DeviceFp
 
         private static Dictionary<string, object> GetExtendFields()
         {
-            string Device = Random.Shared.GetUpperAndNumberString(12);
-            string Product = Random.Shared.GetUpperAndNumberString(6);
-            Dictionary<string, object> ExtendFields = new()
+            string device = Random.Shared.GetUpperAndNumberString(12);
+            string product = Random.Shared.GetUpperAndNumberString(6);
+            Dictionary<string, object> extendFields = new()
             {
                 ["proxyStatus"] = 0,
                 ["isRoot"] = 0,
                 ["romCapacity"] = "512",
-                ["deviceName"] = Device,
-                ["productName"] = Product,
+                ["deviceName"] = device,
+                ["productName"] = product,
                 ["romRemain"] = "512",
                 ["hostname"] = "Android-XiaoMi",
                 ["screenSize"] = "900x1600",
                 ["isTablet"] = 0,
                 ["aaid"] = string.Empty,
-                ["model"] = Device,
+                ["model"] = device,
                 ["brand"] = "XiaoMi",
                 ["hardware"] = "XiaoMi",
-                ["deviceType"] = Product,
+                ["deviceType"] = product,
                 ["devId"] = "REL",
                 ["serialNumber"] = "unknown",
                 ["sdCapacity"] = 512000,
@@ -94,9 +94,9 @@ namespace Common.Source.Web.Hoyolab.Takumi.DeviceFp
                 ["gyroscope"] = "0.0x0.0x0.0",
                 ["batteryStatus"] = 100,
                 ["hasKeyboard"] = 0,
-                ["board"] = Device
+                ["board"] = device
             };
-            return ExtendFields;
+            return extendFields;
         }
     }
 }

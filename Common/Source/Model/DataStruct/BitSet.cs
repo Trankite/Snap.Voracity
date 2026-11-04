@@ -1,4 +1,4 @@
-﻿namespace Common.Source.Model.DataStruct.Span
+﻿namespace Common.Source.Model.DataStruct
 {
     public class BitSet
     {
@@ -12,12 +12,12 @@
             Bytes = bytes;
         }
 
-        public static BitSet FromBitCount(int count)
+        public static BitSet Create(int count)
         {
             return new BitSet(count, new byte[(count + 7) >> 3]);
         }
 
-        public static BitSet FromBitBytes(byte[] bytes)
+        public static BitSet Create(byte[] bytes)
         {
             return new BitSet(bytes.Length * 8, bytes);
         }
@@ -38,19 +38,19 @@
             }
         }
 
-        public void Write(int dstIndex, int src, int srcBitCount)
+        public void Write(int destinationIndex, int source, int sourceBitCount)
         {
-            for (int i = 0; i < srcBitCount; i++)
+            for (int i = 0; i < sourceBitCount; i++)
             {
-                this[dstIndex + i] = (src & (1 << (srcBitCount - 1 - i))) != 0;
+                this[destinationIndex + i] = (source & (1 << (sourceBitCount - 1 - i))) != 0;
             }
         }
 
-        public void Write(int dstIndex, BitSet src, int srcIndex, int srcCount)
+        public void Write(int destinationIndex, BitSet source, int sourceIndex, int sourceCount)
         {
-            for (int i = 0; i < srcCount; i++)
+            for (int i = 0; i < sourceCount; i++)
             {
-                this[dstIndex + i] = src[srcIndex + i];
+                this[destinationIndex + i] = source[sourceIndex + i];
             }
         }
     }

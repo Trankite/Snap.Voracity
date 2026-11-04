@@ -7,9 +7,9 @@ namespace Common.Source.Service.Terminal.Metadata
 {
     public static class HoyolabTerminalResponse
     {
-        public static TerminalResponse NotFindUserRole(HoyolabApp gameType)
+        public static TerminalResponse NotFindUserRole(HoyolabApp hoyolabApp)
         {
-            return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabExceptionNotFindUserRole.SafeFormat(gameType));
+            return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabExceptionNotFindUserRole.SafeFormat(hoyolabApp));
         }
     }
 }

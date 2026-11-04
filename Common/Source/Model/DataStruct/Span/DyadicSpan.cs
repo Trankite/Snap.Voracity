@@ -2,13 +2,13 @@
 {
     public readonly ref struct DyadicSpan<T>
     {
-        public ReadOnlySpan<T> Front { get; }
+        public ReadOnlySpan<T> Head { get; }
 
         public ReadOnlySpan<T> Back { get; }
 
-        public DyadicSpan(ReadOnlySpan<T> front, ReadOnlySpan<T> back)
+        public DyadicSpan(ReadOnlySpan<T> head, ReadOnlySpan<T> back)
         {
-            Front = front;
+            Head = head;
             Back = back;
         }
     }

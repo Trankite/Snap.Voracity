@@ -9,9 +9,9 @@ namespace Common.Source.Web.EHentai.Builder
 
         public EHentaiHttpRequestMessageBuilderFactory() { }
 
-        public EHentaiHttpRequestMessageBuilderFactory(EHentaiToken eHentaiToken)
+        public EHentaiHttpRequestMessageBuilderFactory(EHentaiToken ehentaiToken)
         {
-            EHentaiToken = eHentaiToken;
+            EHentaiToken = ehentaiToken;
         }
 
         public abstract HttpRequestMessageBuilder Create();

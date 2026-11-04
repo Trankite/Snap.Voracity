@@ -21,13 +21,13 @@ namespace UIDesign.Source.Extension
         public static BitmapImage GetBitmapImage(Stream stream)
         {
             stream.Position = 0;
-            BitmapImage BitmapImage = new();
-            BitmapImage.BeginInit();
-            BitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-            BitmapImage.StreamSource = stream;
-            BitmapImage.EndInit();
-            BitmapImage.Freeze();
-            return BitmapImage;
+            BitmapImage bitmapImage = new();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.StreamSource = stream;
+            bitmapImage.EndInit();
+            bitmapImage.Freeze();
+            return bitmapImage;
         }
 
         [DebuggerStepThrough]
@@ -38,20 +38,20 @@ namespace UIDesign.Source.Extension
 
         static BitmapImageExtension()
         {
-            int Dpi = 96;
-            int Width = 32;
-            int Height = 32;
-            PngBitmapEncoder Encoder = new();
-            PixelFormat Format = PixelFormats.Pbgra32;
-            int Pixel = (Format.BitsPerPixel + 7) / 8;
-            Encoder.Frames.Add(BitmapFrame.Create(
+            int dpi = 96;
+            int width = 32;
+            int height = 32;
+            PngBitmapEncoder encoder = new();
+            PixelFormat format = PixelFormats.Pbgra32;
+            int pixel = (format.BitsPerPixel + 7) / 8;
+            encoder.Frames.Add(BitmapFrame.Create(
                 BitmapSource.Create(
-                    Width, Height, Dpi, Dpi, Format, null,
-                    new int[Pixel * Width * Height],
-                    Width * Pixel)));
-            using MemoryStream Stream = new();
-            Encoder.Save(Stream);
-            DefaultImage = GetBitmapImage(Stream);
+                    width, height, dpi, dpi, format, null,
+                    new int[pixel * width * height],
+                    width * pixel)));
+            using MemoryStream stream = new();
+            encoder.Save(stream);
+            DefaultImage = GetBitmapImage(stream);
         }
     }
 }

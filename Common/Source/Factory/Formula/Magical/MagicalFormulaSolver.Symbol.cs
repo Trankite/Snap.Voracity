@@ -265,7 +265,14 @@ namespace Common.Source.Factory.Formula.Magical
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return context.Start.IsNotNull() ? GetValue(context.Start, getter, setter) - GetValue(context.Ended, getter, setter) : -GetValue(context.Ended, getter, setter);
+                if (context.Start.IsNotNull())
+                {
+                    return GetValue(context.Start, getter, setter) - GetValue(context.Ended, getter, setter);
+                }
+                else
+                {
+                    return -GetValue(context.Ended, getter, setter);
+                }
             }
 
             public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
@@ -342,7 +349,11 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return ObjectExtension.OutSender(GetValue(context.FirstOrDefault(), getter, setter).ToInt() + 1, out int Maximum) > 0 ? Random.Shared.Next(Maximum) : double.NaN;
+                if (GetValue(context.FirstOrDefault(), getter, setter).ToInt().OutSender(out int maximum) < 0)
+                {
+                    return double.NaN;
+                }
+                return Random.Shared.Next(maximum);
             }
         }
 
@@ -354,7 +365,7 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return context.Min(Current => GetValue(Current, getter, setter));
+                return context.Min(current => GetValue(current, getter, setter));
             }
         }
 
@@ -366,7 +377,7 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return context.Max(Current => GetValue(Current, getter, setter));
+                return context.Max(current => GetValue(current, getter, setter));
             }
         }
 
@@ -378,7 +389,11 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.GetIndexValue(1), getter, setter).ToInt().OutSender(out int Digits).IsClamp(0, 15) ? Math.Round(GetValue(context.FirstOrDefault(), getter, setter), Digits, MidpointRounding.AwayFromZero) : double.NaN;
+                if (!GetValue(context.GetIndexValue(1), getter, setter).ToInt().OutSender(out int digits).IsClamp(0, 15))
+                {
+                    return double.NaN;
+                }
+                return Math.Round(GetValue(context.FirstOrDefault(), getter, setter), digits, MidpointRounding.AwayFromZero);
             }
         }
 
@@ -414,7 +429,11 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected override double MethodOverride(List<MagicalFormula> context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetValue(context.GetIndexValue(1), getter, setter).OutSender(out double Minimum) < GetValue(context.GetIndexValue(2), getter, setter).OutSender(out double Maximum) ? Math.Clamp(GetValue(context.FirstOrDefault(), getter, setter), Minimum, Maximum) : double.NaN;
+                if (GetValue(context.GetIndexValue(1), getter, setter).OutSender(out double minimum) >= GetValue(context.GetIndexValue(2), getter, setter).OutSender(out double maximum))
+                {
+                    return double.NaN;
+                }
+                return (double)Math.Clamp(GetValue(context.FirstOrDefault(), getter, setter), minimum, maximum);
             }
         }
     }

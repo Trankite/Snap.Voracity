@@ -3,7 +3,7 @@ using Common.Source.Factory.Serialize.Interface;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Common.Source.Factory.Serialize
+namespace Common.Source.Factory.Serialize.Abstract
 {
     public static class ContentSerializerExtension
     {

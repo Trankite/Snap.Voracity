@@ -3,6 +3,7 @@
     public enum SortType
     {
         Reply,
+
         Post
     }
 }

@@ -37,17 +37,17 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(string postId, bool isCancel = false, string? aid = default, CancellationToken cancellationToken = default)
         {
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? hoyolabToken))
             {
                 return SupportTerminalResponse.NotFindToken(aid);
             }
-            UpvoteRequestBuilderFactory Factory = new UpvoteRequestBuilderFactory(Token).SetPostId(postId).SetIsCancel(isCancel);
-            HttpResponse<UpvoteResponse> Response = await Factory.Create().SendAsync<UpvoteResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.Success)
+            UpvoteRequestBuilderFactory factory = new UpvoteRequestBuilderFactory(hoyolabToken).SetPostId(postId).SetIsCancel(isCancel);
+            HttpResponse<UpvoteResponse> response = await factory.Create().SendAsync<UpvoteResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.Success)
             {
                 return new TerminalResponse(true, StringExtension.SafeFormat(isCancel ? LocalString.ServiceTerminalHoyolabForumUpvoteCancelSuccess : LocalString.ServiceTerminalHoyolabForumUpvoteSuccess, postId));
             }
-            return new TerminalResponse(false, Response.ToString());
+            return new TerminalResponse(false, response.ToString());
         }
     }
 }

@@ -12,7 +12,10 @@ namespace UIDesign.Source.UI.Control
 
         private void TabItemCloseClick(object sender, RoutedEventArgs e)
         {
-            if (!e.Handled) RaiseEvent(new RoutedEventArgs(TabItemCloseEvent, this));
+            if (!e.Handled)
+            {
+                RaiseEvent(new RoutedEventArgs(TabItemCloseEvent, this));
+            }
         }
 
         public static readonly RoutedEvent TabItemCloseEvent = EventManager.RegisterRoutedEvent(nameof(TabItemCloseEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabItem));

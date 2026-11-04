@@ -7,7 +7,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static int Parse(ReadOnlySpan<char> value)
         {
-            return int.TryParse(value, out int Number) ? Number : 0;
+            return int.TryParse(value, out int result) ? result : 0;
         }
 
         [DebuggerStepThrough]

@@ -10,13 +10,13 @@ namespace Terminal
         [MTAThread]
         public static void Main(string[] options)
         {
-            TextStream TextStream = TextStream.FromConsole();
-            TerminalInvoke.Invoke(new CommandParser(options), TextStream);
+            TextStream textStream = TextStream.FromConsole();
+            TerminalInvoke.Invoke(new CommandParser(options), textStream);
             while (AppSetting.OnTerminal)
             {
-                TextStream.Write("HOST>\x20");
-                CommandParser CommandParser = CommandParser.Create(TextStream.ReadLine());
-                TerminalInvoke.Invoke(CommandParser, TextStream);
+                textStream.Write("HOST>\x20");
+                CommandParser commandParser = CommandParser.Create(textStream.ReadLine());
+                TerminalInvoke.Invoke(commandParser, textStream);
             }
         }
 

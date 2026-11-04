@@ -9,18 +9,18 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static async Task CopyToAsync(this Stream source, Stream destination, long bytesPerSecond, TimeSpan checkTimeSpan, CancellationToken cancellationToken = default)
         {
-            using CancellationTokenSource LinkedTokenSource = cancellationToken.CreateLinkedTokenSource();
-            Task StreamTrackTask = TrackStreamSpeed(destination, bytesPerSecond, checkTimeSpan, LinkedTokenSource.Token);
-            Task TrackCancelTask = LinkedTokenSource.CancelAfterTaskCompletedAsync(StreamTrackTask);
+            using CancellationTokenSource linkedTokenSource = cancellationToken.CreateLinkedTokenSource();
+            Task streamTrackTask = TrackStreamSpeed(destination, bytesPerSecond, checkTimeSpan, linkedTokenSource.Token);
+            Task trackCancelTask = linkedTokenSource.CancelAfterTaskCompletedAsync(streamTrackTask);
             try
             {
-                await source.CopyToAsync(destination, LinkedTokenSource.Token).ConfigureAwait(false);
+                await source.CopyToAsync(destination, linkedTokenSource.Token).ConfigureAwait(false);
             }
             catch (OperationCanceledException) { return; }
             finally
             {
-                LinkedTokenSource.Cancel();
-                await TrackCancelTask.ConfigureAwait(false);
+                linkedTokenSource.Cancel();
+                await trackCancelTask.ConfigureAwait(false);
             }
         }
 
@@ -29,17 +29,17 @@ namespace Common.Source.Extension
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                long CurrentPosition;
+                long currentPosition;
                 try
                 {
-                    long OriginalPosition = stream.Position;
+                    long originalPosition = stream.Position;
                     await Task.Delay(checkTimeSpan, cancellationToken).ConfigureAwait(false);
-                    CurrentPosition = stream.Position - OriginalPosition;
+                    currentPosition = stream.Position - originalPosition;
                 }
                 catch { return; }
-                if (CurrentPosition < bytesPerSecond * checkTimeSpan.TotalSeconds)
+                if (currentPosition < bytesPerSecond * checkTimeSpan.TotalSeconds)
                 {
-                    throw new TimeoutException(LocalString.ExtensionStreamCopyTimeoutException.SafeFormat(new DiskSize(CurrentPosition), checkTimeSpan.TotalSeconds));
+                    throw new TimeoutException(LocalString.ExtensionStreamCopyTimeoutException.SafeFormat(new DiskSize(currentPosition), checkTimeSpan.TotalSeconds));
                 }
             }
         }

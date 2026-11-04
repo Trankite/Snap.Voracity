@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Serialize.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
@@ -35,18 +35,18 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
 
         public static async ValueTask<ITerminalResponse<MissionInfo>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
         {
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? hoyolabToken))
             {
                 return new TerminalResponse<MissionInfo>(SupportTerminalResponse.NotFindToken(aid));
             }
-            MissionRequestBuilderFactory Factory = new MissionRequestBuilderFactory().SetHoyolabToken(Token);
-            HttpResponse<MissionResponse> Response = await Factory.Create().SendAsync<MissionResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out MissionInfo? MissionInfo))
+            MissionRequestBuilderFactory factory = new MissionRequestBuilderFactory().SetHoyolabToken(hoyolabToken);
+            HttpResponse<MissionResponse> response = await factory.Create().SendAsync<MissionResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TrySerialize(out MissionInfo? missionInfo))
             {
-                object[] FormatInfo = [MissionInfo.TotalPoint, MissionInfo.TodayPoint, MissionInfo.Mission.GetValueOrDefault(MissionType.Sign), MissionInfo.Mission.GetValueOrDefault(MissionType.View), MissionInfo.Mission.GetValueOrDefault(MissionType.Upvote), MissionInfo.Mission.GetValueOrDefault(MissionType.Share)];
-                return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabUserMissionInfoContent.SafeFormat(FormatInfo), MissionInfo);
+                object[] formatInfo = [missionInfo.TotalPoint, missionInfo.TodayPoint, missionInfo.Mission.GetValueOrDefault(MissionType.Sign), missionInfo.Mission.GetValueOrDefault(MissionType.View), missionInfo.Mission.GetValueOrDefault(MissionType.Upvote), missionInfo.Mission.GetValueOrDefault(MissionType.Share)];
+                return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabUserMissionInfoContent.SafeFormat(formatInfo), missionInfo);
             }
-            return new TerminalResponse<MissionInfo>(false, Response.ToString());
+            return new TerminalResponse<MissionInfo>(false, response.ToString());
         }
     }
 }

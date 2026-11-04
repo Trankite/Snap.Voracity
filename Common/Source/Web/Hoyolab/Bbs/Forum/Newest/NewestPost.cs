@@ -1,14 +1,14 @@
 ﻿namespace Common.Source.Web.Hoyolab.Bbs.Forum.Newest
 {
-    public class NewestAnalyzedBody
+    public class NewestPost
     {
-        public string PostId { get; set; } = string.Empty;
-
         public string Title { get; set; } = string.Empty;
 
-        public NewestAnalyzedBody() { }
+        public string PostId { get; set; } = string.Empty;
 
-        public NewestAnalyzedBody(string postId, string title)
+        public NewestPost() { }
+
+        public NewestPost(string postId, string title)
         {
             PostId = postId;
             Title = title;

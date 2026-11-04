@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Abstract
 {
-    public abstract class CyclicTerminalCommand : TerminalCommand
+    public abstract class TerminalCommandCyclic : TerminalCommand
     {
         protected abstract string HelpOverride { get; }
 

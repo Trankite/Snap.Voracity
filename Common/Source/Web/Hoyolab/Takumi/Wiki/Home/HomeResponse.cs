@@ -9,20 +9,20 @@ namespace Common.Source.Web.Hoyolab.Takumi.Wiki.Home
         public IEnumerator<HomeResponseCycle> GetEnumerator()
         {
             if (Content.IsNull()) yield break;
-            foreach (HomeResponseWrapper HomeResponseData in Content.List)
+            foreach (HomeResponseWrapper homeResponse in Content.List)
             {
-                yield return GetHomeContentCycle(HomeResponseData);
+                yield return GetHomeContentCycle(homeResponse);
             }
         }
 
-        private static HomeResponseCycle GetHomeContentCycle(HomeResponseWrapper homeResponseData)
+        private static HomeResponseCycle GetHomeContentCycle(HomeResponseWrapper homeResponse)
         {
-            HomeResponseCycle HomeResponseCycle = new(homeResponseData.Name, homeResponseData.List);
-            foreach (HomeResponseWrapper HomeContentDataChildren in homeResponseData.Children)
+            HomeResponseCycle homeResponseCycle = new(homeResponse.Name, homeResponse.List);
+            foreach (HomeResponseWrapper homeContentChildren in homeResponse.Children)
             {
-                HomeResponseCycle.Children.Add(GetHomeContentCycle(HomeContentDataChildren));
+                homeResponseCycle.Children.Add(GetHomeContentCycle(homeContentChildren));
             }
-            return HomeResponseCycle;
+            return homeResponseCycle;
         }
     }
 }

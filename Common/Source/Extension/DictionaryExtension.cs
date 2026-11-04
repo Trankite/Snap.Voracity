@@ -20,18 +20,18 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static IEnumerable<TKey> GetKeys<TKey, TValue>(this FrozenDictionary<TKey, TValue> frozenDictionary) where TKey : notnull
         {
-            foreach (KeyValuePair<TKey, TValue> keyValuePair in frozenDictionary)
+            foreach (KeyValuePair<TKey, TValue> currentKeyValuePair in frozenDictionary)
             {
-                yield return keyValuePair.Key;
+                yield return currentKeyValuePair.Key;
             }
         }
 
         [DebuggerStepThrough]
         public static IEnumerable<TValue> GetValues<TKey, TValue>(this FrozenDictionary<TKey, TValue> frozenDictionary) where TKey : notnull
         {
-            foreach (KeyValuePair<TKey, TValue> keyValuePair in frozenDictionary)
+            foreach (KeyValuePair<TKey, TValue> currentKeyValuePair in frozenDictionary)
             {
-                yield return keyValuePair.Value;
+                yield return currentKeyValuePair.Value;
             }
         }
     }

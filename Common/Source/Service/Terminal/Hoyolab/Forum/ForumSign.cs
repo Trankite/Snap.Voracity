@@ -36,17 +36,17 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         public static async ValueTask<ITerminalResponse> AsyncInvoke(HoyolabGroup group, string? aid = default, CancellationToken cancellationToken = default)
         {
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? hoyolabToken))
             {
                 return SupportTerminalResponse.NotFindToken(aid);
             }
-            SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetGroup(group);
-            HttpResponse<SignResponse> Response = await Factory.Create().SendAsync<SignResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.Success)
+            SignRequestBuilderFactory factory = new SignRequestBuilderFactory(hoyolabToken).SetGroup(group);
+            HttpResponse<SignResponse> response = await factory.Create().SendAsync<SignResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.Success)
             {
                 return new TerminalResponse(true, LocalString.ServiceTerminalHoyolabForumSignSuccess);
             }
-            return new TerminalResponse<SignResponseWrapper>(false, Response.ToString());
+            return new TerminalResponse<SignResponseWrapper>(false, response.ToString());
         }
     }
 }

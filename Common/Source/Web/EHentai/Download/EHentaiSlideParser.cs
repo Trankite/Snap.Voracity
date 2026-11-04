@@ -23,10 +23,10 @@ namespace Common.Source.Web.EHentai.Download
 
         public ITextStream? TextStream { get; set; }
 
-        public EHentaiSlideParser(Uri galleryUri, EHentaiToken? eHentaiToken = default, ITextStream? textStream = default)
+        public EHentaiSlideParser(Uri galleryUri, EHentaiToken? ehentaiToken = default, ITextStream? textStream = default)
         {
             TextStream = textStream;
-            BuilderFactory.SetEHentaiToken(eHentaiToken);
+            BuilderFactory.SetEHentaiToken(ehentaiToken);
             BuilderFactory.SetUrl(galleryUri);
         }
 
@@ -46,20 +46,20 @@ namespace Common.Source.Web.EHentai.Download
             while (!cancellationToken.IsCancellationRequested)
             {
                 BuilderFactory.SetPage(Index);
-                using HttpRequestMessageBuilder Builder = BuilderFactory.Create();
-                WriteMessage(Builder.RequestUri?.ToString());
-                HttpResponse<GalleryAnalyzedBody> Response = await Builder.SendAsync<GalleryAnalyzedBody>(cancellationToken).ConfigureAwait(false);
-                if (Response.Body.IsNull())
+                using HttpRequestMessageBuilder builder = BuilderFactory.Create();
+                WriteMessage(builder.RequestUri?.ToString());
+                HttpResponse<GalleryFragment> response = await builder.SendAsync<GalleryFragment>(cancellationToken).ConfigureAwait(false);
+                if (response.Body.IsNull())
                 {
-                    WriteMessage(Response.GetExceptionMessage());
-                    return FailedByException(Response.CapturedException);
+                    WriteMessage(response.GetExceptionMessage());
+                    return FailedByException(response.CapturedException);
                 }
-                foreach (string ImageUrl in Response.Body.Images)
+                foreach (string imageUrl in response.Body.Images)
                 {
-                    TicketQueue.Enqueue(QueueTicket.Create(++Count, ImageUrl));
+                    TicketQueue.Enqueue(QueueTicket.Create(++Count, imageUrl));
                 }
                 Index++;
-                if (Response.Body.IsEndOfPage)
+                if (response.Body.IsEndOfPage)
                 {
                     return GradualStatus.Completed;
                 }

@@ -1,4 +1,5 @@
 ﻿using Common.Source.Web.Hoyolab.Builder;
+using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Request.Abstract;
 using Common.Source.Web.Request.Builder.Abstract;
 using Common.Source.Web.Request.Interface;

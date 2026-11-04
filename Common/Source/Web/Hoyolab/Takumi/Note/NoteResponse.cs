@@ -3,11 +3,11 @@ using Common.Source.Web.Response;
 
 namespace Common.Source.Web.Hoyolab.Takumi.Note
 {
-    public class NoteResponse : ResponseWrapper<NoteResponseWrapper>, IContentSerializer<NoteAnalyzedBody?>
+    public class NoteResponse : ResponseWrapper<NoteResponseWrapper>, IContentSerializer<NoteStamina?>
     {
-        public NoteAnalyzedBody? Serialize()
+        public NoteStamina? Serialize()
         {
-            return TryGetContent(out NoteResponseWrapper? Content) ? new NoteAnalyzedBody(Content.CurrentStamina, Content.MaxStamina, DateTimeOffset.FromUnixTimeSeconds(Content.StaminaFullTs).ToLocalTime()) : default;
+            return TryGetContent(out NoteResponseWrapper? content) ? new NoteStamina(content.CurrentStamina, content.MaxStamina, DateTimeOffset.FromUnixTimeSeconds(content.StaminaFullTs).ToLocalTime()) : default;
         }
     }
 }

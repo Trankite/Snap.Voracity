@@ -1,14 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Common.Source.Factory.Compile.Property
+﻿namespace Common.Source.Factory.Compile.Property
 {
-    public interface IPropertyExpression<TValue>
-    {
-        bool TryGetValue([NotNullWhen(true)] out TValue? value);
-
-        bool TrySetValue(TValue? value);
-    }
-
     public interface IPropertyExpression<TSender, TValue>
     {
         Func<TSender, TValue> GetValue { get; }
@@ -16,9 +7,5 @@ namespace Common.Source.Factory.Compile.Property
         Action<TSender, TValue?> SetValue { get; }
 
         Func<TSender?, bool> NullCheck { get; }
-
-        bool TryGetValue(TSender? sender, [NotNullWhen(true)] out TValue? value);
-
-        bool TrySetValue(TSender? sender, TValue? value);
     }
 }

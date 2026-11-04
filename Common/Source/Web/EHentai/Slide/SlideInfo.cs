@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Web.EHentai.Slide
 {
-    public class SlideAnalyzedBody
+    public class SlideInfo
     {
         public string Title { get; set; } = string.Empty;
 

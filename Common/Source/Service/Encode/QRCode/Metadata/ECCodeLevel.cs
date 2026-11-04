@@ -3,8 +3,11 @@
     public enum ECCodeLevel
     {
         L,
+
         M,
+
         Q,
+
         H
     }
 }

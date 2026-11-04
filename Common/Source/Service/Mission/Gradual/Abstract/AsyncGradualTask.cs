@@ -16,9 +16,9 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             {
                 Status = await StartAsyncOverride(cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                Status = FailedByException(Exception);
+                Status = FailedByException(exception);
             }
         }
 
@@ -43,9 +43,9 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             {
                 Status = await RetryAsyncOverride(cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                Status = FailedByException(Exception);
+                Status = FailedByException(exception);
             }
             finally
             {

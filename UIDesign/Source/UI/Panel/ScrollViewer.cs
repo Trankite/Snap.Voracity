@@ -5,16 +5,20 @@ namespace UIDesign.Source.UI.Panel
 {
     public class ScrollViewer : System.Windows.Controls.ScrollViewer
     {
-        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        protected override void OnMouseWheel(MouseWheelEventArgs eventArguments)
         {
             if (VerticalScrollBarVisibility == ScrollBarVisibility.Disabled)
             {
-                if (HorizontalScrollBarVisibility == ScrollBarVisibility.Disabled) return;
-                ScrollToHorizontalOffset(HorizontalOffset - e.Delta); e.Handled = true;
+                if (HorizontalScrollBarVisibility == ScrollBarVisibility.Disabled)
+                {
+                    return;
+                }
+                ScrollToHorizontalOffset(HorizontalOffset - eventArguments.Delta);
+                eventArguments.Handled = true;
             }
-            else if (e.Delta >= 0 ? VerticalOffset > 0 : ViewportHeight + VerticalOffset < ExtentHeight)
+            else if (eventArguments.Delta >= 0 ? VerticalOffset > 0 : ViewportHeight + VerticalOffset < ExtentHeight)
             {
-                ScrollToVerticalOffset(VerticalOffset - e.Delta);
+                ScrollToVerticalOffset(VerticalOffset - eventArguments.Delta);
             }
         }
     }

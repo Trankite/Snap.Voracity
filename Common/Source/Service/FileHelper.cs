@@ -32,11 +32,11 @@ namespace Common.Source.Service
         {
             if (OperatingSystem.IsWindows())
             {
-                using Process WindowsOpen = Process.Start("explorer", File.Exists(filePath) ? $"/select,\"{filePath}\"" : $"\"{filePath}\"");
+                using Process windowsOpen = Process.Start("explorer", File.Exists(filePath) ? $"/select,\"{filePath}\"" : $"\"{filePath}\"");
             }
             else if (OperatingSystem.IsMacOS())
             {
-                using Process MacOpen = Process.Start("open", $"-R \"{filePath}\"");
+                using Process macOpen = Process.Start("open", $"-R\x20\"{filePath}\"");
             }
             return filePath;
         }

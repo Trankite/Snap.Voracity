@@ -2,9 +2,9 @@
 {
     public readonly struct LocalPoint
     {
-        public readonly int X;
+        public int X { get; }
 
-        public readonly int Y;
+        public int Y { get; }
 
         public LocalPoint(int x, int y)
         {

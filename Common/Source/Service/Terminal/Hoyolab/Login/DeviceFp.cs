@@ -29,13 +29,13 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
 
         public static async ValueTask<ITerminalResponse<DeviceFpResponseWrapper>> AsyncInvoke(CancellationToken cancellationToken = default)
         {
-            DeviceFpRequestBuilderFactory Factory = new();
-            HttpResponse<DeviceFpResponse> Response = await Factory.Create().SendAsync<DeviceFpResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetDeviceFp(out string? DeviceFp))
+            DeviceFpRequestBuilderFactory factory = new();
+            HttpResponse<DeviceFpResponse> response = await factory.Create().SendAsync<DeviceFpResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TryGetDeviceFp(out string? deviceFp))
             {
-                return TerminalResponse.Create(true, DeviceFp, Response.Body.Content);
+                return TerminalResponse.Create(true, deviceFp, response.Body.Content);
             }
-            return new TerminalResponse<DeviceFpResponseWrapper>(false, Response.ToString());
+            return new TerminalResponse<DeviceFpResponseWrapper>(false, response.ToString());
         }
     }
 }

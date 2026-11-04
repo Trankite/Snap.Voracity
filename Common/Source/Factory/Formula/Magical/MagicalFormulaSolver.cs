@@ -22,10 +22,16 @@ namespace Common.Source.Factory.Formula.Magical
 
         public static double GetValue(MagicalFormula? formula, Func<string, double>? getter = default, Func<string, double, double>? setter = default, double defaultValue = double.NaN)
         {
-            if (formula.IsNull()) return defaultValue;
+            if (formula.IsNull())
+            {
+                return defaultValue;
+            }
             if (formula.Start.IsNull() && formula.Ended.IsNull())
             {
-                if (formula.Content.IsNull()) return defaultValue;
+                if (formula.Content.IsNull())
+                {
+                    return defaultValue;
+                }
                 if (string.IsNullOrEmpty(formula.Content.Target))
                 {
                     return formula.Content.Number;
@@ -37,34 +43,47 @@ namespace Common.Source.Factory.Formula.Magical
 
         public static double SetValue(MagicalFormula? formula, double value, Func<string, double, double>? setter)
         {
-            return setter.IsNotNull() && !string.IsNullOrEmpty(formula?.Content?.Target) ? setter(formula.Content.Target, value) : value;
+            if (setter.IsNull() || string.IsNullOrEmpty(formula?.Content?.Target))
+            {
+                return value;
+            }
+            return setter(formula.Content.Target, value);
         }
 
         public static List<MagicalFormula> GetMethodContext(MagicalFormula? formula)
         {
-            if (formula.IsNull()) return [];
-            List<MagicalFormula> Context = [];
-            Stack<MagicalFormula> FormulaStack = new();
-            FormulaStack.Push(formula);
-            while (FormulaStack.TryPop(out MagicalFormula? Current))
+            if (formula.IsNull())
             {
-                if (Current.Symbol.IsSeparatorSymbol)
-                {
-                    Current.PushToStack(FormulaStack);
-                }
-                else Context.Add(Current);
+                return [];
             }
-            return Context;
+            List<MagicalFormula> context = [];
+            Stack<MagicalFormula> formulaStack = new();
+            formulaStack.Push(formula);
+            while (formulaStack.TryPop(out MagicalFormula? current))
+            {
+                if (!current.Symbol.IsSeparatorSymbol)
+                {
+                    context.Add(current);
+                }
+                else
+                {
+                    current.PushToStack(formulaStack);
+                }
+            }
+            return context;
         }
 
         public bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
         {
-            Stack<MagicalFormula> FormulaStack = new();
-            FormulaStack.Push(formula);
-            while (FormulaStack.TryPop(out MagicalFormula? Current))
+            Stack<MagicalFormula> formulaStack = new();
+            formulaStack.Push(formula);
+            while (formulaStack.TryPop(out MagicalFormula? Current))
             {
-                if (!Current.Symbol.Verify(Current, out message)) return false;
-                Current.PushToStack(FormulaStack);
+                if (!Current.Symbol.Verify(Current, out message))
+                {
+                    return false;
+                }
+                Current.PushToStack(formulaStack);
             }
             return true.Configure(message = default);
         }

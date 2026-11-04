@@ -7,14 +7,14 @@ namespace Common.Source.Web.Hoyolab.DataSign
     {
         public static string GetDataSign(this DataSignOptions options)
         {
-            long UnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            string Content = $"salt={options.Salt}&t={UnixTime}&r={options.RandomString}";
+            long unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            string content = $"salt={options.Salt}&t={unixTime}&r={options.RandomString}";
             if (options.Algorithm >= DataSignAlgorithm.Gen2)
             {
-                Content = $"{Content}&b={options.Body}&q={options.Query}";
+                content = $"{content}&b={options.Body}&q={options.Query}";
             }
-            string Check = HashMethod.ToHexStringLower(HashAlgorithmName.MD5, Content);
-            return $"{UnixTime},{options.RandomString},{Check}";
+            string check = HashMethod.ToHexStringLower(HashAlgorithmName.MD5, content);
+            return $"{unixTime},{options.RandomString},{check}";
         }
     }
 }

@@ -26,22 +26,22 @@ namespace Common.Source.Service.Terminal.Support
         {
             const int Margin = 4;
             const int Padding = 12;
-            if (commandLine.TryGetParameter(Param_CommandName, out string? CommandName))
+            if (commandLine.TryGetParameter(Param_CommandName, out string? commandName))
             {
-                if (!TerminalManage.CommandTable.TryGetValue(CommandName, out ITerminalCommand? Command))
+                if (!TerminalManage.CommandTable.TryGetValue(commandName, out ITerminalCommand? command))
                 {
-                    return SupportTerminalResponse.UnknownOperation(CommandName);
+                    return SupportTerminalResponse.UnknownOperation(commandName);
                 }
-                string[] Parameters = [.. Command.RequiredParameters, .. Command.OptionalParameters];
-                int Maximum = Parameters.Length > 0 ? Parameters.Max(current => current.Length) + Margin : Margin;
-                for (int i = 0; i < Parameters.Length; i++)
+                string[] parameters = [.. command.RequiredParameters, .. command.OptionalParameters];
+                int maximum = parameters.Length > 0 ? parameters.Max(current => current.Length) + Margin : Margin;
+                for (int i = 0; i < parameters.Length; i++)
                 {
-                    Parameters[i] = $"-{Parameters[i]}{new string('\x20', Maximum - Parameters[i].Length)}{(i < Command.RequiredParameters.Length ? '*' : string.Empty)}";
+                    parameters[i] = $"-{parameters[i]}{new string('\x20', maximum - parameters[i].Length)}{(i < command.RequiredParameters.Length ? '*' : string.Empty)}";
                 }
-                return new TerminalResponse(true, Command.Help.SafeFormat(Parameters));
+                return new TerminalResponse(true, command.Help.SafeFormat(parameters));
             }
-            IEnumerable<string> Commands = TerminalManage.CommandTable.GetValues().Select(current => current.Name.PadRight(Padding) + current.FullName);
-            return new TerminalResponse(true, string.Join(Environment.NewLine, Commands));
+            IEnumerable<string> commandEnumerable = TerminalManage.CommandTable.GetValues().Select(current => current.Name.PadRight(Padding) + current.FullName);
+            return new TerminalResponse(true, string.Join(Environment.NewLine, commandEnumerable));
         }
     }
 }

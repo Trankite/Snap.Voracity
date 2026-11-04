@@ -51,72 +51,72 @@ namespace Common.Source.Service.Terminal.Hoyolab.Login
                 guid = HoyolabTokenManage.GetGuid();
             }
             textStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCreate);
-            ITerminalResponse<QRLoginResponseWrapper> CreateQRLoginResponse = await CreateQRLogin(guid, cancellationToken).ConfigureAwait(false);
-            if (!CreateQRLoginResponse.TryGetContent(out QRLoginResponseWrapper? CreateQRLoginContent))
+            ITerminalResponse<QRLoginResponseWrapper> createQRLoginResponse = await CreateQRLogin(guid, cancellationToken).ConfigureAwait(false);
+            if (!createQRLoginResponse.TryGetContent(out QRLoginResponseWrapper? createQRLoginContent))
             {
-                return CreateQRLoginResponse;
+                return createQRLoginResponse;
             }
-            string Url = CreateQRLoginContent.Url;
-            string Ticket = CreateQRLoginContent.Ticket;
-            FileFormat QRCodeFormat = FileFormat.Svg;
-            string QRCodeName = QRCodeFormat.ChangeExtension(nameof(QRLogin));
-            string QRCodePath = Path.Combine(LocalSetting.GetTempPath(), QRCodeName);
-            ITerminalResponse CreateQRCodeResponse = QRCodeGenerator.Invoke(Url, QRCodePath);
-            if (!CreateQRCodeResponse.Success)
+            string url = createQRLoginContent.Url;
+            string ticket = createQRLoginContent.Ticket;
+            FileFormat qrcodeFormat = FileFormat.Svg;
+            string qrcodeName = qrcodeFormat.ChangeExtension(nameof(QRLogin));
+            string qrcodePath = Path.Combine(LocalSetting.GetTempPath(), qrcodeName);
+            ITerminalResponse createQRCodeResponse = QRCodeGenerator.Invoke(url, qrcodePath);
+            if (!createQRCodeResponse.Success)
             {
-                return CreateQRCodeResponse;
+                return createQRCodeResponse;
             }
-            using FileCleaner Cleaner = new(QRCodePath, true);
-            using Process QRCodeProcess = ProcessHelper.Start(QRCodePath, true);
-            using CancellationTokenSource TimeOutSource = new(TimeSpan.FromMinutes(5));
-            using CancellationTokenSource CheckStatusSource = CancellationTokenSource.CreateLinkedTokenSource(TimeOutSource.Token, cancellationToken);
+            using FileCleaner cleaner = new(qrcodePath, true);
+            using Process qrcodeProcess = ProcessHelper.Start(qrcodePath, true);
+            using CancellationTokenSource checkStatusSource = cancellationToken.CreateLinkedTokenSource();
+            checkStatusSource.CancelAfter(TimeSpan.FromMinutes(5));
             textStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginShowQRCode);
-            while (await textStream.EnquireAsync(LocalString.ServiceTerminalHoyolabLoginQRLoginCheckLogin, CheckStatusSource.Token))
+            while (await textStream.EnquireAsync(LocalString.ServiceTerminalHoyolabLoginQRLoginCheckLogin, checkStatusSource.Token))
             {
-                ITerminalResponse<QRLoginStatusResponseWrapper> QRLoginStatusResponse = await CheckStatus(guid, Ticket, CheckStatusSource.Token).ConfigureAwait(false);
-                if (!QRLoginStatusResponse.TryGetContent(out QRLoginStatusResponseWrapper? QRLoginStatusContent))
+                ITerminalResponse<QRLoginStatusResponseWrapper> qrloginStatusResponse = await CheckStatus(guid, ticket, checkStatusSource.Token).ConfigureAwait(false);
+                if (!qrloginStatusResponse.TryGetContent(out QRLoginStatusResponseWrapper? qrloginStatusContent))
                 {
-                    return QRLoginStatusResponse;
+                    return qrloginStatusResponse;
                 }
-                if (EnumExtension.Parse<QRLoginStatus>(QRLoginStatusContent.Status) == QRLoginStatus.Confirmed)
+                if (EnumExtension.Parse<QRLoginStatus>(qrloginStatusContent.Status) == QRLoginStatus.Confirmed)
                 {
-                    HoyolabToken HoyolabToken = new(guid);
-                    QRLoginStatusResponseUserInfo UserInfo = QRLoginStatusContent.UserInfo;
-                    HoyolabToken.Aid = UserInfo.Aid;
-                    HoyolabToken.Mid = UserInfo.Mid;
-                    foreach (QRLoginStatusResponseToken TokenSource in QRLoginStatusContent.Tokens)
+                    HoyolabToken hoyolabToken = new(guid);
+                    QRLoginStatusResponseUserInfo userInfo = qrloginStatusContent.UserInfo;
+                    hoyolabToken.Aid = userInfo.Aid;
+                    hoyolabToken.Mid = userInfo.Mid;
+                    foreach (QRLoginStatusResponseToken tokenSource in qrloginStatusContent.Tokens)
                     {
-                        HoyolabTokenType TokenType = (HoyolabTokenType)TokenSource.TokenType;
-                        textStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.SafeFormat(TokenType));
-                        HoyolabToken.SetToken(TokenType, TokenSource.Token);
+                        HoyolabTokenType tokenType = (HoyolabTokenType)tokenSource.TokenType;
+                        textStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginGetToken.SafeFormat(tokenType));
+                        hoyolabToken.SetToken(tokenType, tokenSource.Token);
                     }
-                    return await UserLogin.AsyncInvoke(HoyolabToken, textStream, cancellationToken).ConfigureAwait(false);
+                    return await UserLogin.AsyncInvoke(hoyolabToken, textStream, cancellationToken).ConfigureAwait(false);
                 }
-                textStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCheckStatus.SafeFormat(QRLoginStatusContent.Status));
+                textStream.WriteLine(LocalString.ServiceTerminalHoyolabLoginQRLoginCheckStatus.SafeFormat(qrloginStatusContent.Status));
             }
             return new TerminalResponse(false, LocalString.ServiceTerminalHoyolabLoginQRLoginExceptionCanceled);
         }
 
         private static async ValueTask<ITerminalResponse<QRLoginResponseWrapper>> CreateQRLogin(string guid, CancellationToken cancellationToken = default)
         {
-            QRLoginRequestBuilderFactory Factory = new QRLoginRequestBuilderFactory().SetGuid(guid);
-            HttpResponse<QRLoginResponse> Response = await Factory.Create().SendAsync<QRLoginResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetContent(out QRLoginResponseWrapper? QRLoginInfo))
+            QRLoginRequestBuilderFactory factory = new QRLoginRequestBuilderFactory().SetGuid(guid);
+            HttpResponse<QRLoginResponse> response = await factory.Create().SendAsync<QRLoginResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TryGetContent(out QRLoginResponseWrapper? qrloginInfo))
             {
-                return TerminalResponse.Create(true, QRLoginInfo);
+                return TerminalResponse.Create(true, qrloginInfo);
             }
-            return new TerminalResponse<QRLoginResponseWrapper>(false, Response.ToString());
+            return new TerminalResponse<QRLoginResponseWrapper>(false, response.ToString());
         }
 
         private static async ValueTask<ITerminalResponse<QRLoginStatusResponseWrapper>> CheckStatus(string guid, string ticket, CancellationToken cancellationToken = default)
         {
-            QRLoginStatusRequestBuilderFactory Factory = new QRLoginStatusRequestBuilderFactory().SetGuid(guid).SetTicket(ticket);
-            HttpResponse<QRLoginStatusResponse> Response = await Factory.Create().SendAsync<QRLoginStatusResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetContent(out QRLoginStatusResponseWrapper? QRLoginStatus))
+            QRLoginStatusRequestBuilderFactory factory = new QRLoginStatusRequestBuilderFactory().SetGuid(guid).SetTicket(ticket);
+            HttpResponse<QRLoginStatusResponse> response = await factory.Create().SendAsync<QRLoginStatusResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TryGetContent(out QRLoginStatusResponseWrapper? qrloginStatus))
             {
-                return TerminalResponse.Create(true, QRLoginStatus);
+                return TerminalResponse.Create(true, qrloginStatus);
             }
-            return new TerminalResponse<QRLoginStatusResponseWrapper>(false, Response.ToString());
+            return new TerminalResponse<QRLoginStatusResponseWrapper>(false, response.ToString());
         }
     }
 }

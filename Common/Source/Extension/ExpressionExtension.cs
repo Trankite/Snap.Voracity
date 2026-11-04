@@ -8,15 +8,15 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static MemberExpression? MemberExpression(this Expression expression)
         {
-            if (expression is not MemberExpression MemberExpression)
+            if (expression is not MemberExpression memberExpression)
             {
-                if (expression is UnaryExpression UnaryExpression && UnaryExpression.NodeType == ExpressionType.Convert)
+                if (expression is UnaryExpression unaryExpression && unaryExpression.NodeType == ExpressionType.Convert)
                 {
-                    return UnaryExpression.Operand.MemberExpression();
+                    return unaryExpression.Operand.MemberExpression();
                 }
                 return null;
             }
-            return MemberExpression;
+            return memberExpression;
         }
 
         [DebuggerStepThrough]
@@ -33,14 +33,14 @@ namespace Common.Source.Extension
 
         private static string GetFullName(MemberExpression? memberExpression)
         {
-            Stack<string> PathStack = new();
+            Stack<string> pathStack = new();
             while (memberExpression.IsNotNull())
             {
-                PathStack.Push(memberExpression.Member.Name);
+                pathStack.Push(memberExpression.Member.Name);
                 if (memberExpression.Expression is not MemberExpression ParentExpression) break;
                 memberExpression = ParentExpression;
             }
-            return string.Join('.', PathStack);
+            return string.Join('.', pathStack);
         }
     }
 }

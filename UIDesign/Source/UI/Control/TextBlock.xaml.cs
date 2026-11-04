@@ -22,11 +22,11 @@ namespace UIDesign.Source.UI.Control
 
         private static readonly DependencyProperty TipTextProperty = DependencyProperty.Register(nameof(TipText), typeof(string), typeof(TextBlock), new PropertyMetadata(default, TipTextChangedCallBack));
 
-        private static void TipTextChangedCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void TipTextChangedCallBack(DependencyObject dependency, DependencyPropertyChangedEventArgs eventArguments)
         {
-            if (d is TextBlock ScopedTextBlock)
+            if (dependency is TextBlock textBlock)
             {
-                SetToolTip(ScopedTextBlock, e.NewValue as string);
+                SetToolTip(textBlock, eventArguments.NewValue as string);
             }
         }
 
@@ -38,45 +38,54 @@ namespace UIDesign.Source.UI.Control
 
         private static readonly DependencyProperty TipOnlyTrimProperty = DependencyProperty.Register(nameof(TipOnlyTrim), typeof(bool), typeof(TextBlock), new PropertyMetadata(false, TipOnlyTrimChangedCallBack));
 
-        private static void TipOnlyTrimChangedCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void TipOnlyTrimChangedCallBack(DependencyObject dependency, DependencyPropertyChangedEventArgs eventArguments)
         {
-            if (d is TextBlock ScopedTextBlock)
+            if (dependency is TextBlock textBlock)
             {
-                ScopedTextBlock.EnabledToolTip();
+                textBlock.EnabledToolTip();
             }
         }
 
-        private static void SetToolTip(TextBlock scopedTextBlock, string? tipText)
+        private static void SetToolTip(TextBlock textBlock, string? tipText)
         {
             if (string.IsNullOrEmpty(tipText))
             {
-                scopedTextBlock.ToolTip = default;
+                textBlock.ToolTip = default;
             }
             else
             {
-                if (scopedTextBlock.ToolTip is ToolTip ScopedToolTip)
+                if (textBlock.ToolTip is ToolTip toolTip)
                 {
-                    ScopedToolTip.Text = tipText;
+                    toolTip.Text = tipText;
                 }
                 else
                 {
-                    scopedTextBlock.ToolTip = new ToolTip(tipText);
-                    scopedTextBlock.EnabledToolTip();
+                    textBlock.ToolTip = new ToolTip(tipText);
+                    textBlock.EnabledToolTip();
                 }
             }
         }
 
         public Size GetTextSize()
         {
-            Typeface Typeface = new(FontFamily, FontStyle, FontWeight, FontStretch);
-            FormattedText FormattedText = new(Text, CultureInfo.CurrentCulture, FlowDirection, Typeface, FontSize, Foreground, AppSetting.PixelsPerDip);
-            return new Size(FormattedText.Width, FormattedText.Height);
+            Typeface typeface = new(FontFamily, FontStyle, FontWeight, FontStretch);
+            FormattedText formattedText = new(Text, CultureInfo.CurrentCulture, FlowDirection, typeface, FontSize, Foreground, AppSetting.PixelsPerDip);
+            return new Size(formattedText.Width, formattedText.Height);
         }
 
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e) => EnabledToolTip();
+        private void OnSizeChanged(object sender, SizeChangedEventArgs eventArguments)
+        {
+            EnabledToolTip();
+        }
 
-        private void EnabledToolTip() => ToolTipService.SetIsEnabled(this, !TipOnlyTrim || IsTextTrimmed());
+        private void EnabledToolTip()
+        {
+            ToolTipService.SetIsEnabled(this, !TipOnlyTrim || IsTextTrimmed());
+        }
 
-        public bool IsTextTrimmed() => GetTextSize().Width - 0.1 > ActualWidth;
+        public bool IsTextTrimmed()
+        {
+            return GetTextSize().Width - 0.1 > ActualWidth;
+        }
     }
 }

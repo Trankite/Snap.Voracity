@@ -35,17 +35,17 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         public static async ValueTask<ITerminalResponse<ShareResponseWrapper>> AsyncInvoke(string postId, string? aid = default, CancellationToken cancellationToken = default)
         {
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? hoyolabToken))
             {
                 return new TerminalResponse<ShareResponseWrapper>(SupportTerminalResponse.NotFindToken(aid));
             }
-            ShareRequestBuilderFactory Factory = new ShareRequestBuilderFactory(Token).SetEntityType(EntityType.Post).SetEntityId(postId);
-            HttpResponse<ShareResponse> Response = await Factory.Create().SendAsync<ShareResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetContent(out ShareResponseWrapper? ShareInfo))
+            ShareRequestBuilderFactory factory = new ShareRequestBuilderFactory(hoyolabToken).SetEntityType(EntityType.Post).SetEntityId(postId);
+            HttpResponse<ShareResponse> response = await factory.Create().SendAsync<ShareResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TryGetContent(out ShareResponseWrapper? shareInfo))
             {
-                return TerminalResponse.Create(true, $"{ShareInfo.Title}\n{ShareInfo.Url}", ShareInfo);
+                return TerminalResponse.Create(true, $"{shareInfo.Title}\n{shareInfo.Url}", shareInfo);
             }
-            return new TerminalResponse<ShareResponseWrapper>(false, Response.ToString());
+            return new TerminalResponse<ShareResponseWrapper>(false, response.ToString());
         }
     }
 }

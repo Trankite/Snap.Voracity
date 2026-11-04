@@ -26,41 +26,53 @@ namespace Common.Source.Factory.Formula
 
         public TFormula? Parse(ReadOnlySpan<char> formula)
         {
-            int Index = -1;
-            int Offset = 0;
-            Stack<TSymbol> SymbolStack = new();
-            Stack<TFormula?> FormulaStack = new();
-            while (++Index < formula.Length)
+            int index = -1;
+            int offset = 0;
+            Stack<TSymbol> symbolStack = new();
+            Stack<TFormula?> formulaStack = new();
+            while (++index < formula.Length)
             {
-                TSymbol? Symbol = MoveNextSymbol(formula[Index..], ref Index);
-                if (Symbol.IsNotNull())
+                TSymbol? symbol = MoveNextSymbol(formula[index..], ref index);
+                if (symbol.IsNotNull())
                 {
-                    ReadOnlySpan<char> Context = formula[Offset..Index];
-                    AppendSplitFormula(Context, Symbol, FormulaStack, SymbolStack);
-                    if (!AppendSymbol(Symbol, FormulaStack, SymbolStack)) return default;
-                    Offset = (Index += Symbol.Name.Length - 1) + 1;
+                    ReadOnlySpan<char> context = formula[offset..index];
+                    AppendSplitFormula(context, symbol, formulaStack, symbolStack);
+                    if (!AppendSymbol(symbol, formulaStack, symbolStack))
+                    {
+                        return default;
+                    }
+                    offset = (index += symbol.Name.Length - 1) + 1;
                 }
             }
-            if (Offset <= formula.Length)
+            if (offset <= formula.Length)
             {
-                AppendEndedFormula(formula[Offset..formula.Length], FormulaStack, SymbolStack);
+                AppendEndedFormula(formula[offset..formula.Length], formulaStack, symbolStack);
             }
-            while (SymbolStack.Count >= 1)
+            while (symbolStack.Count >= 1)
             {
-                if (!FormulaCombine(FormulaStack, SymbolStack)) return default;
+                if (!FormulaCombine(formulaStack, symbolStack))
+                {
+                    return default;
+                }
             }
-            return FormulaStack.PopOrDefault();
+            return formulaStack.PopOrDefault();
         }
 
         private bool AppendSymbol(TSymbol symbol, Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
         {
             if (symbol.IsEndedSymbol)
             {
-                while (symbolStack.TryPeek(out TSymbol? Current) && !Current.IsStartSymbol)
+                while (symbolStack.TryPeek(out TSymbol? current) && !current.IsStartSymbol)
                 {
-                    if (!FormulaCombine(formulaStack, symbolStack)) return false;
+                    if (!FormulaCombine(formulaStack, symbolStack))
+                    {
+                        return false;
+                    }
                 }
-                if (!symbolStack.TryPop(out TSymbol? _)) return false;
+                if (symbolStack.Count == 0)
+                {
+                    return false;
+                }
             }
             else
             {
@@ -68,7 +80,10 @@ namespace Common.Source.Factory.Formula
                 {
                     while (symbolStack.TryPeek(out TSymbol? Current) && !Current.IsStartSymbol && Current.Order >= symbol.Order)
                     {
-                        if (!FormulaCombine(formulaStack, symbolStack)) return false;
+                        if (!FormulaCombine(formulaStack, symbolStack))
+                        {
+                            return false;
+                        }
                     }
                 }
                 symbolStack.Push(symbol);
@@ -78,11 +93,11 @@ namespace Common.Source.Factory.Formula
 
         private bool FormulaCombine(Stack<TFormula?> formulaStack, Stack<TSymbol> symbolStack)
         {
-            if (symbolStack.TryPop(out TSymbol? Symbol) && !Symbol.IsStartSymbol)
+            if (symbolStack.TryPop(out TSymbol? symbol) && !symbol.IsStartSymbol)
             {
                 if (formulaStack.Count >= 2)
                 {
-                    formulaStack.Push(GetFormula(formulaStack.Pop(), Symbol, formulaStack.Pop()));
+                    formulaStack.Push(GetFormula(formulaStack.Pop(), symbol, formulaStack.Pop()));
                     return true;
                 }
             }

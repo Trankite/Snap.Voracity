@@ -11,7 +11,10 @@ namespace UIDesign.Source.UI.Control
             InitializeComponent();
         }
 
-        private void CheckBoxClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CheckChargedEvent, this).Configure(Flag = !Flag));
+        private void CheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(CheckChargedEvent, this).Configure(Flag = !Flag));
+        }
 
         public static readonly RoutedEvent CheckChargedEvent = EventManager.RegisterRoutedEvent(nameof(CheckChargedEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CheckBox));
 
@@ -37,9 +40,9 @@ namespace UIDesign.Source.UI.Control
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(CheckBox), new PropertyMetadata(OnTextCharged));
 
-        private static void OnTextCharged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnTextCharged(DependencyObject dependency, DependencyPropertyChangedEventArgs eventArguments)
         {
-            ((CheckBox)d).Padding = new Thickness(string.IsNullOrEmpty(e.NewValue as string) ? 0 : 5, 0, 0, 0);
+            ((CheckBox)dependency).Padding = new Thickness(string.IsNullOrEmpty(eventArguments.NewValue as string) ? 0 : 5, 0, 0, 0);
         }
     }
 }

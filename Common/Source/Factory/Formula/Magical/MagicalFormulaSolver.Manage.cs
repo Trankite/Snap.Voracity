@@ -11,17 +11,17 @@ namespace Common.Source.Factory.Formula.Magical
 
         public static MagicalFormulaSymbol? SearchSymbol(ReadOnlySpan<char> target)
         {
-            ReadOnlySpan<char> StartString = target.SplitAt(1).Front;
+            ReadOnlySpan<char> startString = target.SplitAt(1).Head;
             static int Comparison(MagicalFormulaSymbol sender, ReadOnlySpan<char> other)
             {
                 return MemoryExtensions.CompareTo(sender.Name, other, ComparisonType);
             }
-            int Index = SymbolTable.Search(target, Comparison).GetInsert(1);
-            while (--Index >= 0 && SymbolTable[Index].Name.StartsWith(StartString, ComparisonType))
+            int index = SymbolTable.Search(target, Comparison).GetInsert(1);
+            while (--index >= 0 && SymbolTable[index].Name.StartsWith(startString, ComparisonType))
             {
-                if (target.StartsWith(SymbolTable[Index].Name, ComparisonType))
+                if (target.StartsWith(SymbolTable[index].Name, ComparisonType))
                 {
-                    return SymbolTable[Index];
+                    return SymbolTable[index];
                 }
             }
             return default;

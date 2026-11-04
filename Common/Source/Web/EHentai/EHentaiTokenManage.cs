@@ -30,14 +30,14 @@ namespace Common.Source.Web.EHentai
             Manager.Update(token);
         }
 
-        public static bool TryGetTokenOrFirst(string? id, [NotNullWhen(true)] out EHentaiToken? eHentaiToken)
+        public static bool TryGetTokenOrFirst(string? id, [NotNullWhen(true)] out EHentaiToken? ehentaiToken)
         {
-            return string.IsNullOrEmpty(id) ? Manager.Tokens.TryGetFirst(out eHentaiToken) : TryGetToken(id, out eHentaiToken);
+            return string.IsNullOrEmpty(id) ? Manager.Tokens.TryGetFirst(out ehentaiToken) : TryGetToken(id, out ehentaiToken);
         }
 
-        public static bool TryGetToken(string id, [NotNullWhen(true)] out EHentaiToken? eHentaiToken)
+        public static bool TryGetToken(string id, [NotNullWhen(true)] out EHentaiToken? ehentaiToken)
         {
-            return Manager.Tokens.TryGetFirst(current => current.IpbMemberId == id, out eHentaiToken);
+            return Manager.Tokens.TryGetFirst(current => current.IpbMemberId == id, out ehentaiToken);
         }
 
         public static string GetFilePath()

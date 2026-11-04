@@ -12,26 +12,26 @@ namespace Common.Source.Factory.Compile.Property
 
         public static Expression<Func<TSender?, bool>> GetNullCheck(Expression<Func<TSender, TProperty>> expression)
         {
-            ParameterExpression Parameter = expression.Parameters.First();
-            Expression NullCheckExpression = BuildNullCheck(expression.Body.MemberExpression().ThrowIfNull());
-            return Expression.Lambda<Func<TSender?, bool>>(NullCheckExpression, Parameter);
+            ParameterExpression parameter = expression.Parameters.First();
+            Expression nullCheckExpression = BuildNullCheck(expression.Body.MemberExpression().ThrowIfNull());
+            return Expression.Lambda<Func<TSender?, bool>>(nullCheckExpression, parameter);
         }
 
         public static Expression<Action<TSender, TProperty?>> GetPropertySetter(Expression<Func<TSender, TProperty>> expression)
         {
-            ParameterExpression SenderParameter = Expression.Parameter(typeof(TSender));
-            ParameterExpression PropertyParameter = Expression.Parameter(typeof(TProperty));
-            MemberExpression MemberExpression = expression.Body.MemberExpression().ThrowIfNull();
-            MemberExpression PropertyAccess = BuildPropertyAccess(SenderParameter, MemberExpression);
-            BinaryExpression AssignExpression = Expression.Assign(PropertyAccess, PropertyParameter);
-            return Expression.Lambda<Action<TSender, TProperty?>>(AssignExpression, SenderParameter, PropertyParameter);
+            ParameterExpression senderParameter = Expression.Parameter(typeof(TSender));
+            ParameterExpression propertyParameter = Expression.Parameter(typeof(TProperty));
+            MemberExpression memberExpression = expression.Body.MemberExpression().ThrowIfNull();
+            MemberExpression propertyAccess = BuildPropertyAccess(senderParameter, memberExpression);
+            BinaryExpression assignExpression = Expression.Assign(propertyAccess, propertyParameter);
+            return Expression.Lambda<Action<TSender, TProperty?>>(assignExpression, senderParameter, propertyParameter);
         }
 
         private static Expression BuildNullCheck(MemberExpression memberExpression)
         {
-            if (memberExpression.Expression is MemberExpression ParentMemberExpression)
+            if (memberExpression.Expression is MemberExpression parentMemberExpression)
             {
-                return Expression.OrElse(BuildNullCheck(ParentMemberExpression), Expression.Equal(ParentMemberExpression, Expression.Constant(null)));
+                return Expression.OrElse(BuildNullCheck(parentMemberExpression), Expression.Equal(parentMemberExpression, Expression.Constant(null)));
             }
             else if (memberExpression.Expression is not ParameterExpression)
             {
@@ -42,9 +42,9 @@ namespace Common.Source.Factory.Compile.Property
 
         private static MemberExpression BuildPropertyAccess(ParameterExpression parameterExpression, MemberExpression memberExpression)
         {
-            if (memberExpression.Expression is MemberExpression ParentMember)
+            if (memberExpression.Expression is MemberExpression parentMemberExpression)
             {
-                return Expression.MakeMemberAccess(BuildPropertyAccess(parameterExpression, ParentMember), memberExpression.Member);
+                return Expression.MakeMemberAccess(BuildPropertyAccess(parameterExpression, parentMemberExpression), memberExpression.Member);
             }
             return Expression.MakeMemberAccess(parameterExpression, memberExpression.Member);
         }

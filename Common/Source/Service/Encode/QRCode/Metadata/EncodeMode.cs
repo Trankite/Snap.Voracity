@@ -3,8 +3,11 @@
     public enum EncodeMode : byte
     {
         Optimal,
+
         Numeric,
+
         Alphanumeric,
+
         Byte
     }
 }

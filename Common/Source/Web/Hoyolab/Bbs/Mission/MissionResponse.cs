@@ -7,16 +7,16 @@ namespace Common.Source.Web.Hoyolab.Bbs.Mission
     {
         public MissionInfo? Serialize()
         {
-            MissionInfo? MissionInfo = default;
-            if (TryGetContent(out MissionResponseWrapper? Content))
+            MissionInfo? missionInfo = default;
+            if (TryGetContent(out MissionResponseWrapper? content))
             {
-                MissionInfo = new MissionInfo(Content.TotalPoints, Content.AlreadyReceivedPoints, Content.CanGetPoints);
-                foreach (MissionResponseState State in Content.States)
+                missionInfo = new MissionInfo(content.TotalPoints, content.AlreadyReceivedPoints, content.CanGetPoints);
+                foreach (MissionResponseState state in content.States)
                 {
-                    MissionInfo.Mission[(MissionType)State.MissionId] = State.HappenedTimes;
+                    missionInfo.Mission[(MissionType)state.MissionId] = state.HappenedTimes;
                 }
             }
-            return MissionInfo;
+            return missionInfo;
         }
     }
 }

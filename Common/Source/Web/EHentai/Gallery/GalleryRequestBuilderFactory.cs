@@ -13,7 +13,7 @@ namespace Common.Source.Web.EHentai.Gallery
 
         public GalleryRequestBuilderFactory() { }
 
-        public GalleryRequestBuilderFactory(EHentaiToken eHentaiToken) : base(eHentaiToken) { }
+        public GalleryRequestBuilderFactory(EHentaiToken ehentaiToken) : base(ehentaiToken) { }
 
         public override HttpRequestMessageBuilder Create()
         {

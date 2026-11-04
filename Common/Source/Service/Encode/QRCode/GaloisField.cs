@@ -35,10 +35,10 @@ namespace Common.Source.Service.Encode.QRCode
 
         public static int PolynomMod(int left, int right)
         {
-            int RightLength = GetBitLength(right);
-            for (int i = GetBitLength(left) - RightLength - 1; i >= -1; i--)
+            int rightLength = GetBitLength(right);
+            for (int i = GetBitLength(left) - rightLength - 1; i >= -1; i--)
             {
-                if ((left & (1 << (i + RightLength))) != 0)
+                if ((left & (1 << (i + rightLength))) != 0)
                 {
                     left ^= right << (i + 1);
                 }
@@ -59,8 +59,8 @@ namespace Common.Source.Service.Encode.QRCode
         public static GaloisField operator *(GaloisField left, GaloisField right)
         {
             if (left.Polynom == 0 || right.Polynom == 0) return Zero;
-            int Exponent = ExponentTable[left.Polynom] + ExponentTable[right.Polynom];
-            return FromExponent(Exponent >= Size ? Exponent - Size : Exponent);
+            int exponent = ExponentTable[left.Polynom] + ExponentTable[right.Polynom];
+            return FromExponent(exponent >= Size ? exponent - Size : exponent);
         }
 
         private readonly struct XPolynom
@@ -83,60 +83,63 @@ namespace Common.Source.Service.Encode.QRCode
 
             public static XPolynom operator *(XPolynom left, XPolynom right)
             {
-                XPolynom XPolynom = new(left.Count + right.Count - 1);
+                XPolynom xpolynom = new(left.Count + right.Count - 1);
                 for (int i = 0; i < left.Count; i++)
                 {
                     for (int j = 0; j < right.Count; j++)
                     {
-                        XPolynom[i + j] += left[i] * right[j];
+                        xpolynom[i + j] += left[i] * right[j];
                     }
                 }
-                return XPolynom;
+                return xpolynom;
             }
         }
 
         public static byte[] RSEncode(ReadOnlySpan<byte> content, int count)
         {
-            byte[] ECCodeBytes = new byte[count];
-            Span<byte> ECCodeSpan = ECCodeBytes.AsSpan();
-            if (!PolynomCache.TryGetValue(count, out XPolynom XPolynom))
+            byte[] eccodeBytes = new byte[count];
+            Span<byte> eccodeSpan = eccodeBytes.AsSpan();
+            if (!PolynomCache.TryGetValue(count, out XPolynom xpolynom))
             {
-                XPolynom = new(One, One);
+                xpolynom = new(One, One);
                 for (int i = 1; i < count; i++)
                 {
-                    XPolynom *= new XPolynom(FromExponent(i), One);
+                    xpolynom *= new XPolynom(FromExponent(i), One);
                 }
-                PolynomCache[count] = XPolynom;
+                PolynomCache[count] = xpolynom;
             }
-            content[..Math.Min(content.Length, ECCodeSpan.Length)].CopyTo(ECCodeSpan);
+            content[..Math.Min(content.Length, eccodeSpan.Length)].CopyTo(eccodeSpan);
             for (int i = 0; i < content.Length; i++)
             {
-                GaloisField GaloisField = new(ECCodeSpan[0]);
+                GaloisField galoisField = new(eccodeSpan[0]);
                 for (int k = 1; k < count; k++)
                 {
-                    ECCodeSpan[k - 1] = (new GaloisField(ECCodeSpan[k]) + XPolynom[count - k] * GaloisField).Polynom;
+                    eccodeSpan[k - 1] = (new GaloisField(eccodeSpan[k]) + xpolynom[count - k] * galoisField).Polynom;
                 }
                 if (i + count < content.Length)
                 {
-                    ECCodeSpan[count - 1] = (new GaloisField(content[i + count]) + XPolynom[0] * GaloisField).Polynom;
+                    eccodeSpan[count - 1] = (new GaloisField(content[i + count]) + xpolynom[0] * galoisField).Polynom;
                 }
                 else
                 {
-                    ECCodeSpan[count - 1] = (XPolynom[0] * GaloisField).Polynom;
+                    eccodeSpan[count - 1] = (xpolynom[0] * galoisField).Polynom;
                 }
             }
-            return ECCodeBytes;
+            return eccodeBytes;
         }
 
-        public override readonly string ToString() => Polynom.ToString();
+        public override readonly string ToString()
+        {
+            return Polynom.ToString();
+        }
 
         static GaloisField()
         {
             AlphaTable[1] = 1;
             for (int i = 2; i < Size + 1; i++)
             {
-                int Alpha = AlphaTable[i - 1] << 1;
-                AlphaTable[i] = (byte)(Alpha > Size ? Alpha ^ 0b100011101 : Alpha);
+                int alpha = AlphaTable[i - 1] << 1;
+                AlphaTable[i] = (byte)(alpha > Size ? alpha ^ 0b100011101 : alpha);
             }
             ExponentTable[0] = Size;
             for (int i = 1; i < Size + 1; i++)

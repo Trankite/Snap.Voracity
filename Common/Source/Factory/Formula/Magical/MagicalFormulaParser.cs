@@ -6,8 +6,8 @@ namespace Common.Source.Factory.Formula.Magical
     {
         protected override MagicalFormula? GetFormula(ReadOnlySpan<char> content)
         {
-            MagicalFormulaContent? FormulaContent = MagicalFormulaContent.Create(content);
-            return FormulaContent.IsNotNull() ? new MagicalFormula(FormulaContent) : null;
+            MagicalFormulaContent? formulaContent = MagicalFormulaContent.Create(content);
+            return formulaContent.IsNotNull() ? new MagicalFormula(formulaContent) : null;
         }
 
         protected override MagicalFormula? GetFormula(MagicalFormula? ended, MagicalFormulaSymbol symbol, MagicalFormula? start)
@@ -29,14 +29,17 @@ namespace Common.Source.Factory.Formula.Magical
         {
             if (formula.Length == 0 && !symbol.IsPrefixSymbol)
             {
-                if (!symbolStack.TryPeek(out MagicalFormulaSymbol? Current) || !Current.IsSuffixSymbol) return;
+                if (!symbolStack.TryPeek(out MagicalFormulaSymbol? current) || !current.IsSuffixSymbol)
+                {
+                    return;
+                }
             }
             base.AppendSplitFormula(formula, symbol, formulaStack, symbolStack);
         }
 
         protected override void AppendEndedFormula(ReadOnlySpan<char> formula, Stack<MagicalFormula?> formulaStack, Stack<MagicalFormulaSymbol> symbolStack)
         {
-            if (formula.Length != 0 || symbolStack.TryPeek(out MagicalFormulaSymbol? Symbol) && Symbol.IsSuffixSymbol)
+            if (formula.Length != 0 || symbolStack.TryPeek(out MagicalFormulaSymbol? symbol) && symbol.IsSuffixSymbol)
             {
                 formulaStack.Push(GetFormula(formula));
             }

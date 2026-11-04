@@ -68,31 +68,23 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static void FillTo(this Array soure, Array destination, int soureIndex = 0, int destinationIndex = 0, int length = int.MaxValue)
+        public static void SafeCopyTo(this Array soure, Array destination)
         {
-            Array.Copy(soure, soureIndex, destination, destinationIndex, Math.Min(Math.Min(soure.Length - soureIndex, destination.Length - destinationIndex), length));
+            Array.Copy(soure, destination, Math.Min(soure.Length, destination.Length));
         }
 
         [DebuggerStepThrough]
-        public static void FillFrom(this Array soure, params Array[] destinations) => FillFrom(soure, 0, destinations);
-
-        [DebuggerStepThrough]
-        public static void FillFrom(this Array soure, int soureIndex, params Array[] destinations)
+        public static void SafeCopyTo(this Array soure, Array destination, int soureIndex = default, int destinationIndex = default)
         {
-            int Offset = soureIndex;
-            foreach (Array Item in destinations)
-            {
-                Item.FillTo(soure, 0, Offset);
-                Offset += Item.Length;
-            }
+            Array.Copy(soure, soureIndex, destination, destinationIndex, Math.Min(soure.Length - soureIndex, destination.Length - destinationIndex));
         }
 
         [DebuggerStepThrough]
         public static void Foreach<T>(this IEnumerable<T> values, Action<T> action)
         {
-            foreach (T Item in values)
+            foreach (T current in values)
             {
-                action.Invoke(Item);
+                action.Invoke(current);
             }
         }
     }

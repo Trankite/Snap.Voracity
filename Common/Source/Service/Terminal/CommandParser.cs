@@ -1,4 +1,5 @@
 ﻿using Common.Source.Extension;
+using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using System.Collections;
 
@@ -15,63 +16,63 @@ namespace Common.Source.Service.Terminal
 
         public static CommandParser Create(ReadOnlySpan<char> line)
         {
-            int Index = 0;
-            List<string> Keywords = [];
+            int index = 0;
+            List<string> keywords = [];
             for (int i = 0; i < line.Length; i++)
             {
                 if (line[i] == 0x20)
                 {
-                    Keywords.Add(line[Index..i].ToString());
-                    Index = i + 1;
+                    keywords.Add(line[index..i].ToString());
+                    index = i + 1;
                 }
                 else if (line[i] == '"')
                 {
-                    Index = i + 1;
+                    index = i + 1;
                     while (++i < line.Length && line[i] != '"')
                     {
                         if (line[i] == '\\') i++;
                     }
-                    Keywords.Add($"\"{line[Index..i++].ToString().Unescape()}\"");
-                    Index = i + 1;
+                    keywords.Add($"\"{line[index..i++].ToString().Unescape()}\"");
+                    index = i + 1;
                 }
             }
-            if (Index < line.Length)
+            if (index < line.Length)
             {
-                Keywords.Add(line[Index..].ToString());
+                keywords.Add(line[index..].ToString());
             }
-            return new CommandParser(Keywords);
+            return new CommandParser(keywords);
         }
 
         public IEnumerator<CommandLine> GetEnumerator()
         {
             for (int i = 0; i < Keywords.Count; i++)
             {
-                CommandLine CommandLine = new(Keywords[i]);
-                ITerminalCommand? Command = TerminalManage.CommandTable.GetValueOrDefault(CommandLine.Name);
-                using IEnumerator<string>? Enumerator = Command?.RequiredParameters.Concat(Command.OptionalParameters).GetEnumerator();
+                CommandLine commandLine = new(Keywords[i]);
+                ITerminalCommand? command = TerminalManage.CommandTable.GetValueOrDefault(commandLine.Name);
+                using IEnumerator<string>? enumerator = command?.RequiredParameters.Concat(command.OptionalParameters).GetEnumerator();
                 while (++i < Keywords.Count && Keywords[i] != "&")
                 {
                     if (Keywords[i].StartsWith('-'))
                     {
                         if (Keywords[i].StartsWith("--"))
                         {
-                            CommandLine.TryAddParameter(Keywords[i][2..], Convert.ToString(true));
+                            commandLine.TryAddParameter(Keywords[i][2..], Convert.ToString(true));
                         }
                         else
                         {
-                            CommandLine.TryAddParameter(Keywords[i][1..], Keywords.GetIndexValue(++i).NotNull().TrimMarkup('"').ToString());
+                            commandLine.TryAddParameter(Keywords[i][1..], Keywords.GetIndexValue(++i).NotNull().TrimMarkup('"').ToString());
                         }
                     }
-                    else if (Enumerator.IsNotNull())
+                    else if (enumerator.IsNotNull())
                     {
-                        string Paramater = Keywords[i].TrimMarkup('"').ToString();
-                        while (Enumerator.MoveNext())
+                        string paramater = Keywords[i].TrimMarkup('"').ToString();
+                        while (enumerator.MoveNext())
                         {
-                            if (CommandLine.TryAddParameter(Enumerator.Current, Paramater)) break;
+                            if (commandLine.TryAddParameter(enumerator.Current, paramater)) break;
                         }
                     }
                 }
-                yield return CommandLine;
+                yield return commandLine;
             }
         }
 

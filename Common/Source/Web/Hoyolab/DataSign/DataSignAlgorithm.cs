@@ -3,6 +3,7 @@
     public enum DataSignAlgorithm
     {
         Gen1,
+
         Gen2
     }
 }

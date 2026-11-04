@@ -1,7 +1,7 @@
-﻿using Common.Source.Model.DataStruct.Disk;
+﻿using Common.Source.Model.DataStruct;
+using Common.Source.Model.DataStruct.Disk;
 using Common.Source.Model.DataStruct.Disk.Metadata;
 using System.Buffers;
-using System.Runtime.CompilerServices;
 
 namespace Common.Source.Service.Pool
 {
@@ -18,7 +18,7 @@ namespace Common.Source.Service.Pool
 
         static BufferPool()
         {
-            DefaultSize = Convert.ToInt32(DiskSize.Create(DataSize.KiB, 4).Bytes / Unsafe.SizeOf<T>());
+            DefaultSize = Convert.ToInt32(DiskSize.Create(DataSize.KiB, 4).Bytes / TypeSize<T>.Size);
         }
     }
 }

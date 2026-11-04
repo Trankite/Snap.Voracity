@@ -14,7 +14,7 @@ namespace Common.Source.Web.Hoyolab.DataSign
 
         public string? Query
         {
-            get => field;
+            get;
             set => field = value.IsNotNull() ? SortQuery(value) : value;
         }
 
@@ -37,8 +37,8 @@ namespace Common.Source.Web.Hoyolab.DataSign
 
         private static string SortQuery(string query)
         {
-            string[] Queries = Uri.UnescapeDataString(query).Split('?', 2);
-            return Queries.Length >= 2 ? string.Join('&', Queries[1].Split('&').Order()) : string.Empty;
+            string[] queries = Uri.UnescapeDataString(query).Split('?', 2);
+            return queries.Length >= 2 ? string.Join('&', queries[1].Split('&').Order()) : string.Empty;
         }
     }
 }

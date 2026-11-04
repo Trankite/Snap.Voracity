@@ -24,17 +24,23 @@ namespace UIDesign.Source.UI.Panel
 
         protected override Size MeasureOverride(Size constraint)
         {
-            if (Child.IsNull()) return constraint;
+            if (Child.IsNull())
+            {
+                return constraint;
+            }
             Child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            Size ChildSize = Child.DesiredSize;
-            if (ChildSize.Width == 0 || ChildSize.Height == 0) return ChildSize;
-            double ScaleWidth = constraint.Width / ChildSize.Width;
-            double ScaleHeight = constraint.Height / ChildSize.Height;
-            double FinalScale = Math.Min(ScaleWidth, ScaleHeight).Clamp(MinScale, MaxScale);
-            double FinalWidth = Math.Min(ChildSize.Width * FinalScale, constraint.Width);
-            double FinalHeight = Math.Min(ChildSize.Height * FinalScale, constraint.Height);
-            Child.Measure(new Size(FinalWidth / FinalScale, FinalHeight / FinalScale));
-            return new Size(FinalWidth, FinalHeight);
+            Size childSize = Child.DesiredSize;
+            if (childSize.Width == 0 || childSize.Height == 0)
+            {
+                return childSize;
+            }
+            double scaleWidth = constraint.Width / childSize.Width;
+            double scaleHeight = constraint.Height / childSize.Height;
+            double scale = Math.Min(scaleWidth, scaleHeight).Clamp(MinScale, MaxScale);
+            double width = Math.Min(childSize.Width * scale, constraint.Width);
+            double height = Math.Min(childSize.Height * scale, constraint.Height);
+            Child.Measure(new Size(width / scale, height / scale));
+            return new Size(width, height);
         }
     }
 }

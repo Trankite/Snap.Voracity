@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Serialize.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
@@ -12,7 +12,7 @@ using System.Collections.Immutable;
 
 namespace Common.Source.Service.Terminal.Hoyolab.Forum
 {
-    public class ForumNewest : AsyncTerminalCommand<IEnumerable<NewestAnalyzedBody>>
+    public class ForumNewest : AsyncTerminalCommand<IEnumerable<NewestPost>>
     {
         public override string Name => "newpost";
 
@@ -30,23 +30,23 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
 
         private const string Param_SortType = "sort";
 
-        public override async ValueTask<ITerminalResponse<IEnumerable<NewestAnalyzedBody>>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
+        public override async ValueTask<ITerminalResponse<IEnumerable<NewestPost>>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            int PageSize = commandLine.GetIntParameter(Param_PageSize);
-            ZoneType ZoneType = (ZoneType)commandLine.GetIntParameter(Param_ZoneType);
-            SortType SortType = (SortType)commandLine.GetIntParameter(Param_SortType);
-            return await AsyncInvoke(PageSize, ZoneType, SortType, cancellationToken).ConfigureAwait(false);
+            int pageSize = commandLine.GetIntParameter(Param_PageSize);
+            ZoneType zoneType = (ZoneType)commandLine.GetIntParameter(Param_ZoneType);
+            SortType sortType = (SortType)commandLine.GetIntParameter(Param_SortType);
+            return await AsyncInvoke(pageSize, zoneType, sortType, cancellationToken).ConfigureAwait(false);
         }
 
-        public static async ValueTask<ITerminalResponse<IEnumerable<NewestAnalyzedBody>>> AsyncInvoke(int pageSize, ZoneType zoneType, SortType sortType = default, CancellationToken cancellationToken = default)
+        public static async ValueTask<ITerminalResponse<IEnumerable<NewestPost>>> AsyncInvoke(int pageSize, ZoneType zoneType, SortType sortType = default, CancellationToken cancellationToken = default)
         {
-            NewestRequestBuilderFactory Factory = new NewestRequestBuilderFactory().SetPageSize(pageSize).SetZoneType(zoneType).SetSortType(sortType);
-            HttpResponse<NewestResponse> Response = await Factory.Create().SendAsync<NewestResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out IEnumerable<NewestAnalyzedBody>? AnalyzedBody))
+            NewestRequestBuilderFactory factory = new NewestRequestBuilderFactory().SetPageSize(pageSize).SetZoneType(zoneType).SetSortType(sortType);
+            HttpResponse<NewestResponse> response = await factory.Create().SendAsync<NewestResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TrySerialize(out IEnumerable<NewestPost>? newestPost))
             {
-                return TerminalResponse.Create(true, string.Join('\n', AnalyzedBody.Select(current => $"[{current.PostId}]\x20{current.Title}")), AnalyzedBody);
+                return TerminalResponse.Create(true, string.Join('\n', newestPost.Select(current => $"[{current.PostId}]\x20{current.Title}")), newestPost);
             }
-            return new TerminalResponse<IEnumerable<NewestAnalyzedBody>>(false, Response.ToString());
+            return new TerminalResponse<IEnumerable<NewestPost>>(false, response.ToString());
         }
     }
 }

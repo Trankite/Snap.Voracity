@@ -3,7 +3,9 @@
     public enum QRLoginStatus
     {
         Created,
+
         Scanned,
+
         Confirmed
     }
 }

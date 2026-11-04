@@ -6,9 +6,9 @@ namespace Common.Source.Web.EHentai.Builder
     {
         public EHentaiToken EHentaiToken { get; set; }
 
-        public EHentaiCookieBuilder(EHentaiToken? eHentaiToken = default)
+        public EHentaiCookieBuilder(EHentaiToken? ehentaiToken = default)
         {
-            EHentaiToken = eHentaiToken ?? new EHentaiToken();
+            EHentaiToken = ehentaiToken ?? new EHentaiToken();
         }
     }
 }

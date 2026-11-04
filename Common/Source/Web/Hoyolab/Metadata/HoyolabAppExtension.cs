@@ -7,9 +7,9 @@ namespace Common.Source.Web.Hoyolab.Metadata
     {
         private static readonly FrozenDictionary<string, HoyolabApp> GameTypeTable;
 
-        public static bool TryGetValue(string name, out HoyolabApp gameType)
+        public static bool TryGetValue(string name, out HoyolabApp hoyolabApp)
         {
-            return GameTypeTable.TryGetValue(name, out gameType);
+            return GameTypeTable.TryGetValue(name, out hoyolabApp);
         }
 
         static HoyolabAppExtension()

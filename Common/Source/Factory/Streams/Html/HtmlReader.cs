@@ -84,12 +84,12 @@ namespace Common.Source.Factory.Streams.Html
 
         private string GetHtmlContent()
         {
-            int Index = 0;
-            while (Reader.TryRead(out ReadOnlyMemory<char> BlockMemory))
+            int index = 0;
+            while (Reader.TryRead(out ReadOnlyMemory<char> blockMemory))
             {
-                if (HtmlContentSplice(BlockMemory, Index++).TryGetValue(out string? HtmlContent))
+                if (HtmlContentSplice(blockMemory, index++).TryGetValue(out string? htmlContent))
                 {
-                    return HtmlContent;
+                    return htmlContent;
                 }
             }
             return Builder.Complete();
@@ -97,12 +97,12 @@ namespace Common.Source.Factory.Streams.Html
 
         private async ValueTask<string> GetHtmlContentAsync(CancellationToken cancellationToken = default)
         {
-            int Index = 0;
-            while ((await Reader.ReadAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> BlockMemory))
+            int index = 0;
+            while ((await Reader.TryReadBlockAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> blockMemory))
             {
-                if (HtmlContentSplice(BlockMemory, Index++).TryGetValue(out string? HtmlContent))
+                if (HtmlContentSplice(blockMemory, index++).TryGetValue(out string? htmlContent))
                 {
-                    return HtmlContent;
+                    return htmlContent;
                 }
             }
             return Builder.Complete();
@@ -110,45 +110,45 @@ namespace Common.Source.Factory.Streams.Html
 
         private CheckTicket<string> HtmlContentSplice(ReadOnlyMemory<char> blockMemory, int blockIndex)
         {
-            ReadOnlySpan<char> BlockSpan = blockMemory.Span;
+            ReadOnlySpan<char> blockSpan = blockMemory.Span;
             if (blockIndex == 0)
             {
-                BlockSpan = BlockSpan.TrimStart();
-                Reader.MoveOffset(blockMemory.Length - BlockSpan.Length);
+                blockSpan = blockSpan.TrimStart();
+                Reader.MoveOffset(blockMemory.Length - blockSpan.Length);
             }
-            if (BlockSpan.TryGetIndexOf('<', out int Index))
+            if (blockSpan.TryGetIndexOf('<', out int index))
             {
-                Reader.MoveOffset(Index + 1);
-                ReadOnlySpan<char> Current = BlockSpan[..Index].TrimEnd();
-                return CheckTicket.Create(Builder.Complete(Current));
+                Reader.MoveOffset(index + 1);
+                ReadOnlySpan<char> current = blockSpan[..index].TrimEnd();
+                return CheckTicket.Create(Builder.Complete(current));
             }
-            Builder.Append(BlockSpan);
-            Reader.MoveOffset(BlockSpan.Length);
+            Builder.Append(blockSpan);
+            Reader.MoveOffset(blockSpan.Length);
             return default;
         }
 
         private CheckTicket<HtmlElement> DrainHtmlElement()
         {
-            string AttributeName;
+            string attributeName;
             Status = HtmlStatus.Created;
-            HtmlElement HtmlElement = new(GetHtmlElementName());
-            while (!string.IsNullOrEmpty(AttributeName = GetHtmlAttributeName()))
+            HtmlElement htmlElement = new(GetHtmlElementName());
+            while (!string.IsNullOrEmpty(attributeName = GetHtmlAttributeName()))
             {
-                HtmlElement.Attributes[AttributeName] = GetHtmlAttributeValue();
+                htmlElement.Attributes[attributeName] = GetHtmlAttributeValue();
             }
-            return DrainHtmlElement(HtmlElement);
+            return DrainHtmlElement(htmlElement);
         }
 
         private async ValueTask<CheckTicket<HtmlElement>> DrainHtmlElementAsync(CancellationToken cancellationToken = default)
         {
-            string AttributeName;
+            string attributeName;
             Status = HtmlStatus.Created;
-            HtmlElement HtmlElement = new(await GetHtmlElementNameAsync(cancellationToken).ConfigureAwait(false));
-            while (!string.IsNullOrEmpty(AttributeName = await GetHtmlAttributeNameAsync(cancellationToken).ConfigureAwait(false)))
+            HtmlElement htmlElement = new(await GetHtmlElementNameAsync(cancellationToken).ConfigureAwait(false));
+            while (!string.IsNullOrEmpty(attributeName = await GetHtmlAttributeNameAsync(cancellationToken).ConfigureAwait(false)))
             {
-                HtmlElement.Attributes[AttributeName] = await GetHtmlAttributeValueAsync(cancellationToken).ConfigureAwait(false);
+                htmlElement.Attributes[attributeName] = await GetHtmlAttributeValueAsync(cancellationToken).ConfigureAwait(false);
             }
-            return DrainHtmlElement(HtmlElement);
+            return DrainHtmlElement(htmlElement);
         }
 
         private CheckTicket<HtmlElement> DrainHtmlElement(HtmlElement htmlElement)
@@ -166,12 +166,12 @@ namespace Common.Source.Factory.Streams.Html
 
         private string GetHtmlElementName()
         {
-            int Index = 0;
-            while (Reader.TryRead(out ReadOnlyMemory<char> BlockMemory))
+            int index = 0;
+            while (Reader.TryRead(out ReadOnlyMemory<char> blockMemory))
             {
-                if (HtmlElementNameSplice(BlockMemory, Index++).TryGetValue(out string? HtmlElementName))
+                if (HtmlElementNameSplice(blockMemory, index++).TryGetValue(out string? htmlElementName))
                 {
-                    return HtmlElementName;
+                    return htmlElementName;
                 }
             }
             return Builder.Complete();
@@ -179,12 +179,12 @@ namespace Common.Source.Factory.Streams.Html
 
         private async ValueTask<string> GetHtmlElementNameAsync(CancellationToken cancellationToken = default)
         {
-            int Index = 0;
-            while ((await Reader.ReadAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> BlockMemory))
+            int index = 0;
+            while ((await Reader.TryReadBlockAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> blockMemory))
             {
-                if (HtmlElementNameSplice(BlockMemory, Index++).TryGetValue(out string? HtmlElementName))
+                if (HtmlElementNameSplice(blockMemory, index++).TryGetValue(out string? htmlElementName))
                 {
-                    return HtmlElementName;
+                    return htmlElementName;
                 }
             }
             return Builder.Complete();
@@ -192,34 +192,34 @@ namespace Common.Source.Factory.Streams.Html
 
         private CheckTicket<string> HtmlElementNameSplice(ReadOnlyMemory<char> blockMemory, int blockIndex)
         {
-            ReadOnlySpan<char> BlockSpan = blockMemory.Span;
-            if (blockIndex == 0 && BlockSpan.StartsWith('/'))
+            ReadOnlySpan<char> blockSpan = blockMemory.Span;
+            if (blockIndex == 0 && blockSpan.StartsWith('/'))
             {
                 Status = HtmlStatus.Nested;
-                BlockSpan = BlockSpan.TrimStart('/');
-                Reader.MoveOffset(blockMemory.Length - BlockSpan.Length);
+                blockSpan = blockSpan.TrimStart('/');
+                Reader.MoveOffset(blockMemory.Length - blockSpan.Length);
             }
-            for (int i = 0; i < BlockSpan.Length; i++)
+            for (int i = 0; i < blockSpan.Length; i++)
             {
-                if (char.IsWhiteSpace(BlockSpan[i]) || BlockSpan[i] == '>')
+                if (char.IsWhiteSpace(blockSpan[i]) || blockSpan[i] == '>')
                 {
                     Reader.MoveOffset(i);
-                    ReadOnlySpan<char> Current = CheckHtmlElementCompleted(BlockSpan[..i]);
-                    return CheckTicket.Create(Builder.Complete(Current));
+                    ReadOnlySpan<char> current = CheckHtmlElementCompleted(blockSpan[..i]);
+                    return CheckTicket.Create(Builder.Complete(current));
                 }
             }
-            Builder.Append(BlockSpan);
-            Reader.MoveOffset(BlockSpan.Length);
+            Builder.Append(blockSpan);
+            Reader.MoveOffset(blockSpan.Length);
             return default;
         }
 
         private string GetHtmlAttributeName()
         {
-            while (Reader.TryRead(out ReadOnlyMemory<char> BlockMemory))
+            while (Reader.TryRead(out ReadOnlyMemory<char> blockMemory))
             {
-                if (HtmlAttributeNameSplice(BlockMemory).TryGetValue(out string? AttributeName))
+                if (HtmlAttributeNameSplice(blockMemory).TryGetValue(out string? attributeName))
                 {
-                    return AttributeName;
+                    return attributeName;
                 }
             }
             return Builder.Discard();
@@ -227,11 +227,11 @@ namespace Common.Source.Factory.Streams.Html
 
         private async ValueTask<string> GetHtmlAttributeNameAsync(CancellationToken cancellationToken = default)
         {
-            while ((await Reader.ReadAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> BlockMemory))
+            while ((await Reader.TryReadBlockAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> blockMemory))
             {
-                if (HtmlAttributeNameSplice(BlockMemory).TryGetValue(out string? AttributeName))
+                if (HtmlAttributeNameSplice(blockMemory).TryGetValue(out string? attributeName))
                 {
-                    return AttributeName;
+                    return attributeName;
                 }
             }
             return Builder.Discard();
@@ -239,40 +239,40 @@ namespace Common.Source.Factory.Streams.Html
 
         private CheckTicket<string> HtmlAttributeNameSplice(ReadOnlyMemory<char> blockMemory)
         {
-            ReadOnlySpan<char> BlockSpan = blockMemory.Span;
-            for (int i = 0; i < BlockSpan.Length; i++)
+            ReadOnlySpan<char> blockSpan = blockMemory.Span;
+            for (int i = 0; i < blockSpan.Length; i++)
             {
-                if (BlockSpan[i] == '=')
+                if (blockSpan[i] == '=')
                 {
                     Reader.MoveOffset(i + 1);
-                    ReadOnlySpan<char> Current = BlockSpan[..i];
-                    Current = Builder.Length > 0 ? Current.TrimEnd() : Current.Trim();
-                    return CheckTicket.Create(Builder.Complete(Current));
+                    ReadOnlySpan<char> current = blockSpan[..i];
+                    current = Builder.Length > 0 ? current.TrimEnd() : current.Trim();
+                    return CheckTicket.Create(Builder.Complete(current));
                 }
-                else if (BlockSpan[i] == '>')
+                else if (blockSpan[i] == '>')
                 {
                     Reader.MoveOffset(i + 1);
-                    CheckHtmlElementCompleted(BlockSpan[..i]);
+                    CheckHtmlElementCompleted(blockSpan[..i]);
                     return CheckTicket.Create(Builder.Discard());
                 }
             }
-            Reader.MoveOffset(BlockSpan.Length);
-            Builder.Append(Builder.Length > 0 ? BlockSpan : BlockSpan.TrimStart());
+            Reader.MoveOffset(blockSpan.Length);
+            Builder.Append(Builder.Length > 0 ? blockSpan : blockSpan.TrimStart());
             return default;
         }
 
         private string GetHtmlAttributeValue()
         {
-            while (Reader.TryRead(out ReadOnlyMemory<char> BlockMemory))
+            while (Reader.TryRead(out ReadOnlyMemory<char> blockMemory))
             {
-                if (BlockMemory.Span.StartsWith('"'))
+                if (blockMemory.Span.StartsWith('"'))
                 {
                     Reader.MoveOffset(1);
                     return GetQuotationMarkContent();
                 }
-                if (HtmlAttributeValueSplice(BlockMemory).TryGetValue(out string? AttributeValue))
+                if (HtmlAttributeValueSplice(blockMemory).TryGetValue(out string? attributeValue))
                 {
-                    return AttributeValue;
+                    return attributeValue;
                 }
             }
             return Builder.Complete();
@@ -280,16 +280,16 @@ namespace Common.Source.Factory.Streams.Html
 
         private async ValueTask<string> GetHtmlAttributeValueAsync(CancellationToken cancellationToken = default)
         {
-            while ((await Reader.ReadAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> BlockMemory))
+            while ((await Reader.TryReadBlockAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> blockMemory))
             {
-                if (BlockMemory.Span.StartsWith('"'))
+                if (blockMemory.Span.StartsWith('"'))
                 {
                     Reader.MoveOffset(1);
                     return await GetQuotationMarkContentAsync(cancellationToken).ConfigureAwait(false);
                 }
-                if (HtmlAttributeValueSplice(BlockMemory).TryGetValue(out string? AttributeValue))
+                if (HtmlAttributeValueSplice(blockMemory).TryGetValue(out string? attributeValue))
                 {
-                    return AttributeValue;
+                    return attributeValue;
                 }
             }
             return Builder.Complete();
@@ -297,44 +297,44 @@ namespace Common.Source.Factory.Streams.Html
 
         private CheckTicket<string> HtmlAttributeValueSplice(ReadOnlyMemory<char> blockMemory)
         {
-            ReadOnlySpan<char> BlockSpan = blockMemory.Span;
+            ReadOnlySpan<char> blockSpan = blockMemory.Span;
             if (Builder.Length == 0)
             {
-                BlockSpan = BlockSpan.TrimStart();
-                Reader.MoveOffset(blockMemory.Length - BlockSpan.Length);
+                blockSpan = blockSpan.TrimStart();
+                Reader.MoveOffset(blockMemory.Length - blockSpan.Length);
             }
-            for (int i = 0; i < BlockSpan.Length; i++)
+            for (int i = 0; i < blockSpan.Length; i++)
             {
-                if (char.IsWhiteSpace(BlockSpan[i]))
+                if (char.IsWhiteSpace(blockSpan[i]))
                 {
                     Reader.MoveOffset(i + 1);
-                    return CheckTicket.Create(Builder.Complete(BlockSpan[..i]));
+                    return CheckTicket.Create(Builder.Complete(blockSpan[..i]));
                 }
-                else if (BlockSpan[i] == '"')
+                else if (blockSpan[i] == '"')
                 {
                     Reader.MoveOffset(i);
                     Builder.Clear();
                     return default;
                 }
-                else if (BlockSpan[i] == '>')
+                else if (blockSpan[i] == '>')
                 {
                     Reader.MoveOffset(i);
-                    ReadOnlySpan<char> Current = CheckHtmlElementCompleted(BlockSpan[..i]);
-                    return CheckTicket.Create(Builder.Complete(Current));
+                    ReadOnlySpan<char> current = CheckHtmlElementCompleted(blockSpan[..i]);
+                    return CheckTicket.Create(Builder.Complete(current));
                 }
             }
-            Builder.Append(BlockSpan);
-            Reader.MoveOffset(BlockSpan.Length);
+            Builder.Append(blockSpan);
+            Reader.MoveOffset(blockSpan.Length);
             return default;
         }
 
         private string GetQuotationMarkContent()
         {
-            while (Reader.TryRead(out ReadOnlyMemory<char> BlockMemory))
+            while (Reader.TryRead(out ReadOnlyMemory<char> blockMemory))
             {
-                if (QuotationMarkContentSplice(BlockMemory).TryGetValue(out string? QuotationMarkContent))
+                if (QuotationMarkContentSplice(blockMemory).TryGetValue(out string? quotationMarkContent))
                 {
-                    return QuotationMarkContent;
+                    return quotationMarkContent;
                 }
             }
             return Builder.Complete();
@@ -342,11 +342,11 @@ namespace Common.Source.Factory.Streams.Html
 
         private async ValueTask<string> GetQuotationMarkContentAsync(CancellationToken cancellationToken = default)
         {
-            while ((await Reader.ReadAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> BlockMemory))
+            while ((await Reader.TryReadBlockAsync(cancellationToken).ConfigureAwait(false)).TryGetValue(out ReadOnlyMemory<char> blockMemory))
             {
-                if (QuotationMarkContentSplice(BlockMemory).TryGetValue(out string? QuotationMarkContent))
+                if (QuotationMarkContentSplice(blockMemory).TryGetValue(out string? quotationMarkContent))
                 {
-                    return QuotationMarkContent;
+                    return quotationMarkContent;
                 }
             }
             return Builder.Complete();
@@ -354,14 +354,14 @@ namespace Common.Source.Factory.Streams.Html
 
         private CheckTicket<string> QuotationMarkContentSplice(ReadOnlyMemory<char> blockMemory)
         {
-            ReadOnlySpan<char> BlockSpan = blockMemory.Span;
-            if (BlockSpan.TryGetIndexOf('"', out int Index))
+            ReadOnlySpan<char> blockSpan = blockMemory.Span;
+            if (blockSpan.TryGetIndexOf('"', out int index))
             {
-                Reader.MoveOffset(Index + 1);
-                return CheckTicket.Create(Builder.Complete(BlockSpan[..Index]));
+                Reader.MoveOffset(index + 1);
+                return CheckTicket.Create(Builder.Complete(blockSpan[..index]));
             }
-            Builder.Append(BlockSpan);
-            Reader.MoveOffset(BlockSpan.Length);
+            Builder.Append(blockSpan);
+            Reader.MoveOffset(blockSpan.Length);
             return default;
         }
 
@@ -384,21 +384,21 @@ namespace Common.Source.Factory.Streams.Html
 
         private HtmlElement ClosingHtmlElement(ReadOnlySpan<char> name)
         {
-            bool IsCompleted = false;
-            HtmlElement? HtmlElement = default;
-            while (!IsCompleted && HtmlElementStack.TryPop(out HtmlElement))
+            bool isCompleted = false;
+            HtmlElement? htmlElement = default;
+            while (!isCompleted && HtmlElementStack.TryPop(out htmlElement))
             {
-                if (HtmlElementStack.TryPeek(out HtmlElement? ParentElement))
+                if (HtmlElementStack.TryPeek(out HtmlElement? parentElement))
                 {
-                    ParentElement.Elements.Add(HtmlElement);
+                    parentElement.Elements.Add(htmlElement);
                 }
                 else
                 {
-                    return HtmlElement;
+                    return htmlElement;
                 }
-                IsCompleted = HtmlElement.Name.EqualsIgnoreCase(name);
+                isCompleted = htmlElement.Name.EqualsIgnoreCase(name);
             }
-            return HtmlElement ?? throw new InvalidOperationException();
+            return htmlElement ?? throw new InvalidOperationException();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

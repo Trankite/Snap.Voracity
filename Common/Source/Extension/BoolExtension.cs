@@ -10,13 +10,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static bool Parse(ReadOnlySpan<char> value)
         {
-            return bool.TryParse(value, out bool Flag) ? Flag : Convert.ToBoolean(IntegerExtension.Parse(value));
-        }
-
-        [DebuggerStepThrough]
-        public static bool OverlayIfTrue(this bool source, ref bool destination, bool value = true)
-        {
-            return source ? destination = value : destination;
+            return bool.TryParse(value, out bool result) ? result : Convert.ToBoolean(IntegerExtension.Parse(value));
         }
     }
 }

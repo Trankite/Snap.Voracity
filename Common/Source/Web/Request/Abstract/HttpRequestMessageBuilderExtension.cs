@@ -15,27 +15,27 @@ namespace Common.Source.Web.Request.Abstract
         [DebuggerStepThrough]
         public static async ValueTask<HttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken, bool isHeadersRead = default, TimeSpan? timeOut = default, HttpClient? httpClient = default)
         {
-            using CancellationTokenSource CancellationSource = cancellationToken.CreateLinkedTokenSource();
-            CancellationSource.CancelAfter(timeOut ?? HttpContext.DefaultTimeoutSpan);
-            return await SendAsync<TResult>(builder, CancellationSource.Token, isHeadersRead, httpClient).ConfigureAwait(false);
+            using CancellationTokenSource cancellationSource = cancellationToken.CreateLinkedTokenSource();
+            cancellationSource.CancelAfter(timeOut ?? HttpContext.DefaultTimeoutSpan);
+            return await SendAsync<TResult>(builder, cancellationSource.Token, isHeadersRead, httpClient).ConfigureAwait(false);
         }
 
         [DebuggerStepThrough]
         private static async ValueTask<HttpResponse<TResult>> SendAsync<TResult>(HttpRequestMessageBuilder builder, CancellationToken cancellationToken, bool isHeadersRead = default, HttpClient? httpClient = default)
         {
-            using HttpContext HttpContext = builder.CreateHttpContext(isHeadersRead, httpClient);
-            await HttpContext.SendAsync(cancellationToken).ConfigureAwait(false);
-            if (HttpContext.CapturedException.IsNotNull() || HttpContext.Response.IsNull())
+            using HttpContext httpContext = builder.CreateHttpContext(isHeadersRead, httpClient);
+            await httpContext.SendAsync(cancellationToken).ConfigureAwait(false);
+            if (httpContext.CapturedException.IsNotNull() || httpContext.Response.IsNull())
             {
-                return new HttpResponse<TResult>(HttpContext.Response?.Headers, HttpContext.CapturedException);
+                return new HttpResponse<TResult>(httpContext.Response?.Headers, httpContext.CapturedException);
             }
             try
             {
-                return new HttpResponse<TResult>(HttpContext.Response.Headers, await builder.HttpContentSerializer.DeserializeAsync<TResult>(HttpContext.Response.Content, cancellationToken).ConfigureAwait(false));
+                return new HttpResponse<TResult>(httpContext.Response.Headers, await builder.HttpContentSerializer.DeserializeAsync<TResult>(httpContext.Response.Content, cancellationToken).ConfigureAwait(false));
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                return new HttpResponse<TResult>(HttpContext.Response.Headers, Exception.DispatchCapture());
+                return new HttpResponse<TResult>(httpContext.Response.Headers, exception.DispatchCapture());
             }
         }
     }

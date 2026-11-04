@@ -7,7 +7,7 @@ namespace Common.Source.Web.Hoyolab.Bbs.Forum.FullPost
     {
         public FullPostResponseWrapper? Serialize()
         {
-            return TryGetContent(out PostWrapper<FullPostResponseWrapper>? Content) ? Content.Post : default;
+            return TryGetContent(out PostWrapper<FullPostResponseWrapper>? fullPost) ? fullPost.Post : default;
         }
     }
 }

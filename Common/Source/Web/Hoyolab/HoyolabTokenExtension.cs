@@ -15,23 +15,23 @@ namespace Common.Source.Web.Hoyolab
 
         public static string GetToken(this HoyolabToken hoyolabToken, HoyolabTokenType tokenType)
         {
-            using AESAlgorithm Algorithm = GetAlgorithm();
-            if (hoyolabToken.Tokens.TryGetValue(tokenType, out string? Ciphertext))
+            using AESAlgorithm algorithm = GetAlgorithm();
+            if (hoyolabToken.Tokens.TryGetValue(tokenType, out string? ciphertext))
             {
-                try { return Encoding.UTF8.GetString(Algorithm.DecryptFromBase64String(Ciphertext)); } catch { }
+                try { return Encoding.UTF8.GetString(algorithm.DecryptFromBase64String(ciphertext)); } catch { }
             }
             return string.Empty;
         }
 
         public static void SetToken(this HoyolabToken hoyolabToken, HoyolabTokenType tokenType, string token)
         {
-            using AESAlgorithm Algorithm = GetAlgorithm();
-            hoyolabToken.Tokens[tokenType] = Algorithm.EncryptToBase64String(Encoding.UTF8.GetBytes(token));
+            using AESAlgorithm algorithm = GetAlgorithm();
+            hoyolabToken.Tokens[tokenType] = algorithm.EncryptToBase64String(Encoding.UTF8.GetBytes(token));
         }
 
         private static AESAlgorithm GetAlgorithm()
         {
-            return new AESAlgorithm(HashMethod.HashData(HashAlgorithmName.SHA256, LocalSetting.GetUserSid() + Salt));
+            return AESAlgorithm.Create(HashMethod.HashData(HashAlgorithmName.SHA256, LocalSetting.GetUserSid() + Salt));
         }
 
         public static bool TryGetUserRole(this HoyolabToken hoyolabToken, HoyolabApp value, [NotNullWhen(true)] out HoyolabUserRole? userRole)
@@ -39,9 +39,12 @@ namespace Common.Source.Web.Hoyolab
             for (int i = 0; i < hoyolabToken.UserRoles.Length; i++)
             {
                 userRole = hoyolabToken.UserRoles[i];
-                if (HoyolabAppExtension.TryGetValue(userRole.Game, out HoyolabApp GameType))
+                if (HoyolabAppExtension.TryGetValue(userRole.Game, out HoyolabApp hoyolabApp))
                 {
-                    if (value.HasFlag(GameType)) return true;
+                    if (value.HasFlag(hoyolabApp))
+                    {
+                        return true;
+                    }
                 }
             }
             return false.Configure(userRole = default);

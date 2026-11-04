@@ -1,4 +1,4 @@
-﻿using Common.Source.Model.DataStruct.Span;
+﻿using Common.Source.Model.DataStruct;
 
 namespace Common.Source.Service.Encode.QRCode
 {

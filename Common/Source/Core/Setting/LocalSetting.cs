@@ -16,10 +16,10 @@ namespace Common.Source.Core.Setting
         {
             if (OperatingSystem.IsWindows())
             {
-                SecurityIdentifier? User = WindowsIdentity.GetCurrent().User;
-                if (User.IsNotNull())
+                SecurityIdentifier? user = WindowsIdentity.GetCurrent().User;
+                if (user.IsNotNull())
                 {
-                    return User.AccountDomainSid.IsNotNull() ? User.AccountDomainSid.Value : User.Value;
+                    return user.AccountDomainSid.IsNotNull() ? user.AccountDomainSid.Value : user.Value;
                 }
             }
             return $"{Environment.MachineName}-{Environment.UserName}";

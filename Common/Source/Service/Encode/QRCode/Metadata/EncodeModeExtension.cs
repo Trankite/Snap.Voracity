@@ -12,7 +12,10 @@ namespace Common.Source.Service.Encode.QRCode.Metadata
                 {
                     while (i < content.Length)
                     {
-                        if (!AlphanumericEncoder.IsValid(content[i++])) return EncodeMode.Byte;
+                        if (!AlphanumericEncoder.IsValid(content[i++]))
+                        {
+                            return EncodeMode.Byte;
+                        }
                     }
                     return EncodeMode.Alphanumeric;
                 }
@@ -27,7 +30,7 @@ namespace Common.Source.Service.Encode.QRCode.Metadata
                 EncodeMode.Numeric => new NumericEncoder(),
                 EncodeMode.Alphanumeric => new AlphanumericEncoder(),
                 EncodeMode.Byte => new ByteEncoder(),
-                _ => throw new NotSupportedException($"Unkonw EncodeMode:{mode}")
+                _ => throw new NotSupportedException($"Unknown EncodeMode:{mode}")
             };
         }
     }

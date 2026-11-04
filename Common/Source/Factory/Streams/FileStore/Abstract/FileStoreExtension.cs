@@ -10,11 +10,11 @@ namespace Common.Source.Factory.Streams.FileStore.Abstract
         [DebuggerStepThrough]
         public static bool TrySaveToFormat(this IFileStore saver, Stream stream, FileFormat format)
         {
-            if (saver.IsSupported(format).OutSender(out bool IsSupported))
+            if (saver.IsSupported(format).OutSender(out bool isSupported))
             {
                 saver.SaveToFormat(stream, format);
             }
-            return IsSupported;
+            return isSupported;
         }
     }
 }

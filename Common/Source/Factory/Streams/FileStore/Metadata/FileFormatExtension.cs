@@ -8,14 +8,14 @@ namespace Common.Source.Factory.Streams.FileStore.Metadata
     {
         private static readonly FrozenDictionary<string, FileFormat> FormatCache;
 
-        public static bool TryParse(this string format, out FileFormat value)
+        public static bool TryParse(this string format, out FileFormat result)
         {
-            return FormatCache.TryGetValue(format, out value);
+            return FormatCache.TryGetValue(format, out result);
         }
 
         public static FileFormat Parse(this string format, FileFormat defaultValue = default)
         {
-            return FormatCache.TryGetValue(format, out FileFormat FileFormat) ? FileFormat : defaultValue;
+            return FormatCache.TryGetValue(format, out FileFormat fileFormat) ? fileFormat : defaultValue;
         }
 
         public static string UnSupported(this FileFormat format)

@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Web.Hoyolab.Takumi.Note
 {
-    public class NoteAnalyzedBody
+    public class NoteStamina
     {
         public int Current { get; set; }
 
@@ -8,15 +8,15 @@
 
         public DateTimeOffset FullTime { get; set; }
 
-        public NoteAnalyzedBody() { }
+        public NoteStamina() { }
 
-        public NoteAnalyzedBody(int current, int maximum)
+        public NoteStamina(int current, int maximum)
         {
             Current = current;
             Maximum = maximum;
         }
 
-        public NoteAnalyzedBody(int current, int maximum, DateTimeOffset fullTime) : this(current, maximum)
+        public NoteStamina(int current, int maximum, DateTimeOffset fullTime) : this(current, maximum)
         {
             FullTime = fullTime;
         }

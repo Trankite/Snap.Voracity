@@ -16,48 +16,51 @@ namespace UIDesign.Source.UI.Panel
 
         protected override Size MeasureOverride(Size constraint)
         {
-            Size PanelSize = base.MeasureOverride(constraint);
-            double AccumulatedPosition = (InternalChildren.Count - 1) * Spacing;
-            if (AccumulatedPosition > 0)
+            Size panelSize = base.MeasureOverride(constraint);
+            double accumulatedPosition = (InternalChildren.Count - 1) * Spacing;
+            if (accumulatedPosition > 0)
             {
                 if (Orientation == Orientation.Horizontal)
                 {
-                    PanelSize.Width += AccumulatedPosition;
+                    panelSize.Width += accumulatedPosition;
                 }
                 else
                 {
-                    PanelSize.Height += AccumulatedPosition;
+                    panelSize.Height += accumulatedPosition;
                 }
             }
-            return PanelSize;
+            return panelSize;
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            double AccumulatedPosition = 0;
-            UIElementCollection Children = InternalChildren;
-            for (int i = 0; i < Children.Count; i++)
+            double accumulatedPosition = 0;
+            UIElementCollection children = InternalChildren;
+            for (int i = 0; i < children.Count; i++)
             {
-                UIElement Child = Children[i];
-                if (Child.IsNull()) continue;
-                Size ChildSize = Child.DesiredSize;
-                Rect FinalRect;
+                UIElement child = children[i];
+                if (child.IsNull())
+                {
+                    continue;
+                }
+                Size childSize = child.DesiredSize;
+                Rect finalRect;
                 if (Orientation == Orientation.Horizontal)
                 {
-                    FinalRect = new Rect(AccumulatedPosition, 0, ChildSize.Width, arrangeSize.Height);
+                    finalRect = new Rect(accumulatedPosition, 0, childSize.Width, arrangeSize.Height);
                 }
                 else
                 {
-                    FinalRect = new Rect(0, AccumulatedPosition, arrangeSize.Width, ChildSize.Height);
+                    finalRect = new Rect(0, accumulatedPosition, arrangeSize.Width, childSize.Height);
                 }
-                Child.Arrange(FinalRect);
+                child.Arrange(finalRect);
                 if (Orientation == Orientation.Horizontal)
                 {
-                    AccumulatedPosition += ChildSize.Width + Spacing;
+                    accumulatedPosition += childSize.Width + Spacing;
                 }
                 else
                 {
-                    AccumulatedPosition += ChildSize.Height + Spacing;
+                    accumulatedPosition += childSize.Height + Spacing;
                 }
             }
             return arrangeSize;

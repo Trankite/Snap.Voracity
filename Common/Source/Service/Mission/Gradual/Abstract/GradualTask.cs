@@ -26,9 +26,9 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             {
                 Status = StartOverride();
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                Status = FailedByException(Exception);
+                Status = FailedByException(exception);
             }
         }
 
@@ -45,9 +45,9 @@ namespace Common.Source.Service.Mission.Gradual.Abstract
             {
                 Status = RetryOverride();
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                Status = FailedByException(Exception);
+                Status = FailedByException(exception);
             }
             finally
             {

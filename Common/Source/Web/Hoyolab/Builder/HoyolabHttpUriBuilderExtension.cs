@@ -3,81 +3,97 @@ using Common.Source.Web.Hoyolab.Bbs.Forum;
 using Common.Source.Web.Hoyolab.Bbs.Forum.Share;
 using Common.Source.Web.Hoyolab.Metadata;
 using Common.Source.Web.Request.Builder;
+using System.Diagnostics;
 
 namespace Common.Source.Web.Hoyolab.Builder
 {
     public static class HoyolabHttpUriBuilderExtension
     {
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetChannalId(this HoyolabHttpUriBuilder builder, HoyolabChannal value)
         {
             return builder.SetQuery("channel_id", value.GetDescription());
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetContentId(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("content_id", value);
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetAppSn(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("app_sn", value);
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetServer(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("server", value);
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetRoleId(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("role_id", value);
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetAction(this HoyolabHttpUriBuilder builder, HoyolabAction value)
         {
             return builder.SetQuery("act_id", value.GetDescription());
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetLanguage(this HoyolabHttpUriBuilder builder, HoyolabLanguage value)
         {
             return builder.SetQuery("lang", value.GetDescription());
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetRegion(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("region", value);
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetUid(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("uid", value);
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetForumId(this HoyolabHttpUriBuilder builder, ZoneType value)
         {
             return builder.SetQuery("forum_id", value.GetIntString());
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetSortType(this HoyolabHttpUriBuilder builder, SortType value)
         {
             return builder.SetQuery("sort_type", value.GetIntString());
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetPageSize(this HoyolabHttpUriBuilder builder, int value)
         {
             return builder.SetQuery("page_size", value.ToString());
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetEntityType(this HoyolabHttpUriBuilder builder, EntityType value)
         {
             return builder.SetQuery("entity_type", value.GetIntString());
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetEntityId(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("entity_id", value);
         }
 
+        [DebuggerStepThrough]
         public static HoyolabHttpUriBuilder SetPostId(this HoyolabHttpUriBuilder builder, string value)
         {
             return builder.SetQuery("post_id", value);

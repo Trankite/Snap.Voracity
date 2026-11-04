@@ -20,11 +20,11 @@ namespace Common.Source.Web.Hoyolab.Passport.Exchange
 
         public override HttpRequestMessageBuilder Create()
         {
-            ExchangeRequestBodySourceToken SourceToken = new(HoyolabToken.GetToken(Origin), (int)Origin);
+            ExchangeRequestBodySourceToken sourceToken = new(HoyolabToken.GetToken(Origin), (int)Origin);
             return new HoyolabHttpRequestMessageBuilder()
                 .SetRequestUri(URL)
                 .SetMethod(HttpMethod.Post)
-                .SetStringContent(JsonSerializer.Serialize(new ExchangeRequestBody(SourceToken, HoyolabToken.Mid, (int)Destin)))
+                .SetStringContent(JsonSerializer.Serialize(new ExchangeRequestBody(sourceToken, HoyolabToken.Mid, (int)Destin)))
                 .SetXrpcAppId(HoyolabOptions.HoyolabId);
         }
     }

@@ -7,7 +7,7 @@ using Common.Source.Service.Terminal.Interface;
 
 namespace Common.Source.Service.Terminal.Support
 {
-    public class FormulaCycle : CyclicTerminalCommand
+    public class FormulaCycle : TerminalCommandCyclic
     {
         public override string Name => "formula";
 
@@ -17,15 +17,15 @@ namespace Common.Source.Service.Terminal.Support
 
         protected override ITerminalResponse InvokeOverride(string? line, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            string? Message = string.Empty;
-            MagicalFormulaParser Parser = new();
-            MagicalFormulaSolver Solver = new();
-            MagicalFormula? Formula = Parser.Parse(line);
-            if (Formula.IsNotNull() && Solver.Verify(Formula, out Message))
+            string? message = string.Empty;
+            MagicalFormulaParser parser = new();
+            MagicalFormulaSolver solver = new();
+            MagicalFormula? formula = parser.Parse(line);
+            if (formula.IsNotNull() && solver.Verify(formula, out message))
             {
-                Message = $"{Formula}\x20=\x20{Solver.GetValue(Formula)}";
+                message = $"{formula}\x20=\x20{solver.GetValue(formula)}";
             }
-            return new TerminalResponse(true, Message);
+            return new TerminalResponse(true, message);
         }
     }
 }

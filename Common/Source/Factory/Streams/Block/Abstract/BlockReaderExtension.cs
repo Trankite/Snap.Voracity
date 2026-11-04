@@ -14,10 +14,10 @@ namespace Common.Source.Factory.Streams.Block.Abstract
         }
 
         [DebuggerStepThrough]
-        public static async ValueTask<CheckTicket<ReadOnlyMemory<T>>> ReadAsync<T>(this IAsyncBlockReader<T> blockReader, CancellationToken cancellationToken = default)
+        public static async ValueTask<CheckTicket<ReadOnlyMemory<T>>> TryReadBlockAsync<T>(this IAsyncBlockReader<T> blockReader, CancellationToken cancellationToken = default)
         {
-            ReadOnlyMemory<T> BlockMemory = await blockReader.ReadBlockAsync(cancellationToken).ConfigureAwait(false);
-            return CheckTicket.Create(!BlockMemory.IsEmpty, BlockMemory);
+            ReadOnlyMemory<T> blockMemory = await blockReader.ReadBlockAsync(cancellationToken).ConfigureAwait(false);
+            return CheckTicket.Create(!blockMemory.IsEmpty, blockMemory);
         }
     }
 }

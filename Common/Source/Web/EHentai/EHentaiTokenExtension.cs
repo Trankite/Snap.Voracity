@@ -10,12 +10,12 @@ namespace Common.Source.Web.EHentai
     {
         private const string Salt = "F6C98E723070F43057CB319D3BA2EE12";
 
-        public static string GetToken(this EHentaiToken eHentaiToken)
+        public static string GetToken(this EHentaiToken ehentaiToken)
         {
-            using AESAlgorithm Algorithm = GetAlgorithm();
+            using AESAlgorithm algorithm = GetAlgorithm();
             try
             {
-                return Encoding.UTF8.GetString(Algorithm.DecryptFromBase64String(eHentaiToken.IpbPassHash));
+                return Encoding.UTF8.GetString(algorithm.DecryptFromBase64String(ehentaiToken.IpbPassHash));
             }
             catch
             {
@@ -23,16 +23,16 @@ namespace Common.Source.Web.EHentai
             }
         }
 
-        public static EHentaiToken SetToken(this EHentaiToken eHentaiToken, string token)
+        public static EHentaiToken SetToken(this EHentaiToken ehentaiToken, string token)
         {
-            using AESAlgorithm Algorithm = GetAlgorithm();
-            eHentaiToken.IpbPassHash = Algorithm.EncryptToBase64String(Encoding.UTF8.GetBytes(token));
-            return eHentaiToken;
+            using AESAlgorithm algorithm = GetAlgorithm();
+            ehentaiToken.IpbPassHash = algorithm.EncryptToBase64String(Encoding.UTF8.GetBytes(token));
+            return ehentaiToken;
         }
 
         private static AESAlgorithm GetAlgorithm()
         {
-            return new AESAlgorithm(HashMethod.HashData(HashAlgorithmName.SHA256, LocalSetting.GetUserSid() + Salt));
+            return AESAlgorithm.Create(HashMethod.HashData(HashAlgorithmName.SHA256, LocalSetting.GetUserSid() + Salt));
         }
     }
 }

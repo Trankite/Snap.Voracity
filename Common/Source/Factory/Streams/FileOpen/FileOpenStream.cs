@@ -62,9 +62,9 @@ namespace Common.Source.Factory.Streams.FileOpen
             {
                 Stream = FileInfo.Open(FileMode, FileAccess, FileShare);
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                return FailedByException(Exception, Exception is not IOException);
+                return FailedByException(exception, exception is not IOException);
             }
             return GradualStatus.Completed;
         }

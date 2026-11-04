@@ -10,9 +10,12 @@ namespace UIDesign.Source.UI.Control
             InitializeComponent();
         }
 
-        private void TabItemCloseClick(object sender, RoutedEventArgs e)
+        private void TabItemCloseClick(object sender, RoutedEventArgs eventArguments)
         {
-            if (!e.Handled) RaiseEvent(new RoutedEventArgs(TabItemCloseEvent, sender));
+            if (!eventArguments.Handled)
+            {
+                RaiseEvent(new RoutedEventArgs(TabItemCloseEvent, sender));
+            }
         }
 
         public void ClearEventBinding(object sender)
@@ -30,12 +33,15 @@ namespace UIDesign.Source.UI.Control
 
         protected override DependencyObject GetContainerForItemOverride()
         {
-            TabItem ScopedTabItem = new();
-            ScopedTabItem.TabItemClose += TabItemCloseClick;
-            return ScopedTabItem;
+            TabItem tabItem = new();
+            tabItem.TabItemClose += TabItemCloseClick;
+            return tabItem;
         }
 
-        protected override bool IsItemItsOwnContainerOverride(object item) => item is TabItem;
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is TabItem;
+        }
 
         public SolidColorBrush FocusBrush
         {

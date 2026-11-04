@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Serialize;
+using Common.Source.Factory.Serialize.Abstract;
 using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Terminal.Abstract;
@@ -37,56 +37,56 @@ namespace Common.Source.Service.Terminal.Hoyolab.Game
 
         public static async ValueTask<ITerminalResponse<SignInfoResponseWrapper>> AsyncInvoke(string? aid = default, CancellationToken cancellationToken = default)
         {
-            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? Token))
+            if (!HoyolabTokenManage.TryGetTokenOrFirst(aid, out HoyolabToken? hoyolabToken))
             {
                 return new TerminalResponse<SignInfoResponseWrapper>(SupportTerminalResponse.NotFindToken(aid));
             }
-            if (!Token.TryGetUserRole(HoyolabApp.StarRailChina.OutSender(out HoyolabApp Game), out HoyolabUserRole? UserRole))
+            if (!hoyolabToken.TryGetUserRole(HoyolabApp.StarRailChina.OutSender(out HoyolabApp hoyolabApp), out HoyolabUserRole? userRole))
             {
-                return new TerminalResponse<SignInfoResponseWrapper>(HoyolabTerminalResponse.NotFindUserRole(Game));
+                return new TerminalResponse<SignInfoResponseWrapper>(HoyolabTerminalResponse.NotFindUserRole(hoyolabApp));
             }
-            SignRequestBody Body = SignRequestBody.Create(UserRole, HoyolabAction.StarRailSign, HoyolabLanguage.Chinese);
-            SignRequestBuilderFactory Factory = new SignRequestBuilderFactory(Token).SetBody(Body);
-            HttpResponse<SignResponse> SignActionResponse = await Factory.Create().SendAsync<SignResponse>(cancellationToken).ConfigureAwait(false);
-            if (SignActionResponse.Body.IsNull() || !SignActionResponse.Body.Success)
+            SignRequestBody body = SignRequestBody.Create(userRole, HoyolabAction.StarRailSign, HoyolabLanguage.Chinese);
+            SignRequestBuilderFactory factory = new SignRequestBuilderFactory(hoyolabToken).SetBody(body);
+            HttpResponse<SignResponse> signActionResponse = await factory.Create().SendAsync<SignResponse>(cancellationToken).ConfigureAwait(false);
+            if (signActionResponse.Body.IsNull() || !signActionResponse.Body.Success)
             {
-                return new TerminalResponse<SignInfoResponseWrapper>(false, SignActionResponse.ToString());
+                return new TerminalResponse<SignInfoResponseWrapper>(false, signActionResponse.ToString());
             }
-            ITerminalResponse<SignInfoResponseWrapper> SignInfoResponse = await GetSignInfo(Token, UserRole, cancellationToken).ConfigureAwait(false);
-            if (!SignInfoResponse.TryGetContent(out SignInfoResponseWrapper? SignInfo))
+            ITerminalResponse<SignInfoResponseWrapper> signInfoResponse = await GetSignInfo(hoyolabToken, userRole, cancellationToken).ConfigureAwait(false);
+            if (!signInfoResponse.TryGetContent(out SignInfoResponseWrapper? signInfo))
             {
-                return new TerminalResponse<SignInfoResponseWrapper>(SignInfoResponse);
+                return new TerminalResponse<SignInfoResponseWrapper>(signInfoResponse);
             }
-            ITerminalResponse<IEnumerable<SignHomeAnalyzedBody>> SignAwardsResponse = await GetSignAwards(cancellationToken).ConfigureAwait(false);
-            if (!SignAwardsResponse.TryGetContent(out IEnumerable<SignHomeAnalyzedBody>? SignAwards))
+            ITerminalResponse<IEnumerable<SignAward>> signAwardsResponse = await GetSignAwards(cancellationToken).ConfigureAwait(false);
+            if (!signAwardsResponse.TryGetContent(out IEnumerable<SignAward>? signAwards))
             {
-                return new TerminalResponse<SignInfoResponseWrapper>(SignAwardsResponse);
+                return new TerminalResponse<SignInfoResponseWrapper>(signAwardsResponse);
             }
-            SignHomeAnalyzedBody? Award = SignAwards.ToArray().GetIndexValue(SignInfo.TotalSignDay - 1);
-            object?[] FormatInfo = [SignInfo.TotalSignDay, SignInfo.TotalSignDay + SignInfo.SignCntMissed, Award?.Name, Award?.Count];
-            return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabGameSignContent.SafeFormat(FormatInfo), SignInfo);
+            SignAward? award = signAwards.ToArray().GetIndexValue(signInfo.TotalSignDay - 1);
+            object?[] formatInfo = [signInfo.TotalSignDay, signInfo.TotalSignDay + signInfo.SignCntMissed, award?.Name, award?.Count];
+            return TerminalResponse.Create(true, LocalString.ServiceTerminalHoyolabGameSignContent.SafeFormat(formatInfo), signInfo);
         }
 
         private static async ValueTask<ITerminalResponse<SignInfoResponseWrapper>> GetSignInfo(HoyolabToken hoyolabToken, HoyolabUserRole userRole, CancellationToken cancellationToken = default)
         {
-            SignInfoRequestBuilderFactory Factory = new(hoyolabToken, HoyolabAction.StarRailSign, HoyolabLanguage.Chinese, userRole);
-            HttpResponse<SignInfoResponse> Response = await Factory.Create().SendAsync<SignInfoResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TryGetContent(out SignInfoResponseWrapper? AnalyzedBody))
+            SignInfoRequestBuilderFactory factory = new(hoyolabToken, HoyolabAction.StarRailSign, HoyolabLanguage.Chinese, userRole);
+            HttpResponse<SignInfoResponse> response = await factory.Create().SendAsync<SignInfoResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TryGetContent(out SignInfoResponseWrapper? signInfo))
             {
-                return TerminalResponse.Create(true, AnalyzedBody);
+                return TerminalResponse.Create(true, signInfo);
             }
-            return new TerminalResponse<SignInfoResponseWrapper>(false, Response.ToString());
+            return new TerminalResponse<SignInfoResponseWrapper>(false, response.ToString());
         }
 
-        private static async ValueTask<ITerminalResponse<IEnumerable<SignHomeAnalyzedBody>>> GetSignAwards(CancellationToken cancellationToken = default)
+        private static async ValueTask<ITerminalResponse<IEnumerable<SignAward>>> GetSignAwards(CancellationToken cancellationToken = default)
         {
-            SignHomeRequestBuilderFactory Factory = new(HoyolabLanguage.Chinese, HoyolabAction.StarRailSign);
-            HttpResponse<SignHomeResponse> Response = await Factory.Create().SendAsync<SignHomeResponse>(cancellationToken).ConfigureAwait(false);
-            if (Response.Body.IsNotNull() && Response.Body.TrySerialize(out IEnumerable<SignHomeAnalyzedBody>? AnalyzedBody))
+            SignHomeRequestBuilderFactory factory = new(HoyolabLanguage.Chinese, HoyolabAction.StarRailSign);
+            HttpResponse<SignHomeResponse> response = await factory.Create().SendAsync<SignHomeResponse>(cancellationToken).ConfigureAwait(false);
+            if (response.Body.IsNotNull() && response.Body.TrySerialize(out IEnumerable<SignAward>? signAward))
             {
-                return TerminalResponse.Create(true, AnalyzedBody);
+                return TerminalResponse.Create(true, signAward);
             }
-            return new TerminalResponse<IEnumerable<SignHomeAnalyzedBody>>(false, Response.ToString());
+            return new TerminalResponse<IEnumerable<SignAward>>(false, response.ToString());
         }
     }
 }

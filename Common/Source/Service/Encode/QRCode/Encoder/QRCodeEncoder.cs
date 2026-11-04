@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Model.Abstract;
 using Common.Source.Model.Collection;
-using Common.Source.Model.DataStruct.Span;
+using Common.Source.Model.DataStruct;
 using Common.Source.Model.Exceptions;
 using Common.Source.Service.Encode.QRCode.Metadata;
 
@@ -11,7 +11,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
     {
         private static readonly uint[][] ECCodeGroupTable;
 
-        private static readonly SortedArray<int>[] QRCodeCapacityTable;
+        private static readonly SortedArray<short>[] QRCodeCapacityTable;
 
         public int Capacity { get; private set; }
 
@@ -35,7 +35,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         protected abstract int GetUsedBitCount(int length);
 
-        protected abstract SortedArray<int> GetCapacityTable(ECCodeLevel eccodeLevel);
+        protected abstract SortedArray<short> GetCapacityTable(ECCodeLevel eccodeLevel);
 
         public int GetMaxCapacity()
         {
@@ -45,8 +45,8 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
         public void SetOptimalVersion(ReadOnlySpan<byte> content, int value = 0)
         {
             ObjectFrozenException.ThrowIfFrozen(this);
-            int Index = GetCapacityTable(ECCodeLevel).Search(content.Length).GetInsert();
-            Version = Math.Clamp(Index + 1, value, 40);
+            int index = GetCapacityTable(ECCodeLevel).Search((short)content.Length).GetInsert();
+            Version = Math.Clamp(index + 1, value, 40);
         }
 
         protected override void FreezeOverride()
@@ -57,92 +57,92 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         public byte[] Encode(ReadOnlySpan<byte> content)
         {
-            int Offset = 0;
-            BitSet EncodedData = ContentEncode(content);
-            int TotalBlockCount = ECCodeGroup.BlocksInGroup1 + ECCodeGroup.BlocksInGroup2;
-            byte[][] Content = new byte[TotalBlockCount][];
+            int offset = 0;
+            BitSet encodedData = ContentEncode(content);
+            int totalBlockCount = ECCodeGroup.BlocksInGroup1 + ECCodeGroup.BlocksInGroup2;
+            byte[][] encodedContent = new byte[totalBlockCount][];
             byte[] RSEncode(int index, int length)
             {
-                Span<byte> SubData = EncodedData.Bytes.AsSpan(Offset, length);
-                Content[index] = SubData.ToArray();
-                return GaloisField.RSEncode(SubData, ECCodeGroup.ECCodePerBytes);
+                Span<byte> submitData = encodedData.Bytes.AsSpan(offset, length);
+                encodedContent[index] = submitData.ToArray();
+                return GaloisField.RSEncode(submitData, ECCodeGroup.ECCodePerBytes);
             }
-            byte[][] ECCode = new byte[TotalBlockCount][];
-            for (int i = 0; i < ECCodeGroup.BlocksInGroup1; i++, Offset += ECCodeGroup.CodewordsInGroup1)
+            byte[][] eccode = new byte[totalBlockCount][];
+            for (int i = 0; i < ECCodeGroup.BlocksInGroup1; i++, offset += ECCodeGroup.CodewordsInGroup1)
             {
-                ECCode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup1);
+                eccode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup1);
             }
-            for (int i = ECCodeGroup.BlocksInGroup1; i < TotalBlockCount; i++, Offset += ECCodeGroup.CodewordsInGroup2)
+            for (int i = ECCodeGroup.BlocksInGroup1; i < totalBlockCount; i++, offset += ECCodeGroup.CodewordsInGroup2)
             {
-                ECCode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup2);
+                eccode[i] = RSEncode(i, ECCodeGroup.CodewordsInGroup2);
             }
-            return Interlock(Content, ECCode);
+            return Interlock(encodedContent, eccode);
         }
 
         private BitSet ContentEncode(ReadOnlySpan<byte> content)
         {
-            BitSet Binary = BinaryEncode(content);
-            BitSet FinalContent = BitSet.FromBitCount(Capacity * 8);
-            FinalContent.Write(0, 1 << ((int)EncodeMode - 1), 4);
-            FinalContent.Write(4, content.Length, BitsOfContent);
-            FinalContent.Write(4 + BitsOfContent, Binary, 0, Binary.Count);
-            int Index = (GetTotalBitCount(content.Length) + 7) & ~7;
-            while (Index < FinalContent.Count)
+            BitSet binary = BinaryEncode(content);
+            BitSet encodedContent = BitSet.Create(Capacity * 8);
+            encodedContent.Write(0, 1 << ((int)EncodeMode - 1), 4);
+            encodedContent.Write(4, content.Length, BitsOfContent);
+            encodedContent.Write(4 + BitsOfContent, binary, 0, binary.Count);
+            int index = (GetTotalBitCount(content.Length) + 7) & ~7;
+            while (index < encodedContent.Count)
             {
-                FinalContent.Write(Index, 0b11101100, 8);
-                if ((Index += 8) < FinalContent.Count)
+                encodedContent.Write(index, 0b11101100, 8);
+                if ((index += 8) < encodedContent.Count)
                 {
-                    FinalContent.Write(Index, 0b00010001, 8);
-                    Index += 8;
+                    encodedContent.Write(index, 0b00010001, 8);
+                    index += 8;
                 }
             }
-            return FinalContent;
+            return encodedContent;
         }
 
         public int GetTotalBitCount(int length)
         {
-            int UsedBitCount = 4 + BitsOfContent + GetUsedBitCount(length);
-            return UsedBitCount + Math.Min(4, Capacity * 8 - UsedBitCount);
+            int usedBitCount = 4 + BitsOfContent + GetUsedBitCount(length);
+            return usedBitCount + Math.Min(4, Capacity * 8 - usedBitCount);
         }
 
         private byte[] Interlock(byte[][] content, byte[][] eccode)
         {
-            int Offset = -1;
-            int ECCodeCount = ECCodeGroup.ECCodePerBytes * eccode.Length;
-            int ContentCount = ECCodeGroup.BlocksInGroup1 * ECCodeGroup.CodewordsInGroup1 + ECCodeGroup.BlocksInGroup2 * ECCodeGroup.CodewordsInGroup2;
-            byte[] FinalContent = new byte[ContentCount + ECCodeCount];
+            int offset = -1;
+            int eccodeCount = ECCodeGroup.ECCodePerBytes * eccode.Length;
+            int contentCount = ECCodeGroup.BlocksInGroup1 * ECCodeGroup.CodewordsInGroup1 + ECCodeGroup.BlocksInGroup2 * ECCodeGroup.CodewordsInGroup2;
+            byte[] encodedContent = new byte[contentCount + eccodeCount];
             for (int x = 0; x < ECCodeGroup.CodewordsInGroup1; x++)
             {
                 for (int y = 0; y < content.Length; y++)
                 {
-                    FinalContent[++Offset] = content[y][x];
+                    encodedContent[++offset] = content[y][x];
                 }
             }
             for (int x = ECCodeGroup.CodewordsInGroup1; x < ECCodeGroup.CodewordsInGroup2; x++)
             {
                 for (int y = ECCodeGroup.BlocksInGroup1; y < content.Length; y++)
                 {
-                    FinalContent[++Offset] = content[y][x];
+                    encodedContent[++offset] = content[y][x];
                 }
             }
             for (int x = 0; x < ECCodeGroup.ECCodePerBytes; x++)
             {
                 for (int y = 0; y < eccode.Length; y++)
                 {
-                    FinalContent[++Offset] = eccode[y][x];
+                    encodedContent[++offset] = eccode[y][x];
                 }
             }
-            return FinalContent;
+            return encodedContent;
         }
 
         static QRCodeEncoder()
         {
             QRCodeCapacityTable =
             [
-                new SortedArray<int>([19, 34, 55, 80, 108, 136, 156, 194, 232, 274, 324, 370, 428, 461, 523, 589, 647, 721, 795, 861, 932, 1006, 1094, 1174, 1276, 1370, 1468, 1531, 1631, 1735, 1843, 1955, 2071, 2191, 2306, 2434, 2566, 2702, 2812, 2956]),
-                new SortedArray<int>([16, 28, 44, 64, 86,  108, 124, 154, 182, 216, 254, 290, 334, 365, 415, 453, 507, 563, 627, 669, 714, 782,  860,  914,  1000, 1062, 1128, 1193, 1267, 1373, 1455, 1541, 1631, 1725, 1812, 1914, 1992, 2102, 2216, 2334]),
-                new SortedArray<int>([13, 22, 34, 48, 62,  76,  88,  110, 132, 154, 180, 206, 244, 261, 295, 325, 367, 397, 445, 485, 512, 568,  614,  664,  718,  754,  808,  871,  911,  985,  1033, 1115, 1171, 1231, 1286, 1354, 1426, 1502, 1582, 1666]),
-                new SortedArray<int>([9,  16, 26, 36, 46,  60,  66,  86,  100, 122, 140, 158, 180, 197, 223, 253, 283, 313, 341, 385, 406, 442,  464,  514,  538,  596,  628,  661,  701,  745,  793,  845,  901,  961,  986,  1054, 1096, 1142, 1222, 1276])
+                new SortedArray<short>([19, 34, 55, 80, 108, 136, 156, 194, 232, 274, 324, 370, 428, 461, 523, 589, 647, 721, 795, 861, 932, 1006, 1094, 1174, 1276, 1370, 1468, 1531, 1631, 1735, 1843, 1955, 2071, 2191, 2306, 2434, 2566, 2702, 2812, 2956]),
+                new SortedArray<short>([16, 28, 44, 64, 86,  108, 124, 154, 182, 216, 254, 290, 334, 365, 415, 453, 507, 563, 627, 669, 714, 782,  860,  914,  1000, 1062, 1128, 1193, 1267, 1373, 1455, 1541, 1631, 1725, 1812, 1914, 1992, 2102, 2216, 2334]),
+                new SortedArray<short>([13, 22, 34, 48, 62,  76,  88,  110, 132, 154, 180, 206, 244, 261, 295, 325, 367, 397, 445, 485, 512, 568,  614,  664,  718,  754,  808,  871,  911,  985,  1033, 1115, 1171, 1231, 1286, 1354, 1426, 1502, 1582, 1666]),
+                new SortedArray<short>([9,  16, 26, 36, 46,  60,  66,  86,  100, 122, 140, 158, 180, 197, 223, 253, 283, 313, 341, 385, 406, 442,  464,  514,  538,  596,  628,  661,  701,  745,  793,  845,  901,  961,  986,  1054, 1096, 1142, 1222, 1276])
             ];
             ECCodeGroupTable =
             [

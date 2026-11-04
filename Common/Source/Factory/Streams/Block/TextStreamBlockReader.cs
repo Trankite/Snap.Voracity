@@ -27,10 +27,10 @@ namespace Common.Source.Factory.Streams.Block
 
         public static TextStreamBlockReader Create(Stream stream, Encoding? encoding = default, bool leaveOpen = default)
         {
-            encoding ??= Encoding.Default;
-            PoolOwner<byte> BytesOwner = BufferPool<byte>.GetBuffer();
-            PoolOwner<char> CharsOwner = BufferPool<char>.GetBuffer(encoding.GetMaxCharCount(BytesOwner.Length));
-            return new TextStreamBlockReader(stream, encoding.GetDecoder(), BytesOwner, CharsOwner, leaveOpen);
+            encoding ??= Encoding.UTF8;
+            PoolOwner<byte> bytesOwner = BufferPool<byte>.GetBuffer();
+            PoolOwner<char> charsOwner = BufferPool<char>.GetBuffer(encoding.GetMaxCharCount(bytesOwner.Length));
+            return new TextStreamBlockReader(stream, encoding.GetDecoder(), bytesOwner, charsOwner, leaveOpen);
         }
 
         protected override ReadOnlyMemory<char> ReadBlockOverride()

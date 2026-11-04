@@ -104,7 +104,11 @@ namespace Common.Source.Factory.Formula.Magical
 
             public override double Method(MagicalFormula context, Func<string, double>? getter, Func<string, double, double>? setter)
             {
-                return GetMethodContext(context.Ended).OutSender(out List<MagicalFormula> MethodContext).Count >= MinCount ? MethodOverride(MethodContext, getter, setter) : double.NaN;
+                if (GetMethodContext(context.Ended).OutSender(out List<MagicalFormula> MethodContext).Count < MinCount)
+                {
+                    return double.NaN;
+                }
+                return (double)MethodOverride(MethodContext, getter, setter);
             }
 
             public override bool Verify(MagicalFormula formula, [NotNullWhen(false)] out string? message)
@@ -118,7 +122,11 @@ namespace Common.Source.Factory.Formula.Magical
 
             protected virtual bool VerifyOverride(List<MagicalFormula> context, [NotNullWhen(false)] out string? message)
             {
-                return context.Count < MinCount ? false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.SafeFormat(Name)) : true.Configure(message = default);
+                if (context.Count < MinCount)
+                {
+                    return false.Configure(message = LocalString.ServiceFormulaVerifyMissingOperand.SafeFormat(Name));
+                }
+                return true.Configure(message = default);
             }
         }
     }

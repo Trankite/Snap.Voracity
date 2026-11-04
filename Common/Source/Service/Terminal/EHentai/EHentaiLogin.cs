@@ -28,28 +28,28 @@ namespace Common.Source.Service.Terminal.EHentai
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = null, CancellationToken cancellationToken = default)
         {
-            if (!commandLine.TryGetParameter(Param_IpbMemberId, out string? IpbMemberId))
+            if (!commandLine.TryGetParameter(Param_IpbMemberId, out string? ipbMemberId))
             {
                 return SupportTerminalResponse.UnlawfulParameter();
             }
-            if (!commandLine.TryGetParameter(Param_IpbPassHash, out string? IpbPassHash))
+            if (!commandLine.TryGetParameter(Param_IpbPassHash, out string? ipbPassHash))
             {
                 return SupportTerminalResponse.UnlawfulParameter();
             }
-            EHentaiToken EHentaiToken = new EHentaiToken(IpbMemberId).SetToken(IpbPassHash);
-            EHentaiToken.Igneous = commandLine.GetParameter(Param_Igneous);
-            return Invoke(EHentaiToken);
+            EHentaiToken ehentaiToken = new EHentaiToken(ipbMemberId).SetToken(ipbPassHash);
+            ehentaiToken.Igneous = commandLine.GetParameter(Param_Igneous);
+            return Invoke(ehentaiToken);
         }
 
-        public static ITerminalResponse Invoke(EHentaiToken eHentaiToken)
+        public static ITerminalResponse Invoke(EHentaiToken ehentaiToken)
         {
             try
             {
-                EHentaiTokenManage.Update(eHentaiToken);
+                EHentaiTokenManage.Update(ehentaiToken);
             }
-            catch (Exception Exception)
+            catch (Exception exception)
             {
-                return new TerminalResponse(false, Exception.Message);
+                return new TerminalResponse(false, exception.Message);
             }
             return new TerminalResponse(true, LocalString.ServiceTerminalEHentaiEHentaiLoginSuccess);
         }

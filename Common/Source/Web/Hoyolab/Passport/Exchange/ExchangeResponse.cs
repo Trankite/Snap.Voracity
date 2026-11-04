@@ -7,7 +7,7 @@ namespace Common.Source.Web.Hoyolab.Passport.Exchange
     {
         public ExchangeResponseToken? Serialize()
         {
-            return TryGetContent(out ExchangeResponseWrapper? Content) ? Content.Token : default;
+            return TryGetContent(out ExchangeResponseWrapper? content) ? content.Token : default;
         }
     }
 }

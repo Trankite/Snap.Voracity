@@ -35,49 +35,61 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
 
         public static async ValueTask<ITerminalResponse<MissionInfo>> AsyncInvoke(string? aid = default, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            ITerminalResponse<MissionInfo> MissionInfoResponse = await UserMissionInfo.AsyncInvoke(aid, cancellationToken).ConfigureAwait(false);
-            if (!MissionInfoResponse.TryGetContent(out MissionInfo? MissionInfoContent) || MissionInfoContent.Surplus == 0)
+            ITerminalResponse<MissionInfo> missionInfoResponse = await UserMissionInfo.AsyncInvoke(aid, cancellationToken).ConfigureAwait(false);
+            if (!missionInfoResponse.TryGetContent(out MissionInfo? missionInfo) || missionInfo.Surplus == 0)
             {
-                return MissionInfoResponse;
+                return missionInfoResponse;
             }
-            bool IsUpdated = false;
+            bool isUpdated = false;
             bool VerifyMissionStatus(ITerminalResponse response)
             {
+                isUpdated |= response.Success;
                 textStream?.WriteLine(response);
-                response.Success.OverlayIfTrue(ref IsUpdated);
                 return response.Success;
             }
-            Dictionary<MissionType, int> Mission = MissionInfoContent.Mission;
-            for (int i = 1 - Mission.GetValueOrDefault(MissionType.Sign) - 1; i >= 0; i--)
+            Dictionary<MissionType, int> mission = missionInfo.Mission;
+            for (int i = mission.GetValueOrDefault(MissionType.Sign); i < 1; i++)
             {
-                if (!VerifyMissionStatus(await ForumSign.AsyncInvoke(HoyolabGroup.StarRail, aid, cancellationToken).ConfigureAwait(false))) break;
+                if (!VerifyMissionStatus(await ForumSign.AsyncInvoke(HoyolabGroup.StarRail, aid, cancellationToken).ConfigureAwait(false)))
+                {
+                    break;
+                }
             }
 
             // https://www.miyoushe.com/ys/article/74971515
             // 2026-04-28 已正式下线米游币任务「每日任务」中的“浏览帖子”、“点赞帖子”与“分享帖子”任务
             const bool MissionViewUpvoteShareEnabled = false;
-            if (MissionViewUpvoteShareEnabled && Mission.ExistsKey(MissionType.View, MissionType.Upvote, MissionType.Share))
+            if (MissionViewUpvoteShareEnabled && mission.ExistsKey(MissionType.View, MissionType.Upvote, MissionType.Share))
             {
-                ITerminalResponse<IEnumerable<NewestAnalyzedBody>> NewestResponse = await ForumNewest.AsyncInvoke(5, ZoneType.StarRailWaitingRoom, default, cancellationToken).ConfigureAwait(false);
-                if (!NewestResponse.TryGetContent(out IEnumerable<NewestAnalyzedBody>? NewestContent) || NewestContent.ToArray().OutSender(out NewestAnalyzedBody[]? NewestPost).Length < 5)
+                ITerminalResponse<IEnumerable<NewestPost>> newestResponse = await ForumNewest.AsyncInvoke(5, ZoneType.StarRailWaitingRoom, default, cancellationToken).ConfigureAwait(false);
+                if (!newestResponse.TryGetContent(out IEnumerable<NewestPost>? newestEnumerable) || newestEnumerable.ToArray().OutSender(out NewestPost[]? newestPosts).Length < 5)
                 {
-                    return TerminalResponse.Create<MissionInfo>(NewestResponse);
+                    return TerminalResponse.Create<MissionInfo>(newestResponse);
                 }
-                for (int i = 3 - Mission.GetValueOrDefault(MissionType.View) - 1; i >= 0; i--)
+                for (int i = mission.GetValueOrDefault(MissionType.View); i < 3; i++)
                 {
-                    if (!VerifyMissionStatus(await ForumDetail.AsyncInvoke(NewestPost[i].PostId, true, aid, cancellationToken).ConfigureAwait(false))) break;
+                    if (!VerifyMissionStatus(await ForumDetail.AsyncInvoke(newestPosts[i].PostId, true, aid, cancellationToken).ConfigureAwait(false)))
+                    {
+                        break;
+                    }
                 }
-                for (int i = 5 - Mission.GetValueOrDefault(MissionType.Upvote) - 1; i >= 0; i--)
+                for (int i = mission.GetValueOrDefault(MissionType.Upvote); i < 5; i++)
                 {
-                    if (!VerifyMissionStatus(await ForumUpvote.AsyncInvoke(NewestPost[i].PostId, false, aid, cancellationToken).ConfigureAwait(false))) break;
+                    if (!VerifyMissionStatus(await ForumUpvote.AsyncInvoke(newestPosts[i].PostId, false, aid, cancellationToken).ConfigureAwait(false)))
+                    {
+                        break;
+                    }
                 }
-                for (int i = 1 - Mission.GetValueOrDefault(MissionType.Share) - 1; i >= 0; i--)
+                for (int i = mission.GetValueOrDefault(MissionType.Share); i < 1; i++)
                 {
-                    if (!VerifyMissionStatus(await ForumShare.AsyncInvoke(NewestPost[i].PostId, aid, cancellationToken).ConfigureAwait(false))) break;
+                    if (!VerifyMissionStatus(await ForumShare.AsyncInvoke(newestPosts[i].PostId, aid, cancellationToken).ConfigureAwait(false)))
+                    {
+                        break;
+                    }
                 }
             }
 
-            return IsUpdated ? await UserMissionInfo.AsyncInvoke(aid, cancellationToken).ConfigureAwait(false) : MissionInfoResponse;
+            return isUpdated ? await UserMissionInfo.AsyncInvoke(aid, cancellationToken).ConfigureAwait(false) : missionInfoResponse;
         }
     }
 }

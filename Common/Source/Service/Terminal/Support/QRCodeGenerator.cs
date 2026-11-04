@@ -53,68 +53,68 @@ namespace Common.Source.Service.Terminal.Support
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            string Content = commandLine.GetParameter(Param_Content);
-            string FilePath = commandLine.GetParameter(Param_FilePath);
-            if (!commandLine.TryGetParameter(Param_FileFormat, out string? Format))
+            string content = commandLine.GetParameter(Param_Content);
+            string filePath = commandLine.GetParameter(Param_FilePath);
+            if (!commandLine.TryGetParameter(Param_FileFormat, out string? format))
             {
-                Format = FileHelper.GetExtensionName(FilePath);
+                format = FileHelper.GetExtensionName(filePath);
             }
-            FileFormat FileFormat = FileFormatExtension.Parse(Format, FileFormat.Svg);
-            if (string.IsNullOrEmpty(Path.GetExtension(FilePath)))
+            FileFormat fileFormat = FileFormatExtension.Parse(format, FileFormat.Svg);
+            if (string.IsNullOrEmpty(Path.GetExtension(filePath)))
             {
-                FilePath = Path.ChangeExtension(FilePath, FileFormat.GetDescription());
+                filePath = Path.ChangeExtension(filePath, fileFormat.GetDescription());
             }
-            QRCodeOptions Options = new();
-            if (ColorExtension.TryFromHtml(commandLine.GetParameter(Param_Foreground), out Color Foreground))
+            QRCodeOptions options = new();
+            if (ColorExtension.TryFromHtml(commandLine.GetParameter(Param_Foreground), out Color foreground))
             {
-                Options.Foreground = Foreground;
+                options.Foreground = foreground;
             }
-            if (ColorExtension.TryFromHtml(commandLine.GetParameter(Param_Background), out Color Background))
+            if (ColorExtension.TryFromHtml(commandLine.GetParameter(Param_Background), out Color background))
             {
-                Options.Background = Background;
+                options.Background = background;
             }
-            if (int.TryParse(commandLine.GetParameter(Param_PixelSize), out int Pixel) && Pixel > 0)
+            if (int.TryParse(commandLine.GetParameter(Param_PixelSize), out int pixel) && pixel > 0)
             {
-                Options.Pixel = Pixel;
+                options.Pixel = pixel;
             }
-            if (int.TryParse(commandLine.GetParameter(Param_Padding), out int Padding) && Padding >= 0)
+            if (int.TryParse(commandLine.GetParameter(Param_Padding), out int padding) && padding >= 0)
             {
-                Options.Padding = Padding;
+                options.Padding = padding;
             }
-            Options.Version = commandLine.GetIntParameter(Param_Version);
-            if (EnumExtension.TryParse(commandLine.GetParameter(Param_EncodeMode), out EncodeMode EncodeMode))
+            options.Version = commandLine.GetIntParameter(Param_Version);
+            if (EnumExtension.TryParse(commandLine.GetParameter(Param_EncodeMode), out EncodeMode encodeMode))
             {
-                Options.EncodeMode = EncodeMode;
+                options.EncodeMode = encodeMode;
             }
-            if (EnumExtension.TryParse(commandLine.GetParameter(Param_ECCodeLevel), out ECCodeLevel ECCodeLevel))
+            if (EnumExtension.TryParse(commandLine.GetParameter(Param_ECCodeLevel), out ECCodeLevel eccodeLevel))
             {
-                Options.ECCodeLevel = ECCodeLevel;
+                options.ECCodeLevel = eccodeLevel;
             }
-            if (EnumExtension.TryParse(commandLine.GetParameter(Param_MaskType), out MaskType MaskType))
+            if (EnumExtension.TryParse(commandLine.GetParameter(Param_MaskType), out MaskType maskType))
             {
-                Options.MaskType = MaskType;
+                options.MaskType = maskType;
             }
-            bool PathOpne = commandLine.GetBoolParameter(Param_PathOpen);
-            return Invoke(Content, FilePath, Options, PathOpne, FileFormat);
+            bool pathOpne = commandLine.GetBoolParameter(Param_PathOpen);
+            return Invoke(content, filePath, options, pathOpne, fileFormat);
         }
 
         public static ITerminalResponse Invoke(string content, string filePath, QRCodeOptions? options = default, bool pathOpen = false, FileFormat format = FileFormat.Svg)
         {
             options ??= new QRCodeOptions();
-            using FileOpenWrite FileWrite = FileOpenWrite.Create(filePath, true);
-            if (!FileWrite.IsReady)
+            using FileOpenWrite fileWrite = FileOpenWrite.Create(filePath, true);
+            if (!fileWrite.IsReady)
             {
-                return new TerminalResponse(false, FileWrite.ToString());
+                return new TerminalResponse(false, fileWrite.ToString());
             }
-            QRCode Qrcode = QRCode.Create(content, options);
-            QRCodeStore Store = QRCodeStore.Create(Qrcode, options);
-            if (!Store.TrySaveToFormat(FileWrite.Stream, format))
+            QRCode qrcode = QRCode.Create(content, options);
+            QRCodeStore store = QRCodeStore.Create(qrcode, options);
+            if (!store.TrySaveToFormat(fileWrite.Stream, format))
             {
                 return new TerminalResponse(false, format.UnSupported());
             }
-            FileHelper.PathOpen(FileWrite.FileInfo.FullName, pathOpen);
-            object[] FormatInfo = [Qrcode.EncodeMode, Qrcode.Version, Qrcode.ECCodeLevel, Qrcode.MaskType];
-            return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeGeneratorDetails.SafeFormat(FormatInfo));
+            FileHelper.PathOpen(fileWrite.FileInfo.FullName, pathOpen);
+            object[] formatInfo = [qrcode.EncodeMode, qrcode.Version, qrcode.ECCodeLevel, qrcode.MaskType];
+            return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeGeneratorDetails.SafeFormat(formatInfo));
         }
     }
 }

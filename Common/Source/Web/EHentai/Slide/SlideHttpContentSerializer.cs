@@ -5,26 +5,26 @@ using Common.Source.Web.Request.Abstract;
 
 namespace Common.Source.Web.EHentai.Slide
 {
-    public class SlideHttpContentSerializer : HttpContentSerializer<SlideAnalyzedBody>
+    public class SlideHttpContentSerializer : HttpContentSerializer<SlideInfo>
     {
-        public override async ValueTask<SlideAnalyzedBody?> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
+        public override async ValueTask<SlideInfo?> DeserializeAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
         {
-            SlideAnalyzedBody AnalyzedBody = new();
-            using HtmlReader Reader = new(httpContent.ReadAsStream(cancellationToken));
-            await using IAsyncEnumerator<HtmlElement> AsyncEnumerator = Reader.GetAsyncEnumerator(cancellationToken);
-            while ((await AsyncEnumerator.MoveAsync().ConfigureAwait(false)).TryGetValue(out HtmlElement? HtmlElement))
+            SlideInfo slideInfo = new();
+            using HtmlReader reader = new(httpContent.ReadAsStream(cancellationToken));
+            await using IAsyncEnumerator<HtmlElement> asyncEnumerator = reader.GetAsyncEnumerator(cancellationToken);
+            while ((await asyncEnumerator.TryMoveNextAsync().ConfigureAwait(false)).TryGetValue(out HtmlElement? htmlElement))
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                if (HtmlElement.Name.EqualsIgnoreCase(HtmlMarkup.Title))
+                if (htmlElement.Name.EqualsIgnoreCase(HtmlMarkup.Title))
                 {
-                    AnalyzedBody.Title = HtmlElement.Contents.FirstOrDefault().NotNull();
+                    slideInfo.Title = htmlElement.Contents.FirstOrDefault().NotNull();
                 }
-                else if (HtmlElement.GetAttributeOrDefault(HtmlAttribute.Id) == "img")
+                else if (htmlElement.GetAttributeOrDefault(HtmlAttribute.Id) == "img")
                 {
-                    return AnalyzedBody.Configure(AnalyzedBody.ImageUrl = HtmlElement.GetAttributeOrDefault(HtmlAttribute.Source).NotNull());
+                    return slideInfo.Configure(slideInfo.ImageUrl = htmlElement.GetAttributeOrDefault(HtmlAttribute.Source).NotNull());
                 }
             }
-            return AnalyzedBody;
+            return slideInfo;
         }
     }
 }

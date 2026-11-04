@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Web.EHentai.Gallery
 {
-    public class GalleryAnalyzedBody
+    public class GalleryFragment
     {
         public bool IsEndOfPage { get; set; }
 

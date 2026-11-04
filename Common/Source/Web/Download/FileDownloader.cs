@@ -54,34 +54,34 @@ namespace Common.Source.Web.Download
 
         private async ValueTask<GradualStatus> StartDownload(CancellationToken cancellationToken)
         {
-            using GradualRefresher Refresher = new(FileOpen.StartOrRetry());
+            using GradualRefresher refresher = new(FileOpen.StartOrRetry());
             FileOpen.ThrowIfFailed();
-            using HttpContext HttpContext = BuilderFactory.Create().CreateHttpContext(true);
+            using HttpContext httpContext = BuilderFactory.Create().CreateHttpContext(true);
             if (Status.IsCreated())
             {
                 _DownloadBytes = FreshDownload ? 0 : FileOpen.Stream.Length;
             }
-            HttpContext.Request.Headers.Range = new RangeHeaderValue(_DownloadBytes, default);
-            await HttpContext.SendAsync(cancellationToken).ConfigureAwait(false);
-            if (!HttpContext.IsReady)
+            httpContext.Request.Headers.Range = new RangeHeaderValue(_DownloadBytes, default);
+            await httpContext.SendAsync(cancellationToken).ConfigureAwait(false);
+            if (!httpContext.IsReady)
             {
-                return FailedByException(HttpContext.CapturedException);
+                return FailedByException(httpContext.CapturedException);
             }
-            if (HttpContext.Response.StatusCode == HttpStatusCode.PartialContent)
+            if (httpContext.Response.StatusCode == HttpStatusCode.PartialContent)
             {
                 FileOpen.Stream.Position = _DownloadBytes;
-                FullFileBytes = HttpContext.Response.Content.Headers.ContentRange?.Length ?? -1;
+                FullFileBytes = httpContext.Response.Content.Headers.ContentRange?.Length ?? -1;
             }
             else
             {
-                FullFileBytes = HttpContext.Response.Content.Headers.ContentLength ?? -1;
+                FullFileBytes = httpContext.Response.Content.Headers.ContentLength ?? -1;
             }
             try
             {
-                TimeSpan CheckTimeSpan = TimeSpan.FromSeconds(10);
-                DiskSize BytesPerSecond = DiskSize.Create(DataSize.KiB, 4);
-                using Stream ResponseStream = HttpContext.Response.Content.ReadAsStream(cancellationToken);
-                await ResponseStream.CopyToAsync(FileOpen.Stream, BytesPerSecond.Bytes, CheckTimeSpan, cancellationToken).ConfigureAwait(false);
+                TimeSpan checkTimeSpan = TimeSpan.FromSeconds(10);
+                DiskSize bytesPerSecond = DiskSize.Create(DataSize.KiB, 4);
+                using Stream responseStream = httpContext.Response.Content.ReadAsStream(cancellationToken);
+                await responseStream.CopyToAsync(FileOpen.Stream, bytesPerSecond.Bytes, checkTimeSpan, cancellationToken).ConfigureAwait(false);
                 return GradualStatus.Completed;
             }
             finally

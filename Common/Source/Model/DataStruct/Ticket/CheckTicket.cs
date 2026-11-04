@@ -12,7 +12,7 @@ namespace Common.Source.Model.DataStruct.Ticket
 
         public static CheckTicket<T> Create<T>(bool success, T? ticket = default)
         {
-            return CheckTicket<T>.Create(success, ticket);
+            return new CheckTicket<T>(success, ticket);
         }
     }
 
@@ -23,9 +23,7 @@ namespace Common.Source.Model.DataStruct.Ticket
         [MemberNotNullWhen(true, nameof(Ticket))]
         public bool Success { get; }
 
-        public CheckTicket() { }
-
-        private CheckTicket(bool success, T? ticket)
+        public CheckTicket(bool success, T? ticket)
         {
             Success = success;
             Ticket = ticket;
@@ -33,16 +31,7 @@ namespace Common.Source.Model.DataStruct.Ticket
 
         public bool TryGetValue([NotNullWhen(true)] out T? value)
         {
-            return Success.Configure(value = Ticket);
-        }
-
-        public static CheckTicket<T> Create(bool success, T? ticket = default)
-        {
-            if (success)
-            {
-                ArgumentNullException.ThrowIfNull(ticket);
-            }
-            return new CheckTicket<T>(success, ticket);
+            return Success.Configure(value = Success ? Ticket.ThrowIfNull() : default);
         }
     }
 }
