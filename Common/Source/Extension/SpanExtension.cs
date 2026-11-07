@@ -33,21 +33,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static DyadicSpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index)
+        public static DyadicSpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index, int offset = 0)
         {
-            return span.Length > index ? new DyadicSpan<T>(span[..index], span[index..]) : new DyadicSpan<T>(span, default);
-        }
-
-        [DebuggerStepThrough]
-        public static DyadicSpan<T> SplitAt<T>(this ReadOnlySpan<T> span, int index, int offset)
-        {
-            return new DyadicSpan<T>(span[..index], span[(index + offset)..]);
-        }
-
-        [DebuggerStepThrough]
-        public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, T value, IEqualityComparer<T>? comparer = default)
-        {
-            return span[startIndex..].IndexOf(value, comparer).OutSender(out int Index) > 0 ? startIndex + Index : -1;
+            return span.Length > index ? new DyadicSpan<T>(span[..index], span[(index + offset)..]) : new DyadicSpan<T>(span, default);
         }
 
         [DebuggerStepThrough]
@@ -57,43 +45,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, int startIndex, T value, out int index, IEqualityComparer<T>? comparer = default)
-        {
-            return (index = IndexOf(span, startIndex, value, comparer)) >= 0;
-        }
-
-        [DebuggerStepThrough]
-        public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
-        {
-            return span[startIndex..].IndexOf(values, comparer).OutSender(out int Index) > 0 ? startIndex + Index : -1;
-        }
-
-        [DebuggerStepThrough]
         public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, out int index, IEqualityComparer<T>? comparer = default)
         {
             return (index = span.IndexOf(values, comparer)) >= 0;
-        }
-
-        [DebuggerStepThrough]
-        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, int startIndex, ReadOnlySpan<T> values, out int index, IEqualityComparer<T>? comparer = default)
-        {
-            return (index = IndexOf(span, startIndex, values, comparer)) >= 0;
-        }
-
-        [DebuggerStepThrough]
-        public static int IndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> predicate, int startIndex = 0)
-        {
-            for (int i = startIndex; i < span.Length; i++)
-            {
-                if (predicate(span[i])) return i;
-            }
-            return -1;
-        }
-
-        [DebuggerStepThrough]
-        public static bool TryGetIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> predicate, out int index, int startIndex = 0)
-        {
-            return (index = IndexOf(span, predicate, startIndex)) >= 0;
         }
 
         [DebuggerStepThrough]
@@ -109,43 +63,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, int endOffset, T value, out int index, IEqualityComparer<T>? comparer = default)
-        {
-            return (index = LastIndexOf(span, endOffset, value, comparer)) >= 0;
-        }
-
-        [DebuggerStepThrough]
-        public static int LastIndexOf<T>(this ReadOnlySpan<T> span, int endOffset, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = default)
-        {
-            return span[..^(endOffset + 1)].LastIndexOf(values, comparer);
-        }
-
-        [DebuggerStepThrough]
         public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, out int index, IEqualityComparer<T>? comparer = default)
         {
             return (index = span.LastIndexOf(values, comparer)) >= 0;
-        }
-
-        [DebuggerStepThrough]
-        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, int endOffset, ReadOnlySpan<T> values, out int index, IEqualityComparer<T>? comparer = default)
-        {
-            return (index = LastIndexOf(span, endOffset, values, comparer)) >= 0;
-        }
-
-        [DebuggerStepThrough]
-        public static int LastIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> predicate, int endOffset = 0)
-        {
-            for (int i = span.Length - endOffset - 1; i >= 0; i--)
-            {
-                if (predicate(span[i])) return i;
-            }
-            return -1;
-        }
-
-        [DebuggerStepThrough]
-        public static bool TryGetLastIndexOf<T>(this ReadOnlySpan<T> span, Predicate<T> predicate, out int index, int endOffset = 0)
-        {
-            return (index = LastIndexOf(span, predicate, endOffset)) >= 0;
         }
 
         [DebuggerStepThrough]

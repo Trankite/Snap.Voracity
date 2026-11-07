@@ -44,7 +44,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Forum
             HttpResponse<SignResponse> response = await factory.Create().SendAsync<SignResponse>(cancellationToken).ConfigureAwait(false);
             if (response.Body.IsNotNull() && response.Body.Success)
             {
-                return new TerminalResponse(true, LocalString.ServiceTerminalHoyolabForumSignSuccess);
+                return new TerminalResponse(true, LocalString.ServiceTerminalHoyolabForumSignSuccess.SafeFormat(group));
             }
             return new TerminalResponse<SignResponseWrapper>(false, response.ToString());
         }

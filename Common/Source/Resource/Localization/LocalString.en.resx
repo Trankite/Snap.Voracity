@@ -177,7 +177,7 @@ Use "\" to escape symbols</value>
     <value>[{0}] Upvote</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignSuccess" xml:space="preserve">
-    <value>Signed: Success</value>
+    <value>Signed: Success ({0})</value>
   </data>
   <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
     <value>Please complete the human verification</value>

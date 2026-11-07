@@ -177,7 +177,7 @@
     <value>[{0}] 已点赞</value>
   </data>
   <data name="ServiceTerminalHoyolabForumSignSuccess" xml:space="preserve">
-    <value>社区签到: 已签到</value>
+    <value>社区签到: 已签到 ({0})</value>
   </data>
   <data name="WebHoyolabForumSignFailed1034" xml:space="preserve">
     <value>请前往米游社完成人机验证</value>

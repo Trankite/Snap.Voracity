@@ -25,39 +25,50 @@ ExHentai requires logging in with a valid account's cookie
 
 ---
 
-**米游社：米游币任务**  
-**Hoyolab: Hoyolab Coin Mission**
-> Only Supports Chinese Servers
-
 **使用米游社App扫码登陆**
 
 `qrlogin`  
 
 **使用米哈游账号的 Cookie 进行登陆**
 
-`login [Mid] [Stoken]`
+`login [mid] [stoken]`
 
-
-**查询体力**
+**查询游戏体力**
 
 `note`
 
-**每日签到**
+**游戏福利签到**
 
 `sign`
 
-**社区签到**
+**社区板块签到**
 
-`fsign [1-崩坏3,2-原神,3-崩坏2,4-未定事件簿,5-大别墅,6-崩坏: 星穹铁道,8-绝区零]`
+`fsign [enum-group]`
 
-**米游币任务**
-> 由于浏览、点赞、分享任务已下线，只执行社区签到
+**米游社浏览、点赞、分享任务**
 
 `coin`
 
-**查询米游币**
+**查询米游币任务状态**
 
 `mission`
+
+---
+
+## 📱 枚举 / Enum
+
+**米游社论坛板块**  
+**Hoyolab Community Group**
+
+| Group | 中文 | English |
+|-|-|-|
+| 1 | 崩坏3 | Honkai Impact 3 |
+| 2 | 原神 | Genshin Impact |
+| 3 | 崩坏2 | Honkai Impact 2 |
+| 4 | 未定事件簿 | Tears of Themis |
+| 5 | 大别野 | Community Villa |
+| 6 | 崩坏：星穹铁道 | Honkai：Star Rail |
+| 8 | 绝区零 | Zenless Zone Zero |
 
 ---
 

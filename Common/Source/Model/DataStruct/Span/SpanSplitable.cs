@@ -42,15 +42,14 @@ namespace Common.Source.Model.DataStruct.Span
         {
             if (Offset < Content.Length)
             {
-                if (Content.TryGetIndexOf(Offset, separator, out int index))
+                if (Content[Offset..].TryGetIndexOf(separator, out int index))
                 {
-                    block = Content[Offset..index];
+                    block = Content.Slice(Offset, index);
                     Offset += block.Length + separator.Length;
                 }
                 else
                 {
-                    block = Content[Offset..];
-                    Offset = Content.Length;
+                    block = Content[Offset..].Configure(Offset = Content.Length);
                 }
                 return true;
             }

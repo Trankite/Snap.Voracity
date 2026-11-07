@@ -1,22 +1,19 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Model.Collection;
+using Common.Source.Model.Interface;
 
 namespace Common.Source.Factory.Formula.Magical
 {
     public partial class MagicalFormulaSolver
     {
-        private static readonly SortedArray<MagicalFormulaSymbol> SymbolTable;
-
         private const StringComparison ComparisonType = StringComparison.OrdinalIgnoreCase;
+
+        private static readonly SortedArray<MagicalFormulaSymbol, ReadOnlySpan<char>> SymbolTable;
 
         public static MagicalFormulaSymbol? SearchSymbol(ReadOnlySpan<char> target)
         {
+            int index = SymbolTable.Search(target).GetInsert(1);
             ReadOnlySpan<char> startString = target.SplitAt(1).Head;
-            static int Comparison(MagicalFormulaSymbol sender, ReadOnlySpan<char> other)
-            {
-                return MemoryExtensions.CompareTo(sender.Name, other, ComparisonType);
-            }
-            int index = SymbolTable.Search(target, Comparison).GetInsert(1);
             while (--index >= 0 && SymbolTable[index].Name.StartsWith(startString, ComparisonType))
             {
                 if (target.StartsWith(SymbolTable[index].Name, ComparisonType))
@@ -27,18 +24,16 @@ namespace Common.Source.Factory.Formula.Magical
             return default;
         }
 
-        private class SymbolComparer : IComparer<MagicalFormulaSymbol>
+        private class SymbolComparer : IComparer<MagicalFormulaSymbol, ReadOnlySpan<char>>
         {
-            private readonly StringComparer Comparer;
-
-            public SymbolComparer()
-            {
-                Comparer = StringComparer.FromComparison(ComparisonType);
-            }
-
             public int Compare(MagicalFormulaSymbol? sender, MagicalFormulaSymbol? other)
             {
-                return Comparer.Compare(sender?.Name, other?.Name);
+                return string.Compare(sender?.Name, other?.Name, ComparisonType);
+            }
+
+            public int Compare(MagicalFormulaSymbol? sender, ReadOnlySpan<char> other)
+            {
+                return MemoryExtensions.CompareTo(sender?.Name, other, ComparisonType);
             }
         }
 

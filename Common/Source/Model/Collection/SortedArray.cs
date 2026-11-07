@@ -1,53 +1,77 @@
-﻿using System.Collections;
+﻿using Common.Source.Model.Interface;
+using System.Collections;
 
 namespace Common.Source.Model.Collection
 {
     public static class SortedArray
     {
-        public static SortedArray<T> Create<T>(params T[] array)
+        public static SortedArray<TSender> Create<TSender>(params TSender[] array)
         {
-            return Create<T>(default, array);
+            return Create<TSender>(default, array);
         }
 
-        public static SortedArray<T> Create<T>(IComparer<T>? comparer, params T[] array)
+        public static SortedArray<TSender> Create<TSender>(IComparer<TSender>? comparer, params TSender[] array)
         {
             array.Sort(comparer);
-            return new SortedArray<T>(array, comparer);
+            return new SortedArray<TSender>(array, comparer);
+        }
+
+        public static SortedArray<TSender, TOther> Create<TSender, TOther>(IComparer<TSender, TOther> comparer, params TSender[] array) where TOther : allows ref struct
+        {
+            array.Sort(comparer);
+            return new SortedArray<TSender, TOther>(array, comparer);
         }
     }
 
-    public class SortedArray<T> : IReadOnlyCollection<T>, IReadOnlyList<T>
+    public class SortedArray<TSender> : IReadOnlyCollection<TSender>, IReadOnlyList<TSender>
     {
-        public T[] Table { get; }
+        public TSender[] Table { get; }
 
-        public IComparer<T>? Comparer { get; }
+        public IComparer<TSender>? Comparer { get; }
 
         public int Count => Table.Length;
 
-        public T this[int index] => Table[index];
+        public TSender this[int index] => Table[index];
 
-        public SortedArray(T[] sortedArray, IComparer<T>? comparer = default)
+        public SortedArray(TSender[] sortedArray, IComparer<TSender>? comparer = default)
         {
             Table = sortedArray;
             Comparer = comparer;
         }
 
-        public int Search(T value)
+        public int Search(TSender value)
         {
             return Array.BinarySearch(Table, value, Comparer);
         }
 
-        public int Search(T value, int start, int length)
+        public int Search(TSender value, int start, int length)
         {
             return Array.BinarySearch(Table, start, length, value, Comparer);
         }
 
-        public int Search<TOther>(TOther value, Func<T, TOther, int> comparison) where TOther : allows ref struct
+        public IEnumerator<TSender> GetEnumerator()
         {
-            return Search(value, default, Count, comparison);
+            return Table.AsEnumerable().GetEnumerator();
         }
 
-        public int Search<TOther>(TOther value, int start, int length, Func<T, TOther, int> comparison) where TOther : allows ref struct
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public class SortedArray<TSender, TOther> : SortedArray<TSender> where TOther : allows ref struct
+    {
+        public IComparer<TSender, TOther> ExtendComparer { get; }
+
+        public SortedArray(TSender[] sortedArray, IComparer<TSender, TOther> comparer) : base(sortedArray, comparer)
+        {
+            ExtendComparer = comparer;
+        }
+
+        public int Search(TOther value)
+        {
+            return Search(value, default, Count);
+        }
+
+        public int Search(TOther value, int start, int length)
         {
             int lows = start;
             int high = length;
@@ -55,7 +79,7 @@ namespace Common.Source.Model.Collection
             while (lows < high)
             {
                 int mid = (lows + high) / 2;
-                compare = comparison(Table[mid], value);
+                compare = ExtendComparer.Compare(Table[mid], value);
                 if (compare > 0)
                 {
                     high = mid;
@@ -67,12 +91,5 @@ namespace Common.Source.Model.Collection
             }
             return compare == 0 ? lows : ~lows;
         }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Table.AsEnumerable().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
