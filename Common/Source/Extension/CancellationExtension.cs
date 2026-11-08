@@ -5,17 +5,17 @@ namespace Common.Source.Extension
     public static class CancellationExtension
     {
         [DebuggerStepThrough]
-        public static CancellationTokenSource CreateLinkedTokenSource(this CancellationToken cancellationToken)
+        public static CancellationTokenSource CreateSource(this CancellationToken cancellationToken)
         {
             return CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         }
 
         [DebuggerStepThrough]
-        public static async Task CancelAfterTaskCompletedAsync(this CancellationTokenSource cancellationTokenSource, Task waitTask)
+        public static async Task CancelAfterTaskAsync(this CancellationTokenSource cancellationTokenSource, Task task)
         {
             try
             {
-                await waitTask.ConfigureAwait(false);
+                await task.ConfigureAwait(false);
             }
             finally
             {

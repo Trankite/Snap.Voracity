@@ -134,7 +134,7 @@
   <data name="ServiceTerminalSupportQRCodeGeneratorFullName" xml:space="preserve">
     <value>生成二维码</value>
   </data>
-  <data name="FactoryStreamsFileSaveMetadataExceptionUnSupportedFormat" xml:space="preserve">
+  <data name="ServiceStreamsFormatExceptionUnSupported" xml:space="preserve">
     <value>不支持的文件格式 "{0}"</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeGeneratorDetails" xml:space="preserve">
@@ -389,10 +389,10 @@
   <data name="ServiceTerminalEHentaiEHentaiLoginSuccess" xml:space="preserve">
     <value>账号数据已更新</value>
   </data>
-  <data name="ExtensionStreamCopyTimeoutException" xml:space="preserve">
-    <value>传输 {0} 超过 {1} 秒</value>
+  <data name="ServiceStreamsTrackerExceptionTimeout" xml:space="preserve">
+    <value> 当前速率 {0} / s 已低于设定值</value>
   </data>
-  <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
+  <data name="ServiceHelperExceptionMessageDescription" xml:space="preserve">
     <value>错误信息: {0}</value>
   </data>
   <data name="ServiceTerminalEHentaiEHentaiDownloadRetry" xml:space="preserve">

@@ -1,0 +1,23 @@
+﻿using Common.Source.Extension;
+using Common.Source.Model.DataStruct.Ticket;
+using Common.Source.Service.Streams.Block.Interface;
+using System.Diagnostics;
+
+namespace Common.Source.Service.Streams.Block.Abstract
+{
+    public static class BlockReaderExtension
+    {
+        [DebuggerStepThrough]
+        public static bool TryRead<T>(this IBlockReader<T> blockReader, out ReadOnlyMemory<T> blockMemory)
+        {
+            return !blockReader.ReadBlock().OutSender(out blockMemory).IsEmpty;
+        }
+
+        [DebuggerStepThrough]
+        public static async ValueTask<CheckTicket<ReadOnlyMemory<T>>> TryReadBlockAsync<T>(this IAsyncBlockReader<T> blockReader, CancellationToken cancellationToken = default)
+        {
+            ReadOnlyMemory<T> blockMemory = await blockReader.ReadBlockAsync(cancellationToken).ConfigureAwait(false);
+            return CheckTicket.Create(!blockMemory.IsEmpty, blockMemory);
+        }
+    }
+}

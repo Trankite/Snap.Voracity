@@ -15,7 +15,7 @@ namespace Common.Source.Web.Request.Abstract
         [DebuggerStepThrough]
         public static async ValueTask<HttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, CancellationToken cancellationToken, bool isHeadersRead = default, TimeSpan? timeOut = default, HttpClient? httpClient = default)
         {
-            using CancellationTokenSource cancellationSource = cancellationToken.CreateLinkedTokenSource();
+            using CancellationTokenSource cancellationSource = cancellationToken.CreateSource();
             cancellationSource.CancelAfter(timeOut ?? HttpContext.DefaultTimeoutSpan);
             return await SendAsync<TResult>(builder, cancellationSource.Token, isHeadersRead, httpClient).ConfigureAwait(false);
         }

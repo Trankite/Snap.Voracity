@@ -1,0 +1,24 @@
+﻿using Common.Source.Model.DataStruct;
+using Common.Source.Model.DataStruct.Disk;
+using Common.Source.Model.DataStruct.Disk.Metadata;
+using System.Buffers;
+
+namespace Common.Source.Service.Helper.Pool
+{
+    public static class BufferPool<T>
+    {
+        public static int DefaultSize { get; }
+
+        public static PoolOwner<T> GetBuffer(int length)
+        {
+            return PoolOwner<T>.Create(MemoryPool<T>.Shared.Rent(length), 0, length);
+        }
+
+        public static PoolOwner<T> GetBuffer() => GetBuffer(DefaultSize);
+
+        static BufferPool()
+        {
+            DefaultSize = Convert.ToInt32(DiskSize.Create(DataSize.KiB, 4).Bytes / TypeSize<T>.Size);
+        }
+    }
+}

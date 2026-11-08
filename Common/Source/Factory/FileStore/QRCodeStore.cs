@@ -1,0 +1,105 @@
+﻿using Common.Source.Factory.FileStore.Interface;
+using Common.Source.Service.Encode.QRCode;
+using Common.Source.Service.Streams.Metadata;
+using System.Drawing;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace Common.Source.Factory.FileStore
+{
+    public class QRCodeStore : IFileStore
+    {
+        private readonly QRCode QRCode;
+
+        private readonly QRCodeOptions Options;
+
+        public QRCodeStore(QRCode qrcode, QRCodeOptions options)
+        {
+            QRCode = qrcode;
+            Options = options;
+        }
+
+        public static QRCodeStore Create(QRCode qrcode, QRCodeOptions? options = default)
+        {
+            return new QRCodeStore(qrcode, options ?? new QRCodeOptions());
+        }
+
+        public bool IsSupported(FileFormat format)
+        {
+            return format is FileFormat.Svg or FileFormat.Csv;
+        }
+
+        public void SaveToFormat(Stream stream, FileFormat format)
+        {
+            switch (format)
+            {
+                case FileFormat.Svg: SaveToSvg(stream); break;
+                case FileFormat.Csv: SaveToCsv(stream); break;
+            }
+        }
+
+        private void SaveToSvg(Stream stream)
+        {
+            const string LINKNAME = "i";
+            const string WIDTHNAME = "width";
+            const string HEIGHTNAME = "height";
+            const string SVGNAMESPACE = "http://www.w3.org/2000/svg";
+            const string XLINKNAMESPACE = "http://www.w3.org/1999/xlink";
+            int pixel = Options.Pixel;
+            int padding = Options.Padding;
+            int size = padding * 2 + QRCode.Size * pixel;
+            using XmlWriter writer = XmlWriter.Create(stream);
+            writer.WriteStartElement("svg", SVGNAMESPACE);
+            writer.WriteAttributeString(WIDTHNAME, $"{size}");
+            writer.WriteAttributeString(HEIGHTNAME, $"{size}");
+            writer.WriteAttributeString("viewBox", $"0 0 {size} {size}");
+            writer.WriteAttributeString("xlink", XNamespace.Xmlns.NamespaceName, XLINKNAMESPACE);
+            writer.WriteStartElement("rect");
+            writer.WriteAttributeString(WIDTHNAME, $"{size}");
+            writer.WriteAttributeString(HEIGHTNAME, $"{size}");
+            writer.WriteAttributeString("fill", ColorTranslator.ToHtml(Options.Background));
+            writer.WriteEndElement();
+            writer.WriteStartElement("defs");
+            writer.WriteStartElement("rect");
+            writer.WriteAttributeString("id", LINKNAME);
+            writer.WriteAttributeString(WIDTHNAME, $"{pixel}");
+            writer.WriteAttributeString(HEIGHTNAME, $"{pixel}");
+            writer.WriteAttributeString("fill", ColorTranslator.ToHtml(Options.Foreground));
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.WriteStartElement("g");
+            for (int x = 0; x < QRCode.Size; x++)
+            {
+                for (int y = 0; y < QRCode.Size; y++)
+                {
+                    if (QRCode[x, y].HasBit)
+                    {
+                        writer.WriteStartElement("use");
+                        writer.WriteAttributeString("x", $"{padding + x * pixel}");
+                        writer.WriteAttributeString("y", $"{padding + y * pixel}");
+                        writer.WriteAttributeString("href", XLINKNAMESPACE, $"#{LINKNAME}");
+                        writer.WriteEndElement();
+                    }
+                }
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+
+        public void SaveToCsv(Stream stream)
+        {
+            using StreamWriter writer = new(stream, leaveOpen: true);
+            ReadOnlySpan<char> blackSpan = [',', '1'];
+            ReadOnlySpan<char> whiteSpan = [',', '0'];
+            for (int x = 0; x < QRCode.Size; x++)
+            {
+                writer.Write(QRCode[x, 0].HasBit ? '1' : '0');
+                for (int y = 1; y < QRCode.Size; y++)
+                {
+                    writer.Write(QRCode[x, y].HasBit ? blackSpan : whiteSpan);
+                }
+                writer.WriteLine();
+            }
+        }
+    }
+}

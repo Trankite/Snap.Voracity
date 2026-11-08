@@ -1,12 +1,11 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Streams.FileOpen;
-using Common.Source.Factory.Streams.FileStore;
-using Common.Source.Factory.Streams.FileStore.Abstract;
-using Common.Source.Factory.Streams.FileStore.Metadata;
-using Common.Source.Factory.Streams.Text.Interface;
+using Common.Source.Factory.FileStore;
 using Common.Source.Resource.Localization;
 using Common.Source.Service.Encode.QRCode;
 using Common.Source.Service.Encode.QRCode.Metadata;
+using Common.Source.Service.Streams.Metadata;
+using Common.Source.Service.Streams.Open;
+using Common.Source.Service.Streams.Text.Interface;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;
@@ -108,10 +107,11 @@ namespace Common.Source.Service.Terminal.Support
             }
             QRCode qrcode = QRCode.Create(content, options);
             QRCodeStore store = QRCodeStore.Create(qrcode, options);
-            if (!store.TrySaveToFormat(fileWrite.Stream, format))
+            if (!store.IsSupported(format))
             {
-                return new TerminalResponse(false, format.UnSupported());
+                return new TerminalResponse(false, format.GetUnSupportedMessage());
             }
+            store.SaveToFormat(fileWrite.Stream, format);
             FileHelper.PathOpen(fileWrite.FileInfo.FullName, pathOpen);
             object[] formatInfo = [qrcode.EncodeMode, qrcode.Version, qrcode.ECCodeLevel, qrcode.MaskType];
             return new TerminalResponse(true, LocalString.ServiceTerminalSupportQRCodeGeneratorDetails.SafeFormat(formatInfo));

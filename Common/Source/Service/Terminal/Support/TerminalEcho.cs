@@ -1,5 +1,5 @@
-﻿using Common.Source.Factory.Streams.Text.Interface;
-using Common.Source.Resource.Localization;
+﻿using Common.Source.Resource.Localization;
+using Common.Source.Service.Streams.Text.Interface;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Interface;
 using Common.Source.Service.Terminal.Metadata;

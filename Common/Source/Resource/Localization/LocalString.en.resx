@@ -134,7 +134,7 @@
   <data name="ServiceTerminalSupportQRCodeGeneratorFullName" xml:space="preserve">
     <value>Generate QR code</value>
   </data>
-  <data name="FactoryStreamsFileSaveMetadataExceptionUnSupportedFormat" xml:space="preserve">
+  <data name="ServiceStreamsFormatExceptionUnSupported" xml:space="preserve">
     <value>Unsupported file format "{0}"</value>
   </data>
   <data name="ServiceTerminalSupportQRCodeGeneratorDetails" xml:space="preserve">
@@ -389,10 +389,10 @@ Use "{1}" access details</value>
   <data name="ServiceTerminalEHentaiEHentaiLoginSuccess" xml:space="preserve">
     <value>The account data has been updated</value>
   </data>
-  <data name="ExtensionStreamCopyTimeoutException" xml:space="preserve">
-    <value>Transmit {0} for more than {1} seconds</value>
+  <data name="ServiceStreamsTrackerExceptionTimeout" xml:space="preserve">
+    <value>The current rate {0} / s has fallen below the set value</value>
   </data>
-  <data name="ExtensionExceptionMessageDescription" xml:space="preserve">
+  <data name="ServiceHelperExceptionMessageDescription" xml:space="preserve">
     <value>Error message: {0}</value>
   </data>
   <data name="ServiceTerminalEHentaiEHentaiDownloadRetry" xml:space="preserve">

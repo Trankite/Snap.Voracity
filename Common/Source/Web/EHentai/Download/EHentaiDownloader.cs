@@ -1,13 +1,12 @@
 ﻿using Common.Source.Core.Setting;
 using Common.Source.Extension;
-using Common.Source.Factory.Streams.Text.Abstract;
-using Common.Source.Factory.Streams.Text.Interface;
 using Common.Source.Model.DataStruct.Ticket;
 using Common.Source.Service;
-using Common.Source.Service.Mission;
-using Common.Source.Service.Mission.Gradual.Abstract;
-using Common.Source.Service.Mission.Gradual.Metadata;
-using Common.Source.Web.Download;
+using Common.Source.Service.Gradual.Abstract;
+using Common.Source.Service.Gradual.Metadata;
+using Common.Source.Service.Helper;
+using Common.Source.Service.Streams.Text.Abstract;
+using Common.Source.Service.Streams.Text.Interface;
 using Common.Source.Web.EHentai.Builder;
 using Common.Source.Web.EHentai.Slide;
 using Common.Source.Web.Request.Abstract;
@@ -103,7 +102,7 @@ namespace Common.Source.Web.EHentai.Download
             QueueTicket<string> imageTicket = QueueTicket.Create(slideTicket.Index, response.Body.ImageUrl);
             string filePath = GetFilePath(FolderPath ??= GetFolderPath(response.Body.Title), imageUri, imageTicket.Index);
             HttpRequestMessageBuilderFactory downloadFactory = new HttpRequestMessageBuilderFactory().SetRequestUri(imageUri);
-            FileDownloader downloader = FileDownloader.Create(filePath, downloadFactory, true);
+            HttpDownloader downloader = HttpDownloader.Create(filePath, downloadFactory, true);
             EHentaiDownloadInfo downloadInfo = new(downloader, imageTicket);
             await CreateDownloadTask(channelWriter, downloadInfo, cancellationToken).ConfigureAwait(false);
         }

@@ -1,5 +1,5 @@
 ﻿using Common.Source.Core.Setting;
-using Common.Source.Factory.Streams.Text.Abstract;
+using Common.Source.Service.Streams.Text.Abstract;
 using Common.Source.Service.Terminal;
 using Common.Source.Service.Terminal.Support;
 

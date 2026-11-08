@@ -1,6 +1,6 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Streams.Html;
-using Common.Source.Factory.Streams.Html.Metadata;
+using Common.Source.Service.Streams.Html;
+using Common.Source.Service.Streams.Html.Metadata;
 using Common.Source.Web.Request.Abstract;
 
 namespace Common.Source.Web.EHentai.Slide

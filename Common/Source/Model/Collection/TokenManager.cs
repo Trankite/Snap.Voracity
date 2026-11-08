@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Factory.Streams.FileOpen;
+using Common.Source.Service.Streams.Open;
 
 namespace Common.Source.Model.Collection
 {

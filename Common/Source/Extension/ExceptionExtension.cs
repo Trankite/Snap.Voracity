@@ -1,5 +1,5 @@
 ﻿using Common.Source.Model.Interface;
-using Common.Source.Resource.Localization;
+using Common.Source.Service.Helper;
 using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 
@@ -22,7 +22,7 @@ namespace Common.Source.Extension
         [DebuggerStepThrough]
         public static string GetExceptionMessage(this Exception? exception, object? message = default)
         {
-            return LocalString.ExtensionExceptionMessageDescription.SafeFormat(exception?.Message ?? message);
+            return ExceptionHelper.GetExceptionMessage(exception, message);
         }
 
         [DebuggerStepThrough]
