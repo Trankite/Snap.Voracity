@@ -16,12 +16,19 @@ namespace Common.Source.Service.Streams
 
         public DiskSize SecondSize { get; }
 
-        public StreamTracker(Stream stream, DiskSize secondSize, TimeSpan checkTimeSpan, bool leaveOpen = default)
+        private StreamTracker(Stream stream, DiskSize secondSize, TimeSpan checkTimeSpan, bool leaveOpen = default)
         {
             Stream = stream;
             SecondSize = secondSize;
             CheckTimeSpan = checkTimeSpan;
             LeaveOpen = leaveOpen;
+        }
+
+        public static StreamTracker Create(Stream stream, DiskSize secondSize, TimeSpan checkTimeSpan, bool leaveOpen = default)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(secondSize.Bytes, nameof(secondSize));
+            ArgumentOutOfRangeException.ThrowIfLessThan(checkTimeSpan.TotalSeconds, 1, nameof(checkTimeSpan));
+            return new StreamTracker(stream, secondSize, checkTimeSpan, leaveOpen);
         }
 
         public async Task CopyAsync(Stream source, CancellationToken cancellationToken = default)
@@ -60,7 +67,7 @@ namespace Common.Source.Service.Streams
         {
             long position = Stream.Position;
             await Task.Delay(CheckTimeSpan, cancellationToken).ConfigureAwait(false);
-            return new DiskSize((int)((Stream.Position - position) / CheckTimeSpan.TotalSeconds));
+            return new DiskSize((long)((Stream.Position - position) / CheckTimeSpan.TotalSeconds));
         }
 
         private static TimeoutException GetTimeoutException(DiskSize currentSecondSize, Exception? innerException = default)

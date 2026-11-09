@@ -43,7 +43,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
             int VerifyMissionStatus(ITerminalResponse response)
             {
                 isUpdated |= response.Success;
-                textStream?.WriteLine(response);
+                textStream?.WriteLine(response.Message);
                 return response.Success ? 0 : 255;
             }
             // https://www.miyoushe.com/ys/article/74971515

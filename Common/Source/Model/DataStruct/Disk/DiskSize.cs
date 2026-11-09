@@ -35,22 +35,22 @@ namespace Common.Source.Model.DataStruct.Disk
 
         public static DiskSize operator +(DiskSize left, DiskSize right)
         {
-            return new DiskSize(left.Bytes + right.Bytes);
+            return new DiskSize(checked(left.Bytes + right.Bytes));
         }
 
         public static DiskSize operator -(DiskSize left, DiskSize right)
         {
-            return new DiskSize(left.Bytes - right.Bytes);
+            return new DiskSize(checked(left.Bytes - right.Bytes));
         }
 
         public static DiskSize operator *(DiskSize left, long right)
         {
-            return new DiskSize(left.Bytes * right);
+            return new DiskSize(checked(left.Bytes * right));
         }
 
         public static DiskSize operator *(long left, DiskSize right)
         {
-            return new DiskSize(left * right.Bytes);
+            return new DiskSize(checked(left * right.Bytes));
         }
 
         public static bool operator >(DiskSize left, DiskSize right)

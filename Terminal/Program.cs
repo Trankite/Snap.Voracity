@@ -11,7 +11,10 @@ namespace Terminal
         public static void Main(string[] options)
         {
             TextStream textStream = TextStream.FromConsole();
-            TerminalInvoke.Invoke(new CommandParser(options), textStream);
+            if (!TerminalInvoke.Invoke(new CommandParser(options), textStream).Success)
+            {
+                Environment.ExitCode += 1;
+            }
             while (AppSetting.OnTerminal)
             {
                 textStream.Write("HOST>\x20");

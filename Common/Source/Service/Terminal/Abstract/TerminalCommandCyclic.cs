@@ -27,26 +27,37 @@ namespace Common.Source.Service.Terminal.Abstract
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            string Header = $"{Name.ToUpper()}>\x20";
-            bool IsCyclic = !commandLine.TryGetParameter(INPUT, out string? Current);
-            if (textStream.IsNull()) IsCyclic = false;
-            while (!cancellationToken.IsCancellationRequested && !Current.EqualsIgnoreCase(ENDSYMBOL))
+            string header = $"{Name.ToUpper()}>\x20";
+            if (commandLine.TryGetParameter(INPUT, out string? current))
             {
-                if (!string.IsNullOrEmpty(Current))
+                return new TerminalResponse(Invoke(current, textStream, cancellationToken));
+            }
+            if (textStream.IsNotNull())
+            {
+                while (!cancellationToken.IsCancellationRequested && !current.EqualsIgnoreCase(ENDSYMBOL))
                 {
-                    if (Current.EqualsIgnoreCase(HELPSYMBOL))
-                    {
-                        textStream?.WriteLine(HelpOverride);
-                    }
-                    else
-                    {
-                        InvokeOverride(Current, textStream, cancellationToken).Configure(sender => textStream?.WriteLine(sender));
-                    }
+                    Invoke(current, textStream, cancellationToken);
+                    textStream?.Write(header);
+                    current = textStream?.ReadLineAsync(cancellationToken).AsTask().GetAwaiter().GetResult();
                 }
-                if (!IsCyclic) break;
-                Current = textStream?.ReadLineAsync(Header, cancellationToken).AsTask().GetAwaiter().GetResult();
             }
             return new TerminalResponse(!cancellationToken.IsCancellationRequested);
+        }
+
+        private bool Invoke(string? commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
+        {
+            if (!string.IsNullOrEmpty(commandLine))
+            {
+                if (commandLine.EqualsIgnoreCase(HELPSYMBOL))
+                {
+                    textStream?.WriteLine(HelpOverride);
+                }
+                else
+                {
+                    return InvokeOverride(commandLine, textStream, cancellationToken).WriteTo(textStream).Success;
+                }
+            }
+            return default;
         }
     }
 }

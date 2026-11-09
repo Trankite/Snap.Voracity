@@ -30,25 +30,25 @@ namespace Common.Source.Service.Terminal.Support
 
         public static ITerminalResponse Invoke(CommandParser parser, ITextStream? textStream = default)
         {
+            bool success = true;
             foreach (CommandLine current in parser)
             {
-                if (TerminalManage.CommandTable.TryGetValue(current.Name, out ITerminalCommand? command))
+                ITerminalResponse? response = default;
+                if (!TerminalManage.CommandTable.TryGetValue(current.Name, out ITerminalCommand? command))
                 {
-                    if (command.RequiredParameters.All(current.HasParameter))
-                    {
-                        command.Invoke(current, textStream).Configure(sender => textStream?.WriteLine(sender));
-                    }
-                    else
-                    {
-                        textStream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
-                    }
+                    textStream?.WriteLine(SupportTerminalResponse.UnknownOperation(current.Name).Message);
+                }
+                else if (!command.RequiredParameters.All(current.HasParameter))
+                {
+                    textStream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
                 }
                 else
                 {
-                    textStream?.WriteLine(SupportTerminalResponse.UnknownOperation(current.Name));
+                    response = command.Invoke(current, textStream).WriteTo(textStream);
                 }
+                success &= response.IsNotNull() && response.Success;
             }
-            return new TerminalResponse(true);
+            return new TerminalResponse(success);
         }
     }
 }

@@ -15,11 +15,6 @@ namespace Common.Source.Service.Streams.Text.Abstract
             stream.Writer.WriteLine();
         }
 
-        public static void WriteLine(this ITextStream stream, object value)
-        {
-            stream.WriteLine(value.ToString());
-        }
-
         public static void WriteLine(this ITextStream stream, ReadOnlySpan<char> value)
         {
             if (value.Length > 0)
@@ -63,12 +58,6 @@ namespace Common.Source.Service.Streams.Text.Abstract
         public static async ValueTask<string?> ReadLineAsync(this ITextStream stream, CancellationToken cancellationToken = default)
         {
             try { return await stream.Reader.ReadLineAsync(cancellationToken).ConfigureAwait(false); } catch { return string.Empty; }
-        }
-
-        public static ValueTask<string?> ReadLineAsync(this ITextStream stream, string value, CancellationToken cancellationToken = default)
-        {
-            stream.Write(value);
-            return stream.ReadLineAsync(cancellationToken);
         }
     }
 }

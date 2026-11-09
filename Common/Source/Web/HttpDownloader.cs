@@ -85,7 +85,7 @@ namespace Common.Source.Web
             try
             {
                 using Stream sourceStream = httpContext.Response.Content.ReadAsStream(cancellationToken);
-                using StreamTracker streamTacker = new(FileOpen.Stream, SecondSize, CheckTimeSpan, true);
+                using StreamTracker streamTacker = StreamTracker.Create(FileOpen.Stream, SecondSize, CheckTimeSpan, true);
                 await streamTacker.CopyAsync(sourceStream, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception exception)
