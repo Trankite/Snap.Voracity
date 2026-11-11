@@ -1,4 +1,5 @@
-﻿using Common.Source.Service.Helper.Pool;
+﻿using Common.Source.Extension;
+using Common.Source.Service.Helper.Pool;
 using Common.Source.Service.Streams.Block.Abstract;
 using System.Text;
 
@@ -28,7 +29,7 @@ namespace Common.Source.Service.Streams.Block
         public static TextStreamBlockReader Create(Stream stream, Encoding? encoding = default, bool leaveOpen = default)
         {
             encoding ??= Encoding.UTF8;
-            PoolOwner<byte> bytesOwner = BufferPool<byte>.GetBuffer();
+            PoolOwner<byte> bytesOwner = BufferPool<byte>.GetAutoBuffer(stream.GetLength());
             PoolOwner<char> charsOwner = BufferPool<char>.GetBuffer(encoding.GetMaxCharCount(bytesOwner.Length));
             return new TextStreamBlockReader(stream, encoding.GetDecoder(), bytesOwner, charsOwner, leaveOpen);
         }

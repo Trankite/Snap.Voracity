@@ -1,6 +1,5 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Resource.Localization;
-using Common.Source.Service.Streams.Text.Abstract;
 using Common.Source.Service.Streams.Text.Interface;
 using Common.Source.Service.Terminal.Abstract;
 using Common.Source.Service.Terminal.Hoyolab.Forum;
@@ -43,7 +42,7 @@ namespace Common.Source.Service.Terminal.Hoyolab.Mission
             int VerifyMissionStatus(ITerminalResponse response)
             {
                 isUpdated |= response.Success;
-                textStream?.WriteLine(response.Message);
+                response.WriteTo(textStream);
                 return response.Success ? 0 : 255;
             }
             // https://www.miyoushe.com/ys/article/74971515

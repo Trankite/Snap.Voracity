@@ -13,7 +13,7 @@ namespace Terminal
             TextStream textStream = TextStream.FromConsole();
             if (!TerminalInvoke.Invoke(new CommandParser(options), textStream).Success)
             {
-                Environment.ExitCode += 1;
+                Environment.ExitCode = 1;
             }
             while (AppSetting.OnTerminal)
             {

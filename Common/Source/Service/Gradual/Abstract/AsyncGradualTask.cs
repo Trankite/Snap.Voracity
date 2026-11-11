@@ -1,4 +1,5 @@
-﻿using Common.Source.Service.Gradual.Interface;
+﻿using Common.Source.Extension;
+using Common.Source.Service.Gradual.Interface;
 using Common.Source.Service.Gradual.Metadata;
 
 namespace Common.Source.Service.Gradual.Abstract
@@ -24,7 +25,7 @@ namespace Common.Source.Service.Gradual.Abstract
 
         protected override GradualStatus StartOverride()
         {
-            return StartAsyncOverride().AsTask().GetAwaiter().GetResult();
+            return StartAsyncOverride().GetAwaitResult();
         }
 
         protected virtual async ValueTask<GradualStatus> StartAsyncOverride(CancellationToken cancellationToken = default)
@@ -55,7 +56,7 @@ namespace Common.Source.Service.Gradual.Abstract
 
         protected override GradualStatus RetryOverride()
         {
-            return RetryAsyncOverride().AsTask().GetAwaiter().GetResult();
+            return RetryAsyncOverride().GetAwaitResult();
         }
 
         protected abstract ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default);

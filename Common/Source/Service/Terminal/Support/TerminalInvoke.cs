@@ -38,13 +38,13 @@ namespace Common.Source.Service.Terminal.Support
                 {
                     textStream?.WriteLine(SupportTerminalResponse.UnknownOperation(current.Name).Message);
                 }
-                else if (!command.RequiredParameters.All(current.HasParameter))
+                else if (command.RequiredParameters.All(current.HasParameter))
                 {
-                    textStream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
+                    response = command.Invoke(current, textStream).WriteTo(textStream);
                 }
                 else
                 {
-                    response = command.Invoke(current, textStream).WriteTo(textStream);
+                    textStream?.WriteLine(LocalString.ServiceTerminalSupportExceptionMissingParameter);
                 }
                 success &= response.IsNotNull() && response.Success;
             }

@@ -1,4 +1,5 @@
-﻿using Common.Source.Service.Streams.Text.Interface;
+﻿using Common.Source.Extension;
+using Common.Source.Service.Streams.Text.Interface;
 using Common.Source.Service.Terminal.Interface;
 
 namespace Common.Source.Service.Terminal.Abstract
@@ -7,7 +8,7 @@ namespace Common.Source.Service.Terminal.Abstract
     {
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            return AsyncInvoke(commandLine, textStream, cancellationToken).AsTask().GetAwaiter().GetResult();
+            return AsyncInvoke(commandLine, textStream, cancellationToken).GetAwaitResult();
         }
 
         public abstract ValueTask<ITerminalResponse> AsyncInvoke(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default);
@@ -22,7 +23,7 @@ namespace Common.Source.Service.Terminal.Abstract
 
         public ITerminalResponse<TContent> InvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
-            return AsyncInvokeOverride(commandLine, textStream, cancellationToken).AsTask().GetAwaiter().GetResult();
+            return AsyncInvokeOverride(commandLine, textStream, cancellationToken).GetAwaitResult();
         }
 
         public abstract ValueTask<ITerminalResponse<TContent>> AsyncInvokeOverride(ITerminalCommandLine commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default);

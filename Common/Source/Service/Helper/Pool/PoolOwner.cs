@@ -4,7 +4,7 @@ namespace Common.Source.Service.Helper.Pool
 {
     public readonly struct PoolOwner<T> : IMemoryOwner<T>
     {
-        private readonly IMemoryOwner<T> Owner;
+        private readonly IMemoryOwner<T> MemoryOwner;
 
         public Memory<T> Memory { get; }
 
@@ -12,20 +12,20 @@ namespace Common.Source.Service.Helper.Pool
 
         public Span<T> Span => Memory.Span;
 
-        private PoolOwner(IMemoryOwner<T> owner, Memory<T> memory)
+        private PoolOwner(IMemoryOwner<T> memoryOwner, Memory<T> memory)
         {
-            Owner = owner;
+            MemoryOwner = memoryOwner;
             Memory = memory;
         }
 
-        public static PoolOwner<T> Create(IMemoryOwner<T> owner, int start, int length)
+        public static PoolOwner<T> Create(IMemoryOwner<T> owner, int length)
         {
-            return new PoolOwner<T>(owner, owner.Memory.Slice(start, length));
+            return new PoolOwner<T>(owner, owner.Memory[..length]);
         }
 
         public void Dispose()
         {
-            Owner.Dispose();
+            MemoryOwner.Dispose();
         }
     }
 }

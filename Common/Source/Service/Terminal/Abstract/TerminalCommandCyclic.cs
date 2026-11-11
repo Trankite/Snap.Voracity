@@ -30,27 +30,28 @@ namespace Common.Source.Service.Terminal.Abstract
             string header = $"{Name.ToUpper()}>\x20";
             if (commandLine.TryGetParameter(INPUT, out string? current))
             {
-                return new TerminalResponse(Invoke(current, textStream, cancellationToken));
+                return new TerminalResponse(CyclicInvoke(current, textStream, cancellationToken));
             }
             if (textStream.IsNotNull())
             {
                 while (!cancellationToken.IsCancellationRequested && !current.EqualsIgnoreCase(ENDSYMBOL))
                 {
-                    Invoke(current, textStream, cancellationToken);
+                    CyclicInvoke(current, textStream, cancellationToken);
                     textStream?.Write(header);
-                    current = textStream?.ReadLineAsync(cancellationToken).AsTask().GetAwaiter().GetResult();
+                    current = textStream?.ReadLineAsync(cancellationToken).GetAwaitResult();
                 }
             }
             return new TerminalResponse(!cancellationToken.IsCancellationRequested);
         }
 
-        private bool Invoke(string? commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
+        private bool CyclicInvoke(string? commandLine, ITextStream? textStream = default, CancellationToken cancellationToken = default)
         {
             if (!string.IsNullOrEmpty(commandLine))
             {
                 if (commandLine.EqualsIgnoreCase(HELPSYMBOL))
                 {
                     textStream?.WriteLine(HelpOverride);
+                    return true;
                 }
                 else
                 {

@@ -390,7 +390,7 @@
     <value>账号数据已更新</value>
   </data>
   <data name="ServiceStreamsTrackerExceptionTimeout" xml:space="preserve">
-    <value> 当前速率 {0} / s 已低于设定值</value>
+    <value>当前速率 {0} / s 已低于设定值</value>
   </data>
   <data name="ServiceHelperExceptionMessageDescription" xml:space="preserve">
     <value>错误信息: {0}</value>

@@ -1,4 +1,5 @@
-﻿using Common.Source.Factory.Serialize.Interface;
+﻿using Common.Source.Extension;
+using Common.Source.Factory.Serialize.Interface;
 
 namespace Common.Source.Factory.Serialize.Abstract
 {
@@ -6,7 +7,7 @@ namespace Common.Source.Factory.Serialize.Abstract
     {
         public virtual TDestination Serialize()
         {
-            return SerializeAsync().AsTask().GetAwaiter().GetResult();
+            return SerializeAsync().GetAwaitResult();
         }
 
         public abstract ValueTask<TDestination> SerializeAsync(CancellationToken cancellationToken = default);
@@ -16,7 +17,7 @@ namespace Common.Source.Factory.Serialize.Abstract
     {
         public virtual TSource Deserialize(TDestination source)
         {
-            return DeserializeAsync(source).AsTask().GetAwaiter().GetResult();
+            return DeserializeAsync(source).GetAwaitResult();
         }
 
         public abstract ValueTask<TSource> DeserializeAsync(TDestination source, CancellationToken cancellationToken = default);

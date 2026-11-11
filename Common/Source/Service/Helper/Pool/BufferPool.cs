@@ -2,23 +2,30 @@
 using Common.Source.Model.DataStruct.Disk;
 using Common.Source.Model.DataStruct.Disk.Metadata;
 using System.Buffers;
+using System.Diagnostics;
 
 namespace Common.Source.Service.Helper.Pool
 {
     public static class BufferPool<T>
     {
-        public static int DefaultSize { get; }
+        private static readonly int DefaultSize;
 
+        [StackTraceHidden]
         public static PoolOwner<T> GetBuffer(int length)
         {
-            return PoolOwner<T>.Create(MemoryPool<T>.Shared.Rent(length), 0, length);
+            ArgumentOutOfRangeException.ThrowIfNegative(length, nameof(length));
+            return PoolOwner<T>.Create(MemoryPool<T>.Shared.Rent(length), length);
         }
 
-        public static PoolOwner<T> GetBuffer() => GetBuffer(DefaultSize);
+        [StackTraceHidden]
+        public static PoolOwner<T> GetAutoBuffer(long length = -1)
+        {
+            return GetBuffer(length < DefaultSize && length >= 0 ? (int)length : DefaultSize);
+        }
 
         static BufferPool()
         {
-            DefaultSize = Convert.ToInt32(DiskSize.Create(DataSize.KiB, 4).Bytes / TypeSize<T>.Size);
+            DefaultSize = (int)DiskSize.Create(DataSize.KiB, 4).Bytes / TypeSize<T>.Size;
         }
     }
 }
