@@ -18,31 +18,31 @@ namespace Common.Source.Web
 
         private readonly FileOpenStream FileOpen;
 
-        public bool FreshDownload { get; }
+        public bool IsContinue { get; }
 
-        public long DownloadBytes
+        public long Downloaded
         {
             get => FileOpen.IsReady ? FileOpen.Stream.Position : Position;
         }
 
-        public long FullFileBytes { get; private set; }
+        public long TotalBytes { get; private set; }
 
-        public IHttpRequestMessageBuilderFactory BuilderFactory { get; }
+        public IHttpRequestMessageBuilderFactory Builder { get; }
 
         private DiskSize SecondSize { get; } = DiskSize.Create(DataSize.KiB, 4);
 
         private TimeSpan CheckTimeSpan { get; } = TimeSpan.FromSeconds(10);
 
-        private HttpDownloader(FileOpenStream fileOpen, IHttpRequestMessageBuilderFactory builderFactory, bool freshDownload = default)
+        private HttpDownloader(FileOpenStream fileOpen, IHttpRequestMessageBuilderFactory builder, bool isContinue = default)
         {
             FileOpen = fileOpen;
-            BuilderFactory = builderFactory;
-            FreshDownload = freshDownload;
+            Builder = builder;
+            IsContinue = isContinue;
         }
 
-        public static HttpDownloader Create(string filePath, IHttpRequestMessageBuilderFactory builderFactory, bool freshDownload = default)
+        public static HttpDownloader Create(string filePath, IHttpRequestMessageBuilderFactory builder, bool isContinue = default)
         {
-            return new HttpDownloader(new FileOpenStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, default, true), builderFactory, freshDownload);
+            return new HttpDownloader(new FileOpenStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, default, true), builder, isContinue);
         }
 
         protected override async ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default)
@@ -60,13 +60,13 @@ namespace Common.Source.Web
             using GradualRefresher refresher = new(FileOpen.StartOrRetry());
             if (!FileOpen.IsReady)
             {
-                return FailedByException(FileOpen.CapturedException);
+                return FailedByException(FileOpen.CapturedException, FileOpen.Status.IsFaulted());
             }
-            if (!FreshDownload && Status.IsCreated())
+            if (IsContinue && Status.IsCreated())
             {
                 Position = FileOpen.Stream.Length;
             }
-            using HttpContext httpContext = BuilderFactory.CreateHttpContext(true);
+            using HttpContext httpContext = Builder.CreateHttpContext(true);
             httpContext.Request.Headers.Range = new RangeHeaderValue(Position, default);
             await httpContext.SendAsync(cancellationToken).ConfigureAwait(false);
             if (!httpContext.IsReady)
@@ -75,15 +75,16 @@ namespace Common.Source.Web
             }
             if (httpContext.Response.StatusCode == HttpStatusCode.PartialContent)
             {
-                FileOpen.Stream.Position = Position;
-                FullFileBytes = httpContext.Response.Content.Headers.ContentRange?.Length ?? -1;
+                TotalBytes = httpContext.Response.Content.Headers.ContentRange?.Length ?? -1;
             }
             else
             {
-                FullFileBytes = httpContext.Response.Content.Headers.ContentLength ?? -1;
+                Position = default;
+                TotalBytes = httpContext.Response.Content.Headers.ContentLength ?? -1;
             }
             try
             {
+                FileOpen.Stream.Position = Position;
                 using Stream sourceStream = httpContext.Response.Content.ReadAsStream(cancellationToken);
                 using StreamTracker streamTacker = StreamTracker.Create(FileOpen.Stream, SecondSize, CheckTimeSpan, true);
                 await streamTacker.CopyAsync(sourceStream, cancellationToken).ConfigureAwait(false);

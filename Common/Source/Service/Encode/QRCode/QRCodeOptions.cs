@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Common.Source.Service.Encode.QRCode
 {
-    public class QRCodeOptions
+    public sealed class QRCodeOptions
     {
         public int Pixel { get; set; } = 5;
 

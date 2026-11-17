@@ -13,6 +13,8 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         private static readonly SortedArray<short>[] QRCodeCapacityTable;
 
+        public int Size { get; private set; }
+
         public int Capacity { get; private set; }
 
         public int Version
@@ -35,17 +37,17 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         protected abstract int GetUsedBitCount(int length);
 
-        protected abstract SortedArray<short> GetCapacityTable(ECCodeLevel eccodeLevel);
+        protected abstract SortedArray<short> GetDataCapacityTable(ECCodeLevel eccodeLevel);
 
-        public int GetMaxCapacity()
+        public int GetDataCapacity()
         {
-            return GetCapacityTable(ECCodeLevel)[Version - 1];
+            return GetDataCapacityTable(ECCodeLevel)[Version - 1];
         }
 
         public void SetOptimalVersion(ReadOnlySpan<byte> content, int value = 0)
         {
             ObjectFrozenException.ThrowIfFrozen(this);
-            int index = GetCapacityTable(ECCodeLevel).Search((short)content.Length).GetInsert();
+            int index = GetDataCapacityTable(ECCodeLevel).Search((short)content.Length).GetInsert();
             Version = Math.Clamp(index + 1, value, 40);
         }
 
@@ -53,6 +55,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
         {
             Capacity = QRCodeCapacityTable[(int)ECCodeLevel][Version - 1];
             ECCodeGroup = ECCodeGroup.Create(ECCodeGroupTable[(int)ECCodeLevel][Version - 1]);
+            Size = Version * 4 + 17;
         }
 
         public byte[] Encode(ReadOnlySpan<byte> content)
@@ -111,25 +114,25 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
             int eccodeCount = ECCodeGroup.ECCodePerBytes * eccode.Length;
             int contentCount = ECCodeGroup.BlocksInGroup1 * ECCodeGroup.CodewordsInGroup1 + ECCodeGroup.BlocksInGroup2 * ECCodeGroup.CodewordsInGroup2;
             byte[] encodedContent = new byte[contentCount + eccodeCount];
-            for (int x = 0; x < ECCodeGroup.CodewordsInGroup1; x++)
+            for (int y = 0; y < ECCodeGroup.CodewordsInGroup1; y++)
             {
-                for (int y = 0; y < content.Length; y++)
+                for (int x = 0; x < content.Length; x++)
                 {
-                    encodedContent[++offset] = content[y][x];
+                    encodedContent[++offset] = content[x][y];
                 }
             }
-            for (int x = ECCodeGroup.CodewordsInGroup1; x < ECCodeGroup.CodewordsInGroup2; x++)
+            for (int y = ECCodeGroup.CodewordsInGroup1; y < ECCodeGroup.CodewordsInGroup2; y++)
             {
-                for (int y = ECCodeGroup.BlocksInGroup1; y < content.Length; y++)
+                for (int x = ECCodeGroup.BlocksInGroup1; x < content.Length; x++)
                 {
-                    encodedContent[++offset] = content[y][x];
+                    encodedContent[++offset] = content[x][y];
                 }
             }
-            for (int x = 0; x < ECCodeGroup.ECCodePerBytes; x++)
+            for (int y = 0; y < ECCodeGroup.ECCodePerBytes; y++)
             {
-                for (int y = 0; y < eccode.Length; y++)
+                for (int x = 0; x < eccode.Length; x++)
                 {
-                    encodedContent[++offset] = eccode[y][x];
+                    encodedContent[++offset] = eccode[x][y];
                 }
             }
             return encodedContent;

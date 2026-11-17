@@ -12,27 +12,27 @@ namespace Common.Source.Model.DataStruct
             Bits = bits;
         }
 
-        public T Pop(int length)
+        public T Pop(int length = 1)
         {
             return Peek(length).Configure(Bits = Bits >>> length);
         }
 
-        public T HighPop(int length)
+        public T HighPop(int length = 1)
         {
             return HighPeek(length).Configure(Bits <<= length);
         }
 
-        public T Push(T value, int length)
+        public T Push(T value, int length = 1)
         {
             return Bits = Bits << length | value;
         }
 
-        public T HighPush(T value, int length)
+        public T HighPush(T value, int length = 1)
         {
             return Bits = Bits >>> length | value << TypeSize<T>.BitSize - length;
         }
 
-        public readonly T Peek(int length)
+        public readonly T Peek(int length = 1)
         {
             return Bits & GetMask(length);
         }
@@ -42,7 +42,7 @@ namespace Common.Source.Model.DataStruct
             return Bits & GetMask(length, offset);
         }
 
-        public readonly T HighPeek(int length)
+        public readonly T HighPeek(int length = 1)
         {
             return Bits >>> TypeSize<T>.BitSize - length;
         }

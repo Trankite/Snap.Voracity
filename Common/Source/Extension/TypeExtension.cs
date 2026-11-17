@@ -6,10 +6,13 @@ namespace Common.Source.Extension
 {
     public static class TypeExtension
     {
+        [StackTraceHidden]
         [DebuggerStepThrough]
         public static string GetDescription(this Type type, string name)
         {
-            return type.GetField(name).Captured(field => field.IsNotNull() ? field.GetCustomAttribute<DescriptionAttribute>()?.Description ?? name : name);
+            FieldInfo? field = type.GetField(name);
+            ArgumentNullException.ThrowIfNull(field, nameof(field));
+            return field.GetCustomAttribute<DescriptionAttribute>()?.Description ?? name;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         public override EncodeMode EncodeMode => EncodeMode.Alphanumeric;
 
-        protected override SortedArray<short> GetCapacityTable(ECCodeLevel eccodeLevel)
+        protected override SortedArray<short> GetDataCapacityTable(ECCodeLevel eccodeLevel)
         {
             return CapacityTable[(int)eccodeLevel];
         }
@@ -42,7 +42,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         private static int Encode(byte value) => AlphanumericTable[value - 0x20];
 
-        public static bool IsValid(byte value)
+        public static bool Exists(byte value)
         {
             return value >= 0x20 && value <= 'Z' && AlphanumericTable[value - 0x20] >= 0;
         }

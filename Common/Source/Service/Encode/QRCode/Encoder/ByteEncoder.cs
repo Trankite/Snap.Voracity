@@ -12,7 +12,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         protected override int BitsOfContent => Version >= 10 ? 16 : 8;
 
-        protected override SortedArray<short> GetCapacityTable(ECCodeLevel eccodeLevel)
+        protected override SortedArray<short> GetDataCapacityTable(ECCodeLevel eccodeLevel)
         {
             return CapacityTable[(int)eccodeLevel];
         }

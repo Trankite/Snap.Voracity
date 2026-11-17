@@ -25,24 +25,24 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static int GetFlags<TEnum>(this IEnumerable<TEnum> values) where TEnum : Enum
+        public static int GetFlags<TEnum>(params ReadOnlySpan<TEnum> values) where TEnum : Enum
         {
-            int Flags = 0;
+            int flags = 0;
             foreach (TEnum value in values)
             {
-                Flags |= 1 << Convert.ToInt32(value);
+                flags |= 1 << Convert.ToInt32(value);
             }
-            return Flags;
+            return flags;
         }
 
         [DebuggerStepThrough]
         public static string GetDescription<T>(this T value) where T : struct, Enum
         {
-            if (!DescriptionCache.TryGetValue(value, out string? description))
+            if (DescriptionCache.TryGetValue(value, out string? description))
             {
-                DescriptionCache[value] = description = typeof(T).GetDescription(Enum.GetName(value).ThrowIfNull());
+                return description;
             }
-            return description;
+            return DescriptionCache[value] = typeof(T).GetDescription(Enum.GetName(value).ThrowIfNull());
         }
 
         private static int EnumGetHashCode(Enum sender)

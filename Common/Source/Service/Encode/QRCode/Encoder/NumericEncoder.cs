@@ -12,7 +12,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
 
         public override EncodeMode EncodeMode => EncodeMode.Numeric;
 
-        protected override SortedArray<short> GetCapacityTable(ECCodeLevel eccodeLevel)
+        protected override SortedArray<short> GetDataCapacityTable(ECCodeLevel eccodeLevel)
         {
             return CapacityTable[(int)eccodeLevel];
         }

@@ -102,7 +102,7 @@ namespace Common.Source.Web.EHentai.Download
             QueueTicket<string> imageTicket = QueueTicket.Create(slideTicket.Index, response.Body.ImageUrl);
             string filePath = GetFilePath(FolderPath ??= GetFolderPath(response.Body.Title), imageUri, imageTicket.Index);
             HttpRequestMessageBuilderFactory downloadFactory = new HttpRequestMessageBuilderFactory().SetRequestUri(imageUri);
-            HttpDownloader downloader = HttpDownloader.Create(filePath, downloadFactory, true);
+            HttpDownloader downloader = HttpDownloader.Create(filePath, downloadFactory);
             EHentaiDownloadInfo downloadInfo = new(downloader, imageTicket);
             await CreateDownloadTask(channelWriter, downloadInfo, cancellationToken).ConfigureAwait(false);
         }

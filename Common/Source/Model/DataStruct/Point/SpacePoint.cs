@@ -2,11 +2,11 @@
 {
     public readonly struct SpacePoint
     {
-        public readonly int X;
+        public int X { get; }
 
-        public readonly int Y;
+        public int Y { get; }
 
-        public readonly int Z;
+        public int Z { get; }
 
         public SpacePoint(int x, int y, int z)
         {

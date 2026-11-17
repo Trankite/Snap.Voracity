@@ -1,6 +1,6 @@
 ﻿using Common.Source.Model.DataStruct;
 
-namespace Common.Source.Service.Encode.QRCode
+namespace Common.Source.Service.Encode.QRCode.Metadata
 {
     public readonly struct ECCodeGroup
     {

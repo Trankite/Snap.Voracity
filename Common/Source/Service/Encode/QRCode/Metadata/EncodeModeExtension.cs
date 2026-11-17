@@ -1,9 +1,21 @@
-﻿using Common.Source.Service.Encode.QRCode.Encoder;
+﻿using Common.Source.Extension;
+using Common.Source.Service.Encode.QRCode.Encoder;
+using System.Diagnostics;
 
 namespace Common.Source.Service.Encode.QRCode.Metadata
 {
     public static class EncodeModeExtension
     {
+        [DebuggerStepThrough]
+        public static EncodeMode GetAutoEncodeMode(this EncodeMode mode, ReadOnlySpan<byte> content)
+        {
+            if (mode == EncodeMode.Byte)
+            {
+                return mode;
+            }
+            return GetEncodeMode(content).LessOrEquals(mode);
+        }
+
         public static EncodeMode GetEncodeMode(ReadOnlySpan<byte> content)
         {
             for (int i = 0; i < content.Length; i++)
@@ -12,7 +24,7 @@ namespace Common.Source.Service.Encode.QRCode.Metadata
                 {
                     while (i < content.Length)
                     {
-                        if (!AlphanumericEncoder.IsValid(content[i++]))
+                        if (!AlphanumericEncoder.Exists(content[i++]))
                         {
                             return EncodeMode.Byte;
                         }
@@ -23,6 +35,7 @@ namespace Common.Source.Service.Encode.QRCode.Metadata
             return EncodeMode.Numeric;
         }
 
+        [DebuggerStepThrough]
         public static QRCodeEncoder CreateEncoder(this EncodeMode mode)
         {
             return mode switch

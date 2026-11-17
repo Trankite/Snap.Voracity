@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Common.Source.Service.Encode.QRCode
+namespace Common.Source.Service.Encode.QRCode.Metadata
 {
     public readonly struct GaloisField
     {
@@ -58,7 +58,10 @@ namespace Common.Source.Service.Encode.QRCode
 
         public static GaloisField operator *(GaloisField left, GaloisField right)
         {
-            if (left.Polynom == 0 || right.Polynom == 0) return Zero;
+            if (left.Polynom == 0 || right.Polynom == 0)
+            {
+                return Zero;
+            }
             int exponent = ExponentTable[left.Polynom] + ExponentTable[right.Polynom];
             return FromExponent(exponent >= Size ? exponent - Size : exponent);
         }
@@ -86,9 +89,9 @@ namespace Common.Source.Service.Encode.QRCode
                 XPolynom xpolynom = new(left.Count + right.Count - 1);
                 for (int i = 0; i < left.Count; i++)
                 {
-                    for (int j = 0; j < right.Count; j++)
+                    for (int k = 0; k < right.Count; k++)
                     {
-                        xpolynom[i + j] += left[i] * right[j];
+                        xpolynom[i + k] += left[i] * right[k];
                     }
                 }
                 return xpolynom;
