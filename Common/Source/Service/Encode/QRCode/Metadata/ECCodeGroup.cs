@@ -1,4 +1,5 @@
-﻿using Common.Source.Model.DataStruct;
+﻿using Common.Source.Extension;
+using Common.Source.Model.DataStruct;
 
 namespace Common.Source.Service.Encode.QRCode.Metadata
 {
@@ -14,7 +15,7 @@ namespace Common.Source.Service.Encode.QRCode.Metadata
 
         public int CodewordsInGroup2 { get; }
 
-        public ECCodeGroup(int eccodePerBytes, int blocksInGroup1, int codewordsInGroup1, int blocksInGroup2, int codewordsInGroup2)
+        private ECCodeGroup(int codewordsInGroup2, int blocksInGroup2, int codewordsInGroup1, int blocksInGroup1, int eccodePerBytes)
         {
             ECCodePerBytes = eccodePerBytes;
             BlocksInGroup1 = blocksInGroup1;
@@ -23,15 +24,9 @@ namespace Common.Source.Service.Encode.QRCode.Metadata
             CodewordsInGroup2 = codewordsInGroup2;
         }
 
-        public static ECCodeGroup Create(uint bits)
+        public static ECCodeGroup Create(int bits)
         {
-            Bitwise<int> bitwise = new((int)bits);
-            int eccodePerBytes = bitwise.HighPop(5);
-            int blocksInGroup1 = bitwise.HighPop(6);
-            int codewordsInGroup1 = bitwise.HighPop(7);
-            int blocksInGroup2 = bitwise.HighPop(7);
-            int codewordsInGroup2 = bitwise.HighPop(7);
-            return new ECCodeGroup(eccodePerBytes, blocksInGroup1, codewordsInGroup1, blocksInGroup2, codewordsInGroup2);
+            return new ECCodeGroup(new BitStack<int>(bits).OutSender(out BitStack<int> bitStack).Captured(bitStack.Pop(7)), bitStack.Pop(7), bitStack.Pop(7), bitStack.Pop(6), bitStack.Pop(5));
         }
     }
 }

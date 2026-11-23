@@ -24,7 +24,7 @@ namespace Common.Source.Service.Terminal.EHentai
 
         private const string Param_IpbPassHash = "pass";
 
-        private const string Param_Igneous = "pass";
+        private const string Param_Igneous = "igneous";
 
         public override ITerminalResponse Invoke(ITerminalCommandLine commandLine, ITextStream? textStream = null, CancellationToken cancellationToken = default)
         {

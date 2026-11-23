@@ -407,16 +407,16 @@ namespace Common.Source.Service.Encode.QRCode
             const int PatternPadding = 4;
             for (int x = 0; x < Size; x++)
             {
-                Bitwise<int> bitwise = default;
+                BitStack<int> bitStack = default;
                 for (int y = 0; y < PatternMaxLength; y++)
                 {
-                    bitwise.Push(Table[x, y] & 1);
+                    bitStack.Push(Table[x, y] & 1);
                 }
                 for (int y = PatternMaxLength; y < Size; y++)
                 {
-                    bitwise.Push(Table[x, y] & 1);
-                    int current = bitwise.Peek(PatternMaxLength);
-                    if (current == Pattern || current == HighPattern && bitwise.Peek(PatternPadding, PatternMaxLength) != 0)
+                    bitStack.Push(Table[x, y] & 1);
+                    int current = bitStack.Peek(PatternMaxLength);
+                    if (current == Pattern || current == HighPattern && bitStack.Peek(PatternPadding, PatternMaxLength) != 0)
                     {
                         score += DefaultScore;
                     }
@@ -424,16 +424,16 @@ namespace Common.Source.Service.Encode.QRCode
             }
             for (int y = 0; y < Size; y++)
             {
-                Bitwise<int> bitwise = default;
+                BitStack<int> bitStack = default;
                 for (int x = 0; x < PatternMaxLength; x++)
                 {
-                    bitwise.Push(Table[x, y] & 1);
+                    bitStack.Push(Table[x, y] & 1);
                 }
                 for (int x = PatternMaxLength; x < Size; x++)
                 {
-                    bitwise.Push(Table[x, y] & 1);
-                    int current = bitwise.Peek(PatternMaxLength);
-                    if (current == Pattern || current == HighPattern && bitwise.Peek(PatternPadding, PatternMaxLength) != 0)
+                    bitStack.Push(Table[x, y] & 1);
+                    int current = bitStack.Peek(PatternMaxLength);
+                    if (current == Pattern || current == HighPattern && bitStack.Peek(PatternPadding, PatternMaxLength) != 0)
                     {
                         score += DefaultScore;
                     }

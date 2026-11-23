@@ -59,11 +59,11 @@ namespace Common.Source.Model.Collection
 
     public class SortedArray<TSender, TOther> : SortedArray<TSender> where TOther : allows ref struct
     {
-        public IComparer<TSender, TOther> ExtendComparer { get; }
+        public new IComparer<TSender, TOther> Comparer { get; }
 
         public SortedArray(TSender[] sortedArray, IComparer<TSender, TOther> comparer) : base(sortedArray, comparer)
         {
-            ExtendComparer = comparer;
+            Comparer = comparer;
         }
 
         public int Search(TOther value)
@@ -74,12 +74,15 @@ namespace Common.Source.Model.Collection
         public int Search(TOther value, int start, int length)
         {
             int lows = start;
-            int high = length;
-            int compare = -1;
+            int high = start + length;
             while (lows < high)
             {
-                int mid = (lows + high) / 2;
-                compare = ExtendComparer.Compare(Table[mid], value);
+                int mid = lows + (high - lows) / 2;
+                int compare = Comparer.Compare(Table[mid], value);
+                if (compare == 0)
+                {
+                    return mid;
+                }
                 if (compare > 0)
                 {
                     high = mid;
@@ -89,7 +92,7 @@ namespace Common.Source.Model.Collection
                     lows = mid + 1;
                 }
             }
-            return compare == 0 ? lows : ~lows;
+            return ~lows;
         }
     }
 }

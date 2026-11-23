@@ -54,7 +54,7 @@ namespace Common.Source.Service.Encode.QRCode.Encoder
         protected override void FreezeOverride()
         {
             Capacity = QRCodeCapacityTable[(int)ECCodeLevel][Version - 1];
-            ECCodeGroup = ECCodeGroup.Create(ECCodeGroupTable[(int)ECCodeLevel][Version - 1]);
+            ECCodeGroup = ECCodeGroup.Create((int)ECCodeGroupTable[(int)ECCodeLevel][Version - 1]);
             Size = Version * 4 + 17;
         }
 

@@ -15,7 +15,7 @@ namespace Common.Source.Model.DataStruct.Disk.Metadata
         [DebuggerStepThrough]
         public static long GetBytes(this DataSize dataSize, double value, MidpointRounding mode = default)
         {
-            return (long)Math.Round(value * GetBytes(dataSize), mode);
+            return checked((long)Math.Round(value * GetBytes(dataSize), mode));
         }
 
         [DebuggerStepThrough]

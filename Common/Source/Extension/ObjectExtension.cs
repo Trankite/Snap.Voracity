@@ -87,27 +87,9 @@ namespace Common.Source.Extension
         }
 
         [DebuggerStepThrough]
-        public static bool IsNotEquals<T>(this T? value, T? other)
-        {
-            return !IsEquals(value, other);
-        }
-
-        [DebuggerStepThrough]
         public static bool IsEquals<T>(this T? value, T? other, IEqualityComparer<T>? comparer)
         {
             return (comparer ?? EqualityComparer<T>.Default).Equals(value, other);
-        }
-
-        [DebuggerStepThrough]
-        public static bool IsNotEquals<T>(this T? value, T? other, IEqualityComparer<T>? comparer)
-        {
-            return !IsEquals(value, other, comparer);
-        }
-
-        [DebuggerStepThrough]
-        public static void TryDispose<T>(this T? value) where T : IDisposable
-        {
-            try { value?.Dispose(); } catch { }
         }
 
         [DebuggerStepThrough]

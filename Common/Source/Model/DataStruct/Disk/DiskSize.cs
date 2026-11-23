@@ -1,10 +1,11 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Model.DataStruct.Disk.Metadata;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace Common.Source.Model.DataStruct.Disk
 {
-    public readonly struct DiskSize : IEquatable<DiskSize>, IComparable<DiskSize>
+    public readonly struct DiskSize : IEqualityOperators<DiskSize, DiskSize, bool>, IComparisonOperators<DiskSize, DiskSize, bool>, IEquatable<DiskSize>, IComparable<DiskSize>
     {
         public readonly long Bytes;
 
@@ -95,19 +96,19 @@ namespace Common.Source.Model.DataStruct.Disk
 
         public override bool Equals([NotNullWhen(true)] object? sender)
         {
-            return sender is DiskSize Other && Equals(Other);
+            return sender is DiskSize other && Equals(other);
         }
 
         public override int GetHashCode() => Bytes.GetHashCode();
 
-        public static explicit operator long(DiskSize diskSize)
-        {
-            return diskSize.Bytes;
-        }
-
         public static explicit operator DiskSize(long bytes)
         {
             return new DiskSize(bytes);
+        }
+
+        public static explicit operator long(DiskSize diskSize)
+        {
+            return diskSize.Bytes;
         }
 
         public override string ToString()
