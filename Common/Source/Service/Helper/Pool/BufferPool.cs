@@ -1,4 +1,4 @@
-﻿using Common.Source.Model.DataStruct;
+﻿using Common.Source.Model.DataStruct.Bitwise;
 using Common.Source.Model.DataStruct.Disk;
 using Common.Source.Model.DataStruct.Disk.Metadata;
 using System.Buffers;

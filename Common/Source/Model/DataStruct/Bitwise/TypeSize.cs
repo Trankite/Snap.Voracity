@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Common.Source.Model.DataStruct
+namespace Common.Source.Model.DataStruct.Bitwise
 {
     public static class TypeSize<T>
     {

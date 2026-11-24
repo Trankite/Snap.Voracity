@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Model.DataStruct;
+using Common.Source.Model.DataStruct.Bitwise;
 
 namespace Common.Source.Service.Encode.QRCode.Metadata
 {

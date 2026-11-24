@@ -1,5 +1,5 @@
 ﻿using Common.Source.Model.Collection;
-using Common.Source.Model.DataStruct;
+using Common.Source.Model.DataStruct.Bitwise;
 using Common.Source.Service.Encode.QRCode.Metadata;
 
 namespace Common.Source.Service.Encode.QRCode.Encoder

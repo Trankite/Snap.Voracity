@@ -1,5 +1,5 @@
 ﻿using Common.Source.Extension;
-using Common.Source.Model.DataStruct;
+using Common.Source.Model.DataStruct.Bitwise;
 using Common.Source.Model.DataStruct.Point;
 using Common.Source.Service.Encode.QRCode.Encoder;
 using Common.Source.Service.Encode.QRCode.Metadata;
@@ -81,7 +81,7 @@ namespace Common.Source.Service.Encode.QRCode
 
         private void SetFixedPoint()
         {
-            SetBitType(GetAbsolutePoint(8, -8), true, QRCodePointType.FixedPoint);
+            SetCodePoint(GetAbsolutePoint(8, -8), true, QRCodePointType.FixedPoint);
         }
 
         private void SetPositionPattern()
@@ -138,7 +138,7 @@ namespace Common.Source.Service.Encode.QRCode
             {
                 if (Table[x, 6].Type == QRCodePointType.Unused)
                 {
-                    SetBitType(new LocalPoint(x, 6), hasBit, QRCodePointType.Timing);
+                    SetCodePoint(new LocalPoint(x, 6), hasBit, QRCodePointType.Timing);
                 }
                 hasBit = !hasBit;
             }
@@ -147,7 +147,7 @@ namespace Common.Source.Service.Encode.QRCode
             {
                 if (Table[6, y].Type == QRCodePointType.Unused)
                 {
-                    SetBitType(new LocalPoint(6, y), hasBit, QRCodePointType.Timing);
+                    SetCodePoint(new LocalPoint(6, y), hasBit, QRCodePointType.Timing);
                 }
                 hasBit = !hasBit;
             }
@@ -162,7 +162,7 @@ namespace Common.Source.Service.Encode.QRCode
                 bool hasBit = (formatBinary & (1 << i)) != 0;
                 for (int k = 0; k < 2; k++)
                 {
-                    SetBitType(GetAbsolutePoint(FormatPointTable[k, i]), hasBit, QRCodePointType.Format);
+                    SetCodePoint(GetAbsolutePoint(FormatPointTable[k, i]), hasBit, QRCodePointType.Format);
                 }
             }
         }
@@ -178,8 +178,8 @@ namespace Common.Source.Service.Encode.QRCode
                     for (int k = 0; k < 3; k++)
                     {
                         bool hasBit = (bits & (1 << (i * 3 + k))) != 0;
-                        SetBitType(GetAbsolutePoint(-11 + k, i), hasBit, QRCodePointType.Version);
-                        SetBitType(GetAbsolutePoint(i, -11 + k), hasBit, QRCodePointType.Version);
+                        SetCodePoint(GetAbsolutePoint(-11 + k, i), hasBit, QRCodePointType.Version);
+                        SetCodePoint(GetAbsolutePoint(i, -11 + k), hasBit, QRCodePointType.Version);
                     }
                 }
             }
@@ -195,7 +195,7 @@ namespace Common.Source.Service.Encode.QRCode
             {
                 for (int i = length; i > 0 && pointArray.MoveNext(); i--)
                 {
-                    Table[pointArray.Current.X, pointArray.Current.Y].Type = type;
+                    Table[pointArray.Current.X, pointArray.Current.Y].SetType(type);
                 }
             }
             SetBitTypeFlag(contentTotalBits, QRCodePointType.Content);
@@ -203,7 +203,7 @@ namespace Common.Source.Service.Encode.QRCode
             SetBitTypeFlag(eccodeTotalBits, QRCodePointType.ECCode);
             while (pointArray.MoveNext())
             {
-                Table[pointArray.Current.X, pointArray.Current.Y].Type = QRCodePointType.Padding;
+                Table[pointArray.Current.X, pointArray.Current.Y].SetType(QRCodePointType.Padding);
             }
         }
 
@@ -214,7 +214,7 @@ namespace Common.Source.Service.Encode.QRCode
             using IEnumerator<SpacePoint> enumerator = GetPoints(flags).GetEnumerator();
             while (enumerator.TryMoveNext(out SpacePoint point) && point.Z <= bits.Count)
             {
-                Table[point.X, point.Y].HasBit = bits[point.Z];
+                Table[point.X, point.Y].SetBit(bits[point.Z]);
             }
         }
 
@@ -249,7 +249,7 @@ namespace Common.Source.Service.Encode.QRCode
                 {
                     if (y >= 0 && y < Size)
                     {
-                        SetBitType(new LocalPoint(x, y), table[x - destinationX, y - destinationY] != 0, QRCodePointType.Fixed);
+                        SetCodePoint(new LocalPoint(x, y), table[x - destinationX, y - destinationY] != 0, QRCodePointType.Fixed);
                     }
                 }
             }
@@ -265,9 +265,9 @@ namespace Common.Source.Service.Encode.QRCode
             return GetAbsolutePoint(point.X, point.Y);
         }
 
-        private void SetBitType(in LocalPoint point, bool hasBit, QRCodePointType type)
+        private void SetCodePoint(in LocalPoint point, bool hasBit, QRCodePointType type)
         {
-            Table[point.X, point.Y].SetValue(hasBit, type);
+            Table[point.X, point.Y] = QRCodePoint.Create(hasBit, type);
         }
 
         private void SetOptimalMaskType()
@@ -305,7 +305,7 @@ namespace Common.Source.Service.Encode.QRCode
                 {
                     if (((1 << (int)Table[x, y].Type) & flags) != 0)
                     {
-                        Table[x, y].HasBit = method(x, y) != Table[x, y].HasBit;
+                        Table[x, y].SetBit(method(x, y) != Table[x, y].HasBit);
                     }
                 }
             }
@@ -410,11 +410,11 @@ namespace Common.Source.Service.Encode.QRCode
                 BitStack<int> bitStack = default;
                 for (int y = 0; y < PatternMaxLength; y++)
                 {
-                    bitStack.Push(Table[x, y] & 1);
+                    bitStack.Push(Table[x, y].Bits & 1);
                 }
                 for (int y = PatternMaxLength; y < Size; y++)
                 {
-                    bitStack.Push(Table[x, y] & 1);
+                    bitStack.Push(Table[x, y].Bits & 1);
                     int current = bitStack.Peek(PatternMaxLength);
                     if (current == Pattern || current == HighPattern && bitStack.Peek(PatternPadding, PatternMaxLength) != 0)
                     {
@@ -427,11 +427,11 @@ namespace Common.Source.Service.Encode.QRCode
                 BitStack<int> bitStack = default;
                 for (int x = 0; x < PatternMaxLength; x++)
                 {
-                    bitStack.Push(Table[x, y] & 1);
+                    bitStack.Push(Table[x, y].Bits & 1);
                 }
                 for (int x = PatternMaxLength; x < Size; x++)
                 {
-                    bitStack.Push(Table[x, y] & 1);
+                    bitStack.Push(Table[x, y].Bits & 1);
                     int current = bitStack.Peek(PatternMaxLength);
                     if (current == Pattern || current == HighPattern && bitStack.Peek(PatternPadding, PatternMaxLength) != 0)
                     {
@@ -445,9 +445,9 @@ namespace Common.Source.Service.Encode.QRCode
         private int GetUnbalanceScore()
         {
             int count = default;
-            foreach (QRCodePoint current in Table)
+            foreach (QRCodePoint point in Table)
             {
-                count += current & 1;
+                count += point.Bits & 1;
             }
             int score = count * 100 / Table.Length - 50;
             return Math.Abs(score / 5 * 10);

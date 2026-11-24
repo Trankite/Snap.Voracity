@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace Common.Source.Model.DataStruct.Disk
 {
-    public readonly struct DiskSize : IEqualityOperators<DiskSize, DiskSize, bool>, IComparisonOperators<DiskSize, DiskSize, bool>, IEquatable<DiskSize>, IComparable<DiskSize>
+    public readonly struct DiskSize : IComparisonOperators<DiskSize, DiskSize, bool>, IEquatable<DiskSize>, IComparable<DiskSize>
     {
         public readonly long Bytes;
 

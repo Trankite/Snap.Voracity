@@ -1,7 +1,7 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Model.Abstract;
 using Common.Source.Model.Collection;
-using Common.Source.Model.DataStruct;
+using Common.Source.Model.DataStruct.Bitwise;
 using Common.Source.Model.Exceptions;
 using Common.Source.Service.Encode.QRCode.Metadata;
 

@@ -1,12 +1,28 @@
 ﻿using Common.Source.Extension;
 using Common.Source.Service.Helper;
+using System.Diagnostics;
 using System.Numerics;
 
-namespace Common.Source.Model.DataStruct
+namespace Common.Source.Model.DataStruct.Bitwise
 {
-    public struct BitStack<T> : IShiftOperators<BitStack<T>, int, BitStack<T>>, IBitwiseOperators<BitStack<T>, BitStack<T>, BitStack<T>> where T : struct, IShiftOperators<T, int, T>, IBitwiseOperators<T, T, T>
+    public static class BitStack
     {
-        public T Bits { get; private set; }
+        [DebuggerStepThrough]
+        public static T Pop<T>(this ref BitStack<T> bitStack, int length = 1) where T : struct, IShiftOperators<T, int, T>, IBitwiseOperators<T, T, T>
+        {
+            return bitStack.Peek(length).Configure(bitStack = new BitStack<T>(bitStack.Bits >>> length));
+        }
+
+        [DebuggerStepThrough]
+        public static void Push<T>(this ref BitStack<T> bitStack, T value, int length = 1) where T : struct, IShiftOperators<T, int, T>, IBitwiseOperators<T, T, T>
+        {
+            bitStack = new BitStack<T>(bitStack.Bits << length | value);
+        }
+    }
+
+    public readonly struct BitStack<T> : IShiftOperators<BitStack<T>, int, BitStack<T>>, IBitwiseOperators<BitStack<T>, BitStack<T>, BitStack<T>> where T : struct, IShiftOperators<T, int, T>, IBitwiseOperators<T, T, T>
+    {
+        public T Bits { get; }
 
         public BitStack(T bits)
         {
@@ -21,16 +37,6 @@ namespace Common.Source.Model.DataStruct
         public readonly T Peek(int length, int offset)
         {
             return Bits & BitHelper.GetMask<T>(length, offset);
-        }
-
-        public T Push(T value, int length = 1)
-        {
-            return Bits = Bits << length | value;
-        }
-
-        public T Pop(int length = 1)
-        {
-            return Peek(length).Configure(Bits = Bits >>> length);
         }
 
         public static BitStack<T> operator <<(BitStack<T> value, int shiftAmount)

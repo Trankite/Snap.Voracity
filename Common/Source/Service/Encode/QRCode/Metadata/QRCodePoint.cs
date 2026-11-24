@@ -1,29 +1,21 @@
 ﻿namespace Common.Source.Service.Encode.QRCode.Metadata
 {
-    public struct QRCodePoint
+    public readonly struct QRCodePoint
     {
-        private byte Bits;
+        public readonly byte Bits { get; }
 
-        public bool HasBit
+        public readonly bool HasBit => (Bits & 1) != 0;
+
+        public readonly QRCodePointType Type => (QRCodePointType)(Bits >> 1);
+
+        public QRCodePoint(byte bits)
         {
-            readonly get => (Bits & 1) != 0;
-            set => Bits = (byte)(value ? Bits | 1 : Bits & 0xfe);
+            Bits = bits;
         }
 
-        public QRCodePointType Type
+        public static QRCodePoint Create(bool hasBit, QRCodePointType type)
         {
-            readonly get => (QRCodePointType)(Bits >> 1);
-            set => Bits = (byte)(((int)value << 1) | (Bits & 1));
-        }
-
-        public void SetValue(bool hasBit, QRCodePointType type)
-        {
-            Bits = (byte)(((int)type << 1) | (hasBit ? 1 : 0));
-        }
-
-        public static implicit operator byte(QRCodePoint qrcodePoint)
-        {
-            return qrcodePoint.Bits;
+            return new QRCodePoint((byte)(((int)type << 1) | (hasBit ? 1 : 0)));
         }
     }
 }
