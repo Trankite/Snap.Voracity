@@ -2,6 +2,8 @@
 using Common.Source.Model.DataStruct.Ticket;
 using Common.Source.Service.Gradual.Abstract;
 using Common.Source.Service.Gradual.Metadata;
+using Common.Source.Service.Helper.Dispose.Delay.Abstract;
+using Common.Source.Service.Helper.Dispose.Delay.Interface;
 using Common.Source.Service.Streams.Text.Abstract;
 using Common.Source.Service.Streams.Text.Interface;
 using Common.Source.Web.EHentai.Builder;
@@ -11,28 +13,30 @@ using Common.Source.Web.Response;
 
 namespace Common.Source.Web.EHentai.Download
 {
-    public class EHentaiSlideParser : AsyncGradualTask, ITextStreamOwner
+    public class EHentaiSlideParser : AsyncGradualTask, IDelayable, ITextStreamable
     {
-        private int Index;
+        public int Index { get; private set; }
 
         public int Count { get; private set; }
 
+        private readonly GalleryRequestBuilderFactory Builder = new();
+
         public Queue<QueueTicket<string>> TicketQueue { get; } = new();
 
-        private readonly GalleryRequestBuilderFactory BuilderFactory = new();
+        public IDelayer Delayer { get; set; } = Delayable.Default;
 
         public ITextStream? TextStream { get; set; }
 
         public EHentaiSlideParser(Uri galleryUri, EHentaiToken? ehentaiToken = default, ITextStream? textStream = default)
         {
             TextStream = textStream;
-            BuilderFactory.SetEHentaiToken(ehentaiToken);
-            BuilderFactory.SetUrl(galleryUri);
+            Builder.SetEHentaiToken(ehentaiToken);
+            Builder.SetUrl(galleryUri);
         }
 
-        protected override async ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default)
+        protected override ValueTask<GradualStatus> RetryAsyncOverride(CancellationToken cancellationToken = default)
         {
-            return await ParseGallery(cancellationToken).ConfigureAwait(false);
+            return GalleryParse(cancellationToken);
         }
 
         protected override void RefreshOverride()
@@ -41,14 +45,16 @@ namespace Common.Source.Web.EHentai.Download
             TicketQueue.Clear();
         }
 
-        private async ValueTask<GradualStatus> ParseGallery(CancellationToken cancellationToken = default)
+        private async ValueTask<GradualStatus> GalleryParse(CancellationToken cancellationToken = default)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                BuilderFactory.SetPage(Index);
-                using HttpRequestMessageBuilder builder = BuilderFactory.Create();
+                Delayer.Start();
+                Builder.SetPage(Index);
+                using HttpRequestMessageBuilder builder = Builder.Create();
                 WriteMessage(builder.RequestUri?.ToString());
                 HttpResponse<GalleryFragment> response = await builder.SendAsync<GalleryFragment>(cancellationToken).ConfigureAwait(false);
+                await Delayer.WaitAsync(cancellationToken).ConfigureAwait(false);
                 if (response.Body.IsNull())
                 {
                     WriteMessage(response.GetExceptionMessage());

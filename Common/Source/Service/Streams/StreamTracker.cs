@@ -12,23 +12,23 @@ namespace Common.Source.Service.Streams
 
         private readonly bool LeaveOpen;
 
-        public TimeSpan CheckTimeSpan { get; }
+        public TimeSpan CheckTime { get; }
 
         public DiskSize SecondSize { get; }
 
-        private StreamTracker(Stream stream, DiskSize secondSize, TimeSpan checkTimeSpan, bool leaveOpen = default)
+        private StreamTracker(Stream stream, DiskSize secondSize, TimeSpan checkTime, bool leaveOpen = default)
         {
             Stream = stream;
             SecondSize = secondSize;
-            CheckTimeSpan = checkTimeSpan;
+            CheckTime = checkTime;
             LeaveOpen = leaveOpen;
         }
 
-        public static StreamTracker Create(Stream stream, DiskSize secondSize, TimeSpan checkTimeSpan, bool leaveOpen = default)
+        public static StreamTracker Create(Stream stream, DiskSize secondSize, TimeSpan checkTime, bool leaveOpen = default)
         {
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(secondSize.Bytes, nameof(secondSize));
-            ArgumentOutOfRangeException.ThrowIfLessThan(checkTimeSpan.TotalSeconds, 1, nameof(checkTimeSpan));
-            return new StreamTracker(stream, secondSize, checkTimeSpan, leaveOpen);
+            ArgumentOutOfRangeException.ThrowIfLessThan(checkTime.TotalSeconds, 1, nameof(checkTime));
+            return new StreamTracker(stream, secondSize, checkTime, leaveOpen);
         }
 
         public async Task CopyAsync(Stream source, CancellationToken cancellationToken = default)
@@ -66,8 +66,8 @@ namespace Common.Source.Service.Streams
         private async Task<DiskSize> GetSpeedAsync(CancellationToken cancellationToken = default)
         {
             long position = Stream.Position;
-            await Task.Delay(CheckTimeSpan, cancellationToken).ConfigureAwait(false);
-            return new DiskSize((long)((Stream.Position - position) / CheckTimeSpan.TotalSeconds));
+            await Task.Delay(CheckTime, cancellationToken).ConfigureAwait(false);
+            return new DiskSize((long)((Stream.Position - position) / CheckTime.TotalSeconds));
         }
 
         private static TimeoutException GetTimeoutException(DiskSize currentSecondSize, Exception? innerException = default)

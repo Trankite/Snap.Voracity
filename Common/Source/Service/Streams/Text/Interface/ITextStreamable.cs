@@ -1,6 +1,6 @@
 ﻿namespace Common.Source.Service.Streams.Text.Interface
 {
-    public interface ITextStreamOwner
+    public interface ITextStreamable
     {
         ITextStream? TextStream { get; set; }
     }
