@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terminal", "Terminal\Terminal.csproj", "{74C13D75-E55F-5874-E50F-644AC7E26AC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIDesign", "UIDesign\UIDesign.csproj", "{F7688088-E00F-4E7B-8180-4CBD72DF6DD1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{74C13D75-E55F-5874-E50F-644AC7E26AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74C13D75-E55F-5874-E50F-644AC7E26AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74C13D75-E55F-5874-E50F-644AC7E26AC5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F7688088-E00F-4E7B-8180-4CBD72DF6DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7688088-E00F-4E7B-8180-4CBD72DF6DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7688088-E00F-4E7B-8180-4CBD72DF6DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7688088-E00F-4E7B-8180-4CBD72DF6DD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

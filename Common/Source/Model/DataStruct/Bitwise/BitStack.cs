@@ -16,7 +16,7 @@ namespace Common.Source.Model.DataStruct.Bitwise
         [DebuggerStepThrough]
         public static void Push<T>(this ref BitStack<T> bitStack, T value, int length = 1) where T : struct, IShiftOperators<T, int, T>, IBitwiseOperators<T, T, T>
         {
-            bitStack = new BitStack<T>(bitStack.Bits << length | value);
+            bitStack = new BitStack<T>(bitStack.Bits << length | value & BitHelper.GetMask<T>(length));
         }
     }
 
@@ -36,7 +36,7 @@ namespace Common.Source.Model.DataStruct.Bitwise
 
         public readonly T Peek(int length, int offset)
         {
-            return Bits & BitHelper.GetMask<T>(length, offset);
+            return Bits >>> offset & BitHelper.GetMask<T>(length);
         }
 
         public static BitStack<T> operator <<(BitStack<T> value, int shiftAmount)

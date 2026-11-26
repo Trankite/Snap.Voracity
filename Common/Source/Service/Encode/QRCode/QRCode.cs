@@ -410,11 +410,11 @@ namespace Common.Source.Service.Encode.QRCode
                 BitStack<int> bitStack = default;
                 for (int y = 0; y < PatternMaxLength; y++)
                 {
-                    bitStack.Push(Table[x, y].Bits & 1);
+                    bitStack.Push(Table[x, y].Bits);
                 }
                 for (int y = PatternMaxLength; y < Size; y++)
                 {
-                    bitStack.Push(Table[x, y].Bits & 1);
+                    bitStack.Push(Table[x, y].Bits);
                     int current = bitStack.Peek(PatternMaxLength);
                     if (current == Pattern || current == HighPattern && bitStack.Peek(PatternPadding, PatternMaxLength) != 0)
                     {
@@ -427,11 +427,11 @@ namespace Common.Source.Service.Encode.QRCode
                 BitStack<int> bitStack = default;
                 for (int x = 0; x < PatternMaxLength; x++)
                 {
-                    bitStack.Push(Table[x, y].Bits & 1);
+                    bitStack.Push(Table[x, y].Bits);
                 }
                 for (int x = PatternMaxLength; x < Size; x++)
                 {
-                    bitStack.Push(Table[x, y].Bits & 1);
+                    bitStack.Push(Table[x, y].Bits);
                     int current = bitStack.Peek(PatternMaxLength);
                     if (current == Pattern || current == HighPattern && bitStack.Peek(PatternPadding, PatternMaxLength) != 0)
                     {

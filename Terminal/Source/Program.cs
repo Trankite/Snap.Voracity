@@ -3,7 +3,7 @@ using Common.Source.Service.Streams.Text.Abstract;
 using Common.Source.Service.Terminal;
 using Common.Source.Service.Terminal.Support;
 
-namespace Terminal
+namespace Terminal.Source
 {
     public class Program
     {
