@@ -5,16 +5,21 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject></StartupObject>
-    <BaseOutputPath></BaseOutputPath>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <ErrorReport>none</ErrorReport>
+    <ApplicationIcon>Source\Resource\Icon\Terminal.ico</ApplicationIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <VersionPrefix>1.0.1</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <IsPublishable>True</IsPublishable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Source\Resource\Icon\Terminal.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />

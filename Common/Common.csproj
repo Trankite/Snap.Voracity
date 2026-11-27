@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <ErrorReport>none</ErrorReport>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <VersionPrefix>1.0.1</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -15,22 +17,16 @@
 
   <ItemGroup>
     <Compile Update="Source\Resource\Localization\LocalString.Designer.cs">
-      <DependentUpon>LocalString.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>LocalString.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Source\Resource\Localization\LocalString.en.resx">
-      <SubType>Designer</SubType>
-      <LastGenOutput>FixedText.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Source\Resource\Localization\LocalString.resx">
-      <SubType>Designer</SubType>
-      <LastGenOutput>LocalString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
